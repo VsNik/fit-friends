@@ -13,7 +13,7 @@ docker-down:
 	docker compose down --remove-orphans
 
 docker-clear:
-	docker compose down --remove-orphans
+	docker compose down --remove-orphans -v
 
 docker-ps:
 	docker compose ps
