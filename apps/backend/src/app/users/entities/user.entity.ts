@@ -1,8 +1,9 @@
 import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
-import { CoachType, IUser, UserType } from '../user.interface';
+import { IUser } from '../user.interface';
+import { randomUUID } from 'crypto';
 
 export class UserEntity implements IUser {
-  id: string;
+  id: string = randomUUID();
   name: string;
   email: string;
   avatar?: string;
@@ -12,8 +13,7 @@ export class UserEntity implements IUser {
   role: Role;
   bio?: string;
   location: Location;
-  bgImage: string;
-  createdAt: Date;
+  bgImage: string;  
   trainingLevel: TrainingLevel;
   trainingType: TrainingType[];
   trainingDuration?: TrainingDuration;
@@ -23,45 +23,37 @@ export class UserEntity implements IUser {
   certificate?: string;
   merits?: string;
   personalTraining?: boolean;
+  createdAt: string = new Date().toISOString();
 
-  public static CreateUser(item: UserType): UserEntity {
+  public static create(iten: Partial<IUser>): UserEntity {
     const user = new UserEntity();
-    user.name = item.name;
-    user.email = item.email;
-    user.avatar = item.avatar;
-    user.password = item.password;
-    user.gender = item.gender;
-    user.birthDay = item.birthDay;
-    user.role = item.role;
-    user.bio = item.bio;
-    user.location = item.location;
-    user.bgImage = item.bgImage;
-    user.trainingLevel = item.trainingLevel;
-    user.trainingType = item.trainingType;
-    user.trainingDuration = item.trainingDuration;
-    user.loseCalories = item.loseCalories;
-    user.burnCalories = item.burnCalories;
-    user.ready = item.ready;
+    Object.assign(user, iten);
+
     return user;
   }
 
-  public static createCoach(item: CoachType): UserEntity {
-    const coach = new UserEntity();
-    coach.name = item.name;
-    coach.email = item.email;
-    coach.avatar = item.avatar;
-    coach.password = item.password;
-    coach.gender = item.gender;
-    coach.birthDay = item.birthDay;
-    coach.role = item.role;
-    coach.bio = item.bio;
-    coach.location = item.location;
-    coach.bgImage = item.bgImage;
-    coach.trainingLevel = item.trainingLevel;
-    coach.trainingType = item.trainingType;
-    coach.certificate = item.certificate;
-    coach.merits = item.merits;
-    coach.personalTraining = item.personalTraining;
-    return coach;
+  public toObject(): IUser {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      avatar: this.avatar ?? '',
+      gender: this.gender,
+      birthDay: this.birthDay ?? '',
+      role: this.role,
+      bio: this.bio ?? '',
+      location: this.location,
+      bgImage: this.bgImage,
+      trainingLevel: this.trainingLevel,
+      trainingType: this.trainingType,
+      trainingDuration: this.trainingDuration,
+      loseCalories: this.loseCalories,
+      burnCalories: this.burnCalories,
+      ready: this.ready,
+      certificate: this.certificate ?? '',
+      merits: this.merits ?? '',
+      personalTraining: this.personalTraining,
+      createdAt: this.createdAt,
+    };
   }
 }

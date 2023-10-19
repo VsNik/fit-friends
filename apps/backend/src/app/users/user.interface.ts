@@ -5,14 +5,13 @@ export interface IUser {
   name: string;
   email: string;
   avatar?: string;
-  password: string;
+  password?: string;
   gender: Gender;
   birthDay?: string;
   role: Role;
   bio?: string;
   location: Location;
   bgImage: string;
-  createdAt: Date;
   trainingLevel: TrainingLevel;
   trainingType: TrainingType[];
   trainingDuration?: TrainingDuration;
@@ -22,6 +21,7 @@ export interface IUser {
   certificate?: string;
   merits?: string;
   personalTraining?: boolean;
+  createdAt: string;
 }
 
 export type UserType = Omit<IUser, 'certificate' | 'merits' | 'personalTraining'>;

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
 import { IUser } from '../user.interface';
 import { Training } from '../../trainings/models/training.model';
@@ -6,7 +6,7 @@ import { Review } from '../../reviews/models/review.model';
 
 @Entity('users')
 export class User implements IUser {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -72,6 +72,6 @@ export class User implements IUser {
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column()
+  createdAt: string;
 }
