@@ -8,7 +8,7 @@ export const getORMConfig = (...entities): TypeOrmModuleAsyncOptions => ({
         type: 'postgres',
         url: config.get('DATABASE_URL'),
         entities: [...entities],
-        synchronize: true,
-        autoLoadEntities: true,
+        synchronize: false,
+        autoLoadEntities: false,
     }),
 });
