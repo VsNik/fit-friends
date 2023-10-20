@@ -4,13 +4,13 @@ import { CreateDto } from './create.dto';
 export class CreateCoachDto extends CreateDto {
   @IsString()
   @IsNotEmpty()
-  certificate: string;
+  readonly certificate: string;
 
   @IsString()
   @IsNotEmpty()
-  merits: string;
+  readonly merits: string;
 
   @IsBoolean()
   @IsNotEmpty()
-  personalTraining: boolean;
+  readonly personalTraining: boolean;
 }

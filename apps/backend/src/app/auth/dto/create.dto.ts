@@ -4,49 +4,49 @@ import { ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsStri
 export class CreateDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  readonly name: string;
 
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  readonly email: string;
 
   @IsOptional()
-  avatar?: string;
+  readonly avatar?: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  readonly password: string;
 
   @IsEnum(Gender)
   @IsNotEmpty()
-  gender: Gender;
+  readonly gender: Gender;
 
   @IsString()
   @IsOptional()
-  birthDay?: string;
+  readonly birthDay?: string;
 
   @IsEnum(Role)
   @IsNotEmpty()
-  role: Role;
+  readonly role: Role;
 
   @IsString()
   @IsOptional()
-  bio?: string;
+  readonly bio?: string;
 
   @IsEnum(Location)
   @IsNotEmpty()
-  location: Location;
+  readonly location: Location;
 
   @IsString()
   @IsNotEmpty()
-  bgImage: string;
+  readonly bgImage: string;
 
   @IsEnum(TrainingLevel)
   @IsNotEmpty()
-  trainingLevel: TrainingLevel;
+  readonly trainingLevel: TrainingLevel;
 
   @IsArray()
   @ArrayNotEmpty()
   @IsEnum(TrainingType, { each: true })
-  trainingType: TrainingType[];
+  readonly trainingType: TrainingType[];
 }

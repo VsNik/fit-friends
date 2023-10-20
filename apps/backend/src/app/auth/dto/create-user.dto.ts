@@ -5,17 +5,17 @@ import { TrainingDuration } from '@fit-friends/libs/types';
 export class CreateUserDto extends CreateDto {
   @IsEnum(TrainingDuration)
   @IsNotEmpty()
-  trainingDuration: TrainingDuration;
+  readonly trainingDuration: TrainingDuration;
 
   @IsNumber()
   @IsNotEmpty()
-  loseCalories: number;
+  readonly loseCalories: number;
 
   @IsNumber()
   @IsNotEmpty()
-  burnCalories: number;
+  readonly burnCalories: number;
 
   @IsBoolean()
   @IsNotEmpty()
-  ready: boolean;
+  readonly ready: boolean;
 }
