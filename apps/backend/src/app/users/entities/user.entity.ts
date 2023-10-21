@@ -13,7 +13,7 @@ export class UserEntity implements IUser {
   role: Role;
   bio?: string;
   location: Location;
-  bgImage: string;  
+  bgImage: string;
   trainingLevel: TrainingLevel;
   trainingType: TrainingType[];
   trainingDuration?: TrainingDuration;
@@ -30,6 +30,11 @@ export class UserEntity implements IUser {
     Object.assign(user, iten);
 
     return user;
+  }
+
+  public update(user: Partial<IUser>): UserEntity {
+    Object.assign(this, user);
+    return this;
   }
 
   public toObject(): IUser {

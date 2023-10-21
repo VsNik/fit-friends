@@ -1,3 +1,8 @@
+export enum UploadType {
+  Avatar = 'avatar',
+  BgImage = 'bg_image',
+}
+
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -5,7 +10,7 @@ export enum Gender {
 }
 
 export enum Role {
-  user = 'user',
+  User = 'user',
   Coach = 'coach',
 }
 

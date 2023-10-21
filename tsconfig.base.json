@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fit-friends/libs/pipes": ["libs/pipes/src/index.ts"],
       "@fit-friends/libs/types": ["libs/types/src/index.ts"],
       "@fit-friends/libs/utils": ["libs/utils/src/index.ts"]
     }

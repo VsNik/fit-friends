@@ -8,12 +8,14 @@ import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { getJWTConfig } from '../config/jwt.config';
 import { TokensModule } from '../tokens/tokens.module';
+import { FilesModule } from '../files/files.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]), 
     JwtModule.registerAsync(getJWTConfig()),
     TokensModule,
+    FilesModule,
   ],
   providers: [
     UsersService,

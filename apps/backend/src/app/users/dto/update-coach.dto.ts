@@ -1,21 +1,13 @@
-import { Gender, Role, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
-import { ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Gender, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CreateDto {
+export class UpdateCoachDto {
   @IsString()
   @IsNotEmpty()
   readonly name: string;
 
-  @IsEmail()
-  @IsNotEmpty()
-  readonly email: string;
-
   @IsOptional()
   readonly avatar?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly password: string;
 
   @IsEnum(Gender)
   @IsNotEmpty()
@@ -24,10 +16,6 @@ export class CreateDto {
   @IsString()
   @IsOptional()
   readonly birthDay?: string;
-
-  @IsEnum(Role)
-  @IsNotEmpty()
-  readonly role: Role;
 
   @IsString()
   @IsOptional()
@@ -38,7 +26,7 @@ export class CreateDto {
   readonly location: Location;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   readonly bgImage: string;
 
   @IsEnum(TrainingLevel)
@@ -49,4 +37,16 @@ export class CreateDto {
   @ArrayNotEmpty()
   @IsEnum(TrainingType, { each: true })
   readonly trainingType: TrainingType[];
+
+  @IsString()
+  @IsNotEmpty()
+  readonly certificate: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly merits: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly personalTraining: boolean;
 }

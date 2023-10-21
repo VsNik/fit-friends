@@ -16,17 +16,24 @@ import { Token } from './tokens/models/token.model';
 import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate }),
     TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order)),
+    ServeStaticModule.forRoot({
+      rootPath: process.env.UPLOAD_DIR,
+      serveRoot: process.env.SERVE_ROOT,
+    }),
     UsersModule,
     TrainingsModule,
     ReviewsModule,
     OrdersModule,
     TokensModule,
     AuthModule,
+    FilesModule,
   ],
   providers: [JwtService],
 })

@@ -1,4 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ExpressFile } from '@fit-friends/libs/types';
+import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateCoachDto } from './dto/create-coach.dto';
@@ -14,15 +17,33 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AnonymousGuard)
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'avatar', maxCount: 1 },
+      { name: 'bgImage', maxCount: 1 },
+    ]),
+  )
   @Post('signup-user')
-  signupUser(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto);
+  signupUser(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; bgImage: ExpressFile },
+  ) {
+    return this.authService.signup(createUserDto, files.avatar, files.bgImage);
   }
 
   @UseGuards(AnonymousGuard)
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'avatar', maxCount: 1 },
+      { name: 'bgImage', maxCount: 1 },
+    ]),
+  )
   @Post('signup-coach')
-  signupCoach(@Body() createCoachDto: CreateCoachDto) {
-    return this.authService.signup(createCoachDto);
+  signupCoach(
+    @Body() createCoachDto: CreateCoachDto,
+    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; bgImage: ExpressFile },
+  ) {
+    return this.authService.signup(createCoachDto, files.avatar, files.bgImage);
   }
 
   @Post('login')

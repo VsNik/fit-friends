@@ -17,83 +17,82 @@ const UNAUTORIZED_ERROR = 'Unauthorized';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly usersService: UsersService,
-        private readonly tokensService: TokensService,
-        private readonly jwtService: JwtService,
-        private readonly configService: ConfigService,
-    ){}
-  
-    signup(dto: CreateUserDto | CreateCoachDto): Promise<IUser> {
-        return this.usersService.create(dto);
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly tokensService: TokensService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
+
+  signup(dto: CreateUserDto | CreateCoachDto, avatar: Express.Multer.File, bgImage: Express.Multer.File): Promise<IUser> {
+    return this.usersService.create(dto, avatar, bgImage);
+  }
+
+  async verifyUser({ email, password }: LoginDto): Promise<IAuthToken> {
+    const existUser = await this.usersService.findByEmail(email);
+    if (!existUser) {
+      throw new UnprocessableEntityException(CREDENTIALS_ERROR);
     }
+    const isValidPswd = await compare(password, existUser.password);
+    if (!isValidPswd) {
+      throw new UnprocessableEntityException(CREDENTIALS_ERROR);
+    }
+    return this.createAuthToken(existUser.toObject(), randomUUID());
+  }
 
-    async verifyUser({ email, password }: LoginDto): Promise<IAuthToken> {
-        const existUser = await this.usersService.findByEmail(email);
-        if (!existUser) {
-          throw new UnprocessableEntityException(CREDENTIALS_ERROR);
-        }
-        const isValidPswd = await compare(password, existUser.password);
-        if (!isValidPswd) {
-          throw new UnprocessableEntityException(CREDENTIALS_ERROR);
-        }
-        return this.createAuthToken(existUser.toObject(), randomUUID());
-      }
+  async verifyRefreshToken(refreshToken: string): Promise<IAuthToken> {
+    const { userId, sessionId } = await this.getRefreshTokenPayload(refreshToken);
+    await this.removeSession(sessionId);
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+    return this.createAuthToken(user.toObject(), randomUUID());
+  }
 
-      async verifyRefreshToken(refreshToken: string): Promise<IAuthToken> {
-        const { userId, sessionId } = await this.getRefreshTokenPayload(refreshToken);
-        await this.removeSession(sessionId);
-        const user = await this.usersService.findById(userId);
-        if (!user) {
-          throw new NotFoundException(USER_NOT_FOUND_ERROR);
-        }
-        return this.createAuthToken(user.toObject(), randomUUID());
-      }
+  async logout(refreshToken: string) {
+    const { sessionId } = await this.getRefreshTokenPayload(refreshToken);
+    await this.removeSession(sessionId);
+  }
 
-      async logout(refreshToken: string) {
-        const { sessionId } = await this.getRefreshTokenPayload(refreshToken);
-        await this.removeSession(sessionId);
-      }
+  async findUserById(id: string): Promise<IUser> {
+    const existUser = await this.usersService.findById(id);
+    if (!existUser) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+    return existUser.toObject();
+  }
 
-      async findUserById(id: string): Promise<IUser> {
-        const existUser = await this.usersService.findById(id);
-        if (!existUser) {
-          throw new NotFoundException(USER_NOT_FOUND_ERROR);
-        }
-        return existUser.toObject();
-      }
+  async createAuthToken(user: IUser, sessionId: string): Promise<IAuthToken> {
+    const accessPayload = { id: user.id, role: user.role };
+    const refreshPayload = { userId: user.id, sessionId };
+    this.tokensService.createRefreshSession(user.id, sessionId);
 
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(accessPayload),
+      this.jwtService.signAsync(refreshPayload, {
+        secret: this.configService.get('JWT_REFRESH_SECRET'),
+        expiresIn: this.configService.get('JWT_REFRESH_EXPIRE'),
+      }),
+    ]);
+    return { accessToken, refreshToken };
+  }
 
-    async createAuthToken(user: IUser, sessionId: string): Promise<IAuthToken> {
-        const accessPayload = { id: user.id, role: user.role };
-        const refreshPayload = { userId: user.id, sessionId };
-        this.tokensService.createRefreshSession(user.id, sessionId);
-    
-        const [accessToken, refreshToken] = await Promise.all([
-          this.jwtService.signAsync(accessPayload),
-          this.jwtService.signAsync(refreshPayload, {
-            secret: this.configService.get('JWT_REFRESH_SECRET'),
-            expiresIn: this.configService.get('JWT_REFRESH_EXPIRE'),
-          }),
-        ]);
-        return { accessToken, refreshToken };
-      }
-    
-      private async getRefreshTokenPayload(refreshToken: string): Promise<IRefreshTokenPayload> {
-        try {
-          return this.jwtService.verifyAsync(refreshToken, {
-            secret: this.configService.get('JWT_REFRESH_SECRET'),
-          });
-        } catch {
-          throw new UnauthorizedException(UNAUTORIZED_ERROR);
-        }
-      }
-    
-      private async removeSession(sessionId: string): Promise<void> {
-        const existToken = await this.tokensService.isExist(sessionId);
-        if (!existToken) {
-          throw new UnauthorizedException(UNAUTORIZED_ERROR);
-        }
-        await this.tokensService.deleteRefreshSession(sessionId);
-      }
+  private async getRefreshTokenPayload(refreshToken: string): Promise<IRefreshTokenPayload> {
+    try {
+      return this.jwtService.verifyAsync(refreshToken, {
+        secret: this.configService.get('JWT_REFRESH_SECRET'),
+      });
+    } catch {
+      throw new UnauthorizedException(UNAUTORIZED_ERROR);
+    }
+  }
+
+  private async removeSession(sessionId: string): Promise<void> {
+    const existToken = await this.tokensService.isExist(sessionId);
+    if (!existToken) {
+      throw new UnauthorizedException(UNAUTORIZED_ERROR);
+    }
+    await this.tokensService.deleteRefreshSession(sessionId);
+  }
 }
