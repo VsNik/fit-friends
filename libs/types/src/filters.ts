@@ -1,5 +1,5 @@
 import { IsEnum, IsNumber, IsPositive } from 'class-validator';
-import { Location, TrainingLevel, TrainingType } from './common';
+import { Location, TrainingDuration, TrainingLevel, TrainingType } from './common';
 
 export enum UserSorting {
   Created = 'createdAt',
@@ -11,7 +11,7 @@ export enum SortDirection {
   Desc = 'DESC',
 }
 
-export class UsersFilter {
+export class Pagination {
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
   limit = 50;
@@ -19,7 +19,9 @@ export class UsersFilter {
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
   page = 1;
+}
 
+export class UsersFilter extends Pagination {
   @IsEnum(UserSorting)
   sorting: UserSorting = UserSorting.Created;
 
@@ -34,4 +36,24 @@ export class UsersFilter {
 
   @IsEnum(SortDirection)
   direction: SortDirection = SortDirection.Desc;
+}
+
+export class TrainingsFilter extends Pagination {
+  @IsNumber()
+  priceTo = 0;
+
+  @IsNumber()
+  priceFrom: number;
+
+  @IsNumber()
+  caloriesTo = 1000;
+
+  @IsNumber()
+  caloriesFrom = 5000;
+
+  @IsNumber()
+  rating: number;
+
+  @IsEnum(TrainingDuration, { each: true })
+  duration: TrainingDuration[];
 }

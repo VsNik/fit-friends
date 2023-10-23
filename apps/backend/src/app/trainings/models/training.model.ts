@@ -10,7 +10,7 @@ export class Training implements ITraining {
   id: string;
 
   @Column()
-  name: string;
+  title: string;
 
   @Column()
   bgImage: string;
@@ -39,7 +39,7 @@ export class Training implements ITraining {
   @Column()
   video: string;
 
-  @Column()
+  @Column({default: 0})
   rating: number;
 
   @ManyToOne(() => User, (user) => user.trainings)

@@ -3,7 +3,7 @@ import { IUser } from '../users/user.interface';
 
 export interface ITraining {
   id: string;
-  name: string;
+  title: string;
   bgImage: string;
   level: TrainingLevel;
   type: TrainingType;

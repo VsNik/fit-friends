@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { path } from 'app-root-path';
 import { extension } from 'mime-types';
-import { ensureDir, writeFile, remove } from 'fs-extra';
+import { ensureDir, writeFile, remove, readdir } from 'fs-extra';
 import dayjs from 'dayjs';
 import { randomUUID } from 'crypto';
 import { ExpressFile, UploadType } from '@fit-friends/libs/types';
+import { getRandomInt, getUploadPath } from '@fit-friends/libs/utils';
 
 @Injectable()
 export class FilesService {
@@ -30,15 +31,18 @@ export class FilesService {
     await ensureDir(uploadDirectoryPath);
     await writeFile(destinationFile, Buffer.from(file.buffer));
 
-    return `${this.getUploadDir()}/${subDirectory}/${hashName}`;
+    return getUploadPath(`/${subDirectory}/${hashName}`);
+  }
+
+  async getRandomBgTraining() {
+    const uploadDir = `${path}/${this.configService.get('UPLOAD_DIR')}/${UploadType.BgTraining}`;
+    const imageList = await readdir(uploadDir);
+    const index = getRandomInt(1, imageList.length);
+    return getUploadPath(`${UploadType.BgTraining}/${imageList[index - 1]}`);
   }
 
   async delete(path: string): Promise<void> {
-    const filePath = path.replace(this.getUploadDir(), '');
+    const filePath = path.replace(getUploadPath(), '');
     await remove(`${this.configService.get('UPLOAD_DIR')}/${filePath}`);
-  }
-
-  private getUploadDir(): string {
-    return `${this.configService.get('SERVER_HOST')}${this.configService.get('SERVE_ROOT')}`;
   }
 }
