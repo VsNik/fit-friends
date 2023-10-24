@@ -3,6 +3,7 @@ import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location }
 import { IUser } from '../user.interface';
 import { Training } from '../../trainings/models/training.model';
 import { Review } from '../../reviews/models/review.model';
+import { Order } from '../../orders/models/order.model';
 
 @Entity('users')
 export class User implements IUser {
@@ -71,6 +72,9 @@ export class User implements IUser {
 
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   @Column()
   createdAt: string;

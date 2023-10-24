@@ -1,16 +1,16 @@
 import { OrderType, PaymentType } from '@fit-friends/libs/types';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { User } from '../../users/models/user.model';
+import { Training } from '../../trainings/models/training.model';
+import { IOrder } from '../order.interface';
 
 @Entity('orders')
-export class Order {
-  @PrimaryGeneratedColumn('uuid')
+export class Order implements IOrder {
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column({ type: 'enum', enum: OrderType })
   type: OrderType;
-
-  @Column()
-  training: string;
 
   @Column()
   price: number;
@@ -24,6 +24,12 @@ export class Order {
   @Column({ type: 'enum', enum: PaymentType })
   paymentType: PaymentType;
 
+  @ManyToOne(() => User, (user) => user.orders)
+  user: User;
+
+  @ManyToOne(() => Training, (training) => training.orders)
+  training: Training;
+
   @Column()
-  createdAt: Date;
+  createdAt: string;
 }

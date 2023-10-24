@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "typeorm:cli": "ts-node -O '{\"module\": \"commonjs\"}' --project tsconfig.base.json -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./apps/backend/src/orm-migration.config.ts",
+    "typeorm:cli": "ts-node --project tsconfig.base.json -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./apps/backend/src/orm-migration.config.ts",
     "migration:gen": "cross-env npm run typeorm:cli migration:generate ./apps/backend/src/database/migration/$npm_config_name",
-    "migration:run": "npm run typeorm:cli migration:run"
+    "migration:run": "npm run typeorm:cli migration:run",
+    "seed": "ts-node --project tsconfig.base.json -r tsconfig-paths/register apps/backend/src/database/seeds/seeds.ts"
   },
   "private": true,
   "dependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.2",
@@ -29,7 +31,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "typeorm-extension": "^3.1.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",

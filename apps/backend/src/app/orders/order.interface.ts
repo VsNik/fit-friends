@@ -9,5 +9,5 @@ export interface IOrder {
   count: number;
   totalPrice: number;
   paymentType: PaymentType;
-  createdAt: Date;
+  createdAt: string;
 }

@@ -1,12 +1,13 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { ITraining } from '../training.interface';
 import { User } from '../../users/models/user.model';
 import { Review } from '../../reviews/models/review.model';
+import { Order } from '../../orders/models/order.model';
 
 @Entity('trainings')
 export class Training implements ITraining {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -42,15 +43,18 @@ export class Training implements ITraining {
   @Column({default: 0})
   rating: number;
 
-  @ManyToOne(() => User, (user) => user.trainings)
-  coach: User;
-
   @Column()
   isSpecial: boolean;
+
+  @ManyToOne(() => User, (user) => user.trainings)
+  coach: User;
 
   @OneToMany(() => Review, (review) => review.training)
   reviews: Review[];
 
-  @CreateDateColumn()
+  @OneToMany(() => Order, (order) => order.training)
+  orders: Order[];
+
+  @Column()
   createdAt: string;
 }

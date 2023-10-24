@@ -1,9 +1,10 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
 import { ITraining } from '../training.interface';
 import { IUser } from '../../users/user.interface';
+import { randomUUID } from 'crypto';
 
 export class TrainingEntity implements ITraining {
-  id: string;
+  id: string = randomUUID();
   title: string;
   bgImage: string;
   level: TrainingLevel;
@@ -17,7 +18,7 @@ export class TrainingEntity implements ITraining {
   rating: number;
   coach: IUser;
   isSpecial: boolean;
-  createdAt: string;
+  createdAt: string = new Date().toISOString();
 
   public static create(item: Partial<ITraining>): TrainingEntity {
     const training = new TrainingEntity();
