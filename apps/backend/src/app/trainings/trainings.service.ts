@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { TrainingsFilter } from '@fit-friends/libs/types';
+import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
 import { ITrainingsRepository, TRAININGS_REPO } from './entities/trainings-repository.interface';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UsersService } from '../users/users.service';
@@ -19,8 +19,13 @@ export class TrainingsService {
     private readonly filesService: FilesService,
   ) {}
 
-  async all(coachId: string, filters: TrainingsFilter): Promise<[ITraining[], number]> {
-    const [data, count] = await this.trainingsRepository.all(coachId, filters);
+  async all(coachId: string, filters: TrainingFilter): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getManyByCoachId(coachId, filters);
+    return [data.map((item) => item.toObject()), count];
+  }
+
+  async getTrainingsOrders(coachId: string, filter: TrainingOrderFilter): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getManyByCoachIdFromOrders(coachId, filter);
     return [data.map((item) => item.toObject()), count];
   }
 
@@ -28,7 +33,7 @@ export class TrainingsService {
     const coach = await this.usersService.getUser(coachId);
     const bgImage = await this.filesService.getRandomBgTraining();
     const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage });
-    const savedTraining = await this.trainingsRepository.create(trainingEntity);
+    const savedTraining = await this.trainingsRepository.save(trainingEntity);
     return savedTraining.toObject();
   }
 
@@ -48,5 +53,13 @@ export class TrainingsService {
     Object.assign(existTraining, dto);
     const updatedTraining = await this.trainingsRepository.update(existTraining);
     return updatedTraining.toObject();
+  }
+
+  async findById(id: string): Promise<TrainingEntity> {
+    return this.trainingsRepository.findById(id);
+  }
+
+  async updateTraining(training: TrainingEntity) {
+    await this.trainingsRepository.update(training);
   }
 }

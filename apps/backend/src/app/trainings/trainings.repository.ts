@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ITrainingsRepository } from './entities/trainings-repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { TrainingsFilter } from '@fit-friends/libs/types';
+import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { ITraining } from './training.interface';
 
 const TRAINING_NOT_FOUND_ERROR = 'Training not found';
 
@@ -20,7 +21,7 @@ export class TrainingsRepository implements ITrainingsRepository {
     return training;
   }
 
-  async create(entity: TrainingEntity): Promise<TrainingEntity> {
+  async save(entity: TrainingEntity): Promise<TrainingEntity> {
     return this.repository.save(entity);
   }
 
@@ -39,10 +40,17 @@ export class TrainingsRepository implements ITrainingsRepository {
     return this.findById(id);
   }
 
-  async all(id: string, filters: TrainingsFilter): Promise<[TrainingEntity[], number]> {
+  async getManyByCoachId(id: string, filters: TrainingFilter): Promise<[TrainingEntity[], number]> {
     const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration } = filters;
 
-    const qb = this.repository.createQueryBuilder('training').leftJoinAndSelect('users', 'u', 'u.id = training.coach').andWhere('u.id = :id', { id });
+    const qb = this.getQueryBuilder()
+      .andWhere('user.id = :id', { id });
+
+    // const qb = this.repository
+    //   .createQueryBuilder('training')
+    //   .leftJoinAndSelect('training.coach', 'user')
+    //   .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio'])
+    //   .andWhere('user.id = :id', { id });
 
     if (priceTo) {
       qb.andWhere('training.price >= :priceTo', { priceTo });
@@ -75,5 +83,34 @@ export class TrainingsRepository implements ITrainingsRepository {
 
     const [data, count] = await qb.getManyAndCount();
     return [data.map((training) => TrainingEntity.create(training)), count];
+  }
+
+  async getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]> {
+    const { limit, page, sorting, direction } = filter;
+
+    const qb = this.getQueryBuilder()
+      .andWhere('user.id = :coachId', { coachId })
+      .andWhere('training.ordersCount > 0');
+
+    // const qb = this.repository
+    //   .createQueryBuilder('training')
+    //   .leftJoinAndSelect('training.coach', 'user')
+    //   .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio'])
+    //   .andWhere('user.id = :coachId', { coachId })
+    //   .andWhere('training.ordersCount > 0');
+
+    qb.orderBy(`training.${sorting}`, direction);
+    qb.limit(limit);
+    qb.offset(limit * (page - 1));
+
+    const [data, count] = await qb.getManyAndCount();
+    return [data.map((training) => TrainingEntity.create(training)), count];
+  }
+
+  private getQueryBuilder(): SelectQueryBuilder<ITraining> {
+    return this.repository
+      .createQueryBuilder('training')
+      .leftJoinAndSelect('training.coach', 'user')
+      .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio']);
   }
 }

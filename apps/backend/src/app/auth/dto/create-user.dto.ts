@@ -6,7 +6,7 @@ import { Type } from 'class-transformer';
 export class CreateUserDto extends CreateDto {
   @IsEnum(TrainingDuration)
   @IsNotEmpty()
-  readonly trainingDuration: TrainingDuration;
+  readonly trainingTime: TrainingDuration;
 
   @Type(() => Number)
   @IsNumber()

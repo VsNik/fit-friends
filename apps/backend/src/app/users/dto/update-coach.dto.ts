@@ -1,4 +1,5 @@
 import { Gender, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCoachDto {
@@ -46,6 +47,7 @@ export class UpdateCoachDto {
   @IsNotEmpty()
   readonly merits: string;
 
+  @Type(() => Boolean)
   @IsBoolean()
   @IsNotEmpty()
   readonly personalTraining: boolean;

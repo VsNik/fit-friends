@@ -55,6 +55,12 @@ export class Training implements ITraining {
   @OneToMany(() => Order, (order) => order.training)
   orders: Order[];
 
+  @Column({default: 0})
+  ordersCount: number;
+
+  @Column({default: 0})
+  ordersSumm: number;
+
   @Column()
   createdAt: string;
 }

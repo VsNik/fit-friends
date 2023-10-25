@@ -1,17 +1,19 @@
-import { Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
 import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
-import { ExpressFile, UploadType, UsersFilter } from '@fit-friends/libs/types';
+import { ExpressFile, Pagination, UploadType, UsersFilter } from '@fit-friends/libs/types';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateCoachDto } from './dto/update-coach.dto';
 import { FilesService } from '../files/files.service';
 
 const USER_EXIST_ERROR = 'User with Email address is already exist.';
-const USER_NOT_FOUND_ERROR = 'User not found';
+const USER_NOT_FOUND_ERROR = 'User not found.';
+const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
+const FOLLOW_USER_NOT_FOUND_ERROR = 'Follow user not found.';
 const PASSWORD_SALT = 12;
 
 @Injectable()
@@ -38,7 +40,7 @@ export class UsersService {
 
     const passwordHash = await hash(dto.password, PASSWORD_SALT);
     const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage });
-    const savedUser = await this.usersRepository.create(userEntity);
+    const savedUser = await this.usersRepository.save(userEntity);
 
     return savedUser.toObject();
   }
@@ -63,16 +65,45 @@ export class UsersService {
   async update(userId: string, dto: UpdateUserDto | UpdateCoachDto, fileAvatar: ExpressFile, fileBgImage: ExpressFile): Promise<IUser> {
     const existUser = await this.getUser(userId);
 
-    const avatar = fileAvatar 
-      ? await this.fileService.upload(fileAvatar, UploadType.Avatar) 
-      : existUser.avatar;
-      
-    const bgImage = fileBgImage 
-      ? await this.fileService.upload(fileBgImage, UploadType.BgImage) 
-      : existUser.bgImage;
+    const avatar = fileAvatar ? await this.fileService.upload(fileAvatar, UploadType.Avatar) : existUser.avatar;
 
-    existUser.update({...dto, avatar, bgImage});
-    
+    const bgImage = fileBgImage ? await this.fileService.upload(fileBgImage, UploadType.BgImage) : existUser.bgImage;
+
+    existUser.update({ ...dto, avatar, bgImage });
+    await this.usersRepository.update(existUser);
+
     return existUser.toObject();
+  }
+
+  async followUnfollow(followId: string, currentUserId: string): Promise<boolean> {
+    if (followId === currentUserId) {
+      throw new BadRequestException(FOLLOW_EQUAL_ERROR);
+    }
+
+    const followUser = await this.findById(followId);
+    if (!followUser) {
+      throw new BadRequestException(FOLLOW_USER_NOT_FOUND_ERROR);
+    }
+
+    const currentUser = await this.usersRepository.findByIdAndFollowRelations(currentUserId);
+    const index = currentUser.followers.findIndex((item) => item.id === followId);
+
+    if (index < 0) {
+      currentUser.followers.push(followUser);
+      await this.usersRepository.save(currentUser);
+      return true;
+    }
+
+    currentUser.followers.splice(index, 1);
+    await this.usersRepository.save(currentUser);
+    return true;
+  }
+
+  async getFollowing(userId: string, pagination: Pagination) {
+    return this.usersRepository.findFollowings(userId, pagination);
+  }
+
+  async getFollowers(userId: string, pagination: Pagination) {
+    return this.usersRepository.findFollowers(userId, pagination);
   }
 }

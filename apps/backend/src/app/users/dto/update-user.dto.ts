@@ -1,4 +1,5 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
@@ -26,7 +27,7 @@ export class UpdateUserDto {
   readonly location: Location;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly bgImage: string;
 
   @IsEnum(TrainingLevel)
@@ -40,16 +41,19 @@ export class UpdateUserDto {
 
   @IsEnum(TrainingDuration)
   @IsNotEmpty()
-  readonly trainingDuration: TrainingDuration;
+  readonly trainingTime: TrainingDuration;
 
+  @Type(() => Number)
   @IsNumber()
   @IsNotEmpty()
   readonly loseCalories: number;
 
+  @Type(() => Number)
   @IsNumber()
   @IsNotEmpty()
   readonly burnCalories: number;
 
+  @Type(() => Boolean)
   @IsBoolean()
   @IsNotEmpty()
   readonly ready: boolean;

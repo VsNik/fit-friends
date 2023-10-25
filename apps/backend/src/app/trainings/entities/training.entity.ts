@@ -18,6 +18,8 @@ export class TrainingEntity implements ITraining {
   rating: number;
   coach: IUser;
   isSpecial: boolean;
+  ordersCount?: number;
+  ordersSumm?: number;
   createdAt: string = new Date().toISOString();
 
   public static create(item: Partial<ITraining>): TrainingEntity {
@@ -42,7 +44,14 @@ export class TrainingEntity implements ITraining {
       coach: this.coach,
       rating: this.rating,
       isSpecial: this.isSpecial,
+      ordersCount: this.ordersCount,
+      ordersSumm: this.ordersSumm,
       createdAt: this.createdAt,
     };
+  }
+
+  public addStatistic(count: number) {
+    this.ordersCount = this.ordersCount + count;
+    this.ordersSumm = this.ordersSumm + this.price * count;
   }
 }

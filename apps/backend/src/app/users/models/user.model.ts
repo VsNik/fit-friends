@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
 import { IUser } from '../user.interface';
 import { Training } from '../../trainings/models/training.model';
@@ -75,6 +75,13 @@ export class User implements IUser {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @ManyToMany(() => User, user => user.following)
+  @JoinTable()
+  followers: User[];
+
+  @ManyToMany(() => User, user => user.followers)
+  following: User[];
 
   @Column()
   createdAt: string;

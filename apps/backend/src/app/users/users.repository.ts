@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.model';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
-import { UsersFilter } from '@fit-friends/libs/types';
+import { Pagination, UsersFilter } from '@fit-friends/libs/types';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -41,7 +41,7 @@ export class UsersRepository implements IUsersRepository {
     return [data.map((item) => UserEntity.create(item)), count];
   }
 
-  async create(entity: UserEntity): Promise<UserEntity> {
+  async save(entity: UserEntity): Promise<UserEntity> {
     return this.repository.save(entity);
   }
 
@@ -58,5 +58,35 @@ export class UsersRepository implements IUsersRepository {
   async update(entity: UserEntity): Promise<void> {
     const { id, ...toUpdate } = entity;
     await this.repository.update({ id }, toUpdate);
+  }
+
+  async findByIdAndFollowRelations(id: string): Promise<UserEntity | null> {
+    const result = await this.repository.findOne({
+      where: {id},
+      relations: {followers: true, following: true},
+    });
+    return result ? UserEntity.create(result) : null;
+  }
+
+  async findFollowings(userId: string, pagination: Pagination): Promise<[UserEntity[], number]> {
+    const [data, count] = await this.repository.findAndCount({
+      where: {
+        followers: {id: userId}
+      },
+      take: pagination.limit,
+      skip: pagination.limit * (pagination.page - 1),
+    });
+    return [data.map((item) => UserEntity.create(item)), count];
+  }
+
+  async findFollowers(userId: string, pagination: Pagination): Promise<[UserEntity[], number]> {
+    const [data, count] = await this.repository.findAndCount({
+      where: {
+        following: {id: userId}
+      },
+      take: pagination.limit,
+      skip: pagination.limit * (pagination.page - 1),
+    });
+    return [data.map((item) => UserEntity.create(item)), count];
   }
 }

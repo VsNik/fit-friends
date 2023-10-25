@@ -16,5 +16,7 @@ export interface ITraining {
   rating: number;
   coach: IUser;
   isSpecial: boolean;
+  ordersCount?: number;
+  ordersSumm?: number;
   createdAt: string;
 }

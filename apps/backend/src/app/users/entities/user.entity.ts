@@ -23,6 +23,8 @@ export class UserEntity implements IUser {
   certificate?: string;
   merits?: string;
   personalTraining?: boolean;
+  followers?: IUser[];
+  following?: IUser[];
   createdAt: string = new Date().toISOString();
 
   public static create(iten: Partial<IUser>): UserEntity {

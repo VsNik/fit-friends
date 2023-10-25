@@ -18,5 +18,6 @@ import { FilesModule } from '../files/files.module';
     },
   ],
   controllers: [TrainingsController],
+  exports: [TrainingsService],
 })
 export class TrainingsModule {}
