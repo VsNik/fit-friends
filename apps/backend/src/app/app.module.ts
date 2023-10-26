@@ -18,11 +18,13 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { BalanceModule } from './balance/balance.module';
+import { Balance } from './balance/models/balance.model';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate }),
-    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order)),
+    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance)),
     ServeStaticModule.forRoot({
       rootPath: process.env.UPLOAD_DIR,
       serveRoot: process.env.SERVE_ROOT,
@@ -34,6 +36,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     TokensModule,
     AuthModule,
     FilesModule,
+    BalanceModule,
   ],
   providers: [JwtService],
 })

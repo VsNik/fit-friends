@@ -29,20 +29,45 @@ export class UsersService {
     return [data.map((item) => item.toObject()), count];
   }
 
-  async create(dto: CreateUserDto | CreateCoachDto, fileAvatar: ExpressFile, fileBgImage: ExpressFile): Promise<IUser> {
+  async create(dto: CreateUserDto | CreateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
     const existUser = await this.findByEmail(dto.email);
     if (existUser) {
       throw new UnprocessableEntityException(USER_EXIST_ERROR);
     }
 
     const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
-    const bgImage = await this.fileService.upload(fileBgImage, UploadType.BgImage);
+    const certificate = (await this.fileService.upload(fileCertificate, UploadType.Certificate)) ?? '';
+    const bgImage = avatar;
 
     const passwordHash = await hash(dto.password, PASSWORD_SALT);
-    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage });
+    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage, certificate });
     const savedUser = await this.usersRepository.save(userEntity);
 
     return savedUser.toObject();
+  }
+
+  async update(userId: string, dto: UpdateUserDto | UpdateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
+    const existUser = await this.getUser(userId);
+    Object.assign(existUser, dto);
+
+    if (fileAvatar) {
+      if (existUser.avatar) {
+        await this.fileService.delete(existUser.avatar);
+      }
+      const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
+      existUser.avatar = avatar;
+      existUser.bgImage = avatar;
+    }
+
+    if (fileCertificate) {
+      if (existUser.certificate) {
+        await this.fileService.delete(existUser.certificate);
+      }
+      existUser.certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
+    }
+
+    await this.usersRepository.update(existUser);
+    return existUser.toObject();
   }
 
   async findById(id: string): Promise<UserEntity> {
@@ -60,19 +85,6 @@ export class UsersService {
     }
 
     return existUser;
-  }
-
-  async update(userId: string, dto: UpdateUserDto | UpdateCoachDto, fileAvatar: ExpressFile, fileBgImage: ExpressFile): Promise<IUser> {
-    const existUser = await this.getUser(userId);
-
-    const avatar = fileAvatar ? await this.fileService.upload(fileAvatar, UploadType.Avatar) : existUser.avatar;
-
-    const bgImage = fileBgImage ? await this.fileService.upload(fileBgImage, UploadType.BgImage) : existUser.bgImage;
-
-    existUser.update({ ...dto, avatar, bgImage });
-    await this.usersRepository.update(existUser);
-
-    return existUser.toObject();
   }
 
   async followUnfollow(followId: string, currentUserId: string): Promise<boolean> {

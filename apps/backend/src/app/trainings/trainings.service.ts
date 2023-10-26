@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { ExpressFile, TrainingFilter, TrainingOrderFilter, UploadType } from '@fit-friends/libs/types';
 import { ITrainingsRepository, TRAININGS_REPO } from './entities/trainings-repository.interface';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UsersService } from '../users/users.service';
@@ -29,20 +29,16 @@ export class TrainingsService {
     return [data.map((item) => item.toObject()), count];
   }
 
-  async create(dto: CreateTrainingDto, coachId: string): Promise<ITraining> {
+  async create(dto: CreateTrainingDto, coachId: string, fileVideo: ExpressFile): Promise<ITraining> {
     const coach = await this.usersService.getUser(coachId);
     const bgImage = await this.filesService.getRandomBgTraining();
-    const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage });
+    const video = await this.filesService.upload(fileVideo, UploadType.Video);
+    const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage, video });
     const savedTraining = await this.trainingsRepository.save(trainingEntity);
     return savedTraining.toObject();
   }
 
-  async getTraining(trainingId: string): Promise<ITraining> {
-    const existTraining = await this.trainingsRepository.get(trainingId);
-    return existTraining.toObject();
-  }
-
-  async update(dto: UpdateTrainingDto, trainingId: string, coachId: string): Promise<ITraining> {
+  async update(dto: UpdateTrainingDto, trainingId: string, coachId: string, fileVideo: ExpressFile): Promise<ITraining> {
     const existTraining = await this.trainingsRepository.get(trainingId);
     const coach = await this.usersService.getUser(coachId);
 
@@ -51,8 +47,19 @@ export class TrainingsService {
     }
 
     Object.assign(existTraining, dto);
+
+    if (fileVideo) {
+      await this.filesService.delete(existTraining.video);
+      existTraining.video = await this.filesService.upload(fileVideo, UploadType.Video);
+    }
+
     const updatedTraining = await this.trainingsRepository.update(existTraining);
     return updatedTraining.toObject();
+  }
+
+  async getTraining(trainingId: string): Promise<ITraining> {
+    const existTraining = await this.trainingsRepository.get(trainingId);
+    return existTraining.toObject();
   }
 
   async findById(id: string): Promise<TrainingEntity> {

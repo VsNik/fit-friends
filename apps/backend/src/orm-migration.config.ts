@@ -6,13 +6,14 @@ import { Review } from './app/reviews/models/review.model';
 import { Order } from './app/orders/models/order.model';
 import { join } from 'path';
 import { config } from 'dotenv';
+import { Balance } from './app/balance/models/balance.model';
 
 config({ path: join(process.cwd(), '/apps/backend/.env') });
 
 const typeOrmCli: DataSourceOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
-  entities: [User, Token, Training, Review, Order],
+  entities: [User, Token, Training, Review, Order, Balance],
   migrations: ['apps/backend/src/database/migration/*.ts'],
   migrationsTableName: 'migrations',
 };

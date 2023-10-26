@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ExpressFile, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
 import { TrainingsService } from './trainings.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UserId } from '../auth/decorators/user-id.decorator';
@@ -41,16 +42,18 @@ export class TrainingsController {
 
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
+  @UseInterceptors(FileInterceptor('video'))
   @Post()
-  create(@Body() dto: CreateTrainingDto, @UserId() coachId: string) {
-    return this.trainingsService.create(dto, coachId);
+  create(@Body() dto: CreateTrainingDto, @UserId() coachId: string, @UploadedFile() video: ExpressFile) {
+    return this.trainingsService.create(dto, coachId, video);
   }
 
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
+  @UseInterceptors(FileInterceptor('video'))
   @Patch(':id')
-  update(@Body() dto: UpdateTrainingDto, @Param('id') trainingId: string, @UserId() coachId: string) {
-    return this.trainingsService.update(dto, trainingId, coachId);
+  update(@Body() dto: UpdateTrainingDto, @Param('id') trainingId: string, @UserId() coachId: string, @UploadedFile() video: ExpressFile) {
+    return this.trainingsService.update(dto, trainingId, coachId, video);
   }
 
   @UseGuards(AuthGuard)

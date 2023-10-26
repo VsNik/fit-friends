@@ -27,7 +27,7 @@ export class UpdateCoachDto {
   readonly location: Location;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly bgImage: string;
 
   @IsEnum(TrainingLevel)
@@ -40,7 +40,7 @@ export class UpdateCoachDto {
   readonly trainingType: TrainingType[];
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly certificate: string;
 
   @IsString()

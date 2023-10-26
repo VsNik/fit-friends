@@ -1,7 +1,9 @@
 export enum UploadType {
   Avatar = 'avatar',
-  BgImage = 'bg_image',
-  BgTraining = 'bg_training',
+  BgImage = 'bg-image',
+  BgTraining = 'bg-training',
+  Certificate = 'certificate',
+  Video = 'video',
 }
 
 export enum Gender {

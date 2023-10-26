@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CreateCoachDto } from './dto/create-coach.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,18 +24,18 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  signup(dto: CreateUserDto | CreateCoachDto, avatar: Express.Multer.File, bgImage: Express.Multer.File): Promise<IUser> {
-    return this.usersService.create(dto, avatar, bgImage);
+  signup(dto: CreateUserDto | CreateCoachDto, avatar: Express.Multer.File, certificate?: Express.Multer.File): Promise<IUser> {
+    return this.usersService.create(dto, avatar, certificate);
   }
 
   async verifyUser({ email, password }: LoginDto): Promise<IAuthToken> {
     const existUser = await this.usersService.findByEmail(email);
     if (!existUser) {
-      throw new UnprocessableEntityException(CREDENTIALS_ERROR);
+      throw new BadRequestException(CREDENTIALS_ERROR);
     }
     const isValidPswd = await compare(password, existUser.password);
     if (!isValidPswd) {
-      throw new UnprocessableEntityException(CREDENTIALS_ERROR);
+      throw new BadRequestException(CREDENTIALS_ERROR);
     }
     return this.createAuthToken(existUser.toObject(), randomUUID());
   }

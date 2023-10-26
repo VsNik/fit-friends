@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { CoachFilesValidationPipe } from '@fit-friends/libs/pipes';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateCoachDto } from './dto/create-coach.dto';
@@ -17,33 +17,25 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AnonymousGuard)
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'avatar', maxCount: 1 },
-      { name: 'bgImage', maxCount: 1 },
-    ]),
-  )
+  @UseInterceptors(FileInterceptor('avatar'))
   @Post('signup-user')
-  signupUser(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; bgImage: ExpressFile },
-  ) {
-    return this.authService.signup(createUserDto, files.avatar, files.bgImage);
+  signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: ExpressFile) {
+    return this.authService.signup(createUserDto, avatar);
   }
 
   @UseGuards(AnonymousGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'avatar', maxCount: 1 },
-      { name: 'bgImage', maxCount: 1 },
+      { name: 'certificate', maxCount: 1 },
     ]),
   )
   @Post('signup-coach')
   signupCoach(
     @Body() createCoachDto: CreateCoachDto,
-    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; bgImage: ExpressFile },
+    @UploadedFiles(new CoachFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
   ) {
-    return this.authService.signup(createCoachDto, files.avatar, files.bgImage);
+    return this.authService.signup(createCoachDto, files.avatar, files.certificate);
   }
 
   @Post('login')

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ExpressFile, Pagination, Role, UsersFilter } from '@fit-friends/libs/types';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { CoachFilesValidationPipe } from '@fit-friends/libs/pipes';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -36,35 +36,26 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'avatar', maxCount: 1 },
-      { name: 'bgImage', maxCount: 1 },
-    ]),
-  )
-  @Patch()
-  updateUser(
-    @Body() updateUserDto: UpdateUserDto,
-    @UserId() userId: string,
-    @UploadedFiles(new UserFilesValidationPipe(true)) files: { avatar: ExpressFile; bgImage: ExpressFile },
-  ) {
-    return this.usersService.update(userId, updateUserDto, files.avatar, files.bgImage);
+  @UseInterceptors(FileInterceptor('avatar'))
+  @Patch('user')
+  updateUser(@Body() updateUserDto: UpdateUserDto, @UserId() userId: string, @UploadedFile() avatar: ExpressFile) {
+    return this.usersService.update(userId, updateUserDto, avatar);
   }
 
   @UseGuards(AuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'avatar', maxCount: 1 },
-      { name: 'bgImage', maxCount: 1 },
+      { name: 'certificate', maxCount: 1 },
     ]),
   )
-  @Patch()
+  @Patch('coach')
   updateCoach(
-    @Body() updateUserDto: UpdateCoachDto,
+    @Body() dto: UpdateCoachDto,
     @UserId() coachId: string,
-    @UploadedFiles(new UserFilesValidationPipe(true)) files: { avatar: ExpressFile; bgImage: ExpressFile },
+    @UploadedFiles(new CoachFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
   ) {
-    return this.usersService.update(coachId, updateUserDto, files.avatar, files.bgImage);
+    return this.usersService.update(coachId, dto, files.avatar, files.certificate);
   }
 
   @Roles(Role.User)
@@ -72,7 +63,7 @@ export class UsersController {
   @Post('follow/:id')
   async followUnfollow(@Param('id') followId: string, @UserId() currentUserId: string) {
     const result = await this.usersService.followUnfollow(followId, currentUserId);
-    return {success: result}
+    return { success: result };
   }
 
   @UseGuards(AuthGuard)
@@ -80,7 +71,7 @@ export class UsersController {
   async getFollowing(@UserId() userId: string, @Query() query: Pagination) {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.usersService.getFollowing(userId, pagination);
-        return {
+    return {
       data,
       page: pagination.page,
       total,
@@ -92,7 +83,7 @@ export class UsersController {
   async getFollowers(@UserId() userId: string, @Query() query: Pagination) {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.usersService.getFollowers(userId, pagination);
-        return {
+    return {
       data,
       page: pagination.page,
       total,

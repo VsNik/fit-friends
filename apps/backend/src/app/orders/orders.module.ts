@@ -7,9 +7,15 @@ import { ORDERS_REPO } from './entities/orders-repository.interface';
 import { OrdersRepository } from './orders.repository';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
+import { BalanceModule } from '../balance/balance.module';
 
 @Module({
-  imports: [UsersModule, TrainingsModule, TypeOrmModule.forFeature([Order])],
+  imports: [
+    UsersModule, 
+    TrainingsModule,
+    BalanceModule,
+    TypeOrmModule.forFeature([Order])
+  ],
   providers: [
     OrdersService,
     {

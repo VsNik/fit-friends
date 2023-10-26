@@ -15,7 +15,7 @@ export class TrainingsRepository implements ITrainingsRepository {
 
   async get(id: string): Promise<TrainingEntity> {
     const training = await this.findById(id);
-    if (!Training) {
+    if (!training) {
       throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);
     }
     return training;
@@ -43,8 +43,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   async getManyByCoachId(id: string, filters: TrainingFilter): Promise<[TrainingEntity[], number]> {
     const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration } = filters;
 
-    const qb = this.getQueryBuilder()
-      .andWhere('user.id = :id', { id });
+    const qb = this.getQueryBuilder().andWhere('user.id = :id', { id });
 
     // const qb = this.repository
     //   .createQueryBuilder('training')
@@ -88,9 +87,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   async getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]> {
     const { limit, page, sorting, direction } = filter;
 
-    const qb = this.getQueryBuilder()
-      .andWhere('user.id = :coachId', { coachId })
-      .andWhere('training.ordersCount > 0');
+    const qb = this.getQueryBuilder().andWhere('user.id = :coachId', { coachId }).andWhere('training.ordersCount > 0');
 
     // const qb = this.repository
     //   .createQueryBuilder('training')

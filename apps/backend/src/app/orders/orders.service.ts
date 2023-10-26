@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { TrainingsService } from '../trainings/trainings.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderEntity } from './entities/order.entity';
+import { BalanceService } from '../balance/balance.service';
 
 const TRAINING_NOT_FOUND_ERROR = 'Training not found';
 
@@ -14,6 +15,7 @@ export class OrdersService {
     private readonly ordersRepository: IOrdersRepository,
     private readonly usersService: UsersService,
     private readonly trainingsService: TrainingsService,
+    private readonly balanceService: BalanceService,
   ) {}
 
   async create(dto: CreateOrderDto, trainingId: string, userId: string) {
@@ -29,6 +31,8 @@ export class OrdersService {
 
     const orderEntity = OrderEntity.create({ ...dto, price, totalPrice, user, training });
     const savedOrder = await this.ordersRepository.create(orderEntity);
+
+    await this.balanceService.admission(userId, training, dto.count);
 
     await this.trainingsService.updateTraining(training);
     return savedOrder.toObject();
