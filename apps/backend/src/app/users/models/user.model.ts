@@ -76,12 +76,19 @@ export class User implements IUser {
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 
-  @ManyToMany(() => User, user => user.following)
+  @ManyToMany(() => User, (user) => user.following)
   @JoinTable()
   followers: User[];
 
-  @ManyToMany(() => User, user => user.followers)
+  @ManyToMany(() => User, (user) => user.followers)
   following: User[];
+
+  @ManyToMany(() => User, (user) => user.subscribers)
+  @JoinTable()
+  subscribing: User[];
+
+  @ManyToMany(() => User, (user) => user.subscribing)
+  subscribers: User[];
 
   @Column()
   createdAt: string;

@@ -89,4 +89,12 @@ export class UsersController {
       total,
     };
   }
+
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
+  @Post('subscribe/:id')
+  async subscribeUnsubscribe(@Param('id') subscribeId: string, @UserId() currentUserId: string) {
+    const result = await this.usersService.subscribeUnsubscribe(subscribeId, currentUserId);
+    return { success: result };
+  }
 }

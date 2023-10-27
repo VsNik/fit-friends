@@ -25,6 +25,8 @@ export class UserEntity implements IUser {
   personalTraining?: boolean;
   followers?: IUser[];
   following?: IUser[];
+  subscribing?: IUser[];
+  subscribers?: IUser[];
   createdAt: string = new Date().toISOString();
 
   public static create(iten: Partial<IUser>): UserEntity {

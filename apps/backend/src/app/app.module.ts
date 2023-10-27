@@ -20,6 +20,7 @@ import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { BalanceModule } from './balance/balance.module';
 import { Balance } from './balance/models/balance.model';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Balance } from './balance/models/balance.model';
     AuthModule,
     FilesModule,
     BalanceModule,
+    NotificationsModule,
   ],
   providers: [JwtService],
 })

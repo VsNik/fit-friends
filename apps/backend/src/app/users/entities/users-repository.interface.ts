@@ -7,7 +7,7 @@ export interface IUsersRepository {
   findByEmail(email: string): Promise<UserEntity | null>;
   findById(id: string): Promise<UserEntity | null>;
   update(entity: UserEntity): Promise<void>;
-  findByIdAndFollowRelations(id: string): Promise<UserEntity | null>;
+  findByIdAndRelation(id: string): Promise<UserEntity | null>;
   findFollowings(userId: string, pagination: Pagination): Promise<[UserEntity[], number]>;
   findFollowers(userId: string, pagination: Pagination): Promise<[UserEntity[], number]>;
 }

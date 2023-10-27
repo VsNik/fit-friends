@@ -60,10 +60,10 @@ export class UsersRepository implements IUsersRepository {
     await this.repository.update({ id }, toUpdate);
   }
 
-  async findByIdAndFollowRelations(id: string): Promise<UserEntity | null> {
+  async findByIdAndRelation(id: string): Promise<UserEntity | null> {
     const result = await this.repository.findOne({
       where: {id},
-      relations: {followers: true, following: true},
+      relations: {followers: true, following: true, subscribing: true, subscribers: true},
     });
     return result ? UserEntity.create(result) : null;
   }

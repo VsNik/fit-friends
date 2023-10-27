@@ -5,15 +5,17 @@ import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
 import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
-import { ExpressFile, Pagination, UploadType, UsersFilter } from '@fit-friends/libs/types';
+import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateCoachDto } from './dto/update-coach.dto';
 import { FilesService } from '../files/files.service';
 
 const USER_EXIST_ERROR = 'User with Email address is already exist.';
-const USER_NOT_FOUND_ERROR = 'User not found.';
 const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
 const FOLLOW_USER_NOT_FOUND_ERROR = 'Follow user not found.';
+const USER_NOT_FOUND_ERROR = 'User not found.';
+const COACH_NOT_FOUND_ERROR = 'Coach not found.';
+const SUBSCRIBE_ROLE_ERROR = "You can't subscribe to a regular user.";
 const PASSWORD_SALT = 12;
 
 @Injectable()
@@ -70,23 +72,6 @@ export class UsersService {
     return existUser.toObject();
   }
 
-  async findById(id: string): Promise<UserEntity> {
-    return this.usersRepository.findById(id);
-  }
-
-  async findByEmail(email: string): Promise<UserEntity> {
-    return this.usersRepository.findByEmail(email);
-  }
-
-  async getUser(id: string): Promise<UserEntity> {
-    const existUser = await this.findById(id);
-    if (!existUser) {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR);
-    }
-
-    return existUser;
-  }
-
   async followUnfollow(followId: string, currentUserId: string): Promise<boolean> {
     if (followId === currentUserId) {
       throw new BadRequestException(FOLLOW_EQUAL_ERROR);
@@ -97,7 +82,7 @@ export class UsersService {
       throw new BadRequestException(FOLLOW_USER_NOT_FOUND_ERROR);
     }
 
-    const currentUser = await this.usersRepository.findByIdAndFollowRelations(currentUserId);
+    const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
     const index = currentUser.followers.findIndex((item) => item.id === followId);
 
     if (index < 0) {
@@ -117,5 +102,46 @@ export class UsersService {
 
   async getFollowers(userId: string, pagination: Pagination) {
     return this.usersRepository.findFollowers(userId, pagination);
+  }
+
+  async subscribeUnsubscribe(coachId: string, currentUserId: string) {
+    const coachUser = await this.findById(coachId);
+    if (!coachUser) {
+      throw new NotFoundException(COACH_NOT_FOUND_ERROR);
+    }
+
+    if (coachUser.role !== Role.Coach) {
+      throw new BadRequestException(SUBSCRIBE_ROLE_ERROR);
+    }
+
+    const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
+    const index = currentUser.subscribing.findIndex((item) => item.id === coachId);
+
+    if (index < 0) {
+      currentUser.subscribing.push(coachUser);
+      await this.usersRepository.save(currentUser);
+      return true;
+    }
+
+    currentUser.subscribing.splice(index, 1);
+    await this.usersRepository.save(currentUser);
+    return true;
+  }
+
+  async findById(id: string): Promise<UserEntity> {
+    return this.usersRepository.findByIdAndRelation(id);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
+    return this.usersRepository.findByEmail(email);
+  }
+
+  async getUser(id: string): Promise<UserEntity> {
+    const existUser = await this.findById(id);
+    if (!existUser) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+
+    return existUser;
   }
 }
