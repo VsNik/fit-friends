@@ -44,4 +44,4 @@ apps/backend/.env
 # uploads/avatar
 # uploads/bg_image
 # uploads/certificate
-# uploads/video
+uploads/video

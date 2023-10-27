@@ -20,12 +20,13 @@ import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { BalanceModule } from './balance/balance.module';
 import { Balance } from './balance/models/balance.model';
-import { NotificationsModule } from './notifications/notifications.module';
+import { NotifyModule } from './notify/notify.module';
+import { Notify } from './notify/models/notify.model';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate }),
-    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance)),
+    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance, Notify)),
     ServeStaticModule.forRoot({
       rootPath: process.env.UPLOAD_DIR,
       serveRoot: process.env.SERVE_ROOT,
@@ -38,7 +39,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     AuthModule,
     FilesModule,
     BalanceModule,
-    NotificationsModule,
+    NotifyModule,
   ],
   providers: [JwtService],
 })
