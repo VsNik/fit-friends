@@ -21,6 +21,7 @@ export interface IUser {
   certificate?: string;
   merits?: string;
   personalTraining?: boolean;
+  subscribers?: IUser[];
   createdAt: string;
 }
 

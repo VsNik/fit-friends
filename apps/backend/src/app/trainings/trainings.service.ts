@@ -7,6 +7,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { ITraining } from './training.interface';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { FilesService } from '../files/files.service';
+import { NotifyService } from '../notify/notify.service';
 
 const NOT_OWNER_ERROR = 'Your is not owner this training';
 
@@ -17,6 +18,7 @@ export class TrainingsService {
     private readonly trainingsRepository: ITrainingsRepository,
     private readonly usersService: UsersService,
     private readonly filesService: FilesService,
+    private readonly notifyService: NotifyService,
   ) {}
 
   async all(coachId: string, filters: TrainingFilter): Promise<[ITraining[], number]> {
@@ -35,6 +37,7 @@ export class TrainingsService {
     const video = await this.filesService.upload(fileVideo, UploadType.Video);
     const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage, video });
     const savedTraining = await this.trainingsRepository.save(trainingEntity);
+    await this.notifyService.create(coach, savedTraining);
     return savedTraining.toObject();
   }
 
