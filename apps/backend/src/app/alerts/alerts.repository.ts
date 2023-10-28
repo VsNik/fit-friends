@@ -40,6 +40,11 @@ export class AlertsRepository implements IAlertsRepository {
     return alerts.map((alert) => AlertEntity.create(alert));
   }
 
+  async findById(id: string): Promise<AlertEntity | null> {
+    const alert = await this.repository.findOneBy({id});
+    return alert ? AlertEntity.create(alert) : null;
+  }
+
   async delete(id: string): Promise<void> {
     await this.repository.delete({ id });
   }

@@ -13,4 +13,13 @@ export class AlertEntity implements IAlert {
     Object.assign(alert, item);
     return alert;
   }
+
+  public toObject(): IAlert {
+    return {
+      id: this.id,
+      userId: this.userId,
+      text: this.text,
+      createdAt: this.createdAt,
+    }
+  }
 }
