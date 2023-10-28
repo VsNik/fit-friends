@@ -1,14 +1,16 @@
-import { BadRequestException, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { hash } from 'bcrypt';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
 import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
-import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateCoachDto } from './dto/update-coach.dto';
 import { FilesService } from '../files/files.service';
+import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
 
 const USER_EXIST_ERROR = 'User with Email address is already exist.';
 const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
@@ -24,6 +26,7 @@ export class UsersService {
     @Inject(USERS_REPO)
     private readonly usersRepository: IUsersRepository,
     private readonly fileService: FilesService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async all(query: UsersFilter): Promise<[IUser[], number]> {
@@ -88,6 +91,12 @@ export class UsersService {
     if (index < 0) {
       currentUser.followers.push(followUser);
       await this.usersRepository.save(currentUser);
+
+      this.eventEmitter.emit(
+        'added-to-friends.event', 
+        new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name)
+      );
+
       return true;
     }
 

@@ -1,6 +1,9 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { JwtService } from '@nestjs/jwt';
 import { getORMConfig } from './config/orm.config';
 import { validate } from './env.validation';
 import { UsersModule } from './users/users.module';
@@ -14,19 +17,20 @@ import { Order } from './orders/models/order.model';
 import { TokensModule } from './tokens/tokens.module';
 import { Token } from './tokens/models/token.model';
 import { AuthMiddleware } from './auth/middlewares/auth.middleware';
-import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { BalanceModule } from './balance/balance.module';
 import { Balance } from './balance/models/balance.model';
 import { NotifyModule } from './notify/notify.module';
 import { Notify } from './notify/models/notify.model';
+import { AlertsModule } from './alerts/alerts.module';
+import { Alert } from './alerts/models/alert.model';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, validate }),
-    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance, Notify)),
+    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance, Notify, Alert)),
     ServeStaticModule.forRoot({
       rootPath: process.env.UPLOAD_DIR,
       serveRoot: process.env.SERVE_ROOT,
@@ -40,6 +44,7 @@ import { Notify } from './notify/models/notify.model';
     FilesModule,
     BalanceModule,
     NotifyModule,
+    AlertsModule,
   ],
   providers: [JwtService],
 })
