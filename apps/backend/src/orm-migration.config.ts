@@ -9,13 +9,14 @@ import { config } from 'dotenv';
 import { Balance } from './app/balance/models/balance.model';
 import { Notify } from './app/notify/models/notify.model';
 import { Alert } from './app/alerts/models/alert.model';
+import { Invitation } from './app/invitations/models/invitation.model';
 
 config({ path: join(process.cwd(), '/apps/backend/.env') });
 
 const typeOrmCli: DataSourceOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
-  entities: [User, Token, Training, Review, Order, Balance, Notify, Alert],
+  entities: [User, Token, Training, Review, Order, Balance, Notify, Alert, Invitation],
   migrations: ['apps/backend/src/database/migration/*.ts'],
   migrationsTableName: 'migrations',
 };

@@ -1,5 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile, TrainingFilter, TrainingOrderFilter, UploadType } from '@fit-friends/libs/types';
+import { AppEvent } from '@fit-friends/libs/constants';
+import { getRandomBg } from '@fit-friends/libs/utils';
 import { ITrainingsRepository, TRAININGS_REPO } from './entities/trainings-repository.interface';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UsersService } from '../users/users.service';
@@ -7,7 +10,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { ITraining } from './training.interface';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { FilesService } from '../files/files.service';
-import { NotifyService } from '../notify/notify.service';
+import { TrainingCreatedEvent } from './events/training-created.event';
 
 const NOT_OWNER_ERROR = 'Your is not owner this training';
 
@@ -18,7 +21,7 @@ export class TrainingsService {
     private readonly trainingsRepository: ITrainingsRepository,
     private readonly usersService: UsersService,
     private readonly filesService: FilesService,
-    private readonly notifyService: NotifyService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async all(coachId: string, filters: TrainingFilter): Promise<[ITraining[], number]> {
@@ -33,11 +36,22 @@ export class TrainingsService {
 
   async create(dto: CreateTrainingDto, coachId: string, fileVideo: ExpressFile): Promise<ITraining> {
     const coach = await this.usersService.getUser(coachId);
-    const bgImage = await this.filesService.getRandomBgTraining();
+    const bgImage = await getRandomBg(UploadType.BgTraining);
     const video = await this.filesService.upload(fileVideo, UploadType.Video);
     const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage, video });
     const savedTraining = await this.trainingsRepository.save(trainingEntity);
-    await this.notifyService.create(coach, savedTraining);
+
+    this.eventEmitter.emit(
+      AppEvent.TrainingCreated,
+      new TrainingCreatedEvent(
+        coach.subscribers.map((user) => user.email),
+        coach.id,
+        coach.name,
+        trainingEntity.title,
+        trainingEntity.bgImage,
+      ),
+    );
+
     return savedTraining.toObject();
   }
 

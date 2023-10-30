@@ -1,7 +1,8 @@
 import { hash } from 'bcrypt';
-import { BadRequestException, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
+import {AppEvent} from '@fit-friends/libs/constants';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
@@ -11,6 +12,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateCoachDto } from './dto/update-coach.dto';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
+import { getRandomBg } from '@fit-friends/libs/utils';
 
 const USER_EXIST_ERROR = 'User with Email address is already exist.';
 const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
@@ -37,12 +39,12 @@ export class UsersService {
   async create(dto: CreateUserDto | CreateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
     const existUser = await this.findByEmail(dto.email);
     if (existUser) {
-      throw new UnprocessableEntityException(USER_EXIST_ERROR);
+      throw new BadRequestException(USER_EXIST_ERROR);
     }
 
     const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
-    const certificate = (await this.fileService.upload(fileCertificate, UploadType.Certificate)) ?? '';
-    const bgImage = avatar;
+    const certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
+    const bgImage = await getRandomBg(UploadType.BgUser);
 
     const passwordHash = await hash(dto.password, PASSWORD_SALT);
     const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage, certificate });
@@ -59,9 +61,7 @@ export class UsersService {
       if (existUser.avatar) {
         await this.fileService.delete(existUser.avatar);
       }
-      const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
-      existUser.avatar = avatar;
-      existUser.bgImage = avatar;
+      existUser.avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
     }
 
     if (fileCertificate) {
@@ -93,7 +93,7 @@ export class UsersService {
       await this.usersRepository.save(currentUser);
 
       this.eventEmitter.emit(
-        'added-to-friends.event', 
+        AppEvent.AddedToFriends,
         new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name)
       );
 

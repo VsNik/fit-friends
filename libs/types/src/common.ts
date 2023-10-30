@@ -1,6 +1,6 @@
 export enum UploadType {
   Avatar = 'avatar',
-  BgImage = 'bg-image',
+  BgUser = 'bg-user',
   BgTraining = 'bg-training',
   Certificate = 'certificate',
   Video = 'video',
@@ -55,4 +55,10 @@ export enum PaymentType {
   Visa = 'visa',
   Mir = 'mir',
   Umoney = 'umoney',
+}
+
+export enum InviteStatus {
+  Waiting = 'waiting',
+  Rejected = 'rejected',
+  Accepted = 'accepted',
 }

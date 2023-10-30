@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Training } from '../../trainings/models/training.model';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { INotify } from '../notify.interface';
 
 @Entity('notifications')
@@ -7,15 +6,20 @@ export class Notify implements INotify {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column({ type: 'uuid' })
+  @Column({type: 'uuid'})
   coachId: string;
 
-  @Column({ type: 'varchar', array: true })
+  @Column()
+  coachName: string;
+
+  @Column({type: 'varchar', array: true})
   subscribeEmails: string[];
 
-  @ManyToOne(() => Training)
-  @JoinColumn()
-  training: Training;
+  @Column()
+  trainingTitle: string;
+
+  @Column()
+  trainingImage: string;
 
   @Column()
   createdAt: string;

@@ -25,15 +25,21 @@ import { NotifyModule } from './notify/notify.module';
 import { Notify } from './notify/models/notify.model';
 import { AlertsModule } from './alerts/alerts.module';
 import { Alert } from './alerts/models/alert.model';
+import { Invitation } from './invitations/models/invitation.model';
+import { InvitationsModule } from './invitations/invitations.module';
+import path from 'path';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, validate }),
-    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance, Notify, Alert)),
+    TypeOrmModule.forRootAsync(getORMConfig(User, Token, Training, Review, Order, Balance, Notify, Alert, Invitation)),
     ServeStaticModule.forRoot({
       rootPath: process.env.UPLOAD_DIR,
       serveRoot: process.env.SERVE_ROOT,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, process.env.STATIC_DIR),
     }),
     UsersModule,
     TrainingsModule,
@@ -45,6 +51,7 @@ import { Alert } from './alerts/models/alert.model';
     BalanceModule,
     NotifyModule,
     AlertsModule,
+    InvitationsModule,
   ],
   providers: [JwtService],
 })

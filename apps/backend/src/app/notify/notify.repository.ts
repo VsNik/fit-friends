@@ -19,7 +19,6 @@ export class NotifyRepository implements INotifyRepository {
   async findByCoachId(coachId: string): Promise<NotifyEntity[]> {
     return this.repository.find({
       where: { coachId },
-      relations: { training: true },
     });
   }
 

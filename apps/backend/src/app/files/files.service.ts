@@ -1,18 +1,18 @@
+import dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { path } from 'app-root-path';
 import { extension } from 'mime-types';
-import { ensureDir, writeFile, remove, readdir } from 'fs-extra';
-import dayjs from 'dayjs';
+import { ensureDir, writeFile, remove } from 'fs-extra';
 import { randomUUID } from 'crypto';
 import { ExpressFile, UploadType } from '@fit-friends/libs/types';
-import { getRandomInt, getUploadPath } from '@fit-friends/libs/utils';
+import { getUploadPath } from '@fit-friends/libs/utils';
 
 @Injectable()
 export class FilesService {
   constructor(private readonly configService: ConfigService) {}
 
-  async upload(file: ExpressFile, type = UploadType.Avatar): Promise<string> {
+  async upload(file: ExpressFile, type: UploadType): Promise<string> {
     if (!file) {
       return;
     }
@@ -32,13 +32,6 @@ export class FilesService {
     await writeFile(destinationFile, Buffer.from(file.buffer));
 
     return getUploadPath(`/${subDirectory}/${hashName}`);
-  }
-
-  async getRandomBgTraining() {
-    const uploadDir = `${path}/${this.configService.get('UPLOAD_DIR')}/${UploadType.BgTraining}`;
-    const imageList = await readdir(uploadDir);
-    const index = getRandomInt(1, imageList.length);
-    return getUploadPath(`${UploadType.BgTraining}/${imageList[index - 1]}`);
   }
 
   async delete(path: string): Promise<void> {

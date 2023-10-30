@@ -1,9 +1,9 @@
-import { ITraining } from '../trainings/training.interface';
-
 export interface INotify {
   id?: string;
   coachId: string;
+  coachName: string;
   subscribeEmails: string[];
-  training: ITraining;
+  trainingTitle: string;
+  trainingImage: string;
   createdAt?: string;
 }

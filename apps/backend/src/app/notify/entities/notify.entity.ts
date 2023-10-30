@@ -1,12 +1,13 @@
 import { randomUUID } from 'crypto';
 import { INotify } from '../notify.interface';
-import { ITraining } from '../../trainings/training.interface';
 
 export class NotifyEntity implements INotify {
   id: string = randomUUID();
   coachId: string;
+  coachName: string;
   subscribeEmails: string[];
-  training: ITraining;
+  trainingTitle: string;
+  trainingImage: string;
   createdAt: string = new Date().toISOString();
 
   public static create(item: INotify): NotifyEntity {

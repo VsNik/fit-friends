@@ -1,5 +1,9 @@
+import { resolve } from 'path';
+import { readdir } from 'fs-extra';
+import { UploadType } from '@fit-friends/libs/types';
+
 const TIME_ERROR = '[parseTime] Bad time string';
-const IS_NAN_ERROR = '[parseTime] Can\'t parse value count. Result is NaN.';
+const IS_NAN_ERROR = "[parseTime] Can't parse value count. Result is NaN.";
 
 export type DateTimeUnit = 's' | 'h' | 'd' | 'm' | 'y';
 export type TimeAndUnit = { value: number; unit: DateTimeUnit };
@@ -21,6 +25,20 @@ export function parseTime(time: string): TimeAndUnit {
   }
 
   return { value, unit };
+}
+
+// export async function getRandomBgTraining() {
+//   const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${UploadType.BgTraining}`;
+//   const imageList = await readdir(uploadDir);
+//   const index = getRandomInt(1, imageList.length);
+//   return `${process.env.SERVER_HOST}/${UploadType.BgTraining}/${imageList[index - 1]}`;
+// }
+
+export async function getRandomBg(bgType: UploadType.BgTraining | UploadType.BgUser) {
+  const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${bgType}`;
+  const imageList = await readdir(uploadDir);
+  const index = getRandomInt(1, imageList.length);
+  return `${process.env.SERVER_HOST}/${bgType}/${imageList[index - 1]}`;
 }
 
 export function getUploadPath(path = '') {
