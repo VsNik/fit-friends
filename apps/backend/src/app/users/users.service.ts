@@ -2,17 +2,16 @@ import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
-import {AppEvent} from '@fit-friends/libs/constants';
+import { AppEvent } from '@fit-friends/libs/constants';
+import { getRandomBg } from '@fit-friends/libs/utils';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
 import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UpdateCoachDto } from './dto/update-coach.dto';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
-import { getRandomBg } from '@fit-friends/libs/utils';
+import { UpdateDto } from './dto/update.dto';
 
 const USER_EXIST_ERROR = 'User with Email address is already exist.';
 const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
@@ -53,22 +52,33 @@ export class UsersService {
     return savedUser.toObject();
   }
 
-  async update(userId: string, dto: UpdateUserDto | UpdateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
+  async update(userId: string, dto: UpdateDto, fileAvatar: ExpressFile, fileCertificate: ExpressFile): Promise<IUser> {
     const existUser = await this.getUser(userId);
-    Object.assign(existUser, dto);
 
     if (fileAvatar) {
       if (existUser.avatar) {
         await this.fileService.delete(existUser.avatar);
       }
-      existUser.avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
+
+      existUser.setAvatar(
+        await this.fileService.upload(fileAvatar, UploadType.Avatar)
+      );
     }
 
-    if (fileCertificate) {
-      if (existUser.certificate) {
-        await this.fileService.delete(existUser.certificate);
+    if (existUser.role === Role.User) {
+      existUser.updateRoleUser(dto);
+    } else {
+      if (fileCertificate) {
+        if (existUser.certificate) {
+          await this.fileService.delete(existUser.certificate);
+        }
+
+        existUser.setCertificate(
+          await this.fileService.upload(fileCertificate, UploadType.Certificate)
+        );
       }
-      existUser.certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
+      
+      existUser.updateRoleCoach(dto);
     }
 
     await this.usersRepository.update(existUser);
@@ -92,10 +102,7 @@ export class UsersService {
       currentUser.followers.push(followUser);
       await this.usersRepository.save(currentUser);
 
-      this.eventEmitter.emit(
-        AppEvent.AddedToFriends,
-        new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name)
-      );
+      this.eventEmitter.emit(AppEvent.AddedToFriends, new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name));
 
       return true;
     }

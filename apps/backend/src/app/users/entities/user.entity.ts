@@ -32,13 +32,40 @@ export class UserEntity implements IUser {
   public static create(iten: Partial<IUser>): UserEntity {
     const user = new UserEntity();
     Object.assign(user, iten);
-
     return user;
   }
 
-  public update(user: Partial<IUser>): UserEntity {
-    Object.assign(this, user);
-    return this;
+  public setAvatar(avatar: string): void {
+    this.avatar = avatar;
+  }
+
+  public setCertificate(certificate: string): void {
+    this.certificate = certificate;
+  }
+
+  public updateRoleUser(item: Partial<IUser>) {
+    this.update(item);
+    this.trainingDuration = item.trainingDuration ?? this.trainingDuration;
+    this.loseCalories = item.loseCalories ?? this.loseCalories;
+    this.burnCalories = item.burnCalories ?? this.burnCalories;
+    this.ready = item.ready ?? this.ready;
+  }
+
+  public updateRoleCoach(item: Partial<IUser>) {
+    this.update(item);
+    this.merits = item.merits ?? this.merits;
+    this.personalTraining = item.personalTraining ?? this.personalTraining;
+  }
+
+  public update(item: Partial<IUser>) {
+    this.name = item.name ?? this.name;
+    this.gender = item.gender ?? this.gender;
+    this.birthDay = item.birthDay ?? this.birthDay;
+    this.bio = item.bio ?? this.bio;
+    this.location = item.location ?? this.location;
+    this.bgImage = item.bgImage ?? this.bgImage;
+    this.trainingLevel = item.trainingLevel ?? this.trainingLevel;
+    this.trainingType = item.trainingType ?? this.trainingType;
   }
 
   public toObject(): IUser {

@@ -56,7 +56,8 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async update(entity: UserEntity): Promise<void> {
-    const { id, ...toUpdate } = entity;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, following, followers, subscribing, subscribers, ...toUpdate } = entity;
     await this.repository.update({ id }, toUpdate);
   }
 

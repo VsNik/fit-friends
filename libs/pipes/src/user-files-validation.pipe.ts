@@ -17,7 +17,7 @@ interface IUserFiles {
 }
 
 @Injectable()
-export class CoachFilesValidationPipe implements PipeTransform {
+export class UserFilesValidationPipe implements PipeTransform {
   constructor(private isUpdate: boolean = false) {}
 
   transform(files: IUserFiles, metadata: ArgumentMetadata) {

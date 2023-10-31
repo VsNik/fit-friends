@@ -35,6 +35,10 @@ export class FilesService {
   }
 
   async delete(path: string): Promise<void> {
+    if (!path) {
+      return;
+    }
+    
     const filePath = path.replace(getUploadPath(), '');
     await remove(`${this.configService.get('UPLOAD_DIR')}/${filePath}`);
   }

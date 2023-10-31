@@ -1,15 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ExpressFile, Pagination, Role, UsersFilter } from '@fit-friends/libs/types';
-import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { CoachFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
-import { UpdateCoachDto } from './dto/update-coach.dto';
+import { UpdateDto } from './dto/update.dto';
 
 @Controller('users')
 export class UsersController {
@@ -36,26 +35,17 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor('avatar'))
-  @Patch('user')
-  updateUser(@Body() updateUserDto: UpdateUserDto, @UserId() userId: string, @UploadedFile() avatar: ExpressFile) {
-    return this.usersService.update(userId, updateUserDto, avatar);
-  }
-
-  @UseGuards(AuthGuard)
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'avatar', maxCount: 1 },
-      { name: 'certificate', maxCount: 1 },
-    ]),
-  )
-  @Patch('coach')
-  updateCoach(
-    @Body() dto: UpdateCoachDto,
-    @UserId() coachId: string,
-    @UploadedFiles(new CoachFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'avatar', maxCount: 1 },
+    { name: 'certificate', maxCount: 1 },
+  ]))
+  @Put()
+  async update(
+    @Body() dto: UpdateDto, 
+    @UserId() userId: string, 
+    @UploadedFiles(new UserFilesValidationPipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile }
   ) {
-    return this.usersService.update(coachId, dto, files.avatar, files.certificate);
+    return this.usersService.update(userId, dto, files.avatar, files.certificate);
   }
 
   @Roles(Role.User)

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { CoachFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateCoachDto } from './dto/create-coach.dto';
@@ -33,7 +33,7 @@ export class AuthController {
   @Post('signup-coach')
   signupCoach(
     @Body() createCoachDto: CreateCoachDto,
-    @UploadedFiles(new CoachFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
+    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
   ) {
     return this.authService.signup(createCoachDto, files.avatar, files.certificate);
   }

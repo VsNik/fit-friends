@@ -1,1 +1,1 @@
-export * from './coach-files-validation.pipe';
+export * from './user-files-validation.pipe';
