@@ -28,7 +28,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   async findById(id: string): Promise<TrainingEntity | null> {
     const training = await this.repository.findOne({
       where: { id },
-      relations: { coach: true },
+      relations: { coach: true, reviews: true },
     });
     return training ? TrainingEntity.create(training) : null;
   }
@@ -42,14 +42,7 @@ export class TrainingsRepository implements ITrainingsRepository {
 
   async getManyByCoachId(id: string, filters: TrainingFilter): Promise<[TrainingEntity[], number]> {
     const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration } = filters;
-
     const qb = this.getQueryBuilder().andWhere('user.id = :id', { id });
-
-    // const qb = this.repository
-    //   .createQueryBuilder('training')
-    //   .leftJoinAndSelect('training.coach', 'user')
-    //   .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio'])
-    //   .andWhere('user.id = :id', { id });
 
     if (priceTo) {
       qb.andWhere('training.price >= :priceTo', { priceTo });
@@ -86,15 +79,7 @@ export class TrainingsRepository implements ITrainingsRepository {
 
   async getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]> {
     const { limit, page, sorting, direction } = filter;
-
     const qb = this.getQueryBuilder().andWhere('user.id = :coachId', { coachId }).andWhere('training.ordersCount > 0');
-
-    // const qb = this.repository
-    //   .createQueryBuilder('training')
-    //   .leftJoinAndSelect('training.coach', 'user')
-    //   .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio'])
-    //   .andWhere('user.id = :coachId', { coachId })
-    //   .andWhere('training.ordersCount > 0');
 
     qb.orderBy(`training.${sorting}`, direction);
     qb.limit(limit);

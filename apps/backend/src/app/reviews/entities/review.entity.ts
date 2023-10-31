@@ -11,12 +11,20 @@ export class ReviewEntity implements IReview {
   text: string;
   createdAt: string = new Date().toISOString();
 
-  public static create(user: IUser, training: ITraining, rating: number, text: string): ReviewEntity {
+  public static create(item: IReview): ReviewEntity {
     const review = new ReviewEntity();
-    review.user = user;
-    review.training = training;
-    review.rating = rating;
-    review.text = text;
+    Object.assign(review, item);
     return review;
+  }
+
+  public toObject(): IReview {
+    return {
+      id: this.id,
+      user: this.user,
+      training: this.training,
+      rating: this.rating,
+      text: this.text,
+      createdAt: this.createdAt,
+    };
   }
 }

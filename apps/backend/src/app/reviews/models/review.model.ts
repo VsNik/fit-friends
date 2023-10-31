@@ -7,7 +7,7 @@ export class Review {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({default: 0})
   rating: number;
 
   @Column()
@@ -16,7 +16,7 @@ export class Review {
   @ManyToOne(() => User, (user) => user.reviews)
   user: User;
 
-  @ManyToOne(() => Training, (training) => training.reviews)
+  @ManyToOne(() => Training, (training) => training.reviews, {cascade: true})
   training: Training;
 
   @Column()

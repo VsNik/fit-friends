@@ -1,7 +1,8 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { randomUUID } from 'crypto';
 import { ITraining } from '../training.interface';
 import { IUser } from '../../users/user.interface';
-import { randomUUID } from 'crypto';
+import { IReview } from '../../reviews/review.interface';
 
 export class TrainingEntity implements ITraining {
   id: string = randomUUID();
@@ -20,6 +21,7 @@ export class TrainingEntity implements ITraining {
   isSpecial: boolean;
   ordersCount?: number;
   ordersSumm?: number;
+  reviews?: IReview[];
   createdAt: string = new Date().toISOString();
 
   public static create(item: Partial<ITraining>): TrainingEntity {
@@ -53,5 +55,13 @@ export class TrainingEntity implements ITraining {
   public addStatistic(count: number) {
     this.ordersCount = this.ordersCount + count;
     this.ordersSumm = this.ordersSumm + this.price * count;
+  }
+
+  public updateRating(rating: number): void {
+    if (rating > 0) {
+      const reviewCount = this.reviews.length + 1;
+      const totalRating = this.reviews.reduce((summ, review) => summ + review.rating, 0);
+      this.rating = Math.round((totalRating + rating) / reviewCount);
+    }
   }
 }
