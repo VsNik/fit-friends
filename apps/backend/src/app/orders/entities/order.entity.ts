@@ -1,8 +1,5 @@
 import { randomUUID } from 'crypto';
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
-import { IOrder } from '../order.interface';
-import { ITraining } from '../../trainings/training.interface';
-import { IUser } from '../../users/user.interface';
+import { IOrder, ITraining, IUser, OrderType, PaymentType } from '@fit-friends/libs/types';
 
 export class OrderEntity implements IOrder {
   id: string = randomUUID();

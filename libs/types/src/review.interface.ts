@@ -1,5 +1,5 @@
-import { ITraining } from '../trainings/training.interface';
-import { IUser } from '../users/user.interface';
+import { ITraining } from './training.interface';
+import { IUser } from './user.interface';
 
 export interface IReview {
   id?: string;

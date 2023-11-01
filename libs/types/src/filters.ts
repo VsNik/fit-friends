@@ -7,6 +7,11 @@ export enum UserSorting {
   Role = 'role',
 }
 
+export enum TrainingSorting {
+  Created = 'createdAt',
+  Price = 'price',
+}
+
 export enum SortDirection {
   Asc = 'ASC',
   Desc = 'DESC',
@@ -68,6 +73,7 @@ export class TrainingFilter extends Pagination {
   @IsNumber()
   caloriesFrom = 5000;
 
+  @Type(() => Number)
   @IsNumber()
   @IsOptional()
   rating: number;
@@ -75,6 +81,17 @@ export class TrainingFilter extends Pagination {
   @IsEnum(TrainingDuration, { each: true })
   @IsOptional()
   duration: TrainingDuration[];
+
+  @IsEnum(TrainingType, { each: true })
+  @IsOptional()
+  type: TrainingType[];
+
+  @IsEnum(TrainingSorting)
+  sorting: TrainingSorting = TrainingSorting.Created;
+
+  @IsEnum(SortDirection)
+  @IsOptional()
+  direction: SortDirection = SortDirection.Desc;
 }
 
 export class TrainingOrderFilter extends Pagination {

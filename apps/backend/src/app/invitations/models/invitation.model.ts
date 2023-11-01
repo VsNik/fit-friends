@@ -1,9 +1,8 @@
 import { InviteStatus } from '@fit-friends/libs/types';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { IInvitation } from '../invite.interface';
 
 @Entity('invitations')
-export class Invitation implements IInvitation {
+export class Invitation {
   @PrimaryColumn('uuid')
   id: string;
 

@@ -9,56 +9,79 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { fillObject } from '@fit-friends/libs/utils';
+import {TrainingCollectionRdo, TrainingRdo, TrainingStatisticRdo, UserRdo} from '@fit-friends/libs/rdo';
 
 @Controller('trainings')
 export class TrainingsController {
   constructor(private readonly trainingsService: TrainingsService) {}
 
-  @Roles(Role.Coach)
-  @UseGuards(RoleGuard)
+  // Каталог тренировок
+  @UseGuards(AuthGuard)
   @Get()
-  async trainingList(@UserId() coachId: string, @Query() query: TrainingFilter) {
-    const filters = plainToInstance(TrainingFilter, query);
-    const [data, count] = await this.trainingsService.all(coachId, filters);
-    return {
-      data,
-      page: filters.page,
-      total: count,
-    };
+  async list(@Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
+    const filter = plainToInstance(TrainingFilter, query);
+    const [data, total] = await this.trainingsService.list(filter);
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
+      page: filter.page,
+      total
+    });
   }
 
+  // Список тренировок тренера
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Get('list-coach')
+  async listCoach(@UserId() coachId: string, @Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
+    const filter = plainToInstance(TrainingFilter, query);
+    const [data, total] = await this.trainingsService.listCoach(coachId, filter);
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
+      page: filter.page,
+      total
+    });
+  }
+
+  // Мои заказы
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('orders')
-  async ordersList(@UserId() coachId: string, @Query() query: TrainingOrderFilter) {
+  async ordersListCoach(@UserId() coachId: string, @Query() query: TrainingOrderFilter): Promise<TrainingCollectionRdo> {
     const filter = plainToInstance(TrainingOrderFilter, query);
-    const [data, count] = await this.trainingsService.getTrainingsOrders(coachId, filter);
-    return {
-      data,
+    const [data, total] = await this.trainingsService.getTrainingsOrders(coachId, filter);
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => fillObject(TrainingStatisticRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
       page: filter.page,
-      total: count,
-    };
+      total
+    });
   }
 
+  // Создание тренировки
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
   @Post()
-  create(@Body() dto: CreateTrainingDto, @UserId() coachId: string, @UploadedFile() video: ExpressFile) {
-    return this.trainingsService.create(dto, coachId, video);
+  async create(@Body() dto: CreateTrainingDto, @UserId() coachId: string, @UploadedFile() video: ExpressFile): Promise<TrainingRdo> {
+    const training = await this.trainingsService.create(dto, coachId, video);
+    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
   }
 
+  // Редактирование тренировки
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
   @Patch(':id')
-  update(@Body() dto: UpdateTrainingDto, @Param('id') trainingId: string, @UserId() coachId: string, @UploadedFile() video: ExpressFile) {
-    return this.trainingsService.update(dto, trainingId, coachId, video);
+  async update(@Body() dto: UpdateTrainingDto, @Param('id') trainingId: string, @UserId() coachId: string, @UploadedFile() video: ExpressFile): Promise<TrainingRdo> {
+    const training = await this.trainingsService.update(dto, trainingId, coachId, video);
+    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
   }
 
+   // Детальная информация о тренировке
   @UseGuards(AuthGuard)
   @Get(':id')
-  show(@Param('id') trainingId: string) {
-    return this.trainingsService.getTraining(trainingId);
+  async show(@Param('id') trainingId: string): Promise<TrainingRdo> {
+    const training = await this.trainingsService.getTraining(trainingId);
+    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
   }
 }

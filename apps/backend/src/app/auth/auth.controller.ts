@@ -2,6 +2,8 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, U
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile } from '@fit-friends/libs/types';
 import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { CoachProfileRdo, LoggedRdo, UserProfileRdo, UserRdo } from '@fit-friends/libs/rdo';
+import { fillObject } from '@fit-friends/libs/utils';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateCoachDto } from './dto/create-coach.dto';
@@ -19,8 +21,9 @@ export class AuthController {
   @UseGuards(AnonymousGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('signup-user')
-  signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: ExpressFile) {
-    return this.authService.signup(createUserDto, avatar);
+  async signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: ExpressFile): Promise<UserProfileRdo> {
+    const createdUser = await this.authService.signup(createUserDto, avatar);
+    return fillObject(UserProfileRdo, createdUser);
   }
 
   @UseGuards(AnonymousGuard)
@@ -31,21 +34,24 @@ export class AuthController {
     ]),
   )
   @Post('signup-coach')
-  signupCoach(
+  async signupCoach(
     @Body() createCoachDto: CreateCoachDto,
     @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
-  ) {
-    return this.authService.signup(createCoachDto, files.avatar, files.certificate);
+  ): Promise<CoachProfileRdo> {
+    const createdCoach = await this.authService.signup(createCoachDto, files.avatar, files.certificate);
+    return fillObject(CoachProfileRdo, createdCoach);
   }
 
   @Post('login')
-  login(@Body() loginDto: LoginDto, @Req() req: RequestExpress) {
-    return req.accessToken ? { accessToken: req.accessToken } : this.authService.verifyUser(loginDto);
+  async login(@Body() loginDto: LoginDto, @Req() req: RequestExpress): Promise<LoggedRdo> {
+    const logged = req.accessToken ? { accessToken: req.accessToken } : await this.authService.verifyUser(loginDto);
+    return fillObject(LoggedRdo, logged);
   }
 
   @Post('refresh')
-  refresh(@Body() { refreshToken }: RefreshDto) {
-    return this.authService.verifyRefreshToken(refreshToken);
+  async refresh(@Body() { refreshToken }: RefreshDto): Promise<LoggedRdo> {
+    const logged = await this.authService.verifyRefreshToken(refreshToken);
+    return fillObject(LoggedRdo, logged);
   }
 
   @UseGuards(AuthGuard)
@@ -57,7 +63,8 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('check')
-  check(@UserId() id: string) {
-    return this.authService.findUserById(id);
+  async check(@UserId() id: string): Promise<UserRdo> {
+    const authUser = await this.authService.findUserById(id);
+    return fillObject(UserRdo, authUser);
   }
 }

@@ -12,6 +12,7 @@ import { ChangeStatusDto } from './dto/change-status.dto';
 export class InvitationsController {
   constructor(private readonly invitationsService: InvitationsService) {}
 
+  // Создание заявки на персональную/совместную тренировку
   @Roles(Role.User)
   @UseGuards(RoleGuard)
   @Post()
@@ -19,6 +20,7 @@ export class InvitationsController {
     await this.invitationsService.create(toUserId, initiatorId);
   }
 
+  // Изменение статуса заявки
   @UseGuards(AuthGuard)
   @Put(':id')
   async changeStatus(@Param('id') invitationId: string, @Body() { status }: ChangeStatusDto, @UserId() userId: string) {

@@ -9,10 +9,11 @@ import { RoleGuard } from '../auth/guards/role.guard';
 export class NotifyController {
   constructor(private readonly notifyService: NotifyService) {}
 
+  // запуска рассылки уведомлений
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get()
-  sendNotifications(@UserId() coachId: string) {
-    return this.notifyService.send(coachId);
+  async sendNotifications(@UserId() coachId: string) {
+    await this.notifyService.send(coachId);
   }
 }

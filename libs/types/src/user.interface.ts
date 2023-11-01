@@ -1,4 +1,4 @@
-import { Gender, Role, Location, TrainingLevel, TrainingType, TrainingDuration } from '@fit-friends/libs/types';
+import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from './common';
 
 export interface IUser {
   id: string;

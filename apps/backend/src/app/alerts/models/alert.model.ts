@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { IAlert } from '../alert.interface';
 
 @Entity('alerts')
-export class Alert implements IAlert {
+export class Alert {
   @PrimaryColumn('uuid')
   id: string;
 

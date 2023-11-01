@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { readdir } from 'fs-extra';
 import { UploadType } from '@fit-friends/libs/types';
+import { ClassConstructor, plainToInstance } from 'class-transformer';
 
 const TIME_ERROR = '[parseTime] Bad time string';
 const IS_NAN_ERROR = "[parseTime] Can't parse value count. Result is NaN.";
@@ -49,4 +50,8 @@ export function getUploadPath(path = '') {
 export function getRandomInt(min: number, max: number): number {
   const random = min + Math.random() * (max + 1 - min);
   return Math.floor(random);
+}
+
+export function fillObject<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
+  return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
 }

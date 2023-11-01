@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { INotify } from '../notify.interface';
 
 @Entity('notifications')
-export class Notify implements INotify {
+export class Notify {
   @PrimaryColumn('uuid')
   id: string;
 

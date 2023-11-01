@@ -1,13 +1,12 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ExpressFile, TrainingFilter, TrainingOrderFilter, UploadType } from '@fit-friends/libs/types';
+import { ExpressFile, ITraining, TrainingFilter, TrainingOrderFilter, UploadType } from '@fit-friends/libs/types';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { ITrainingsRepository, TRAININGS_REPO } from './entities/trainings-repository.interface';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UsersService } from '../users/users.service';
 import { TrainingEntity } from './entities/training.entity';
-import { ITraining } from './training.interface';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { FilesService } from '../files/files.service';
 import { TrainingCreatedEvent } from './events/training-created.event';
@@ -24,8 +23,13 @@ export class TrainingsService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async all(coachId: string, filters: TrainingFilter): Promise<[ITraining[], number]> {
-    const [data, count] = await this.trainingsRepository.getManyByCoachId(coachId, filters);
+  async list(filters: TrainingFilter): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getManyByCoachId(filters);
+    return [data.map((item) => item.toObject()), count];
+  }
+
+  async listCoach(coachId: string, filters: TrainingFilter): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getManyByCoachId(filters, coachId);
     return [data.map((item) => item.toObject()), count];
   }
 

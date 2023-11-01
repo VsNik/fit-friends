@@ -9,31 +9,36 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateDto } from './dto/update.dto';
+import { fillObject } from '@fit-friends/libs/utils';
+import { UserCollectionRdo, UserRdo } from '@fit-friends/libs/rdo';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(RoleGuard)
+  // Список (каталог) пользователей
   @Roles(Role.User)
+  @UseGuards(RoleGuard)  
   @Get()
-  async allUsers(@Query() query: UsersFilter) {
+  async usersList(@Query() query: UsersFilter): Promise<UserCollectionRdo> {
     const filter = plainToInstance(UsersFilter, query);
     const [data, total] = await this.usersService.all(filter);
-    return {
-      data,
+    return fillObject(UserCollectionRdo, {
+      data: data.map((user) => fillObject(UserRdo, user)),
       page: filter.page,
       total,
-    };
+    });
   }
 
+  // Детальная информация о пользователе (Карточка пользователя)
   @UseGuards(AuthGuard)
   @Get('show/:id')
-  async show(@Param('id') id: string) {
+  async userDetail(@Param('id') id: string): Promise<UserRdo> {
     const user = await this.usersService.getUser(id);
-    return user.toObject();
+    return fillObject(UserRdo, user);
   }
 
+  // Редактирование информации о пользователе / тренере
   @UseGuards(AuthGuard)
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'avatar', maxCount: 1 },
@@ -44,10 +49,12 @@ export class UsersController {
     @Body() dto: UpdateDto, 
     @UserId() userId: string, 
     @UploadedFiles(new UserFilesValidationPipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile }
-  ) {
-    return this.usersService.update(userId, dto, files.avatar, files.certificate);
+  ): Promise<UserRdo> {
+    const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
+    return fillObject(UserRdo, user);
   }
 
+  // Добавить в друзья / удалить из друзей
   @Roles(Role.User)
   @UseGuards(RoleGuard)
   @Post('follow/:id')
@@ -56,30 +63,35 @@ export class UsersController {
     return { success: result };
   }
 
-  @UseGuards(AuthGuard)
+  // Список друзей тренера
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
   @Get('followings')
-  async getFollowing(@UserId() userId: string, @Query() query: Pagination) {
+  async getFollowing(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.usersService.getFollowing(userId, pagination);
-    return {
-      data,
+    return fillObject(UserCollectionRdo, {
+      data: data.map((user) => fillObject(UserRdo, user)),
       page: pagination.page,
       total,
-    };
+    });
   }
 
-  @UseGuards(AuthGuard)
+  // Список друзей пользователя
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
   @Get('followers')
-  async getFollowers(@UserId() userId: string, @Query() query: Pagination) {
+  async getFollowers(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.usersService.getFollowers(userId, pagination);
-    return {
-      data,
+    return fillObject(UserCollectionRdo, {
+      data: data.map((user) => fillObject(UserRdo, user)),
       page: pagination.page,
       total,
-    };
+    });
   }
 
+  // Подписатся / отписатся на новые тренеровки тренера
   @Roles(Role.User)
   @UseGuards(RoleGuard)
   @Post('subscribe/:id')

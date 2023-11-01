@@ -1,4 +1,4 @@
-import { ITraining } from '../trainings/training.interface';
+import { ITraining } from './training.interface';
 
 export interface IBalance {
   id?: string;

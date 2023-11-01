@@ -4,8 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
-import { ITraining } from './training.interface';
+import { ITraining, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
 
 const TRAINING_NOT_FOUND_ERROR = 'Training not found';
 
@@ -40,9 +39,13 @@ export class TrainingsRepository implements ITrainingsRepository {
     return this.findById(id);
   }
 
-  async getManyByCoachId(id: string, filters: TrainingFilter): Promise<[TrainingEntity[], number]> {
-    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration } = filters;
-    const qb = this.getQueryBuilder().andWhere('user.id = :id', { id });
+  async getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]> {
+    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration, type, sorting, direction } = filters;
+    const qb = this.getQueryBuilder();
+
+    if (coachId) {
+      qb.andWhere('user.id = :coachId', { coachId });
+    }
 
     if (priceTo) {
       qb.andWhere('training.price >= :priceTo', { priceTo });
@@ -69,7 +72,12 @@ export class TrainingsRepository implements ITrainingsRepository {
       qb.andWhere('training.duration IN (:...durations)', { durations });
     }
 
-    qb.orderBy(`training.createdAt`, 'DESC');
+    if (type) {
+      const types = Array.isArray(type) ? type : [type];
+      qb.andWhere('training.type IN (:...types)', { types });
+    }
+
+    qb.orderBy(`training.${sorting}`, direction);
     qb.limit(limit);
     qb.offset(limit * (page - 1));
 
@@ -92,7 +100,6 @@ export class TrainingsRepository implements ITrainingsRepository {
   private getQueryBuilder(): SelectQueryBuilder<ITraining> {
     return this.repository
       .createQueryBuilder('training')
-      .leftJoinAndSelect('training.coach', 'user')
-      .select(['training', 'user.id', 'user.name', 'user.email', 'user.avatar', 'user.bio']);
+      .leftJoinAndSelect('training.coach', 'user');
   }
 }

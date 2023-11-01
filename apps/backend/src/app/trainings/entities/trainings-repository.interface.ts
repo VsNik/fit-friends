@@ -6,7 +6,7 @@ export interface ITrainingsRepository {
   save(entity: TrainingEntity): Promise<TrainingEntity>;
   findById(id: string): Promise<TrainingEntity | null>;
   update(entity: TrainingEntity): Promise<TrainingEntity>;
-  getManyByCoachId(id: string, filters: TrainingFilter): Promise<[TrainingEntity[], number]>;
+  getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]>;
   getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]>;
 }
 

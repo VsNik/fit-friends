@@ -1,5 +1,5 @@
+import { INotify } from '@fit-friends/libs/types';
 import { randomUUID } from 'crypto';
-import { INotify } from '../notify.interface';
 
 export class NotifyEntity implements INotify {
   id: string = randomUUID();

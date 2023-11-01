@@ -1,4 +1,4 @@
-import { InviteStatus } from '@fit-friends/libs/types';
+import { InviteStatus } from './common';
 
 export interface IInvitation {
   id?: string;

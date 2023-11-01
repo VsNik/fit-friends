@@ -1,13 +1,13 @@
 import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ExpressFile, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
+import { ExpressFile, IUser, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
-import { IUser } from './user.interface';
+// import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';

@@ -45,25 +45,10 @@ export default class DbSeeder implements Seeder {
         await Promise.all(
           orders.map(async (order) => {
             const training = order.training;
-            // const training = trainings.find((item) => item.id === order.training.id);
             training.ordersCount += order.count;
             training.ordersSumm += order.totalPrice;
             const {id, ...toUpdate} = training;
             await trainingsRepository.update({id}, toUpdate);
-          }),
-        );
-
-        await Promise.all(
-          reviews.map(async (review) => {            
-            if (review.rating > 0) {
-              const training = review.training;
-              // const training = trainings.find((item) => item.id === review.training.id);
-              const reviewCount = training.reviews.length + 1;
-              const totalRating = training.reviews.reduce((summ, review) => summ + review.rating, 0);
-              training.rating = Math.round((totalRating + review.rating) / reviewCount);
-              const {id, ...toUpdate} = training;
-              await trainingsRepository.update({id}, toUpdate);
-            }
           }),
         );
       }

@@ -1,9 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Training } from '../../trainings/models/training.model';
-import { IBalance } from '../balance.intrface';
 
 @Entity('balans')
-export class Balance implements IBalance {
+export class Balance {
   @PrimaryColumn('uuid')
   id: string;
 

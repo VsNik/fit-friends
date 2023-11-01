@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Alert } from './models/alert.model';
 import { Repository } from 'typeorm';
 import { AlertEntity } from './entities/alert.entity';
+import { Pagination } from '@fit-friends/libs/types';
 
 const ALERTS_SHOW_COUNT = 5;
 
@@ -14,30 +15,21 @@ export class AlertsRepository implements IAlertsRepository {
     private readonly repository: Repository<Alert>,
   ) {}
 
-  async has(fromUserId: string, userId: string): Promise<boolean> {
-    const count = await this.repository.count({
-      where: {
-        fromUserId,
-        userId,
-      },
-    });
-
-    return count > 0;
-  }
-
   async save(entity: AlertEntity): Promise<AlertEntity> {
     return this.repository.save(entity);
   }
 
-  async findByUserId(userId: string): Promise<AlertEntity[]> {
-    const alerts = await this.repository.find({
+  async findByUserId(userId: string, pagination: Pagination): Promise<[AlertEntity[], number]> {
+    const {limit = ALERTS_SHOW_COUNT, page} = pagination;
+    const [data, count] = await this.repository.findAndCount({
       where: { userId },
       order: {
         createdAt: 'DESC',
       },
-      take: ALERTS_SHOW_COUNT,
+      take: limit,
+      skip: limit * (page - 1),
     });
-    return alerts.map((alert) => AlertEntity.create(alert));
+    return [data.map((alert) => AlertEntity.create(alert)), count];
   }
 
   async findById(id: string): Promise<AlertEntity | null> {

@@ -1,10 +1,11 @@
-import { balanceEntity } from './balance.entity';
+import { Pagination } from '@fit-friends/libs/types';
+import { BalanceEntity } from './balance.entity';
 
 export interface IBalanceRepository {
-  getAllByUserId(userId: string): Promise<[balanceEntity[], number]>;
-  findByTrainingId(trainingId: string): Promise<balanceEntity | null>;
-  save(entity: balanceEntity): Promise<balanceEntity>;
-  update(entity: balanceEntity): Promise<void>;
+  getManyByUserId(userId: string, pagination: Pagination): Promise<[BalanceEntity[], number]>;
+  findByTrainingId(trainingId: string): Promise<BalanceEntity | null>;
+  save(entity: BalanceEntity): Promise<BalanceEntity>;
+  update(entity: BalanceEntity): Promise<void>;
 }
 
 export const BALANCE_REPO = Symbol('BALANCE_REPO');

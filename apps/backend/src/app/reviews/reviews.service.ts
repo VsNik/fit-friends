@@ -4,8 +4,7 @@ import { UsersService } from '../users/users.service';
 import { TrainingsService } from '../trainings/trainings.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewEntity } from './entities/review.entity';
-import { Pagination } from '@fit-friends/libs/types';
-import { IReview } from './review.interface';
+import { IReview, Pagination } from '@fit-friends/libs/types';
 
 const TRAINING_NOT_FOUND_ERROR = 'Training not found.';
 const UNAUTHORIZED_ERROR = 'Unauthorized.';

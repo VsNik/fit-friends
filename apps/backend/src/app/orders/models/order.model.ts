@@ -2,10 +2,9 @@ import { OrderType, PaymentType } from '@fit-friends/libs/types';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from '../../users/models/user.model';
 import { Training } from '../../trainings/models/training.model';
-import { IOrder } from '../order.interface';
 
 @Entity('orders')
-export class Order implements IOrder {
+export class Order {
   @PrimaryColumn('uuid')
   id: string;
 

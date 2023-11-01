@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Alert } from './models/alert.model';
 import { IAlertsRepository } from './entities/alerts-repository.interface';
 import { AlertEntity } from './entities/alert.entity';
-import { IAlert } from './alert.interface';
+import { IAlert, Pagination } from '@fit-friends/libs/types';
 
 const ALERT_NOT_FOUND_ERROR = 'Alert not found.';
 const NOT_YOUR_ALERT_ERROR = 'this not your alert';
@@ -15,9 +15,9 @@ export class AlertsService {
     private readonly alertsRepository: IAlertsRepository,
   ) {}
 
-  async find(currentUserId: string): Promise<IAlert[]> {
-    const alerts = await this.alertsRepository.findByUserId(currentUserId);
-    return alerts.map((alert) => alert.toObject());
+  async getByUserId(currentUserId: string, pagination: Pagination): Promise<[IAlert[], number]> {
+    const [data, count] = await this.alertsRepository.findByUserId(currentUserId, pagination);
+    return [data.map((alert) => alert.toObject()), count];
   }
 
   async create(fromUserId: string, userId: string, text: string): Promise<void> {

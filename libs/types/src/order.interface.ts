@@ -1,6 +1,6 @@
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
-import { ITraining } from '../trainings/training.interface';
-import { IUser } from '../users/user.interface';
+import { OrderType, PaymentType } from './common';
+import { ITraining } from './training.interface';
+import { IUser } from './user.interface';
 
 export interface IOrder {
   id?: string;

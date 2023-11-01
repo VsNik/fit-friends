@@ -2,11 +2,10 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { UsersService } from '../users/users.service';
 import { CreateCoachDto } from './dto/create-coach.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { IUser } from '../users/user.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokensService } from '../tokens/tokens.service';
-import { IAuthToken, IRefreshTokenPayload } from '@fit-friends/libs/types';
+import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/libs/types';
 import { LoginDto } from './dto/login.dto';
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';

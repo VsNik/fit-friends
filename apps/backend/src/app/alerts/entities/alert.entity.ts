@@ -1,5 +1,5 @@
+import { IAlert } from '@fit-friends/libs/types';
 import { randomUUID } from 'crypto';
-import { IAlert } from '../alert.interface';
 
 export class AlertEntity implements IAlert {
   id: string = randomUUID();

@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ITraining } from '../trainings/training.interface';
-import { balanceEntity } from './entities/balance.entity';
+import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
+import { IBalance, ITraining, Pagination } from '@fit-friends/libs/types';
 
 const TRAINING_NOT_FOUND_ERROR = 'Training not found';
 const TRAININGS_COUNT_ERROR = 'Available number of trainings is less than those written off';
@@ -13,12 +13,12 @@ export class BalanceService {
     private readonly balanceRepository: IBalanceRepository,
   ) {}
 
-  async getAllByUserId(userId: string) {
-    const [data, count] = await this.balanceRepository.getAllByUserId(userId);
-    return [data, count];
+  async getManyByUserId(userId: string, pagination: Pagination): Promise<[IBalance[], number]> {
+    const [data, count] = await this.balanceRepository.getManyByUserId(userId, pagination);
+    return [data.map((item) => item.toObject()), count];
   }
 
-  async admission(userId: string, training: ITraining, count: number) {
+  async add(userId: string, training: ITraining, count: number) {
     const existTBalance = await this.balanceRepository.findByTrainingId(training.id);
 
     if (existTBalance && existTBalance.userId === userId) {
@@ -27,24 +27,31 @@ export class BalanceService {
       return existTBalance;
     }
 
-    const balance = balanceEntity.create({ userId, training, count });
+    const balance = BalanceEntity.create({ userId, training, count });
     const savedBalance = await this.balanceRepository.save(balance);
     return savedBalance;
   }
 
-  async dismission(userId: string, trainingId: string, count: number) {
-    const balance = await this.getByTriningId(trainingId, userId);
+  async admission(userId: string, trainingId: string, count: number) {
+    const existTBalance = await this.getByTriningId(trainingId, userId);
+    existTBalance.admission(count);
+    await this.balanceRepository.update(existTBalance);
+    return existTBalance;
+  }
 
-    if (balance.count < count) {
+  async dismission(userId: string, trainingId: string, count: number) {
+    const existTBalance = await this.getByTriningId(trainingId, userId);
+
+    if (existTBalance.count < count) {
       throw new BadRequestException(TRAININGS_COUNT_ERROR);
     }
 
-    balance.dismission(count);
-    await this.balanceRepository.update(balance);
-    return balance;
+    existTBalance.dismission(count);
+    await this.balanceRepository.update(existTBalance);
+    return existTBalance;
   }
 
-  async getByTriningId(trainingId: string, currentUserId: string): Promise<balanceEntity> {
+  async getByTriningId(trainingId: string, currentUserId: string): Promise<BalanceEntity> {
     const balance = await this.balanceRepository.findByTrainingId(trainingId);
     if (!balance || balance.userId !== currentUserId) {
       throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);

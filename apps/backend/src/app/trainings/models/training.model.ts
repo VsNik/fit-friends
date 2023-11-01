@@ -1,6 +1,5 @@
-import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, ITraining, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
-import { ITraining } from '../training.interface';
 import { User } from '../../users/models/user.model';
 import { Review } from '../../reviews/models/review.model';
 import { Order } from '../../orders/models/order.model';

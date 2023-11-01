@@ -18,7 +18,7 @@ export class OrdersService {
     private readonly balanceService: BalanceService,
   ) {}
 
-  async create(dto: CreateOrderDto, trainingId: string, userId: string) {
+  async create({ count }: CreateOrderDto, trainingId: string, userId: string) {
     const user = await this.usersService.getUser(userId);
     const training = await this.trainingsService.findById(trainingId);
     if (!training) {
@@ -26,13 +26,13 @@ export class OrdersService {
     }
 
     const price = training.price;
-    const totalPrice = price * dto.count;
-    training.addStatistic(dto.count);
+    const totalPrice = price * count;
+    training.addStatistic(count);
 
-    const orderEntity = OrderEntity.create({ ...dto, price, totalPrice, user, training });
+    const orderEntity = OrderEntity.create({ count, price, totalPrice, user, training });
     const savedOrder = await this.ordersRepository.create(orderEntity);
 
-    await this.balanceService.admission(userId, training, dto.count);
+    await this.balanceService.add(userId, training, count);
 
     await this.trainingsService.updateTraining(training);
     return savedOrder.toObject();
