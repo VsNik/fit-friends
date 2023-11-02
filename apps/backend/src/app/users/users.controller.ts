@@ -9,7 +9,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateDto } from './dto/update.dto';
-import { fillObject } from '@fit-friends/libs/utils';
+import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { UserCollectionRdo, UserRdo } from '@fit-friends/libs/rdo';
 
 @Controller('users')
@@ -21,7 +21,8 @@ export class UsersController {
   @UseGuards(RoleGuard)  
   @Get()
   async usersList(@Query() query: UsersFilter): Promise<UserCollectionRdo> {
-    const filter = plainToInstance(UsersFilter, query);
+    const limit = getLimit(query.limit);
+    const filter = plainToInstance(UsersFilter, {...query, limit});
     const [data, total] = await this.usersService.all(filter);
     return fillObject(UserCollectionRdo, {
       data: data.map((user) => fillObject(UserRdo, user)),
@@ -68,7 +69,8 @@ export class UsersController {
   @UseGuards(RoleGuard)
   @Get('followings')
   async getFollowing(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
-    const pagination = plainToInstance(Pagination, query);
+    const limit = getLimit(query.limit);
+    const pagination = plainToInstance(Pagination, {...query, limit});
     const [data, total] = await this.usersService.getFollowing(userId, pagination);
     return fillObject(UserCollectionRdo, {
       data: data.map((user) => fillObject(UserRdo, user)),
@@ -82,7 +84,8 @@ export class UsersController {
   @UseGuards(RoleGuard)
   @Get('followers')
   async getFollowers(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
-    const pagination = plainToInstance(Pagination, query);
+    const limit = getLimit(query.limit);
+    const pagination = plainToInstance(Pagination, {...query, limit});
     const [data, total] = await this.usersService.getFollowers(userId, pagination);
     return fillObject(UserCollectionRdo, {
       data: data.map((user) => fillObject(UserRdo, user)),

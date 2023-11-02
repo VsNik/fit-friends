@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { readdir } from 'fs-extra';
 import { UploadType } from '@fit-friends/libs/types';
+import {MAX_LIMIT} from '@fit-friends/libs/validation';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 
 const TIME_ERROR = '[parseTime] Bad time string';
@@ -28,13 +29,6 @@ export function parseTime(time: string): TimeAndUnit {
   return { value, unit };
 }
 
-// export async function getRandomBgTraining() {
-//   const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${UploadType.BgTraining}`;
-//   const imageList = await readdir(uploadDir);
-//   const index = getRandomInt(1, imageList.length);
-//   return `${process.env.SERVER_HOST}/${UploadType.BgTraining}/${imageList[index - 1]}`;
-// }
-
 export async function getRandomBg(bgType: UploadType.BgTraining | UploadType.BgUser) {
   const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${bgType}`;
   const imageList = await readdir(uploadDir);
@@ -54,4 +48,8 @@ export function getRandomInt(min: number, max: number): number {
 
 export function fillObject<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
+}
+
+export function getLimit(limit: number) {
+  return limit > MAX_LIMIT ? MAX_LIMIT : limit;
 }

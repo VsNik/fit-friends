@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuar
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile, ITraining, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
-import { fillObject } from '@fit-friends/libs/utils';
+import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { VideoValidatePipe } from '@fit-friends/libs/pipes';
 import { TrainingsService } from './trainings.service';
@@ -49,7 +49,8 @@ export class TrainingsController {
   @UseGuards(RoleGuard)
   @Get('orders')
   async ordersListCoach(@UserId() coachId: string, @Query() query: TrainingOrderFilter): Promise<TrainingCollectionRdo> {
-    const filter = plainToInstance(TrainingOrderFilter, query);
+    const limit = getLimit(query.limit);
+    const filter = plainToInstance(TrainingOrderFilter, {...query, limit});
     const [data, total] = await this.trainingsService.getTrainingsOrders(coachId, filter);
     return fillObject(TrainingCollectionRdo, {
       data: data.map((training) => fillObject(TrainingStatisticRdo, { ...training, coach: fillObject(UserRdo, training.coach) })),

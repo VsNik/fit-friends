@@ -39,7 +39,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   }
 
   async getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]> {
-    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration, type, sorting, direction } = filters;
+    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration, type, sorting, direction } = filters;  
     const qb = this.getQueryBuilder();
 
     if (coachId) {

@@ -7,7 +7,7 @@ import { RoleGuard } from '../auth/guards/role.guard';
 import { IReview, Pagination, Role } from '@fit-friends/libs/types';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { fillObject } from '@fit-friends/libs/utils';
+import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { ReviewCollectionRdo, ReviewRdo, TrainingRdo, UserRdo } from '@fit-friends/libs/rdo';
 
 @Controller('reviews')
@@ -27,7 +27,8 @@ export class ReviewsController {
   @UseGuards(AuthGuard)
   @Get(':id')
   async getForTraining(@Param('id') trainingId: string, @UserId() currentUserId: string, @Query() query: Pagination) {
-    const pagination = plainToInstance(Pagination, query);
+    const limit = getLimit(query.limit);
+    const pagination = plainToInstance(Pagination, {...query, limit});
     const [data, total] = await this.reviewsService.getForTraining(trainingId, currentUserId, pagination);
     return fillObject(ReviewCollectionRdo, {
       data: data.map((review) => this.mapReview(review)),

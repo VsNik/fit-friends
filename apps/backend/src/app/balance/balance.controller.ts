@@ -6,7 +6,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { IBalance, Pagination, Role } from '@fit-friends/libs/types';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { plainToInstance } from 'class-transformer';
-import { fillObject } from '@fit-friends/libs/utils';
+import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { BalanceCollectionRdo, BalanceRdo, TrainingRdo } from '@fit-friends/libs/rdo';
 
 @Roles(Role.User)
@@ -18,7 +18,8 @@ export class BalanceController {
   // общий баланса: количество доступных тренировок.
   @Get()
   async all(@UserId() currentUserId: string, @Query() query: Pagination) {
-    const pagination = plainToInstance(Pagination, query);
+    const limit = getLimit(query.limit);
+    const pagination = plainToInstance(Pagination, {...query, limit});
     const [data, total] = await this.balanceService.getManyByUserId(currentUserId, pagination);
     return fillObject(BalanceCollectionRdo, {
       data: data.map((balance) => this.mapBalance(balance)),
