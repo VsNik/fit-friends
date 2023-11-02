@@ -1,7 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ExpressFile, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { ExpressFile, ITraining, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { fillObject } from '@fit-friends/libs/utils';
+import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
+import { VideoValidatePipe } from '@fit-friends/libs/pipes';
 import { TrainingsService } from './trainings.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UserId } from '../auth/decorators/user-id.decorator';
@@ -9,8 +12,6 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { fillObject } from '@fit-friends/libs/utils';
-import {TrainingCollectionRdo, TrainingRdo, TrainingStatisticRdo, UserRdo} from '@fit-friends/libs/rdo';
 
 @Controller('trainings')
 export class TrainingsController {
@@ -23,9 +24,9 @@ export class TrainingsController {
     const filter = plainToInstance(TrainingFilter, query);
     const [data, total] = await this.trainingsService.list(filter);
     return fillObject(TrainingCollectionRdo, {
-      data: data.map((training) => fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
+      data: data.map((training) => this.mapTraining(training)),
       page: filter.page,
-      total
+      total,
     });
   }
 
@@ -37,9 +38,9 @@ export class TrainingsController {
     const filter = plainToInstance(TrainingFilter, query);
     const [data, total] = await this.trainingsService.listCoach(coachId, filter);
     return fillObject(TrainingCollectionRdo, {
-      data: data.map((training) => fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
+      data: data.map((training) => this.mapTraining(training)),
       page: filter.page,
-      total
+      total,
     });
   }
 
@@ -51,9 +52,9 @@ export class TrainingsController {
     const filter = plainToInstance(TrainingOrderFilter, query);
     const [data, total] = await this.trainingsService.getTrainingsOrders(coachId, filter);
     return fillObject(TrainingCollectionRdo, {
-      data: data.map((training) => fillObject(TrainingStatisticRdo, {...training, coach: fillObject(UserRdo, training.coach)})),
+      data: data.map((training) => fillObject(TrainingStatisticRdo, { ...training, coach: fillObject(UserRdo, training.coach) })),
       page: filter.page,
-      total
+      total,
     });
   }
 
@@ -62,9 +63,13 @@ export class TrainingsController {
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
   @Post()
-  async create(@Body() dto: CreateTrainingDto, @UserId() coachId: string, @UploadedFile() video: ExpressFile): Promise<TrainingRdo> {
+  async create(
+    @Body() dto: CreateTrainingDto,
+    @UserId() coachId: string,
+    @UploadedFile(new VideoValidatePipe()) video: ExpressFile,
+  ): Promise<TrainingRdo> {
     const training = await this.trainingsService.create(dto, coachId, video);
-    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
+    return this.mapTraining(training);
   }
 
   // Редактирование тренировки
@@ -72,16 +77,25 @@ export class TrainingsController {
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
   @Patch(':id')
-  async update(@Body() dto: UpdateTrainingDto, @Param('id') trainingId: string, @UserId() coachId: string, @UploadedFile() video: ExpressFile): Promise<TrainingRdo> {
+  async update(
+    @Body() dto: UpdateTrainingDto,
+    @Param('id') trainingId: string,
+    @UserId() coachId: string,
+    @UploadedFile(new VideoValidatePipe(true)) video: ExpressFile,
+  ): Promise<TrainingRdo> {
     const training = await this.trainingsService.update(dto, trainingId, coachId, video);
-    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
+    return this.mapTraining(training);
   }
 
-   // Детальная информация о тренировке
+  // Детальная информация о тренировке
   @UseGuards(AuthGuard)
   @Get(':id')
   async show(@Param('id') trainingId: string): Promise<TrainingRdo> {
     const training = await this.trainingsService.getTraining(trainingId);
-    return fillObject(TrainingRdo, {...training, coach: fillObject(UserRdo, training.coach)});
+    return this.mapTraining(training);
+  }
+
+  private mapTraining(training: ITraining): TrainingRdo {
+    return fillObject(TrainingRdo, { ...training, coach: fillObject(UserRdo, training.coach) });
   }
 }

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ExpressFile, Pagination, Role, UsersFilter } from '@fit-friends/libs/types';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
 import { UserId } from '../auth/decorators/user-id.decorator';
@@ -48,7 +48,7 @@ export class UsersController {
   async update(
     @Body() dto: UpdateDto, 
     @UserId() userId: string, 
-    @UploadedFiles(new UserFilesValidationPipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile }
+    @UploadedFiles(new UserFilesValidatePipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile }
   ): Promise<UserRdo> {
     const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
     return fillObject(UserRdo, user);

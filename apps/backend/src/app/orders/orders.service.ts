@@ -5,8 +5,7 @@ import { TrainingsService } from '../trainings/trainings.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderEntity } from './entities/order.entity';
 import { BalanceService } from '../balance/balance.service';
-
-const TRAINING_NOT_FOUND_ERROR = 'Training not found';
+import { TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class OrdersService {

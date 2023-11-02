@@ -5,9 +5,7 @@ import { TrainingsService } from '../trainings/trainings.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewEntity } from './entities/review.entity';
 import { IReview, Pagination } from '@fit-friends/libs/types';
-
-const TRAINING_NOT_FOUND_ERROR = 'Training not found.';
-const UNAUTHORIZED_ERROR = 'Unauthorized.';
+import { TRAINING_NOT_FOUND_ERROR, UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class ReviewsService {

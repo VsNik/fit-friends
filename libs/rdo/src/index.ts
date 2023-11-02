@@ -14,6 +14,7 @@ export * from './reviews/review-collection.rdo';
 export * from './orders/order.rdo';
 
 export * from './alerts/alert.rdo';
+export * from './alerts/alert-collection.rdo';
 
 export * from './balance/balance.rdo';
 export * from './balance/balance-collection.rdo';

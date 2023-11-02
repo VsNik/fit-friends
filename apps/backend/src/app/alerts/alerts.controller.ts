@@ -4,6 +4,8 @@ import { plainToInstance } from 'class-transformer';
 import { AlertsService } from './alerts.service';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { fillObject } from '@fit-friends/libs/utils';
+import {AlertCollectionRdo, AlertRdo} from '@fit-friends/libs/rdo';
 
 @Controller('alerts')
 export class AlertsController {
@@ -15,11 +17,11 @@ export class AlertsController {
   async listByUser(@UserId() currentUserId: string, @Query() query: Pagination) {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.alertsService.getByUserId(currentUserId, pagination);
-    return {
-      data,
+    return fillObject(AlertCollectionRdo, {
+      data: data.map((alert) => fillObject(AlertRdo, alert)),
       page: pagination.page,
       total,
-    };
+    });
   }
 
   // Удалить оповещение

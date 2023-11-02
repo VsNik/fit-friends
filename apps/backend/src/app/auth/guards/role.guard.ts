@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { RequestExpress } from '../types/request-express';
 import { Role } from '@fit-friends/libs/types';
 import { ROLES_KEY } from '../decorators/roles.decorator';
+import { UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
@@ -12,7 +13,7 @@ export class RoleGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<RequestExpress>();
 
     if (!request.role) {
-      throw new UnauthorizedException('unauthorized');
+      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
 
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [context.getHandler(), context.getClass()]);

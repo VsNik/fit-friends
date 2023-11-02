@@ -10,8 +10,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { FilesService } from '../files/files.service';
 import { TrainingCreatedEvent } from './events/training-created.event';
-
-const NOT_OWNER_ERROR = 'Your is not owner this training';
+import { NOT_OWNER_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class TrainingsService {

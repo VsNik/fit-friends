@@ -2,9 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
 import { IBalance, ITraining, Pagination } from '@fit-friends/libs/types';
-
-const TRAINING_NOT_FOUND_ERROR = 'Training not found';
-const TRAININGS_COUNT_ERROR = 'Available number of trainings is less than those written off';
+import { TRAININGS_COUNT_ERROR, TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class BalanceService {

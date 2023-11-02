@@ -11,7 +11,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || DEFAULT_PORT;
   app.setGlobalPrefix(PREFIX);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
   await app.listen(port);
 
   Logger.log(`🚀 Backend is running on: http://localhost:${port}/${PREFIX}`, 'App');

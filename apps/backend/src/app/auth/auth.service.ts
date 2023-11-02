@@ -9,10 +9,7 @@ import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/libs/types
 import { LoginDto } from './dto/login.dto';
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
-
-const CREDENTIALS_ERROR = 'Invalid Email address and / or Password';
-const USER_NOT_FOUND_ERROR = 'User not found';
-const UNAUTORIZED_ERROR = 'Unauthorized';
+import { CREDENTIALS_ERROR, UNAUTHORIZED_ERROR, USER_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class AuthService {
@@ -83,14 +80,14 @@ export class AuthService {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
     } catch {
-      throw new UnauthorizedException(UNAUTORIZED_ERROR);
+      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
   }
 
   private async removeSession(sessionId: string): Promise<void> {
     const existToken = await this.tokensService.isExist(sessionId);
     if (!existToken) {
-      throw new UnauthorizedException(UNAUTORIZED_ERROR);
+      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
     await this.tokensService.deleteRefreshSession(sessionId);
   }

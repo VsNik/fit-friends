@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InviteStatus } from '@fit-friends/libs/types';
 import { AppEvent } from '@fit-friends/libs/constants';
@@ -7,6 +7,7 @@ import { UsersService } from '../users/users.service';
 import { InvitationEntity } from './entities/invitation.entity';
 import { InviteCreatedEvent } from './events/invite-created.event';
 import { InviteStatusChangedEvent } from './events/invite-status-changed.event';
+import { INVITATION_NOT_FOUND, SELF_INVITE_ERROR, UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class InvitationsService {
@@ -18,6 +19,10 @@ export class InvitationsService {
   ) {}
 
   async create(toUserId: string, initiatorId: string) {
+    if (initiatorId === toUserId) {
+      throw new BadRequestException(SELF_INVITE_ERROR);
+    }
+
     const toUser = await this.usersService.getUser(toUserId);
     const initiatorUser = await this.usersService.findById(initiatorId);
 
@@ -42,12 +47,12 @@ export class InvitationsService {
   async changeStatus(invitationId: string, status: InviteStatus, userId: string) {
     const user = await this.usersService.findById(userId);
     if (!user) {
-      throw new UnauthorizedException('Unauthorized');
+      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
 
     const invitation = await this.invitationsRepository.findById(invitationId);
     if (!invitation) {
-      throw new NotFoundException('Invitation not found');
+      throw new NotFoundException(INVITATION_NOT_FOUND);
     }
 
     invitation.changeStatus(status);

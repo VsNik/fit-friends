@@ -19,7 +19,8 @@
       "@fit-friends/libs/pipes": ["libs/pipes/src/index.ts"],
       "@fit-friends/libs/rdo": ["libs/rdo/src/index.ts"],
       "@fit-friends/libs/types": ["libs/types/src/index.ts"],
-      "@fit-friends/libs/utils": ["libs/utils/src/index.ts"]
+      "@fit-friends/libs/utils": ["libs/utils/src/index.ts"],
+      "@fit-friends/libs/validation": ["libs/validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

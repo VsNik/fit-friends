@@ -3,8 +3,9 @@ import { INotifyRepository, NOTIFY_REPO } from './entities/notify-repository.int
 import { NotifyEntity } from './entities/notify.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TrainingCreatedEvent } from '../trainings/events/training-created.event';
+import { NOTIFY_EMPTY_ERROR } from '@fit-friends/libs/validation';
 
-const NOTIFY_EMPTY_ERROR = 'Notification list is empty.';
+
 export enum MailNotify {
   Subject = 'Новые тренировки на FitFriends',
   Template = './notify',

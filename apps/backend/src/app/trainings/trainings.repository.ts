@@ -5,8 +5,7 @@ import { Training } from './models/training.model';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
 import { ITraining, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
-
-const TRAINING_NOT_FOUND_ERROR = 'Training not found';
+import { TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class TrainingsRepository implements ITrainingsRepository {

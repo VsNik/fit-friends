@@ -5,8 +5,7 @@ import { Alert } from './models/alert.model';
 import { Repository } from 'typeorm';
 import { AlertEntity } from './entities/alert.entity';
 import { Pagination } from '@fit-friends/libs/types';
-
-const ALERTS_SHOW_COUNT = 5;
+import { ALERTS_MAX_SHOW_COUNT } from '@fit-friends/libs/constants';
 
 @Injectable()
 export class AlertsRepository implements IAlertsRepository {
@@ -20,7 +19,7 @@ export class AlertsRepository implements IAlertsRepository {
   }
 
   async findByUserId(userId: string, pagination: Pagination): Promise<[AlertEntity[], number]> {
-    const {limit = ALERTS_SHOW_COUNT, page} = pagination;
+    const {limit = ALERTS_MAX_SHOW_COUNT, page} = pagination;
     const [data, count] = await this.repository.findAndCount({
       where: { userId },
       order: {

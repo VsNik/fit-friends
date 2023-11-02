@@ -2,24 +2,22 @@ import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile, IUser, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
-import { AppEvent } from '@fit-friends/libs/constants';
+import { AppEvent, PASSWORD_SALT } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { CreateCoachDto } from '../auth/dto/create-coach.dto';
-// import { IUser } from './user.interface';
 import { UserEntity } from './entities/user.entity';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
 import { UpdateDto } from './dto/update.dto';
-
-const USER_EXIST_ERROR = 'User with Email address is already exist.';
-const FOLLOW_EQUAL_ERROR = 'Follover and folloving can be not equal.';
-const FOLLOW_USER_NOT_FOUND_ERROR = 'Follow user not found.';
-const USER_NOT_FOUND_ERROR = 'User not found.';
-const COACH_NOT_FOUND_ERROR = 'Coach not found.';
-const SUBSCRIBE_ROLE_ERROR = "You can't subscribe to a regular user.";
-const PASSWORD_SALT = 12;
+import {
+  COACH_NOT_FOUND_ERROR,
+  FOLLOW_EQUAL_ERROR,
+  SUBSCRIBE_ROLE_ERROR,
+  USER_EXIST_ERROR,
+  USER_NOT_FOUND_ERROR,
+} from '@fit-friends/libs/validation';
 
 @Injectable()
 export class UsersService {
@@ -60,9 +58,7 @@ export class UsersService {
         await this.fileService.delete(existUser.avatar);
       }
 
-      existUser.setAvatar(
-        await this.fileService.upload(fileAvatar, UploadType.Avatar)
-      );
+      existUser.setAvatar(await this.fileService.upload(fileAvatar, UploadType.Avatar));
     }
 
     if (existUser.role === Role.User) {
@@ -73,11 +69,9 @@ export class UsersService {
           await this.fileService.delete(existUser.certificate);
         }
 
-        existUser.setCertificate(
-          await this.fileService.upload(fileCertificate, UploadType.Certificate)
-        );
+        existUser.setCertificate(await this.fileService.upload(fileCertificate, UploadType.Certificate));
       }
-      
+
       existUser.updateRoleCoach(dto);
     }
 
@@ -92,7 +86,7 @@ export class UsersService {
 
     const followUser = await this.findById(followId);
     if (!followUser) {
-      throw new BadRequestException(FOLLOW_USER_NOT_FOUND_ERROR);
+      throw new BadRequestException(USER_NOT_FOUND_ERROR);
     }
 
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);

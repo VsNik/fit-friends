@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { UserFilesValidationPipe } from '@fit-friends/libs/pipes';
+import { AvatarValidatePipe, UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { CoachProfileRdo, LoggedRdo, UserProfileRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { fillObject } from '@fit-friends/libs/utils';
 import { AuthService } from './auth.service';
@@ -21,7 +21,7 @@ export class AuthController {
   @UseGuards(AnonymousGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('signup-user')
-  async signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile() avatar: ExpressFile): Promise<UserProfileRdo> {
+  async signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile(AvatarValidatePipe) avatar: ExpressFile): Promise<UserProfileRdo> {
     const createdUser = await this.authService.signup(createUserDto, avatar);
     return fillObject(UserProfileRdo, createdUser);
   }
@@ -36,7 +36,7 @@ export class AuthController {
   @Post('signup-coach')
   async signupCoach(
     @Body() createCoachDto: CreateCoachDto,
-    @UploadedFiles(new UserFilesValidationPipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
+    @UploadedFiles(new UserFilesValidatePipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
   ): Promise<CoachProfileRdo> {
     const createdCoach = await this.authService.signup(createCoachDto, files.avatar, files.certificate);
     return fillObject(CoachProfileRdo, createdCoach);

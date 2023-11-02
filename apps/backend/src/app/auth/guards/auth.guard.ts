@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { RequestExpress } from "../types/request-express";
+import { UNAUTHORIZED_ERROR } from "@fit-friends/libs/validation";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -10,6 +11,6 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        throw new UnauthorizedException('Unauthorized');
+        throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
 }

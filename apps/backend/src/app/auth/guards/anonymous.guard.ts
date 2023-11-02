@@ -2,6 +2,8 @@ import { BadRequestException, CanActivate, ExecutionContext, Injectable } from '
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
+const YOUR_IS_AUTHORIZED = 'You is authorized';
+
 @Injectable()
 export class AnonymousGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) {}
@@ -22,6 +24,6 @@ export class AnonymousGuard implements CanActivate {
       return true;
     }
 
-    throw new BadRequestException('You is authorized');
+    throw new BadRequestException(YOUR_IS_AUTHORIZED);
   }
 }

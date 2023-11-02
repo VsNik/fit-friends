@@ -4,7 +4,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
-import { Pagination, Role } from '@fit-friends/libs/types';
+import { IReview, Pagination, Role } from '@fit-friends/libs/types';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { fillObject } from '@fit-friends/libs/utils';
@@ -20,7 +20,7 @@ export class ReviewsController {
   @Post(':id')
   async create(@Body() dto: CreateReviewDto, @Param('id') trainingId: string, @UserId() currentUserId: string): Promise<ReviewRdo> {
     const review = await this.reviewsService.create(dto, trainingId, currentUserId);
-    return fillObject(ReviewRdo, {...review, user: fillObject(UserRdo, review.user), training: fillObject(TrainingRdo, review.training)});
+    return this.mapReview(review);
   }
 
   // Список отзывов к тренировке
@@ -30,9 +30,17 @@ export class ReviewsController {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.reviewsService.getForTraining(trainingId, currentUserId, pagination);
     return fillObject(ReviewCollectionRdo, {
-      data: data.map((review) => fillObject(ReviewRdo, {...review, user: fillObject(UserRdo, review.user), training: fillObject(TrainingRdo, review.training)})),
+      data: data.map((review) => this.mapReview(review)),
       page: pagination.page,
       total,
     });
+  }
+
+  private mapReview(review: IReview) {
+    return fillObject(ReviewRdo, {
+      ...review, 
+      user: fillObject(UserRdo, review.user), 
+      training: fillObject(TrainingRdo, review.training)
+    })
   }
 }
