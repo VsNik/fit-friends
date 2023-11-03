@@ -1,13 +1,10 @@
-import { Expose } from "class-transformer";
-import { UserRdo } from "./user.rdo";
+import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { UserRdo } from './user.rdo';
+import { PaginationRdo } from '../pagination.rdo';
 
-export class UserCollectionRdo {
-    @Expose()
-    data: UserRdo[];
-  
-    @Expose()
-    page: number;
-  
-    @Expose()
-    total: number;
+export class UserCollectionRdo extends PaginationRdo {
+  @ApiProperty({ type: [UserRdo] })
+  @Expose()
+  data: UserRdo[];
 }

@@ -5,16 +5,20 @@ import { AlertsService } from './alerts.service';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { fillObject } from '@fit-friends/libs/utils';
-import {AlertCollectionRdo, AlertRdo} from '@fit-friends/libs/rdo';
+import { AlertCollectionRdo, AlertRdo } from '@fit-friends/libs/rdo';
+import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Alerts')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @Controller('alerts')
 export class AlertsController {
   constructor(private readonly alertsService: AlertsService) {}
 
-  // Список оповещений
-  @UseGuards(AuthGuard)
+  @ApiOkResponse({ type: AlertCollectionRdo })
+  @ApiOperation({ summary: 'Список оповещений пользователя/тренера' })
   @Get()
-  async listByUser(@UserId() currentUserId: string, @Query() query: Pagination) {
+  async listByUser(@UserId() currentUserId: string, @Query() query: Pagination): Promise<AlertCollectionRdo> {
     const pagination = plainToInstance(Pagination, query);
     const [data, total] = await this.alertsService.getByUserId(currentUserId, pagination);
     return fillObject(AlertCollectionRdo, {
@@ -24,9 +28,9 @@ export class AlertsController {
     });
   }
 
-  // Удалить оповещение
+  @ApiNoContentResponse()
+  @ApiOperation({ summary: 'Удалить оповещение' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(AuthGuard)
   @Delete(':id')
   delete(@Param('id') alertId: string, @UserId() currentUserId: string) {
     this.alertsService.delete(alertId, currentUserId);

@@ -1,6 +1,9 @@
 import { IsEnum, IsNumber, IsOptional, IsPositive } from 'class-validator';
+import { Type } from 'class-transformer';
 import { Location, TrainingDuration, TrainingLevel, TrainingType } from './common';
-import {Type} from "class-transformer";
+
+export const MAX_LIMIT = 50;
+export const DEFAULT_PAGE = 1;
 
 export enum UserSorting {
   Created = 'createdAt',
@@ -17,7 +20,7 @@ export enum SortDirection {
   Desc = 'DESC',
 }
 
-enum StatisticSorting {
+export enum StatisticSorting {
   OrderCount = 'ordersCount',
   OrderSumm = 'ordersSumm',
 }
@@ -26,12 +29,15 @@ export class Pagination {
   @Type(() => Number)
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
-  limit = 50;
+  limit = MAX_LIMIT;
 
   @Type(() => Number)
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
-  page = 1;
+  page = DEFAULT_PAGE;
+
+  @IsEnum(SortDirection)
+  direction: SortDirection = SortDirection.Desc;
 }
 
 export class UsersFilter extends Pagination {
@@ -49,10 +55,6 @@ export class UsersFilter extends Pagination {
   @IsEnum(TrainingLevel)
   @IsOptional()
   level: TrainingLevel;
-
-  @IsEnum(SortDirection)
-  @IsOptional()
-  direction: SortDirection = SortDirection.Desc;
 }
 
 export class TrainingFilter extends Pagination {
@@ -88,16 +90,9 @@ export class TrainingFilter extends Pagination {
 
   @IsEnum(TrainingSorting)
   sorting: TrainingSorting = TrainingSorting.Created;
-
-  @IsEnum(SortDirection)
-  @IsOptional()
-  direction: SortDirection = SortDirection.Desc;
 }
 
 export class TrainingOrderFilter extends Pagination {
   @IsEnum(StatisticSorting)
   sorting: StatisticSorting = StatisticSorting.OrderCount;
-
-  @IsEnum(SortDirection)
-  direction: SortDirection = SortDirection.Desc;
 }

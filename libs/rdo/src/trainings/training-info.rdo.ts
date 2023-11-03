@@ -1,9 +1,8 @@
-import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
-import { Expose } from 'class-transformer';
-import { UserRdo } from '../users/user.rdo';
+import { Gender, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 
-export class TrainingRdo {
+export class TrainingInfoRdo {
   @ApiProperty({ description: 'Уникальный идентификатор тренировки', example: 'ea2038cf-0956-4897-8af5-b8a5bbe1861f' })
   @Expose()
   id: string;
@@ -37,13 +36,6 @@ export class TrainingRdo {
   type: TrainingType;
 
   @ApiProperty({
-    description: 'Продолжительность',
-    example: '30-50 мин',
-  })
-  @Expose()
-  duration: TrainingDuration;
-
-  @ApiProperty({
     description: 'Цена тренировки',
     example: 5000,
   })
@@ -72,22 +64,11 @@ export class TrainingRdo {
   gender: Gender;
 
   @ApiProperty({
-    description: 'Видео тренировки',
-    example: 'http://localhost:5000/statis/video/some-video.mp4',
-  })
-  @Expose()
-  video: string;
-
-  @ApiProperty({
     description: 'Рейтинг тренировки',
     example: 5,
   })
   @Expose()
   rating: number;
-
-  @ApiProperty({ type: UserRdo })
-  @Expose()
-  coach: UserRdo;
 
   @ApiProperty({
     description: 'Признак специального предложения',

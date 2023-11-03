@@ -43,6 +43,7 @@ export const LEVEL_VALUES = `Доступные значения: "${TrainingLev
 export const LEVEL_NOT_EMPTY = 'Уровень подготовки не может быть пустым.';
 export const TRAININGTYPE_VALUES = `Допустимые тренировки: "${TrainingType.Aerobic}, ${TrainingType.Beg}, ${TrainingType.Boxing}, ${TrainingType.Crossfit}, ${TrainingType.Pilates}, ${TrainingType.Stretching}, ${TrainingType.Yoga}"`;
 export const TRAININGTYPE_NOT_EMPTY = 'Тип тренировки не может быть пустым';
+export const TRAININGTYPE_MAX_SIZE = `Максимальное количество тренировок - ${UserValidate.TrainingTypeMaxCount}`;
 export const DURATION_VALUES = `Доступные значения длительности тренировки: ${TrainingDuration.Low}, ${TrainingDuration.Normal}, ${TrainingDuration.Hi}, ${TrainingDuration.Extra}`;
 export const DURATION_NOT_EMPTY = 'Длительности тренировки не может быть пустым';
 export const LOSE_CALORY_IS_NUMBER = 'Количество калорий для траты в день должно быть числом';

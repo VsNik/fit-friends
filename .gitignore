@@ -41,7 +41,5 @@ Thumbs.db
 .env
 apps/backend/.env
 
-# uploads/avatar
-# uploads/bg_image
-# uploads/certificate
+uploads/*
 uploads/video

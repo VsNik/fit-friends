@@ -1,10 +1,10 @@
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Pagination } from '@fit-friends/libs/types';
 import { Balance } from './models/balance.model';
-import { Repository } from 'typeorm';
 import { IBalanceRepository } from './entities/balance-repository.interface';
 import { BalanceEntity } from './entities/balance.entity';
-import { Pagination } from '@fit-friends/libs/types';
 
 @Injectable()
 export class BalanceRepository implements IBalanceRepository {
@@ -17,6 +17,7 @@ export class BalanceRepository implements IBalanceRepository {
     const [data, count] = await this.repository.findAndCount({
       where: { userId },
       relations: { training: true },
+      order: {createdAt: pagination.direction},
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),
     });

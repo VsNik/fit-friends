@@ -3,7 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile, ITraining, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
-import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
+import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticCollectionRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { VideoValidatePipe } from '@fit-friends/libs/pipes';
 import { TrainingsService } from './trainings.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
@@ -12,16 +12,21 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Trainings')
+@ApiBearerAuth()
 @Controller('trainings')
 export class TrainingsController {
   constructor(private readonly trainingsService: TrainingsService) {}
 
-  // Каталог тренировок
+  @ApiOkResponse({type: TrainingCollectionRdo})
+  @ApiOperation({ summary: 'Каталог тренировок' })
   @UseGuards(AuthGuard)
   @Get()
   async list(@Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
-    const filter = plainToInstance(TrainingFilter, query);
+    const limit = getLimit(query.limit);
+    const filter = plainToInstance(TrainingFilter, { ...query, limit });
     const [data, total] = await this.trainingsService.list(filter);
     return fillObject(TrainingCollectionRdo, {
       data: data.map((training) => this.mapTraining(training)),
@@ -30,7 +35,8 @@ export class TrainingsController {
     });
   }
 
-  // Список тренировок тренера
+  @ApiOkResponse({type: TrainingCollectionRdo})
+  @ApiOperation({ summary: 'Список тренировок тренера' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('list-coach')
@@ -44,22 +50,25 @@ export class TrainingsController {
     });
   }
 
-  // Мои заказы
+  @ApiOkResponse({type: TrainingStatisticCollectionRdo})
+  @ApiOperation({ summary: 'Заказы тренера' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('orders')
-  async ordersListCoach(@UserId() coachId: string, @Query() query: TrainingOrderFilter): Promise<TrainingCollectionRdo> {
+  async ordersListCoach(@UserId() coachId: string, @Query() query: TrainingOrderFilter): Promise<TrainingStatisticCollectionRdo> {
     const limit = getLimit(query.limit);
-    const filter = plainToInstance(TrainingOrderFilter, {...query, limit});
+    const filter = plainToInstance(TrainingOrderFilter, { ...query, limit });
     const [data, total] = await this.trainingsService.getTrainingsOrders(coachId, filter);
-    return fillObject(TrainingCollectionRdo, {
+    return fillObject(TrainingStatisticCollectionRdo, {
       data: data.map((training) => fillObject(TrainingStatisticRdo, { ...training, coach: fillObject(UserRdo, training.coach) })),
       page: filter.page,
       total,
     });
   }
 
-  // Создание тренировки
+  @ApiCreatedResponse({type: TrainingRdo})
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Создание тренировки' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
@@ -73,7 +82,9 @@ export class TrainingsController {
     return this.mapTraining(training);
   }
 
-  // Редактирование тренировки
+  @ApiOkResponse({type: TrainingRdo})
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Редактирование тренировки' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
@@ -88,7 +99,8 @@ export class TrainingsController {
     return this.mapTraining(training);
   }
 
-  // Детальная информация о тренировке
+  @ApiOkResponse({type: TrainingRdo})
+  @ApiOperation({ summary: 'Детальная информация о тренировке' })
   @UseGuards(AuthGuard)
   @Get(':id')
   async show(@Param('id') trainingId: string): Promise<TrainingRdo> {

@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { IAlertsRepository } from './entities/alerts-repository.interface';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Alert } from './models/alert.model';
 import { Repository } from 'typeorm';
-import { AlertEntity } from './entities/alert.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from '@fit-friends/libs/types';
 import { ALERTS_MAX_SHOW_COUNT } from '@fit-friends/libs/constants';
+import { IAlertsRepository } from './entities/alerts-repository.interface';
+import { Alert } from './models/alert.model';
+import { AlertEntity } from './entities/alert.entity';
 
 @Injectable()
 export class AlertsRepository implements IAlertsRepository {
@@ -23,7 +23,7 @@ export class AlertsRepository implements IAlertsRepository {
     const [data, count] = await this.repository.findAndCount({
       where: { userId },
       order: {
-        createdAt: 'DESC',
+        createdAt: pagination.direction,
       },
       take: limit,
       skip: limit * (page - 1),

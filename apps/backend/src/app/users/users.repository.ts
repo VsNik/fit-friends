@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { IUsersRepository } from './entities/users-repository.interface';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './models/user.model';
 import { Repository } from 'typeorm';
-import { UserEntity } from './entities/user.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination, UsersFilter } from '@fit-friends/libs/types';
+import { IUsersRepository } from './entities/users-repository.interface';
+import { User } from './models/user.model';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -20,7 +20,7 @@ export class UsersRepository implements IUsersRepository {
 
     if (type) {
       const trainingTypes = Array.isArray(type) ? type : [type];
-      qb.where('user.trainingType && ARRAY[:...trainingTypes]::users_trainingtype_enum[]', { trainingTypes });
+      qb.andWhere('user.trainingType && ARRAY[:...trainingTypes]::users_trainingtype_enum[]', { trainingTypes });
     }
 
     if (level) {
@@ -63,8 +63,8 @@ export class UsersRepository implements IUsersRepository {
 
   async findByIdAndRelation(id: string): Promise<UserEntity | null> {
     const result = await this.repository.findOne({
-      where: {id},
-      relations: {followers: true, following: true, subscribing: true, subscribers: true},
+      where: { id },
+      relations: { followers: true, following: true, subscribing: true, subscribers: true },
     });
     return result ? UserEntity.create(result) : null;
   }
@@ -72,8 +72,9 @@ export class UsersRepository implements IUsersRepository {
   async findFollowings(userId: string, pagination: Pagination): Promise<[UserEntity[], number]> {
     const [data, count] = await this.repository.findAndCount({
       where: {
-        followers: {id: userId}
+        followers: { id: userId },
       },
+      order: { createdAt: pagination.direction },
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),
     });
@@ -83,8 +84,9 @@ export class UsersRepository implements IUsersRepository {
   async findFollowers(userId: string, pagination: Pagination): Promise<[UserEntity[], number]> {
     const [data, count] = await this.repository.findAndCount({
       where: {
-        following: {id: userId}
+        following: { id: userId },
       },
+      order: { createdAt: pagination.direction },
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),
     });

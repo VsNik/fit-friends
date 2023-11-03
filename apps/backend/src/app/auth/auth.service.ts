@@ -76,7 +76,7 @@ export class AuthService {
 
   private async getRefreshTokenPayload(refreshToken: string): Promise<IRefreshTokenPayload> {
     try {
-      return this.jwtService.verifyAsync(refreshToken, {
+      return this.jwtService.verify(refreshToken, {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
     } catch {

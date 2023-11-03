@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { IReviewsRepository } from './entities/reviews-repository.interface';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Review } from './models/review.model';
 import { Repository } from 'typeorm';
-import { ReviewEntity } from './entities/review.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from '@fit-friends/libs/types';
+import { IReviewsRepository } from './entities/reviews-repository.interface';
+import { Review } from './models/review.model';
+import { ReviewEntity } from './entities/review.entity';
 
 @Injectable()
 export class ReviewsRepository implements IReviewsRepository {
@@ -23,7 +23,7 @@ export class ReviewsRepository implements IReviewsRepository {
         training: { id },
       },
       order: {
-        createdAt: 'DESC',
+        createdAt: pagination.direction,
       },
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),

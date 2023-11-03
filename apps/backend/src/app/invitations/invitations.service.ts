@@ -18,7 +18,7 @@ export class InvitationsService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async create(toUserId: string, initiatorId: string) {
+  async create(toUserId: string, initiatorId: string): Promise<InvitationEntity> {
     if (initiatorId === toUserId) {
       throw new BadRequestException(SELF_INVITE_ERROR);
     }
@@ -36,15 +36,17 @@ export class InvitationsService {
       status: InviteStatus.Waiting,
     });
 
-    await this.invitationsRepository.save(invitation);
+    const createdInvitation = await this.invitationsRepository.save(invitation);
 
     this.eventEmitter.emit(
         AppEvent.InviteCreated, 
         new InviteCreatedEvent(initiatorUser.id, initiatorUser.name, toUser.id)
     );
+
+    return createdInvitation;
   }
 
-  async changeStatus(invitationId: string, status: InviteStatus, userId: string) {
+  async changeStatus(invitationId: string, status: InviteStatus, userId: string): Promise<InvitationEntity> {
     const user = await this.usersService.findById(userId);
     if (!user) {
       throw new UnauthorizedException(UNAUTHORIZED_ERROR);
@@ -62,5 +64,7 @@ export class InvitationsService {
         AppEvent.InviteStatusChanged, 
         new InviteStatusChangedEvent(userId, user.name, invitation.initiatorId, status)
     );
+
+    return invitation;
   }
 }
