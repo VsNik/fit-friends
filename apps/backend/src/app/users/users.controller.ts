@@ -1,10 +1,10 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ExpressFile, IUser, Pagination, Role, UsersFilter } from '@fit-friends/libs/types';
+import { ExpressFile, IUser, Location, Pagination, Role, SortDirection, TrainingLevel, TrainingType, UserSorting, UsersFilter } from '@fit-friends/libs/types';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { SuccessRdo, UpdateUserRdo, UserCollectionRdo, UserRdo } from '@fit-friends/libs/rdo';
-import { ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
 import { UserId } from '../auth/decorators/user-id.decorator';
@@ -19,7 +19,15 @@ import { UpdateDto } from './dto/update.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'sorting', required: false, enum: UserSorting})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
+  @ApiQuery({name: 'location', required: false, enum: Location})
+  @ApiQuery({name: 'type', required: false, enum: TrainingType, isArray: true})
+  @ApiQuery({name: 'level', required: false, enum: TrainingLevel})
   @ApiOkResponse({ type: UserCollectionRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.'})
   @ApiOperation({ summary: 'Список (каталог) пользователей' })
   @Roles(Role.User)
   @UseGuards(RoleGuard)
@@ -71,18 +79,24 @@ export class UsersController {
     return fillObject(SuccessRdo, { success: result });
   }
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
   @ApiOkResponse({ type: UserCollectionRdo })
   @ApiOperation({ summary: 'Список друзей тренера' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('friends-coach')
-  async getGetCoachFriends(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
+  async getCoachFriends(@UserId() userId: string, @Query() query: Pagination): Promise<UserCollectionRdo> {
     const limit = getLimit(query.limit);
     const pagination = plainToInstance(Pagination, { ...query, limit });
     const [data, total] = await this.usersService.getFollowing(userId, pagination);
     return this.mapUserCollection(data, total, pagination.page);
   }
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
   @ApiOkResponse({ type: UserCollectionRdo })
   @ApiOperation({ summary: 'Список друзей пользователя' })
   @Roles(Role.User)
@@ -114,3 +128,4 @@ export class UsersController {
     });
   }
 }
+

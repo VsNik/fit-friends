@@ -4,12 +4,12 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
-import { IReview, Pagination, Role } from '@fit-friends/libs/types';
+import { IReview, Pagination, Role, SortDirection } from '@fit-friends/libs/types';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { ReviewCollectionRdo, ReviewRdo, TrainingInfoRdo, UserRdo } from '@fit-friends/libs/rdo';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Reviews')
 @ApiBearerAuth()
@@ -27,6 +27,9 @@ export class ReviewsController {
     return this.mapReview(review);
   }
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
   @ApiOkResponse({type: ReviewCollectionRdo})
   @ApiOperation({ summary: 'Список отзывов к тренировке' })
   @UseGuards(AuthGuard)

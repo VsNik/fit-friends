@@ -3,12 +3,12 @@ import { BalanceService } from './balance.service';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { BalanceDto } from './dto/balance.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { IBalance, Pagination, Role } from '@fit-friends/libs/types';
+import { IBalance, Pagination, Role, SortDirection } from '@fit-friends/libs/types';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { plainToInstance } from 'class-transformer';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { BalanceCollectionRdo, BalanceRdo, TrainingRdo } from '@fit-friends/libs/rdo';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Balance')
 @Roles(Role.User)
@@ -18,6 +18,9 @@ import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swa
 export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
   @ApiOkResponse({ type: BalanceCollectionRdo })
   @ApiOperation({ summary: 'Общий баланс' })
   @Get()

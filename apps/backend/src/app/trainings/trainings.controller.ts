@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ExpressFile, ITraining, Role, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { ExpressFile, ITraining, Role, SortDirection, StatisticSorting, TrainingDuration, TrainingFilter, TrainingOrderFilter, TrainingSorting, TrainingType } from '@fit-friends/libs/types';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticCollectionRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { VideoValidatePipe } from '@fit-friends/libs/pipes';
@@ -12,7 +12,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Trainings')
 @ApiBearerAuth()
@@ -20,6 +20,16 @@ import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOpera
 export class TrainingsController {
   constructor(private readonly trainingsService: TrainingsService) {}
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'sorting', required: false, enum: TrainingSorting})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
+  @ApiQuery({name: 'priceTo', required: false, type: Number})
+  @ApiQuery({name: 'priceFrom', required: false, type: Number})
+  @ApiQuery({name: 'caloriesTo', required: false, type: Number})
+  @ApiQuery({name: 'caloriesFrom', required: false, type: Number})
+  @ApiQuery({name: 'rating', required: false, type: Number})
+  @ApiQuery({name: 'type', required: false, enum: TrainingType})
   @ApiOkResponse({type: TrainingCollectionRdo})
   @ApiOperation({ summary: 'Каталог тренировок' })
   @UseGuards(AuthGuard)
@@ -35,6 +45,15 @@ export class TrainingsController {
     });
   }
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
+  @ApiQuery({name: 'priceTo', required: false, type: Number})
+  @ApiQuery({name: 'priceFrom', required: false, type: Number})
+  @ApiQuery({name: 'caloriesTo', required: false, type: Number})
+  @ApiQuery({name: 'caloriesFrom', required: false, type: Number})
+  @ApiQuery({name: 'rating', required: false, type: Number})
+  @ApiQuery({name: 'duration', required: false, enum: TrainingDuration})
   @ApiOkResponse({type: TrainingCollectionRdo})
   @ApiOperation({ summary: 'Список тренировок тренера' })
   @Roles(Role.Coach)
@@ -50,6 +69,10 @@ export class TrainingsController {
     });
   }
 
+  @ApiQuery({name: 'limit', required: false, type: Number})
+  @ApiQuery({name: 'page', required: false, type: Number})
+  @ApiQuery({name: 'sorting', required: false, enum: StatisticSorting})
+  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
   @ApiOkResponse({type: TrainingStatisticCollectionRdo})
   @ApiOperation({ summary: 'Заказы тренера' })
   @Roles(Role.Coach)
