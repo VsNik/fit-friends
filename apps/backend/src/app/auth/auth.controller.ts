@@ -1,8 +1,31 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  UploadedFile,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { ExpressFile } from '@fit-friends/libs/types';
+import { ExpressFile, RequestExpress } from '@fit-friends/libs/types';
 import { AvatarValidatePipe, UserFilesValidatePipe } from '@fit-friends/libs/pipes';
-import { CoachProfileRdo, LoggedRdo, UserProfileRdo, UserRdo } from '@fit-friends/libs/rdo';
+import { LoggedRdo, UserProfileRdo } from '@fit-friends/libs/rdo';
 import { fillObject } from '@fit-friends/libs/utils';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,19 +34,17 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { UserId } from './decorators/user-id.decorator';
-import { RequestExpress } from './types/request-express';
 import { AnonymousGuard } from './guards/anonymous.guard';
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  
-  @ApiCreatedResponse({type: UserProfileRdo})
+
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Регистрация пользователя' })
-  @UseGuards(AnonymousGuard)
+  @ApiCreatedResponse({ type: UserProfileRdo })
+  @UseGuards(UserProfileRdo)
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('signup-user')
   async signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile(AvatarValidatePipe) avatar: ExpressFile): Promise<UserProfileRdo> {
@@ -31,9 +52,9 @@ export class AuthController {
     return fillObject(UserProfileRdo, createdUser);
   }
 
-  @ApiCreatedResponse({type: CoachProfileRdo})
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Регистрация тренера' })
+  @ApiCreatedResponse({ type: UserProfileRdo })
   @UseGuards(AnonymousGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -45,13 +66,13 @@ export class AuthController {
   async signupCoach(
     @Body() createCoachDto: CreateCoachDto,
     @UploadedFiles(new UserFilesValidatePipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
-  ): Promise<CoachProfileRdo> {
+  ): Promise<UserProfileRdo> {
     const createdCoach = await this.authService.signup(createCoachDto, files.avatar, files.certificate);
-    return fillObject(CoachProfileRdo, createdCoach);
+    return fillObject(UserProfileRdo, createdCoach);
   }
 
-  @ApiOkResponse({type: LoggedRdo})
   @ApiOperation({ summary: 'Вход в систему' })
+  @ApiOkResponse({ type: LoggedRdo })
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Req() req: RequestExpress): Promise<LoggedRdo> {
@@ -59,8 +80,8 @@ export class AuthController {
     return fillObject(LoggedRdo, logged);
   }
 
-  @ApiOkResponse({type: LoggedRdo})
   @ApiOperation({ summary: 'Обновление "access, refresh" токенов' })
+  @ApiOkResponse({ type: LoggedRdo })
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
   async refresh(@Body() { refreshToken }: RefreshDto): Promise<LoggedRdo> {
@@ -69,21 +90,24 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Выход из профиля' })
+  @ApiNoContentResponse({ description: 'No Content' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Post('logout')
-  logout(@Body() { refreshToken }: RefreshDto) {
-    this.authService.logout(refreshToken);
+  @ApiBearerAuth()
+  @Delete('logout')
+  async logout(@Body() { refreshToken }: RefreshDto) {
+    return await this.authService.logout(refreshToken);
   }
 
-  @ApiOkResponse({type: UserRdo})
   @ApiOperation({ summary: 'Получить текущего пользователя' })
-  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: UserProfileRdo })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @Get('check')
-  async check(@UserId() id: string): Promise<UserRdo> {
+  async check(@UserId() id: string): Promise<UserProfileRdo> {
     const authUser = await this.authService.findUserById(id);
-    return fillObject(UserRdo, authUser);
+    return fillObject(UserProfileRdo, authUser);
   }
 }

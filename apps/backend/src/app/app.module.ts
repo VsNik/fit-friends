@@ -40,6 +40,7 @@ import path from 'path';
     }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, process.env.STATIC_DIR),
+      serveRoot: process.env.STATIC_ROOT,
     }),
     UsersModule,
     TrainingsModule,

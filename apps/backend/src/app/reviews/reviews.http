@@ -1,0 +1,14 @@
+POST http://localhost:5000/api/reviews/630130d1-dddc-443d-aff0-fd9b7801ddd7 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDQ3NTI2LCJleHAiOjE2OTkwNTExMjZ9.ahOqcgYmmX_qV6F-ivC0Sa9PEyBZBW0AA4kTFJhTAI4
+
+
+{
+  "rating": 4,
+  "text": "Lorem Ipsum - это текст-'рыба', часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной 'рыбой' для текстов на латинице с начала XVI века"
+}
+
+###
+GET http://localhost:5000/api/reviews/630130d1-dddc-443d-aff0-fd9b7801ddd7 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDUxMjE2LCJleHAiOjE2OTkwNTQ4MTZ9.2NV8qWsUv_iBjYGkYZf4DD3ZKgXQcA3GQJU00VM7FTk

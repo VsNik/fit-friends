@@ -29,7 +29,6 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTrainingDto {
-
   @ApiProperty({
     description: 'Название тренировки',
     example: 'Some training',

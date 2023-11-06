@@ -1,8 +1,8 @@
+import { RequestExpress } from '@fit-friends/libs/types';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response, NextFunction } from 'express';
-import { RequestExpress } from '../types/request-express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -10,7 +10,6 @@ export class AuthMiddleware implements NestMiddleware {
 
   use(req: RequestExpress, res: Response, next: NextFunction) {
     const authHeaders = req.headers.authorization;
-
     if (!authHeaders) {
       req.user = null;
       req.role = null;

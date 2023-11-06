@@ -1,0 +1,26 @@
+GET http://localhost:5000/api/balance HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU2NTg3LCJleHAiOjE2OTkwNjAxODd9.vrzsbEggT5yT0uQtOSQlokzZd7NrWE5h5TF2gRAVhTI
+
+###
+GET http://localhost:5000/api/balance/5f4bb4e2-79e4-4876-8d13-e0b684865c6b HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU2NTg3LCJleHAiOjE2OTkwNjAxODd9.vrzsbEggT5yT0uQtOSQlokzZd7NrWE5h5TF2gRAVhTI
+
+###
+PUT http://localhost:5000/api/balance/5f4bb4e2-79e4-4876-8d13-e0b684865c6b/admission HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU2NTg3LCJleHAiOjE2OTkwNjAxODd9.vrzsbEggT5yT0uQtOSQlokzZd7NrWE5h5TF2gRAVhTI
+
+{
+    "count": 3
+}
+
+###
+PUT http://localhost:5000/api/balance/5f4bb4e2-79e4-4876-8d13-e0b684865c6b/dismission HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU2NTg3LCJleHAiOjE2OTkwNjAxODd9.vrzsbEggT5yT0uQtOSQlokzZd7NrWE5h5TF2gRAVhTI
+
+{
+    "count": 41
+}

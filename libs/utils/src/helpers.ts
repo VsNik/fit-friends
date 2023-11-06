@@ -33,7 +33,7 @@ export async function getRandomBg(bgType: UploadType.BgTraining | UploadType.BgU
   const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${bgType}`;
   const imageList = await readdir(uploadDir);
   const index = getRandomInt(1, imageList.length);
-  return `${process.env.SERVER_HOST}/${bgType}/${imageList[index - 1]}`;
+  return `${process.env.SERVER_HOST}${process.env.STATIC_ROOT}/${bgType}/${imageList[index - 1]}`;
 }
 
 export function getUploadPath(path = '') {

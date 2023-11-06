@@ -1,6 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import { CreateDto } from './create.dto';
-import { Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { MERITS_IS_STRING, MERTIS_LENGTH, PERSONAL_IS_BOOLEAN, PERSONAL_NOT_EMPTY, UserValidate } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -28,7 +28,7 @@ export class CreateCoachDto extends CreateDto {
     description: 'Личные тренировки',
     example: true,
   })
-  @Type(() => Boolean)
+  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
   @IsBoolean({ message: PERSONAL_IS_BOOLEAN })
   @IsNotEmpty({ message: PERSONAL_NOT_EMPTY })
   readonly personalTraining: boolean;

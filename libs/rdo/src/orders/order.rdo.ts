@@ -1,6 +1,6 @@
 import { OrderType, PaymentType } from '@fit-friends/libs/types';
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class OrderRdo {
 
@@ -19,6 +19,7 @@ export class OrderRdo {
     description: 'Уникальный идентификатор тренировки',
     example: 'ea2038cf-0956-4897-8af5-b8a5bbe1861f'
   })
+  @Transform(({value}) => value.id)
   @Expose()
   training: string;
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Query, UseGuards } from '@nestjs/common';
 import { BalanceService } from './balance.service';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { BalanceDto } from './dto/balance.dto';
@@ -8,21 +8,23 @@ import { RoleGuard } from '../auth/guards/role.guard';
 import { plainToInstance } from 'class-transformer';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { BalanceCollectionRdo, BalanceRdo, TrainingRdo } from '@fit-friends/libs/rdo';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @ApiTags('Balance')
 @Roles(Role.User)
 @UseGuards(RoleGuard)
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
+@ApiForbiddenResponse({ description: 'Forbidden.' })
 @Controller('balance')
 export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
 
-  @ApiQuery({name: 'limit', required: false, type: Number})
-  @ApiQuery({name: 'page', required: false, type: Number})
-  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
-  @ApiOkResponse({ type: BalanceCollectionRdo })
   @ApiOperation({ summary: 'Общий баланс' })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
+  @ApiOkResponse({ type: BalanceCollectionRdo })
   @Get()
   async all(@UserId() currentUserId: string, @Query() query: Pagination): Promise<BalanceCollectionRdo> {
     const limit = getLimit(query.limit);
@@ -35,26 +37,34 @@ export class BalanceController {
     });
   }
 
-  @ApiOkResponse({ type: BalanceRdo })
   @ApiOperation({ summary: 'Количество доступных тренировок данного типа' })
+  @ApiOkResponse({ type: BalanceRdo })
   @Get(':trainingId')
-  async show(@UserId() currentUserId: string, @Param('trainingId') trainingId: string): Promise<BalanceRdo> {
+  async show(@UserId() currentUserId: string, @Param('trainingId', new ParseUUIDPipe()) trainingId: string): Promise<BalanceRdo> {
     const balance = await this.balanceService.getByTriningId(trainingId, currentUserId);
     return this.mapBalance(balance);
   }
 
-  @ApiOkResponse({ type: BalanceRdo })
   @ApiOperation({ summary: 'Пополнение баланса тренировок' })
-  @Put(':trainingId/admission')
-  async admission(@UserId() currentUserId: string, @Param('trainingId') trainingId: string, @Body() { count }: BalanceDto): Promise<BalanceRdo> {
+  @ApiOkResponse({ type: BalanceRdo })
+  @Patch(':trainingId/admission')
+  async admission(
+    @UserId() currentUserId: string,
+    @Param('trainingId', new ParseUUIDPipe()) trainingId: string,
+    @Body() { count }: BalanceDto,
+  ): Promise<BalanceRdo> {
     const balance = await this.balanceService.admission(currentUserId, trainingId, count);
     return this.mapBalance(balance);
   }
 
-  @ApiOkResponse({ type: BalanceRdo })
   @ApiOperation({ summary: 'Списание баланса тренировок' })
-  @Put(':trainingId/dismission')
-  async dismission(@UserId() currentUserId: string, @Param('trainingId') trainingId: string, @Body() { count }: BalanceDto): Promise<BalanceRdo> {
+  @ApiOkResponse({ type: BalanceRdo })
+  @Patch(':trainingId/dismission')
+  async dismission(
+    @UserId() currentUserId: string,
+    @Param('trainingId', new ParseUUIDPipe()) trainingId: string,
+    @Body() { count }: BalanceDto,
+  ): Promise<BalanceRdo> {
     const balance = await this.balanceService.dismission(currentUserId, trainingId, count);
     return this.mapBalance(balance);
   }

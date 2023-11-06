@@ -31,7 +31,7 @@ export class FilesService {
     await ensureDir(uploadDirectoryPath);
     await writeFile(destinationFile, Buffer.from(file.buffer));
 
-    return getUploadPath(`/${subDirectory}/${hashName}`);
+    return getUploadPath(`${subDirectory}/${hashName}`);
   }
 
   async delete(path: string): Promise<void> {

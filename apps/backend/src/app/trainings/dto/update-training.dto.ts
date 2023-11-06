@@ -1,6 +1,6 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   DURATION_VALUES,
   GENDER_VALUES,
@@ -119,7 +119,7 @@ export class UpdateTrainingDto {
     example: true,
     required: false,
   })
-  @Type(() => Boolean)
+  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
   @IsBoolean({ message: SPECIAL_IS_BOOLEAN })
   @IsOptional()
   readonly isSpecial: boolean;

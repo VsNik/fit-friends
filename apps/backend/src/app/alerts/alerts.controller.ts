@@ -1,22 +1,23 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Query, UseGuards } from '@nestjs/common';
-import { Pagination } from '@fit-friends/libs/types';
 import { plainToInstance } from 'class-transformer';
+import { Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Pagination } from '@fit-friends/libs/types';
+import { fillObject } from '@fit-friends/libs/utils';
+import { AlertCollectionRdo, AlertRdo } from '@fit-friends/libs/rdo';
 import { AlertsService } from './alerts.service';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { fillObject } from '@fit-friends/libs/utils';
-import { AlertCollectionRdo, AlertRdo } from '@fit-friends/libs/rdo';
-import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Alerts')
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 @UseGuards(AuthGuard)
 @Controller('alerts')
 export class AlertsController {
   constructor(private readonly alertsService: AlertsService) {}
 
-  @ApiOkResponse({ type: AlertCollectionRdo })
   @ApiOperation({ summary: 'Список оповещений пользователя/тренера' })
+  @ApiOkResponse({ type: AlertCollectionRdo })
   @Get()
   async listByUser(@UserId() currentUserId: string, @Query() query: Pagination): Promise<AlertCollectionRdo> {
     const pagination = plainToInstance(Pagination, query);
@@ -28,11 +29,11 @@ export class AlertsController {
     });
   }
 
-  @ApiNoContentResponse()
   @ApiOperation({ summary: 'Удалить оповещение' })
+  @ApiNoContentResponse({ description: 'No Content' })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  delete(@Param('id') alertId: string, @UserId() currentUserId: string) {
-    this.alertsService.delete(alertId, currentUserId);
+  async delete(@Param('id', new ParseUUIDPipe()) alertId: string, @UserId() currentUserId: string) {
+    return await this.alertsService.delete(alertId, currentUserId);
   }
 }

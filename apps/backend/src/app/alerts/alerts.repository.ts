@@ -19,7 +19,8 @@ export class AlertsRepository implements IAlertsRepository {
   }
 
   async findByUserId(userId: string, pagination: Pagination): Promise<[AlertEntity[], number]> {
-    const {limit = ALERTS_MAX_SHOW_COUNT, page} = pagination;
+    const { limit = ALERTS_MAX_SHOW_COUNT, page } = pagination;
+
     const [data, count] = await this.repository.findAndCount({
       where: { userId },
       order: {
@@ -32,11 +33,12 @@ export class AlertsRepository implements IAlertsRepository {
   }
 
   async findById(id: string): Promise<AlertEntity | null> {
-    const alert = await this.repository.findOneBy({id});
+    const alert = await this.repository.findOneBy({ id });
     return alert ? AlertEntity.create(alert) : null;
   }
 
-  async delete(id: string): Promise<void> {
-    await this.repository.delete({ id });
+  async delete(id: string): Promise<boolean> {
+    const result = await this.repository.delete({ id });
+    return !!result;
   }
 }

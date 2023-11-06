@@ -1,0 +1,12 @@
+POST  http://localhost:5000/api/invitations/fcef3e4c-72a2-4a18-b5f6-05a5349db22e HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZjZWYzZTRjLTcyYTItNGExOC1iNWY2LTA1YTUzNDlkYjIyZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU1MzE2LCJleHAiOjE2OTkwNTg5MTZ9.IvjfJA3D7CvQgj_3h93xYkC4e06AcbkzU_QyONS9AwI
+
+###
+PUT http://localhost:5000/api/invitations/5bb941df-dec7-4db2-80f0-67ac2456d6dc HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGMwMDA1LWQ2OGQtNGQyNC04MzQwLTZmOTg3NmI5N2ZkYSIsInJvbGUiOiJjb2FjaCIsImlhdCI6MTY5OTA1NTk2MywiZXhwIjoxNjk5MDU5NTYzfQ.Rx3rleobm77N3GueqLMh_KB1Q6kqz5WjWCAgeovmFgQ
+
+{
+    "status": "rejected"
+}

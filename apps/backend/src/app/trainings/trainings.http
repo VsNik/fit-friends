@@ -1,0 +1,64 @@
+POST http://localhost:5000/api/trainings/signup-user HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+First training
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="level"
+
+professional
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="type"
+
+yoga
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="duration"
+
+30-50 мин
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+2500
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="calories"
+
+3000
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Description training
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="gender"
+
+male
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="isSpecial"
+
+false
+Content-Disposition: form-data; name="avatar"; filename="user-card-photo1.jpg"
+Content-Type: video/mp4
+
+< ../../assets/static/bg-user/user-card-photo1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+GET http://localhost:5000/api/trainings HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDQ3NTI2LCJleHAiOjE2OTkwNTExMjZ9.ahOqcgYmmX_qV6F-ivC0Sa9PEyBZBW0AA4kTFJhTAI4
+
+###
+GET http://localhost:5000/api/trainings/list-coach HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDQ2NTk4LCJleHAiOjE2OTkwNTAxOTh9.NmH4gE-pJEidzFHbHKqWIp8VasgNEY906JWYWqNtIQE
+
+###
+GET http://localhost:5000/api/trainings/orders HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDQ2NTk4LCJleHAiOjE2OTkwNTAxOTh9.NmH4gE-pJEidzFHbHKqWIp8VasgNEY906JWYWqNtIQE
+
+###
+GET http://localhost:5000/api/trainings/feaf0c35-d764-4cab-8d03-e14851aea734 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDQ3NTI2LCJleHAiOjE2OTkwNTExMjZ9.ahOqcgYmmX_qV6F-ivC0Sa9PEyBZBW0AA4kTFJhTAI4

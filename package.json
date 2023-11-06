@@ -3,10 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build": "nx serve backend:build",
+    "start": "nx run backend:serve",
+    "lint": "nx run backend:lint --fix",
     "typeorm:cli": "ts-node --project tsconfig.base.json -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./apps/backend/src/orm-migration.config.ts",
     "migration:gen": "cross-env npm run typeorm:cli migration:generate ./apps/backend/src/database/migration/$npm_config_name",
     "migration:run": "npm run typeorm:cli migration:run",
-    "seed": "ts-node --project tsconfig.base.json -r tsconfig-paths/register apps/backend/src/database/seeds/seeds.ts"
+    "db:seed": "ts-node --project tsconfig.base.json -r tsconfig-paths/register apps/backend/src/database/seeds/seeds.ts",
+    "db:drop": "npm run typeorm:cli schema:drop"
   },
   "private": true,
   "dependencies": {

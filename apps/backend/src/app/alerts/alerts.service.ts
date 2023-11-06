@@ -1,7 +1,5 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Alert } from './models/alert.model';
-import { IAlertsRepository } from './entities/alerts-repository.interface';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ALERT_REPO, IAlertsRepository } from './entities/alerts-repository.interface';
 import { AlertEntity } from './entities/alert.entity';
 import { IAlert, Pagination } from '@fit-friends/libs/types';
 import { ALERT_NOT_FOUND, NOT_YOUR_ALERT } from '@fit-friends/libs/validation';
@@ -9,7 +7,7 @@ import { ALERT_NOT_FOUND, NOT_YOUR_ALERT } from '@fit-friends/libs/validation';
 @Injectable()
 export class AlertsService {
   constructor(
-    @InjectRepository(Alert)
+    @Inject(ALERT_REPO)
     private readonly alertsRepository: IAlertsRepository,
   ) {}
 
@@ -23,7 +21,7 @@ export class AlertsService {
     await this.alertsRepository.save(alert);
   }
 
-  async delete(alertId: string, currentUserId: string): Promise<void> {
+  async delete(alertId: string, currentUserId: string): Promise<boolean> {
     const alert = await this.alertsRepository.findById(alertId);
     if (!alert) {
       throw new NotFoundException(ALERT_NOT_FOUND);
@@ -33,6 +31,6 @@ export class AlertsService {
       throw new BadRequestException(NOT_YOUR_ALERT);
     }
 
-    await this.alertsRepository.delete(alertId);
+    return this.alertsRepository.delete(alertId);
   }
 }

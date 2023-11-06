@@ -5,11 +5,11 @@ import { IUser } from './user.interface';
 export interface IOrder {
   id?: string;
   type: OrderType;
-  training: ITraining;
+  training: ITraining | string;
   price: number;
   count: number;
   totalPrice: number;
   paymentType: PaymentType;
-  user: IUser;
+  user?: IUser;
   createdAt?: string;
 }

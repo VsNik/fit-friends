@@ -1,0 +1,8 @@
+GET http://localhost:5000/api/alerts HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwYWYyZjQ4LTNhZDItNDMzOC04YTljLTg4ZmE0NjQ4YTMyNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU3NTI4LCJleHAiOjE2OTkwNjExMjh9.q8A-7QeUc9WUbbuq2viRfD8RwnAEYSgpQ58foOPmBO0
+
+###
+DELETE http://localhost:5000/api/alerts/9d7a2dc9-6358-4320-bbd5-099e3bad6f54 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwYWYyZjQ4LTNhZDItNDMzOC04YTljLTg4ZmE0NjQ4YTMyNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDU3NTI4LCJleHAiOjE2OTkwNjExMjh9.q8A-7QeUc9WUbbuq2viRfD8RwnAEYSgpQ58foOPmBO0

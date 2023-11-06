@@ -1,0 +1,10 @@
+
+POST  http://localhost:5000/api/orders/5f4bb4e2-79e4-4876-8d13-e0b684865c6b HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0OTkzNDk0LTA4NjMtNDI0OC1iNzNjLTRkOTRjOGJkYzI0ZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk5MDUxMjE2LCJleHAiOjE2OTkwNTQ4MTZ9.2NV8qWsUv_iBjYGkYZf4DD3ZKgXQcA3GQJU00VM7FTk
+
+{
+    "type": "abonement",
+    "count": 5,
+    "paymentType": "visa"
+}

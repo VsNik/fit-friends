@@ -1,6 +1,8 @@
 import { TrainingOrderFilter, TrainingFilter } from '@fit-friends/libs/types';
 import { TrainingEntity } from './training.entity';
 
+export const TRAININGS_REPO = Symbol('TRAININGS_REPO');
+
 export interface ITrainingsRepository {
   get(id: string): Promise<TrainingEntity>;
   save(entity: TrainingEntity): Promise<TrainingEntity>;
@@ -9,5 +11,3 @@ export interface ITrainingsRepository {
   getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]>;
   getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]>;
 }
-
-export const TRAININGS_REPO = Symbol('TRAININGS_REPO');

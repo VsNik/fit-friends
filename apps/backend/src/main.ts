@@ -12,7 +12,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || DEFAULT_PORT;
   app.setGlobalPrefix(PREFIX);
-  app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
+  app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true, }));
 
   const config = new DocumentBuilder()
     .setTitle('FitFriends')

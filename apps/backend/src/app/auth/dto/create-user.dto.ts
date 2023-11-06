@@ -1,7 +1,7 @@
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 import { CreateDto } from './create.dto';
 import { TrainingDuration } from '@fit-friends/libs/types';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   BURN_CALORY_IS_NUMBER,
   BURN_CALORY_MAX,
@@ -58,7 +58,7 @@ export class CreateUserDto extends CreateDto {
     description: 'Готовность к тренировке',
     example: true,
   })
-  @Type(() => Boolean)
+  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
   @IsBoolean({ message: READY_IS_BOOLEAN })
   @IsNotEmpty({ message: READY_NOT_EMPTY })
   readonly ready: boolean;

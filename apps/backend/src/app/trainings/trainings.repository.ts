@@ -33,7 +33,7 @@ export class TrainingsRepository implements ITrainingsRepository {
 
   async update(entity: TrainingEntity): Promise<TrainingEntity> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, coach, ...toUpdate } = entity;
+    const { id, reviews, ...toUpdate } = entity;
     await this.repository.update({ id }, toUpdate);
     return this.findById(id);
   }

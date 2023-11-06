@@ -21,11 +21,12 @@ export class TokensRepository implements ITokensRepository {
     return token ? TokenEntity.create(token) : null;
   }
 
-  async deleteByTokenId(sessionId: string): Promise<void> {
-    await this.repository.delete({ sessionId });
+  async deleteByTokenId(sessionId: string): Promise<boolean> {
+    const result = await this.repository.delete({ sessionId });
+    return !!result;
   }
 
   async deleteExpiredTokens(): Promise<void> {
-    this.repository.delete({ expiresTo: LessThan(new Date()) });
+    await this.repository.delete({ expiresTo: LessThan(new Date()) });
   }
 }

@@ -9,7 +9,7 @@ import { OrderEntity } from './entities/order.entity';
 export class OrdersRepository implements IOrdersRepository {
   constructor(@InjectRepository(Order) private readonly repository: Repository<Order>) {}
 
-  async create(entity: OrderEntity): Promise<OrderEntity> {
+  async save(entity: OrderEntity): Promise<OrderEntity> {
     return this.repository.save(entity);
   }
 }

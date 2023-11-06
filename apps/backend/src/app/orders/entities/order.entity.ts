@@ -19,6 +19,15 @@ export class OrderEntity implements IOrder {
   }
 
   public toObject(): IOrder {
-    return { ...this };
+    return {
+      id: this.id,
+      type: this.type,
+      training: this.training,
+      price: this.price,
+      count: this.count,
+      totalPrice: this.totalPrice,
+      paymentType: this.paymentType,
+      createdAt: this.createdAt
+    };
   }
 }

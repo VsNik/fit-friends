@@ -1,15 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { CreateCoachDto } from './dto/create-coach.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { TokensService } from '../tokens/tokens.service';
-import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/libs/types';
-import { LoginDto } from './dto/login.dto';
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CREDENTIALS_ERROR, UNAUTHORIZED_ERROR, USER_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
+import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/libs/types';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { LoginDto } from './dto/login.dto';
+import { CreateCoachDto } from './dto/create-coach.dto';
+import { UsersService } from '../users/users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { TokensService } from '../tokens/tokens.service';
 
 @Injectable()
 export class AuthService {
@@ -84,11 +84,11 @@ export class AuthService {
     }
   }
 
-  private async removeSession(sessionId: string): Promise<void> {
+  private async removeSession(sessionId: string): Promise<boolean> {
     const existToken = await this.tokensService.isExist(sessionId);
     if (!existToken) {
       throw new UnauthorizedException(UNAUTHORIZED_ERROR);
     }
-    await this.tokensService.deleteRefreshSession(sessionId);
+    return this.tokensService.deleteRefreshSession(sessionId);
   }
 }

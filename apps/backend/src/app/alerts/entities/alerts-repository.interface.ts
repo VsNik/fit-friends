@@ -7,5 +7,5 @@ export interface IAlertsRepository {
   save(entity: AlertEntity): Promise<AlertEntity>;
   findById(id: string): Promise<AlertEntity | null>;
   findByUserId(id: string, pagination: Pagination): Promise<[AlertEntity[], number]>;
-  delete(id: string): Promise<void>;
+  delete(id: string): Promise<boolean>;
 }

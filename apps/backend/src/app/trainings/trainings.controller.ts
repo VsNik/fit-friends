@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ExpressFile, ITraining, Role, SortDirection, StatisticSorting, TrainingDuration, TrainingFilter, TrainingOrderFilter, TrainingSorting, TrainingType } from '@fit-friends/libs/types';
+import {
+  ExpressFile,
+  ITraining,
+  Role,
+  SortDirection,
+  StatisticSorting,
+  TrainingDuration,
+  TrainingFilter,
+  TrainingOrderFilter,
+  TrainingSorting,
+  TrainingType,
+} from '@fit-friends/libs/types';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticCollectionRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { VideoValidatePipe } from '@fit-friends/libs/pipes';
@@ -12,26 +23,37 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Trainings')
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 @Controller('trainings')
 export class TrainingsController {
   constructor(private readonly trainingsService: TrainingsService) {}
 
-  @ApiQuery({name: 'limit', required: false, type: Number})
-  @ApiQuery({name: 'page', required: false, type: Number})
-  @ApiQuery({name: 'sorting', required: false, enum: TrainingSorting})
-  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
-  @ApiQuery({name: 'priceTo', required: false, type: Number})
-  @ApiQuery({name: 'priceFrom', required: false, type: Number})
-  @ApiQuery({name: 'caloriesTo', required: false, type: Number})
-  @ApiQuery({name: 'caloriesFrom', required: false, type: Number})
-  @ApiQuery({name: 'rating', required: false, type: Number})
-  @ApiQuery({name: 'type', required: false, enum: TrainingType})
-  @ApiOkResponse({type: TrainingCollectionRdo})
   @ApiOperation({ summary: 'Каталог тренировок' })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'sorting', required: false, enum: TrainingSorting })
+  @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
+  @ApiQuery({ name: 'priceTo', required: false, type: Number })
+  @ApiQuery({ name: 'priceFrom', required: false, type: Number })
+  @ApiQuery({ name: 'caloriesTo', required: false, type: Number })
+  @ApiQuery({ name: 'caloriesFrom', required: false, type: Number })
+  @ApiQuery({ name: 'rating', required: false, type: Number })
+  @ApiQuery({ name: 'type', required: false, enum: TrainingType })
+  @ApiOkResponse({ type: TrainingCollectionRdo })
   @UseGuards(AuthGuard)
   @Get()
   async list(@Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
@@ -45,17 +67,18 @@ export class TrainingsController {
     });
   }
 
-  @ApiQuery({name: 'limit', required: false, type: Number})
-  @ApiQuery({name: 'page', required: false, type: Number})
-  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
-  @ApiQuery({name: 'priceTo', required: false, type: Number})
-  @ApiQuery({name: 'priceFrom', required: false, type: Number})
-  @ApiQuery({name: 'caloriesTo', required: false, type: Number})
-  @ApiQuery({name: 'caloriesFrom', required: false, type: Number})
-  @ApiQuery({name: 'rating', required: false, type: Number})
-  @ApiQuery({name: 'duration', required: false, enum: TrainingDuration})
-  @ApiOkResponse({type: TrainingCollectionRdo})
   @ApiOperation({ summary: 'Список тренировок тренера' })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
+  @ApiQuery({ name: 'priceTo', required: false, type: Number })
+  @ApiQuery({ name: 'priceFrom', required: false, type: Number })
+  @ApiQuery({ name: 'caloriesTo', required: false, type: Number })
+  @ApiQuery({ name: 'caloriesFrom', required: false, type: Number })
+  @ApiQuery({ name: 'rating', required: false, type: Number })
+  @ApiQuery({ name: 'duration', required: false, enum: TrainingDuration })
+  @ApiOkResponse({ type: TrainingCollectionRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('list-coach')
@@ -69,12 +92,13 @@ export class TrainingsController {
     });
   }
 
-  @ApiQuery({name: 'limit', required: false, type: Number})
-  @ApiQuery({name: 'page', required: false, type: Number})
-  @ApiQuery({name: 'sorting', required: false, enum: StatisticSorting})
-  @ApiQuery({name: 'direction', required: false, enum: SortDirection})
-  @ApiOkResponse({type: TrainingStatisticCollectionRdo})
   @ApiOperation({ summary: 'Заказы тренера' })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'sorting', required: false, enum: StatisticSorting })
+  @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
+  @ApiOkResponse({ type: TrainingStatisticCollectionRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @Get('orders')
@@ -89,9 +113,10 @@ export class TrainingsController {
     });
   }
 
-  @ApiCreatedResponse({type: TrainingRdo})
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Создание тренировки' })
+  @ApiCreatedResponse({ type: TrainingRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
@@ -105,16 +130,17 @@ export class TrainingsController {
     return this.mapTraining(training);
   }
 
-  @ApiOkResponse({type: TrainingRdo})
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Редактирование тренировки' })
+  @ApiOkResponse({ type: TrainingRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
   @UseInterceptors(FileInterceptor('video'))
   @Patch(':id')
   async update(
     @Body() dto: UpdateTrainingDto,
-    @Param('id') trainingId: string,
+    @Param('id', new ParseUUIDPipe()) trainingId: string,
     @UserId() coachId: string,
     @UploadedFile(new VideoValidatePipe(true)) video: ExpressFile,
   ): Promise<TrainingRdo> {
@@ -122,11 +148,11 @@ export class TrainingsController {
     return this.mapTraining(training);
   }
 
-  @ApiOkResponse({type: TrainingRdo})
   @ApiOperation({ summary: 'Детальная информация о тренировке' })
+  @ApiOkResponse({ type: TrainingRdo })
   @UseGuards(AuthGuard)
   @Get(':id')
-  async show(@Param('id') trainingId: string): Promise<TrainingRdo> {
+  async show(@Param('id', new ParseUUIDPipe()) trainingId: string): Promise<TrainingRdo> {
     const training = await this.trainingsService.getTraining(trainingId);
     return this.mapTraining(training);
   }

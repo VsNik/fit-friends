@@ -1,0 +1,3 @@
+GET http://localhost:5000/api/notify HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGMwMDA1LWQ2OGQtNGQyNC04MzQwLTZmOTg3NmI5N2ZkYSIsInJvbGUiOiJjb2FjaCIsImlhdCI6MTY5OTA1NDgxNiwiZXhwIjoxNjk5MDU4NDE2fQ.p84SZErbNGIBA8E_To7Sqo9WmQuzSvtqsJ0Haw_yNpE

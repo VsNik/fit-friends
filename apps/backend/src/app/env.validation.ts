@@ -37,6 +37,10 @@ class EnvironmentVariables {
 
   @IsString()
   @IsNotEmpty()
+  STATIC_ROOT: string;
+
+  @IsString()
+  @IsNotEmpty()
   JWT_ACCESS_SECRET: string;
 
   @IsString()

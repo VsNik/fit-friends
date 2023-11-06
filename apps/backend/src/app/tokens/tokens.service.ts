@@ -27,8 +27,9 @@ export class TokensService {
     return token !== null;
   }
 
-  async deleteRefreshSession(sessionId: string): Promise<void> {
-    await this.tokensRepository.deleteByTokenId(sessionId);
+  async deleteRefreshSession(sessionId: string): Promise<boolean> {
+    const result = await this.tokensRepository.deleteByTokenId(sessionId);
     await this.tokensRepository.deleteExpiredTokens();
+    return result
   }
 }
