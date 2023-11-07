@@ -2,7 +2,7 @@ import { Role } from './common';
 
 export interface IAuthToken {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
 }
 
 export interface IAccessTokenPayload {

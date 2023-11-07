@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CREDENTIALS_ERROR, UNAUTHORIZED_ERROR, USER_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
-import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/libs/types';
+import { IAuthToken, IRefreshTokenPayload, IUser, RequestExpress } from '@fit-friends/libs/types';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto/login.dto';
@@ -24,7 +24,11 @@ export class AuthService {
     return this.usersService.create(dto, avatar, certificate);
   }
 
-  async verifyUser({ email, password }: LoginDto): Promise<IAuthToken> {
+  async verifyUser({ email, password }: LoginDto, req: RequestExpress): Promise<IAuthToken> {
+    if (req.accessToken) {
+      return {accessToken: req.accessToken}
+    }
+    
     const existUser = await this.usersService.findByEmail(email);
     if (!existUser) {
       throw new BadRequestException(CREDENTIALS_ERROR);

@@ -76,7 +76,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Req() req: RequestExpress): Promise<LoggedRdo> {
-    const logged = req.accessToken ? { accessToken: req.accessToken } : await this.authService.verifyUser(loginDto);
+    const logged = this.authService.verifyUser(loginDto, req);
     return fillObject(LoggedRdo, logged);
   }
 
