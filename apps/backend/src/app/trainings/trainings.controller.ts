@@ -1,18 +1,9 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  ExpressFile,
-  ITraining,
-  Role,
-  SortDirection,
-  StatisticSorting,
-  TrainingDuration,
-  TrainingFilter,
-  TrainingOrderFilter,
-  TrainingSorting,
-  TrainingType,
-} from '@fit-friends/libs/types';
+import { ExpressFile } from '@fit-friends/libs/types';
+import { ITraining, Role, TrainingDuration, TrainingType } from '@fit-friends/shared';
+import { TrainingFilter, TrainingOrderFilter, SortDirection, StatisticSorting, TrainingSorting } from '@fit-friends/filters';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticCollectionRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { VideoValidatePipe } from '@fit-friends/libs/pipes';

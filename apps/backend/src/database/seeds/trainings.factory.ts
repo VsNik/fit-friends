@@ -1,7 +1,7 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { Training } from '../../app/trainings/models/training.model';
 import { Faker } from '@faker-js/faker';
-import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 
 export const TrainingsFactory = setSeederFactory(Training, (faker: Faker) => {
   const training = new Training();

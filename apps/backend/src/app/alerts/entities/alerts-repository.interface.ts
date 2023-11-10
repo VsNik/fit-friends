@@ -1,4 +1,4 @@
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { AlertEntity } from './alert.entity';
 
 export const ALERT_REPO = Symbol('ALERT_REPO');

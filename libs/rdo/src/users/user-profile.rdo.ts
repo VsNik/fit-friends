@@ -1,4 +1,4 @@
-import { TrainingDuration } from "@fit-friends/libs/types";
+import { TrainingDuration } from "@fit-friends/shared";
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { UserRdo } from "./user.rdo";

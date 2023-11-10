@@ -1,4 +1,4 @@
-import { Gender, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { Gender, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
 import {
   BIO_IS_STRING,
   BIO_LENGTH,

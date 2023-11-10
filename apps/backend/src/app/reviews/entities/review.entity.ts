@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { IReview, ITraining, IUser } from '@fit-friends/libs/types';
+import { IReview, ITraining, IUser } from '@fit-friends/shared';
 
 export class ReviewEntity implements IReview {
   id: string = randomUUID();

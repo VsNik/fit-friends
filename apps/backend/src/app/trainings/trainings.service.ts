@@ -1,6 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ExpressFile, ITraining, TrainingFilter, TrainingOrderFilter, UploadType } from '@fit-friends/libs/types';
+import { ExpressFile } from '@fit-friends/libs/types';
+import { ITraining, UploadType } from '@fit-friends/shared';
+import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { ITrainingsRepository, TRAININGS_REPO } from './entities/trainings-repository.interface';

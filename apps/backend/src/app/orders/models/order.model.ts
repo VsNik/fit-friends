@@ -1,4 +1,4 @@
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
+import { OrderType, PaymentType } from '@fit-friends/shared';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from '../../users/models/user.model';
 import { Training } from '../../trainings/models/training.model';

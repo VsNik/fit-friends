@@ -1,4 +1,4 @@
-import { Pagination, UsersFilter } from '@fit-friends/libs/types';
+import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { UserEntity } from './user.entity';
 
 export const USERS_REPO = Symbol('USERS_REPO');

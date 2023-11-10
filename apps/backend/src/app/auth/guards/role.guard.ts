@@ -1,7 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
-import { RequestExpress, Role } from '@fit-friends/libs/types';
+import { RequestExpress } from '@fit-friends/libs/types';
+import { Role } from '@fit-friends/shared';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()

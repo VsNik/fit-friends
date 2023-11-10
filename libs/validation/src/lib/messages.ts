@@ -1,5 +1,5 @@
 import { MAX_AVATAR_SIZE, OrderValidate, ReviewValidate, TrainingValidate, UserValidate } from './constants';
-import { Gender, Role, Location, TrainingLevel, TrainingType, TrainingDuration, OrderType, PaymentType, InviteStatus } from '@fit-friends/libs/types';
+import { Gender, Role, Location, TrainingLevel, TrainingType, TrainingDuration, OrderType, PaymentType, InviteStatus } from '@fit-friends/shared';
 
 export const UNAUTHORIZED_ERROR = 'Unauthorized';
 export const USER_NOT_FOUND_ERROR = 'User not found';

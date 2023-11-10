@@ -1,4 +1,4 @@
-import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { Expose } from 'class-transformer';
 import { UserRdo } from '../users/user.rdo';
 import { ApiProperty } from '@nestjs/swagger';

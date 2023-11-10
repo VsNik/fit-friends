@@ -43,3 +43,5 @@ apps/backend/.env
 
 uploads/*
 uploads/video
+
+.nx/cache

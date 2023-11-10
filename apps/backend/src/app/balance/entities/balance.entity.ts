@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { IBalance, ITraining } from '@fit-friends/libs/types';
+import { IBalance, ITraining } from '@fit-friends/shared';
 
 export class BalanceEntity implements IBalance {
   id?: string = randomUUID();

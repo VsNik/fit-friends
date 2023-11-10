@@ -1,7 +1,7 @@
 import { Body, Controller, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '@fit-friends/libs/types';
+import { Role } from '@fit-friends/shared';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UserId } from '../auth/decorators/user-id.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';

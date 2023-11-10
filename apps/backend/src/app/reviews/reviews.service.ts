@@ -4,7 +4,8 @@ import { UsersService } from '../users/users.service';
 import { TrainingsService } from '../trainings/trainings.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewEntity } from './entities/review.entity';
-import { IReview, Pagination } from '@fit-friends/libs/types';
+import { IReview } from '@fit-friends/shared';
+import { Pagination } from '@fit-friends/filters';
 import { TRAINING_NOT_FOUND_ERROR, UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()

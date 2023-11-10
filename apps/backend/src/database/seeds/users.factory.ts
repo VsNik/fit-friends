@@ -1,7 +1,7 @@
 import { hashSync } from 'bcrypt';
 import { setSeederFactory } from 'typeorm-extension';
 import { Faker } from '@faker-js/faker';
-import { Gender, Role, TrainingLevel, TrainingType, Location, TrainingDuration } from '@fit-friends/libs/types';
+import { Gender, Role, TrainingLevel, TrainingType, Location, TrainingDuration } from '@fit-friends/shared';
 import { User } from '../../app/users/models/user.model';
 
 const PASSWORD = 'password';

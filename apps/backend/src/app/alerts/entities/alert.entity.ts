@@ -1,4 +1,4 @@
-import { IAlert } from '@fit-friends/libs/types';
+import { IAlert } from '@fit-friends/shared';
 import { randomUUID } from 'crypto';
 
 export class AlertEntity implements IAlert {

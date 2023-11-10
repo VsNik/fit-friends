@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination, UsersFilter } from '@fit-friends/libs/types';
+import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { IUsersRepository } from './entities/users-repository.interface';
 import { User } from './models/user.model';
 import { UserEntity } from './entities/user.entity';

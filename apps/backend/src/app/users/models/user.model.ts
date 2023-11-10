@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
-import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
 import { Training } from '../../trainings/models/training.model';
 import { Review } from '../../reviews/models/review.model';
 import { Order } from '../../orders/models/order.model';

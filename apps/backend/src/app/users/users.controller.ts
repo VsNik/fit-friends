@@ -13,18 +13,9 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import {
-  ExpressFile,
-  IUser,
-  Location,
-  Pagination,
-  Role,
-  SortDirection,
-  TrainingLevel,
-  TrainingType,
-  UserSorting,
-  UsersFilter,
-} from '@fit-friends/libs/types';
+import { ExpressFile } from '@fit-friends/libs/types';
+import { IUser, Location, Role, TrainingLevel, TrainingType } from '@fit-friends/shared';
+import { Pagination, UsersFilter, UserSorting, SortDirection } from '@fit-friends/filters';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
@@ -100,7 +91,7 @@ export class UsersController {
     @UserId() userId: string,
     @UploadedFiles(new UserFilesValidatePipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile },
   ): Promise<UpdateUserRdo> {
-    console.log(dto)
+    console.log(dto);
     const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
     return fillObject(UpdateUserRdo, user);
   }

@@ -1,4 +1,4 @@
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { ReviewEntity } from './review.entity';
 
 export const REVIEWS_REPO = Symbol('REVIEWS_REPO');

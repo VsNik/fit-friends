@@ -1,4 +1,4 @@
-import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location, IUser } from '@fit-friends/libs/types';
+import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location, IUser } from '@fit-friends/shared';
 import { randomUUID } from 'crypto';
 
 export class UserEntity implements IUser {

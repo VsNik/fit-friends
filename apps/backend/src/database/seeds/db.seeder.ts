@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactory, SeederFactoryManager } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
-import { Role } from '@fit-friends/libs/types';
+import { Role } from '@fit-friends/shared';
 import { Training } from '../../app/trainings/models/training.model';
 import { Review } from '../../app/reviews/models/review.model';
 import { Order } from '../../app/orders/models/order.model';
@@ -11,7 +11,7 @@ enum FakeCount {
   Users = 8,
   Trainings = 10,
   Reviews = 20,
-  Orders = 10,
+  Orders = 5,
 }
 
 export default class DbSeeder implements Seeder {

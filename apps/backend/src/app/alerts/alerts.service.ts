@@ -1,7 +1,8 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ALERT_REPO, IAlertsRepository } from './entities/alerts-repository.interface';
 import { AlertEntity } from './entities/alert.entity';
-import { IAlert, Pagination } from '@fit-friends/libs/types';
+import { IAlert } from '@fit-friends/shared';
+import {Pagination} from '@fit-friends/filters';
 import { ALERT_NOT_FOUND, NOT_YOUR_ALERT } from '@fit-friends/libs/validation';
 
 @Injectable()

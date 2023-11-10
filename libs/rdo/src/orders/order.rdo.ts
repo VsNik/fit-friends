@@ -1,4 +1,4 @@
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
+import { OrderType, PaymentType } from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 

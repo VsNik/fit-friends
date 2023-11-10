@@ -1,7 +1,8 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
-import { IBalance, ITraining, Pagination } from '@fit-friends/libs/types';
+import { IBalance, ITraining } from '@fit-friends/shared';
+import {Pagination} from '@fit-friends/filters';
 import { TRAININGS_COUNT_ERROR, TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()

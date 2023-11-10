@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { InviteStatus } from '@fit-friends/libs/types';
+import { InviteStatus } from '@fit-friends/shared';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { IInvitationsRepository, INVITATIONS_REPO } from './entities/invitations-repository.interface';
 import { UsersService } from '../users/users.service';

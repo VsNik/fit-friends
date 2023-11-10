@@ -1,4 +1,4 @@
-import { Gender, IReview, ITraining, IUser, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, IReview, ITraining, IUser, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { randomUUID } from 'crypto';
 
 export class TrainingEntity implements ITraining {

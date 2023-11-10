@@ -1,6 +1,6 @@
 import { IsEnum, IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Location, TrainingDuration, TrainingLevel, TrainingType } from './common';
+import { Location, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 
 export const MAX_LIMIT = 50;
 export const DEFAULT_PAGE = 1;
@@ -96,3 +96,4 @@ export class TrainingOrderFilter extends Pagination {
   @IsEnum(StatisticSorting)
   sorting: StatisticSorting = StatisticSorting.OrderCount;
 }
+

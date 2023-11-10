@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { ITraining, TrainingFilter, TrainingOrderFilter } from '@fit-friends/libs/types';
+import { ITraining } from '@fit-friends/shared';
+import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
 
 @Injectable()
@@ -39,7 +40,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   }
 
   async getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]> {
-    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration, type, sorting, direction } = filters;  
+    const { limit, page, priceTo, priceFrom, caloriesTo, caloriesFrom, rating, duration, type, sorting, direction } = filters;
     const qb = this.getQueryBuilder();
 
     if (coachId) {
@@ -97,8 +98,6 @@ export class TrainingsRepository implements ITrainingsRepository {
   }
 
   private getQueryBuilder(): SelectQueryBuilder<ITraining> {
-    return this.repository
-      .createQueryBuilder('training')
-      .leftJoinAndSelect('training.coach', 'user');
+    return this.repository.createQueryBuilder('training').leftJoinAndSelect('training.coach', 'user');
   }
 }

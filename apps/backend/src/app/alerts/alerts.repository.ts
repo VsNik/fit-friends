@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { ALERTS_MAX_SHOW_COUNT } from '@fit-friends/libs/constants';
 import { IAlertsRepository } from './entities/alerts-repository.interface';
 import { Alert } from './models/alert.model';

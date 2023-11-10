@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { IInvitation, InviteStatus } from '@fit-friends/libs/types';
+import { IInvitation, InviteStatus } from '@fit-friends/shared';
 
 export class InvitationEntity implements IInvitation {
   id: string = randomUUID();

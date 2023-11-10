@@ -1,4 +1,4 @@
-import { Gender, Role, TrainingLevel, TrainingType, Location } from '@fit-friends/libs/types';
+import { Gender, Role, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';

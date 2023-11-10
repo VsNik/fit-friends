@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InviteStatus } from '@fit-friends/libs/types';
+import { InviteStatus } from '@fit-friends/shared';
 import { OnEvent } from '@nestjs/event-emitter';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { AlertsService } from '../alerts.service';

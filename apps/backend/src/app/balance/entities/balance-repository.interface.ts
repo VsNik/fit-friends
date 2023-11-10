@@ -1,4 +1,4 @@
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { BalanceEntity } from './balance.entity';
 
 export const BALANCE_REPO = Symbol('BALANCE_REPO');

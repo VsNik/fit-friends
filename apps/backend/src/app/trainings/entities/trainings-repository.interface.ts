@@ -1,4 +1,4 @@
-import { TrainingOrderFilter, TrainingFilter } from '@fit-friends/libs/types';
+import { TrainingOrderFilter, TrainingFilter } from '@fit-friends/filters';
 import { TrainingEntity } from './training.entity';
 
 export const TRAININGS_REPO = Symbol('TRAININGS_REPO');

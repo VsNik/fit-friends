@@ -1,4 +1,4 @@
-import { Gender, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 

@@ -1,6 +1,6 @@
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 import { CreateDto } from './create.dto';
-import { TrainingDuration } from '@fit-friends/libs/types';
+import { TrainingDuration } from '@fit-friends/shared';
 import { Transform, Type } from 'class-transformer';
 import {
   BURN_CALORY_IS_NUMBER,

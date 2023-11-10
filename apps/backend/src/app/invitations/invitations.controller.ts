@@ -1,5 +1,5 @@
 import { Body, Controller, Param, ParseUUIDPipe, Patch, Post, UseGuards } from '@nestjs/common';
-import { Role } from '@fit-friends/libs/types';
+import { Role } from '@fit-friends/shared';
 import { InvitationsService } from './invitations.service';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserId } from '../auth/decorators/user-id.decorator';

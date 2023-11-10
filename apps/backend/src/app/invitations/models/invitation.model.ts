@@ -1,4 +1,4 @@
-import { InviteStatus } from '@fit-friends/libs/types';
+import { InviteStatus } from '@fit-friends/shared';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('invitations')

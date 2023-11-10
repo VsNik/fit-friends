@@ -1,7 +1,7 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { Order } from '../../app/orders/models/order.model';
 import { Faker } from '@faker-js/faker';
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
+import { OrderType, PaymentType } from '@fit-friends/shared';
 
 export const OrdersFactory = setSeederFactory(Order, (faker: Faker) => {
   const order = new Order();

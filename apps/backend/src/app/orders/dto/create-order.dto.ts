@@ -1,4 +1,4 @@
-import { OrderType, PaymentType } from '@fit-friends/libs/types';
+import { OrderType, PaymentType } from '@fit-friends/shared';
 import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsPositive, Max, Min } from 'class-validator';
 import {
   ORDER_COUNT_IS_NUMBER,

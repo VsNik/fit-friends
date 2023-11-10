@@ -1,4 +1,4 @@
-import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/libs/types';
+import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import {

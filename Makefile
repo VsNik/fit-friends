@@ -4,7 +4,9 @@ clear: docker-clear
 restart: down up
 ps: docker-ps
 
+start: frontend-backend-start
 backend: backend-start
+frontend: frontend-start
 
 docker-up:
 	docker compose up -d
@@ -21,5 +23,14 @@ docker-ps:
 backend-start:
 	nx run backend:serve
 
+frontend-start:
+	nx run frontend:serve
+
+frontend-backend-start:
+	nx run-many --target=serve --all --parallel=10
+
 backend-lint:
 	nx run backend:lint
+
+frontend-lint:
+	nx run frontend:lint

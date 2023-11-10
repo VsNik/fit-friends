@@ -5,7 +5,8 @@ import { path } from 'app-root-path';
 import { extension } from 'mime-types';
 import { ensureDir, writeFile, remove } from 'fs-extra';
 import { randomUUID } from 'crypto';
-import { ExpressFile, UploadType } from '@fit-friends/libs/types';
+import { ExpressFile } from '@fit-friends/libs/types';
+import { UploadType } from '@fit-friends/shared';
 import { getUploadPath } from '@fit-friends/libs/utils';
 
 @Injectable()

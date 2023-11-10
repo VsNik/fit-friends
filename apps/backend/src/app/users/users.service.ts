@@ -1,7 +1,9 @@
 import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ExpressFile, IUser, Pagination, Role, UploadType, UsersFilter } from '@fit-friends/libs/types';
+import { ExpressFile } from '@fit-friends/libs/types';
+import {IUser, Role, UploadType} from '@fit-friends/shared';
+import {Pagination, UsersFilter} from '@fit-friends/filters';
 import { AppEvent, PASSWORD_SALT } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';

@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { fillObject } from '@fit-friends/libs/utils';
 import { AlertCollectionRdo, AlertRdo } from '@fit-friends/libs/rdo';
 import { AlertsService } from './alerts.service';

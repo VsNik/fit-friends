@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from '@fit-friends/libs/types';
+import { Pagination } from '@fit-friends/filters';
 import { Balance } from './models/balance.model';
 import { IBalanceRepository } from './entities/balance-repository.interface';
 import { BalanceEntity } from './entities/balance.entity';
