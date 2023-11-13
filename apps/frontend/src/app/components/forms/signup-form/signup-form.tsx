@@ -22,6 +22,17 @@ const optionsList = [
 
 type SignupType = Yup.InferType<typeof signupSchema>;
 
+export interface ISignupData {
+  avatar: string | FileList;
+  email: string;
+  birthday: string;
+  gender: Gender;
+  location: Location;
+  name: string
+  password: string;
+  role: Role;
+}
+
 export const SignupForm: React.FC = () => {
   const navigation = useNavigate();
   const [agree, setAgree] = useState(false);
@@ -44,6 +55,21 @@ export const SignupForm: React.FC = () => {
   const onSubmit = (data: SignupType) => {
     const birthday = data.birthday?.split('-').reverse().join('-');
     const avatar = data.avatar instanceof FileList && data.avatar[0];
+
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('birthday', birthday ?? '');
+    formData.append('gender', data.gender);
+    formData.append('location', data.location);
+    formData.append('role', data.role);
+
+    if (data.avatar instanceof FileList && data.avatar[0]) {
+      formData.append('avatar', data.avatar[0]);
+    }    
+
+    console.log(formData);
     console.log({ ...data, avatar, birthday });
     resetForm();
 

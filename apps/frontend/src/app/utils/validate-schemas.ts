@@ -28,6 +28,7 @@ import {
   USER_NAME_LENGTH,
   UserValidate,
 } from '@fit-friends/libs/validation';
+import { Gender, Location, Role, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import * as Yup from 'yup';
 
 export const loginSchema = Yup.object({
@@ -36,19 +37,16 @@ export const loginSchema = Yup.object({
 });
 
 export const signupSchema = Yup.object({
-  name: Yup.string()
-    .required(NAME_NOT_EMPTY)
-    .min(UserValidate.NameMinLength, USER_NAME_LENGTH)
-    .max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   email: Yup.string().required(EMAIL_NOT_EMPTY).email(INVALID_EMAIL),
   birthday: Yup.string().optional(),
-  location: Yup.string().required(LOCATION_NOT_EMPTY),
+  location: Yup.mixed<Location>().oneOf(Object.values(Location)).required(LOCATION_NOT_EMPTY),
   password: Yup.string()
     .required(PASSWORD_NOT_EMPTY)
     .min(UserValidate.PasswordMinLength, PASSWORD_LENGTH)
     .max(UserValidate.PasswordMaxLength, PASSWORD_LENGTH),
-  gender: Yup.string().required(GENDER_NOT_EMPTY),
-  role: Yup.string().required(ROLE_NOT_EMPTY),
+  gender: Yup.mixed<Gender>().oneOf(Object.values(Gender)).required(GENDER_NOT_EMPTY),
+  role: Yup.mixed<Role>().oneOf(Object.values(Role)).required(ROLE_NOT_EMPTY),
   avatar: Yup.mixed()
     .test('is-valid-type', AVATAR_TYPE_ERROR, (value) => {
       return value instanceof FileList && value[0] ? IMAGE_TYPES.includes(value[0].type) : true;
@@ -59,12 +57,12 @@ export const signupSchema = Yup.object({
 });
 
 export const questionUserSchema = Yup.object({
-  trainingType: Yup.array()
+  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
     .required()
     .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
     .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
-  trainingDuration: Yup.string().required(DURATION_NOT_EMPTY),
-  trainingLevel: Yup.string().required(LEVEL_NOT_EMPTY),
+  trainingDuration: Yup.mixed<TrainingDuration>().oneOf(Object.values(TrainingDuration)).required(DURATION_NOT_EMPTY),
+  trainingLevel: Yup.mixed<TrainingLevel>().oneOf(Object.values(TrainingLevel)).required(LEVEL_NOT_EMPTY),
   loseCalories: Yup.number()
     .transform((value) => (isNaN(value) || value === undefined ? null : value))
     .required(LOSE_CALORY_NOT_EMPTY)
@@ -78,15 +76,12 @@ export const questionUserSchema = Yup.object({
 });
 
 export const questionCoachSchema = Yup.object({
-  trainingType: Yup.array()
+  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
     .required()
     .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
     .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
-  trainingLevel: Yup.string().required(LEVEL_NOT_EMPTY),
-  merits: Yup.string()
-    .required(MERITS_NOT_EMPTY)
-    .min(UserValidate.MeritsMinLength)
-    .max(UserValidate.MeritsMaxLength),
+  trainingLevel: Yup.mixed<TrainingLevel>().oneOf(Object.values(TrainingLevel)).required(LEVEL_NOT_EMPTY),
+  merits: Yup.string().required(MERITS_NOT_EMPTY).min(UserValidate.MeritsMinLength).max(UserValidate.MeritsMaxLength),
   personalTraining: Yup.boolean().required(),
   certificate: Yup.mixed()
     .required()
