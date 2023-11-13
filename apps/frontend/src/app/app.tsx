@@ -2,7 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import { IntroPage } from './pages/intro/intro-page';
 import { LoginPage } from './pages/login/login-page';
 import { SignupPage } from './pages/signup/signup-page';
-import { QuestionUser } from './pages/question-user/question-user';
+import { QuestionUser } from './pages/question-user/question-user-page';
 import { QuestionCoach } from './pages/question-coach/question-coach';
 
 export enum RouteName {

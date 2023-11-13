@@ -1,34 +1,69 @@
-import React, { useState } from 'react';
+import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import useOutsideClick from '../../../../hooks/use-out-side-click';
 
 interface IOption {
   value: string;
-  text: string;
+  label: string;
 }
 
 interface SelectProps {
-  optionsList: IOption[];
+  options: IOption[];
+  name: string;
   label?: string;
-  option: IOption;
-  setOption: (item: IOption) => void;
-  error?: string;
+  selected: string;
+  setSelected: (value: string) => void;
+  placeholder?: string;
+  className?: string;
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { optionsList, label, option, setOption, error } = props;
-  const [isOpen, setIsOpen] = useState(false);
+  const { options, name, label, selected, setSelected, placeholder, className } = props;
+  const {
+    register,
+    setValue,
+    formState: { errors },
+    clearErrors,
+  } = useFormContext();
+  const [isOpen, setOpen] = useState(false);
+  const selectRef = useRef(null);
 
-  const onSetSelected = (item: IOption) => {
-    setOption(item);
-    setIsOpen(false);
+  useOutsideClick(selectRef, () => setOpen(false));
+
+  useEffect(() => {
+    clearErrors(name);
+    setValue(name, selected);
+  }, [selected, setValue, clearErrors, name]);
+
+  const onSetSelected = (value: string) => {
+    setSelected(value);
+    setOpen(false);
   };
 
   return (
-    <div className={`custom-select ${error && !option.text && 'is-invalid'} ${isOpen ? 'is-open' : 'custom-select--not-selected'}`}>
-      {error && !option.text && <i className="custom-select__error">{error}</i>}
-      <span className="custom-select__label">Ваша локация</span>
-      <div className="custom-select__placeholder">{option.text || label}</div>
+    <div
+      {...register(name)}
+      className={clsx('custom-select', className, {
+        'custom-select--not-selected': !isOpen,
+        'is-open': isOpen,
+        'is-invalid': errors[name],
+      })}
+    >
+      {errors[name] && <i className="custom-select__error">{errors[name]?.message as string}</i>}
 
-      <button onClick={() => setIsOpen(!isOpen)} className="custom-select__button" type="button" aria-label="Выберите одну из опций">
+      <span className="custom-select__label">{label}</span>
+      <div className="custom-select__placeholder">
+        {selected ? options.find((item) => item.value === selected)?.label : placeholder}
+      </div>
+
+      <button 
+        onClick={() => setOpen(!isOpen)} 
+        className="custom-select__button" 
+        type="button" 
+        aria-label="Выберите одну из опций" 
+        ref={selectRef}
+      >
         <span className="custom-select__text" />
         <span className="custom-select__icon">
           <svg width="15" height="6" aria-hidden="true">
@@ -38,9 +73,14 @@ export const Select: React.FC<SelectProps> = (props) => {
       </button>
 
       <ul className="custom-select__list" role="listbox">
-        {optionsList.map((item) => (
-          <li className="custom-select__item" onClick={() => onSetSelected(item)} key={item.value} value={item.value}>
-            <span>{item.text}</span>
+        {options.map((item) => (
+          <li 
+            className="custom-select__item" 
+            onClick={() => onSetSelected(item.value)} 
+            key={item.value} 
+            value={item.value}
+          >
+            <span>{item.label}</span>
           </li>
         ))}
       </ul>

@@ -28,6 +28,7 @@ export enum TrainingType {
   Yoga = 'yoga',
   Beg = 'beg',
   Boxing = 'boxing',
+  Power = 'power',
   Stretching = 'stretching',
   Crossfit = 'crossfit',
   Aerobic = 'aerobic',

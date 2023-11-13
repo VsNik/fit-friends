@@ -1,15 +1,15 @@
 import React from 'react';
 import { AuthLayout } from '../../components/layouts/auth-layout';
-import { QuestionCoachForm } from '../../components/forms/question-coach-form/question-coach-form';
+import { QuestionUserForm } from '../../components/forms/question-user-form/question-user-form';
 
-export const QuestionCoach: React.FC = () => {
+export const QuestionUser: React.FC = () => {
   return (
     <AuthLayout>
-      <div className="popup-form popup-form--questionnaire-coach">
+      <div className="popup-form popup-form--questionnaire-user">
         <div className="popup-form__wrapper">
           <div className="popup-form__content">
             <div className="popup-form__form">
-              <QuestionCoachForm />
+              <QuestionUserForm />
             </div>
           </div>
         </div>

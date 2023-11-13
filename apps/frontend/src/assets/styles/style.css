@@ -1175,6 +1175,7 @@ input:checked + .btn-checkbox__btn {
 }
 
 .specialization-checkbox {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1521,6 +1522,7 @@ input:disabled ~ .role-btn__btn,
   position: absolute;
   bottom: -20px;
   margin-top: 6px;
+  font-size: 14px;
   color: #e4001b;
   opacity: 1;
   -webkit-transition: opacity 0.3s ease;
@@ -1805,6 +1807,7 @@ input:active + .custom-textarea__text {
 }
 
 .custom-toggle-radio {
+  position: relative;
   font-size: 16px;
   line-height: 16px;
   font-weight: 400;
@@ -2083,6 +2086,7 @@ input:active + .custom-textarea__text {
   position: absolute;
   bottom: -20px;
   left: 0;
+  font-size: 14px;
   color: #e4001b;
   opacity: 0;
   -webkit-transition: opacity 0.1s ease;
@@ -7976,6 +7980,10 @@ input:active + .custom-textarea__text {
   transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
 
+.input-load-avatar__avatar img {
+  border-radius: 50%;
+}
+
 .input-load-avatar__btn {
   position: relative;
   display: -webkit-box;
@@ -8629,6 +8637,7 @@ input:active + .custom-textarea__text {
 }
 
 .sign-up__load-photo {
+  position: relative;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   display: -webkit-box;
@@ -8913,6 +8922,7 @@ input:active + .custom-textarea__text {
 }
 
 .questionnaire-user__calories-lose {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8926,6 +8936,7 @@ input:active + .custom-textarea__text {
 }
 
 .questionnaire-user__calories-waste {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

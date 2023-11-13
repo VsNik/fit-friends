@@ -12,6 +12,7 @@ export enum UserValidate {
   BioMaxLength = 140,
   CaloryMin = 1000,
   CaloryMax = 5000,
+  TrainingTypeMinCount = 1,
   TrainingTypeMaxCount = 3,
   MeritsMinLength = 10,
   MeritsMaxLength = 140,

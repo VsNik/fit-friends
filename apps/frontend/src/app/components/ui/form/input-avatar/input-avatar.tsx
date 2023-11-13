@@ -1,15 +1,37 @@
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-export const InputAvatar: React.FC = () => {
+interface InputAvatarProps {
+  name: string;
+  accept: string;
+  previewImage?: string;  
+}
+
+export const InputAvatar: React.FC<InputAvatarProps> = ({name, accept, previewImage}) => {
+  const {register, formState: {errors}} = useFormContext();
+
   return (
     <div className="input-load-avatar">
       <label>
-        <input className="visually-hidden" type="file" accept="image/png, image/jpeg" />
+        <input
+          {...register(name)}
+          name={name}
+          className="visually-hidden"
+          type="file"
+          accept={accept}
+        />
         <span className="input-load-avatar__btn">
-          <svg width="20" height="20" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-import" />
-          </svg>
+          {previewImage ? (
+            <span className="input-load-avatar__avatar">
+              <img src={String(previewImage)} width={98} height={98} alt="user-avatar"/>
+            </span>
+          ) : (
+            <svg width="20" height="20" aria-hidden="true">
+              <use xlinkHref="/assets/img/sprite.svg#icon-import"/>
+            </svg>
+          )}
         </span>
+        {errors[name] && <i className='custom-input__error'>{errors?.[name]?.message as string}</i>}
       </label>
     </div>
   );
