@@ -11,14 +11,14 @@ export interface IUser {
   role: Role;
   bio?: string;
   location: Location;
-  bgImage: string;
+  bgImage?: string;
   trainingLevel: TrainingLevel;
   trainingType: TrainingType[];
   trainingDuration?: TrainingDuration;
   loseCalories?: number;
   burnCalories?: number;
   ready?: boolean;
-  certificate?: string;
+  certificate?: string | string[];
   merits?: string;
   personalTraining?: boolean;
   subscribers?: IUser[];

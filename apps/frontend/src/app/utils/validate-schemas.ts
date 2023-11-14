@@ -40,7 +40,7 @@ export const signupSchema = Yup.object({
   name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   email: Yup.string().required(EMAIL_NOT_EMPTY).email(INVALID_EMAIL),
   birthday: Yup.string().optional(),
-  location: Yup.mixed<Location>().oneOf(Object.values(Location)).required(LOCATION_NOT_EMPTY),
+  location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
   password: Yup.string()
     .required(PASSWORD_NOT_EMPTY)
     .min(UserValidate.PasswordMinLength, PASSWORD_LENGTH)
@@ -91,4 +91,16 @@ export const questionCoachSchema = Yup.object({
     .test('is-valid-type', CERTIFICATE_TYPE_ERROR, (value) => {
       return value instanceof FileList && value[0] ? CERTIFICATE_TYPE.includes(value[0].type) : true;
     }),
+});
+
+export const userInfoSchema = Yup.object({
+  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  bio: Yup.string().required(),
+  personalTraining: Yup.boolean().required(),
+  location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
+  gender: Yup.mixed<Gender>().oneOf(Object.values(Gender)).required(GENDER_NOT_EMPTY),
+  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
+    .required()
+    .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
+    .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
 });

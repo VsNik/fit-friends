@@ -10,16 +10,18 @@ interface InputProps {
   text?: string;
   className?: string;
   isErrorMessage?: boolean;
+  disabled?: boolean;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
-  const {label, name, type, placeholder, className, text, isErrorMessage = true} = props;
+  const {label, name, type, placeholder, className, text, disabled, isErrorMessage = true} = props;
   const {register, formState: {errors}} = useFormContext();
 
   return (
     <div
       className={clsx('custom-input', className, {
         'custom-input--error': errors[name],
+        'custom-input--readonly': disabled
       })}
     >
       <label>
@@ -30,6 +32,7 @@ export const Input: React.FC<InputProps> = (props) => {
             type={type}
             name={name}
             placeholder={placeholder}
+            disabled={disabled}
           />
           {text && <span className="custom-input__text">{text}</span>}
         </span>

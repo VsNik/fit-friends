@@ -1,22 +1,32 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
 
 interface TextareaProps {
   name: string;
+  label?: string;
   placeholder?: string;
+  disabled?: boolean;
   className?: string;
 }
 
-export const Textarea: React.FC<TextareaProps> = ({ name, placeholder, className }) => {
+export const Textarea: React.FC<TextareaProps> = (props) => {
+  const { name, label, placeholder, className, disabled } = props;
+
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
   return (
-    <div className={`custom-textarea ${className}`}>
+    <div
+      className={clsx('custom-textarea', className, {
+        'custom-textarea--readonly': disabled,
+      })}
+    >
       <label>
-        <textarea {...register(name)} name={name} placeholder={placeholder} />
+        <span className="custom-textarea__label">{label}</span>
+        <textarea {...register(name)} name={name} placeholder={placeholder} disabled={disabled} />
         {errors[name] && <i className="custom-textarea__error">{errors[name]?.message as string}</i>}
       </label>
     </div>

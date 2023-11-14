@@ -11,14 +11,8 @@ import { RoleBtnRadio } from '../../ui/form/role-btn-radio/role-btn-radio';
 import { InputAvatar } from '../../ui/form/input-avatar/input-avatar';
 import { useImagePreview } from '../../../hooks/use-image-preview';
 import { signupSchema } from '../../../utils/validate-schemas';
+import { LocationList } from '../../../constants/common';
 import { RouteName } from '../../../app';
-
-const optionsList = [
-  { value: Location.Pionerskaya, label: 'Пионерская' },
-  { value: Location.Udelnaya, label: 'Удельная' },
-  { value: Location.Zvezdnaya, label: 'Звездная' },
-  { value: Location.Sportivnaya, label: 'Спортивная' },
-];
 
 type SignupType = Yup.InferType<typeof signupSchema>;
 
@@ -95,7 +89,7 @@ export const SignupForm: React.FC = () => {
             <Input label="E-mail" name="email" type="email" />
             <Input label="Дата рождения" name="birthday" type="date" />
             <Select 
-              options={optionsList}
+              options={LocationList}
               name="location"
               label='Ваша локация'
               placeholder="Выберите локацию"

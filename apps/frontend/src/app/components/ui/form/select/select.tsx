@@ -10,24 +10,27 @@ interface IOption {
 
 interface SelectProps {
   options: IOption[];
-  name: string;
+  name: string;  
   label?: string;
   selected: string;
-  setSelected: (value: string) => void;
   placeholder?: string;
-  className?: string;
+  setSelected: (value: string) => void;
+  disabled?: boolean;
+  className?: string; 
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { options, name, label, selected, setSelected, placeholder, className } = props;
+  const { options, name, label, selected, setSelected, placeholder, disabled, className } = props;
+
+  const [isOpen, setOpen] = useState(false);
+  const selectRef = useRef(null);
+  
   const {
     register,
     setValue,
     formState: { errors },
     clearErrors,
   } = useFormContext();
-  const [isOpen, setOpen] = useState(false);
-  const selectRef = useRef(null);
 
   useOutsideClick(selectRef, () => setOpen(false));
 
@@ -48,6 +51,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         'custom-select--not-selected': !isOpen,
         'is-open': isOpen,
         'is-invalid': errors[name],
+        'custom-select--readonly': disabled
       })}
     >
       {errors[name] && <i className="custom-select__error">{errors[name]?.message as string}</i>}
@@ -63,6 +67,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         type="button" 
         aria-label="Выберите одну из опций" 
         ref={selectRef}
+        disabled={disabled}
       >
         <span className="custom-select__text" />
         <span className="custom-select__icon">
