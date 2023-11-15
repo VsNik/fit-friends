@@ -9,7 +9,7 @@ interface UserInfoProps {
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const [isEditable, setEditable] = useState(false);
-
+  
   return (
     <section className={clsx(isEditable ? 'user-info-edit' : 'user-info')}>
       <div className="user-info-edit__header">

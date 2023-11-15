@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Gender, Role, Location, TrainingLevel, TrainingType } from '@fit-friends/shared';
+import { Gender, Role, Location, TrainingLevel, TrainingType} from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserRdo {

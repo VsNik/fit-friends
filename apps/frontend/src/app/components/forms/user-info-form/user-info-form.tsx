@@ -12,7 +12,7 @@ import { Toggle } from '../../ui/form/toggle/toggle';
 import { Select } from '../../ui/form/select/select';
 import { GendesrList, LevelsList, LocationList } from '../../../constants/common';
 import { userInfoSchema } from '../../../utils/validate-schemas';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateUserAction } from '../../../store/user/async-actions';
 
 interface UserInfoProps {
@@ -24,6 +24,7 @@ interface UserInfoProps {
 export type UserInfoType = Yup.InferType<typeof userInfoSchema>;
 
 export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable }) => {
+  const isLoading = useAppSelector(state => state.user.isLoading);
   const dispatch = useAppDispatch();
   const [location, setLocation] = useState('');
   const [gender, setGender] = useState('');
@@ -60,8 +61,8 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
   return (
     <FormProvider {...methods}>
       <form className={clsx(isEditable ? 'user-info-edit__form' : 'user-info__form')} onSubmit={handleSubmit(onSubmit)}>
-        {isEditable || (Object.keys(errors).length !== 0) ? (
-          <button className="btn-flat btn-flat--underlined user-info-edit__save-button" type="submit" aria-label="Сохранить">
+        {isEditable || (Object.keys(errors).length !== 0) || isLoading ? (
+          <button className="btn-flat btn-flat--underlined user-info-edit__save-button" type="submit" aria-label="Сохранить" disabled={isLoading}>
             <svg width="12" height="12" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-edit" />
             </svg>

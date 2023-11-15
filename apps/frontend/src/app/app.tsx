@@ -6,9 +6,11 @@ import { QuestionUserPage } from './pages/question-user/question-user-page';
 import { QuestionCoachPage } from './pages/question-coach/question-coach-page';
 import { AccountPage } from './pages/account/account-page';
 import { history } from './utils/history';
+import { HomePage } from './pages/home/home-page';
 
 export enum RouteName {
-  Intro = '/',
+  Home = '/',
+  Intro = '/intro',
   Login = '/login',
   Signup = '/signup',
   QuestionUser = '/question-user',
@@ -22,6 +24,7 @@ export function App() {
 
   return (
     <Routes>
+      <Route path={RouteName.Home} element={<HomePage />} />
       <Route path={RouteName.Intro} element={<IntroPage />} />
       <Route path={RouteName.Login} element={<LoginPage />} />
       <Route path={RouteName.Signup} element={<SignupPage />} />

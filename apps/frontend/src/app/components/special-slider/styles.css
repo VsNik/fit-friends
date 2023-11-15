@@ -1,0 +1,22 @@
+.promo-slider__dots {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 25px;
+    width: 100%;
+    gap: 8px;
+}
+
+.promo-slider__dots .promo-slider__dot {
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    background: #e8e8e8;
+    border-radius: 50%;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.promo-slider__dots .promo-slider__dot.promo-slider__dot-active {
+    background: #c5ec2a;
+}

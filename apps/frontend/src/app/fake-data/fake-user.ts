@@ -1,4 +1,4 @@
-import {CoachType, Gender, Location, Role, TrainingLevel, TrainingType} from "@fit-friends/shared";
+import { CoachType, Gender, IUserCollection, Location, Role, TrainingLevel, TrainingType, UserType } from '@fit-friends/shared';
 
 export const fakeCoach: CoachType = {
   id: 'b23b3414-e6fc-4bbf-9375-81c050ed6e3e',
@@ -21,5 +21,98 @@ export const fakeCoach: CoachType = {
     '/assets/img/content/certificates-and-diplomas/certificate-6.jpg',
   ],
   personalTraining: true,
-  createdAt: '2019-10-10T17:37:56.678Z'
-}
+  createdAt: '2019-10-10T17:37:56.678Z',
+};
+
+const fakeCompany: UserType[] = [
+  {
+    id: '1',
+    name: 'Диана',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-04.jpg',
+    gender: Gender.Female,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Sportivnaya,
+    trainingLevel: TrainingLevel.Novice,
+    trainingType: [TrainingType.Pilates, TrainingType.Yoga],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+  {
+    id: '2',
+    name: 'Константин',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-05.jpg',
+    gender: Gender.Male,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Pionerskaya,
+    trainingLevel: TrainingLevel.Amateur,
+    trainingType: [TrainingType.Power],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+  {
+    id: '3',
+    name: 'Иван',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-06.jpg',
+    gender: Gender.Male,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Udelnaya,
+    trainingLevel: TrainingLevel.Novice,
+    trainingType: [TrainingType.Beg],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+  {
+    id: '4',
+    name: 'Яна',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-07.jpg',
+    gender: Gender.Female,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Zvezdnaya,
+    trainingLevel: TrainingLevel.Novice,
+    trainingType: [TrainingType.Beg],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+  {
+    id: '5',
+    name: 'Елена',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-03.jpg',
+    gender: Gender.Female,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Sportivnaya,
+    trainingLevel: TrainingLevel.Professional,
+    trainingType: [TrainingType.Yoga],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+  {
+    id: '6',
+    name: 'Александр',
+    email: 'diana@app.test',
+    avatar: '/assets/img/content/thumbnails/user-08.jpg',
+    gender: Gender.Female,
+    birthDay: '1985-12-04',
+    role: Role.User,
+    bio: 'description',
+    location: Location.Sportivnaya,
+    trainingLevel: TrainingLevel.Professional,
+    trainingType: [TrainingType.Boxing],
+    createdAt: '2019-10-10T17:37:56.678Z',
+  },
+];
+
+export const fakeCompanyUser: IUserCollection = {
+  data: fakeCompany,
+  page: 1,
+  total: fakeCompany.length,
+};

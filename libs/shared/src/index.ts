@@ -8,3 +8,6 @@ export * from './lib/review.interface';
 export * from './lib/invite.interface';
 export * from './lib/notify.interface';
 export * from './lib/alert.interface';
+
+export * from './lib/user-collection.interface';
+export * from './lib/training-collection.interface';

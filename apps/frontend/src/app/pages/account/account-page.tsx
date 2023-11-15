@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { CoachAccount } from '../../components/accounts/coach-account/coach-account';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Role } from '@fit-friends/shared';
+import { fetchUserAction } from '../../store/user/async-actions';
 
 export const AccountPage: React.FC = () => {
-  const user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
+  const {user, isLoading} = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchUserAction());
+  }, [dispatch]);
+
+  // if (isLoading) {
+  //   return <h3>Loading...</h3>
+  // }
 
   return (
     <AppLayout>

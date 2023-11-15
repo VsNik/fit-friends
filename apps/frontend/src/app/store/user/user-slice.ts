@@ -1,7 +1,7 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { IUser, TrainingType } from '@fit-friends/shared';
 import { fakeCoach } from '../../fake-data/fake-user';
-import { updateUserAction } from './async-actions';
+import { fetchUserAction, updateUserAction } from './async-actions';
 
 export interface UserStore {
   user: IUser;
@@ -10,7 +10,7 @@ export interface UserStore {
 }
 
 const initialState: UserStore = {
-  user: fakeCoach,
+  user: {} as IUser,
   isLoading: false,
   error: '',
 };
@@ -21,9 +21,17 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(updateUserAction.pending, (state) => {
+      .addCase(fetchUserAction.pending, (state) => {
         state.isLoading = true;
         state.user = {} as IUser;
+      })
+      .addCase(fetchUserAction.fulfilled, (state, {payload}) => {
+        state.user = payload;
+        state.isLoading = false;
+      })
+
+      .addCase(updateUserAction.pending, (state) => {
+        state.isLoading = true;
         state.error = '';
       })
       .addCase(updateUserAction.fulfilled, (state, { payload }) => {
