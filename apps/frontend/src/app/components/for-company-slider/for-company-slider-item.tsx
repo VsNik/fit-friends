@@ -28,7 +28,7 @@ export const ForCompanySliderItem: React.FC<ForCompanySliderItemProps> = ({ user
         </div>
         <ul className="thumbnail-user__hashtags-list">
           {user.trainingType.map((type) => (
-            <li className="thumbnail-user__hashtags-item">
+            <li key={type} className="thumbnail-user__hashtags-item">
               <div className="hashtag thumbnail-user__hashtag">
                 <span>#{type}</span>
               </div>

@@ -7,6 +7,7 @@ import { QuestionCoachPage } from './pages/question-coach/question-coach-page';
 import { AccountPage } from './pages/account/account-page';
 import { history } from './utils/history';
 import { HomePage } from './pages/home/home-page';
+import { TrainingsPage } from './pages/trainings/trainings';
 
 export enum RouteName {
   Home = '/',
@@ -16,6 +17,7 @@ export enum RouteName {
   QuestionUser = '/question-user',
   QuestionCoach = '/question-coach',
   Account = '/account/:id',
+  Trainings = '/trainings',
 }
 
 export function App() {
@@ -31,6 +33,7 @@ export function App() {
       <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
       <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
       <Route path={RouteName.Account} element={<AccountPage />} />
+      <Route path={RouteName.Trainings} element={<TrainingsPage />} />
     </Routes>
   );
 }

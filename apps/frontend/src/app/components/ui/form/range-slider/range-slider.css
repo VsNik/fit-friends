@@ -1,0 +1,30 @@
+.filter-ranger__scale-0,
+.filter-ranger__scale-1,
+.filter-ranger__scale-2 {
+  position: absolute;
+  top: -2px;
+  height: 1px;
+}
+
+.filter-ranger__scale-0, .filter-ranger__scale-2 {
+  background-color: #aeaeae;
+}
+
+.filter-ranger__scale-1 {
+  background-color: #333333;
+}
+
+.filter-ranger__toggle {
+  position: absolute;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  background-color: #333333;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-ranger__toggle:hover {
+  background-color: #adadad;
+}
