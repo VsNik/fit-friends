@@ -1,4 +1,6 @@
 import React from 'react';
+import clsx from 'clsx';
+import { useFormContext } from 'react-hook-form';
 
 interface TrainingTextareaProps {
   name: string;
@@ -7,11 +9,18 @@ interface TrainingTextareaProps {
 }
 
 export const TrainingTextarea: React.FC<TrainingTextareaProps> = ({ name, label, text }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <div className="training-info__textarea">
+    <div className={clsx('training-info__textarea', { 'is-invalid': errors[name] })}>
       <label>
         <span className="training-info__label">{label}</span>
-        <textarea name={name}>{text}</textarea>
+        <textarea {...register(name)} name={name}>
+          {text}
+        </textarea>
       </label>
     </div>
   );

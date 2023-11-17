@@ -5,6 +5,7 @@ import trainingsReducer from './trainings/trainings-slice';
 import forYouReducer from './trainings/for-you-slice';
 import specialReducer from './trainings/special-slice';
 import popularReducer from './trainings/popular-slice';
+import reviewsReducer from './reviews/reviews-slice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     forYouTrainings: forYouReducer, 
     specialTrainings: specialReducer,
     popularTrainings: popularReducer,
+    reviews: reviewsReducer,
   },
 });
 

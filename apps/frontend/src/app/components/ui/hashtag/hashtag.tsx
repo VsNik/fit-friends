@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 interface HashtagProps {
-  title: string;
+  title: string | number;
   white?: boolean;
   className?: string;
 }
