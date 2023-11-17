@@ -63,3 +63,23 @@ export enum InviteStatus {
   Rejected = 'rejected',
   Accepted = 'accepted',
 }
+
+export enum TrainingSorting {
+  Created = 'createdAt',
+  Price = 'price',
+}
+
+export enum SortDirection {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+
+export enum StatisticSorting {
+  OrderCount = 'ordersCount',
+  OrderSumm = 'ordersSumm',
+}
+
+export enum UserSorting {
+  Created = 'createdAt',
+  Role = 'role',
+}

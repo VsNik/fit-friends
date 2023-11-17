@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { readdir } from 'fs-extra';
 import { UploadType } from '@fit-friends/shared';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { MAX_LIMIT } from '@fit-friends/filters';
+import {MAX_LIMIT} from '@fit-friends/libs/validation';
 
 const TIME_ERROR = '[parseTime] Bad time string';
 const IS_NAN_ERROR = "[parseTime] Can't parse value count. Result is NaN.";

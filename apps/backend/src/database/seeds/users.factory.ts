@@ -40,7 +40,7 @@ export const UsersFactory = setSeederFactory(User, (faker: Faker) => {
     user.burnCalories = faker.number.int({ min: 1000, max: 5000 });
     user.ready = !!faker.helpers.arrayElement([0, 1]);
   } else {
-    user.certificate = faker.image.urlLoremFlickr({ width: 240, height: 320, category: 'nature' });
+    user.certificate = [faker.image.urlLoremFlickr({ width: 240, height: 320, category: 'nature' })];
     user.merits = faker.lorem.sentence(15);
     user.personalTraining = !!faker.helpers.arrayElement([0, 1]);
   }

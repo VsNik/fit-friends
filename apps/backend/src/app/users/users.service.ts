@@ -46,7 +46,7 @@ export class UsersService {
     const bgImage = await getRandomBg(UploadType.BgUser);
 
     const passwordHash = await hash(dto.password, PASSWORD_SALT);
-    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage, certificate });
+    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage, certificate: [certificate] });
     const savedUser = await this.usersRepository.save(userEntity);
 
     return savedUser.toObject();
@@ -67,9 +67,9 @@ export class UsersService {
       existUser.updateRoleUser(dto);
     } else {
       if (fileCertificate) {
-        if (existUser.certificate) {
-          await this.fileService.delete(existUser.certificate);
-        }
+        // if (existUser.certificate) {
+        //   await this.fileService.delete(existUser.certificate);
+        // }
 
         existUser.setCertificate(await this.fileService.upload(fileCertificate, UploadType.Certificate));
       }

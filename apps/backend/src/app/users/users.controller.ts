@@ -14,8 +14,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { IUser, Location, Role, TrainingLevel, TrainingType } from '@fit-friends/shared';
-import { Pagination, UsersFilter, UserSorting, SortDirection } from '@fit-friends/filters';
+import { IUser, Location, Role, SortDirection, TrainingLevel, TrainingType, UserSorting } from '@fit-friends/shared';
+import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';

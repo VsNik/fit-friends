@@ -105,7 +105,7 @@ export class UpdateDto {
 
   @ApiProperty({ type: 'string', format: 'binary', required: false, description: 'Сертификат тренера' })
   @IsOptional()
-  readonly certificate?: string;
+  readonly certificate?: string[];
 
   @ApiProperty({ description: 'Заслуги тренера', required: false })
   @IsString({ message: MERITS_IS_STRING })

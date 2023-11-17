@@ -19,7 +19,7 @@ export class UserEntity implements IUser {
   loseCalories?: number;
   burnCalories?: number;
   ready?: boolean;
-  certificate?: string;
+  certificate?: string[];
   merits?: string;
   personalTraining?: boolean;
   followers?: IUser[];
@@ -39,7 +39,7 @@ export class UserEntity implements IUser {
   }
 
   public setCertificate(certificate: string): void {
-    this.certificate = certificate;
+    this.certificate.push(certificate);
   }
 
   public updateRoleUser(item: Partial<IUser>) {
@@ -85,7 +85,7 @@ export class UserEntity implements IUser {
       loseCalories: this.loseCalories,
       burnCalories: this.burnCalories,
       ready: this.ready,
-      certificate: this.certificate ?? '',
+      certificate: this.certificate,
       merits: this.merits ?? '',
       personalTraining: this.personalTraining,
       createdAt: this.createdAt,

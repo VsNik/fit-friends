@@ -8,6 +8,7 @@ import { AccountPage } from './pages/account/account-page';
 import { history } from './utils/history';
 import { HomePage } from './pages/home/home-page';
 import { TrainingsPage } from './pages/trainings/trainings';
+import { TrainingCardPage } from './pages/training-card/training-card-page';
 
 export enum RouteName {
   Home = '/',
@@ -18,6 +19,7 @@ export enum RouteName {
   QuestionCoach = '/question-coach',
   Account = '/account/:id',
   Trainings = '/trainings',
+  TrainingCard = '/trainings/:id',
 }
 
 export function App() {
@@ -34,6 +36,7 @@ export function App() {
       <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
       <Route path={RouteName.Account} element={<AccountPage />} />
       <Route path={RouteName.Trainings} element={<TrainingsPage />} />
+      <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
     </Routes>
   );
 }

@@ -9,10 +9,11 @@ interface RangeSliderProps {
   min?: number;
   max?: number;
   step?: number;
+  disabled?: boolean;
 }
 
 export const RangeSlider: React.FC<RangeSliderProps> = (props) => {
-  const { value, onChange, onChanged, min, max, step } = props;
+  const { value, onChange, onChanged, min, max, step, disabled } = props;
 
   return (
     <ReactSlider
@@ -25,6 +26,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = (props) => {
       min={min}
       max={max}
       step={step}
+      disabled={disabled}
     />
   );
 };

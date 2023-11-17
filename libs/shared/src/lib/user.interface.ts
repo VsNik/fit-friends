@@ -18,7 +18,7 @@ export interface IUser {
   loseCalories?: number;
   burnCalories?: number;
   ready?: boolean;
-  certificate?: string | string[];
+  certificate?: string[];
   merits?: string;
   personalTraining?: boolean;
   subscribers?: IUser[];

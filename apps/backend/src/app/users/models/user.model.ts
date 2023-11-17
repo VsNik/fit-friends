@@ -57,8 +57,8 @@ export class User {
   @Column({ nullable: true })
   ready?: boolean;
 
-  @Column({ nullable: true })
-  certificate?: string;
+  @Column('simple-array', { nullable: true })
+  certificate: string[];
 
   @Column({ nullable: true })
   merits?: string;

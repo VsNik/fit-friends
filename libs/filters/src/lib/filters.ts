@@ -1,29 +1,7 @@
 import { IsEnum, IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Location, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
-
-export const MAX_LIMIT = 50;
-export const DEFAULT_PAGE = 1;
-
-export enum UserSorting {
-  Created = 'createdAt',
-  Role = 'role',
-}
-
-export enum TrainingSorting {
-  Created = 'createdAt',
-  Price = 'price',
-}
-
-export enum SortDirection {
-  Asc = 'ASC',
-  Desc = 'DESC',
-}
-
-export enum StatisticSorting {
-  OrderCount = 'ordersCount',
-  OrderSumm = 'ordersSumm',
-}
+import { Location, SortDirection, StatisticSorting, TrainingDuration, TrainingLevel, TrainingSorting, TrainingType, UserSorting } from '@fit-friends/shared';
+import { DEFAULT_PAGE, MAX_LIMIT } from '@fit-friends/libs/validation';
 
 export class Pagination {
   @Type(() => Number)
@@ -96,4 +74,3 @@ export class TrainingOrderFilter extends Pagination {
   @IsEnum(StatisticSorting)
   sorting: StatisticSorting = StatisticSorting.OrderCount;
 }
-

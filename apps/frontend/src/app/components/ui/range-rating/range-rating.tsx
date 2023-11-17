@@ -5,10 +5,11 @@ interface RangeRatingProps {
   onChangedRating: (values: number[]) => void;
   min: number;
   max: number;
+  disabled?: boolean;
 }
 
 export const RangeRating: React.FC<RangeRatingProps> = (props) => {
-  const { onChangedRating, min, max } = props;
+  const { onChangedRating, min, max, disabled } = props;
   const [ratingValue, setRatingValue] = useState([min, max]);
 
   const handleChanged = () => onChangedRating(ratingValue);
@@ -24,6 +25,7 @@ export const RangeRating: React.FC<RangeRatingProps> = (props) => {
         min={min} 
         max={max} 
         step={1} 
+        disabled={disabled}
       />
     </div>
   );

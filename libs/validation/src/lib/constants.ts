@@ -2,6 +2,8 @@ export const IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const VIDEO_TYPE = ['.mov', '.avi', '.mp4'];
 export const CERTIFICATE_TYPE = 'application/pdf';
 export const MAX_AVATAR_SIZE = 1024 * 1024;
+export const MAX_LIMIT = 50;
+export const DEFAULT_PAGE = 1;
 
 export enum UserValidate {
   NameMinLength = 1,

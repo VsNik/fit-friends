@@ -4,6 +4,8 @@ import { RangeCalory } from '../ui/range-calory/range-calory';
 import { RangeRating } from '../ui/range-rating/range-rating';
 import { CheckTypes } from '../ui/check-types/check-types';
 import { CheckSortingPrice } from '../ui/check-sorting-price/check-sorting-price';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setCaloriesAction, setPriceAction, setRatingAction } from '../../store/trainings/trainings-slice';
 
 enum Price {
   Min = 0,
@@ -23,18 +25,18 @@ enum Rating {
 }
 
 export const TrainingFilter: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const types = useAppSelector(state => state.trainings.type);
+  const isLoading = useAppSelector(state => state.trainings.isLoading);
 
-  const onChangedPrice = (values: number[]) => {
-    console.log(values);
-  }
+  const onChangedPrice = (values: number[]) => 
+    dispatch(setPriceAction(values));
 
-  const onChangeCalory = (values: number[]) => {
-    console.log(values);
-  }
+  const onChangeCalory = (values: number[]) => 
+    dispatch(setCaloriesAction(values));
 
-  const onChangeRating = (values: number[]) => {
-    console.log(values);
-  }  
+  const onChangeRating = (values: number[]) => 
+    dispatch(setRatingAction(values));
 
   return (
     <div className="gym-catalog-form">
@@ -53,25 +55,25 @@ export const TrainingFilter: React.FC = () => {
             onChangedPrice={onChangedPrice} 
             min={Price.Min} 
             max={Price.Max} 
-            step={Price.Step}
+            step={Price.Step} disabled={isLoading}
           />
 
           <RangeCalory 
             onChangedCalory={onChangeCalory}
             min={Calory.Min}
             max={Calory.Max}
-            step={Calory.Step}
+            step={Calory.Step} disabled={isLoading}
           />
 
           <RangeRating 
             onChangedRating={onChangeRating} 
             min={Rating.Min} 
-            max={Rating.Max} 
+            max={Rating.Max} disabled={isLoading} 
           />
 
-          <CheckTypes name='trainingType' />
+          <CheckTypes typeList={types} name='trainingType' disabled={isLoading}/>
 
-          <CheckSortingPrice />
+          <CheckSortingPrice name='sorting' onChecked={() => {}} disabled={isLoading} />
         </form>
       </div>
     </div>
