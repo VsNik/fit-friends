@@ -2,10 +2,11 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface TrainingRatingProps {
-  value: number;
+  value?: number;
+  disabled?: boolean;
 }
 
-export const TrainingRating: React.FC<TrainingRatingProps> = ({ value }) => {
+export const TrainingRating: React.FC<TrainingRatingProps> = ({ value, disabled }) => {
   const { register } = useFormContext();
 
   return (
@@ -17,7 +18,7 @@ export const TrainingRating: React.FC<TrainingRatingProps> = ({ value }) => {
             <use xlinkHref="/assets/img/sprite.svg#icon-star" />
           </svg>
         </span>
-        <input {...register('rating')} type="number" name="rating" value={value} />
+        <input {...register('rating')} type="number" name="rating" value={value} disabled={disabled} />
       </label>
     </div>
   );

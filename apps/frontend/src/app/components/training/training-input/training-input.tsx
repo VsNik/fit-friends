@@ -11,12 +11,13 @@ export enum TrainingInputType {
 interface TrainingInputProps {
   name: string;
   label?: string;
-  defaultValue?: string;
+  value?: string;
   className?: string;
   pricing?: boolean;
+  disabled?: boolean;
 }
 
-export const TrainingInput: React.FC<TrainingInputProps> = ({ name, label, defaultValue, className, pricing }) => {
+export const TrainingInput: React.FC<TrainingInputProps> = ({ name, label, value, className, disabled }) => {
     const {register, formState: {errors}} = useFormContext();
     
   return (
@@ -29,8 +30,7 @@ export const TrainingInput: React.FC<TrainingInputProps> = ({ name, label, defau
         <span className="training-info__label">{label}</span>
         <span className="training-info__rating-icon">
         </span>
-        <input {...register(name)} type='text' name={name} value={defaultValue} />
-        {/* {pricing &&<span className='suffex'>₽</span>} */}
+        <input {...register(name)} type='text' name={name} value={value} disabled={disabled} />
       </label>
       <div className="training-info__error">Обязательное поле</div>
     </div>

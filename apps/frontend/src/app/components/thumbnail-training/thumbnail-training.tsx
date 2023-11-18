@@ -1,28 +1,21 @@
 import { ITraining } from '@fit-friends/shared';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Hashtag } from '../ui/hashtag/hashtag';
+import { getTrainingRoute } from '../../utils/route';
+import { ButtonLink } from '../ui/button-link/button-link';
 
 interface ThumbnailTrainingProps {
-    training: ITraining;
+  training: ITraining;
 }
 
-export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({training}) => {
+export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({ training }) => {
   return (
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
         <div className="thumbnail-training__image">
           <picture>
-            <source
-              type="image/webp"
-              srcSet={training.bgImage}
-            />
-            <img
-              src={training.bgImage}
-              srcSet={training.bgImage}
-              width="330"
-              height="190"
-              alt=""
-            />
+            <source type="image/webp" srcSet={training.bgImage} />
+            <img src={training.bgImage} srcSet={training.bgImage} width="330" height="190" alt="" />
           </picture>
         </div>
         <p className="thumbnail-training__price">{training.price}</p>
@@ -30,14 +23,10 @@ export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({training}) 
         <div className="thumbnail-training__info">
           <ul className="thumbnail-training__hashtags-list">
             <li className="thumbnail-training__hashtags-item">
-              <div className="hashtag thumbnail-training__hashtag">
-                <span>#{training.type}</span>
-              </div>
+              <Hashtag title={training.type} className="thumbnail-training__hashtag" />
             </li>
             <li className="thumbnail-training__hashtags-item">
-              <div className="hashtag thumbnail-training__hashtag">
-                <span>#{training.calories}кал</span>
-              </div>
+              <Hashtag title={`${training.calories} кал`} className="thumbnail-training__hashtag" />
             </li>
           </ul>
           <div className="thumbnail-training__rate">
@@ -48,17 +37,11 @@ export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({training}) 
           </div>
         </div>
         <div className="thumbnail-training__text-wrapper">
-          <p className="thumbnail-training__text">
-            {training.description}
-          </p>
+          <p className="thumbnail-training__text">{training.description}</p>
         </div>
         <div className="thumbnail-training__button-wrapper">
-          <Link className="btn btn--small thumbnail-training__button-catalog" to="#">
-            Подробнее
-          </Link>
-          <Link className="btn btn--small btn--outlined thumbnail-training__button-catalog" to="#">
-            Отзывы
-          </Link>
+          <ButtonLink text="Подробнее" to={getTrainingRoute(training.id)} small />
+          <ButtonLink text="Отзывы" to="#" small outlined />
         </div>
       </div>
     </div>

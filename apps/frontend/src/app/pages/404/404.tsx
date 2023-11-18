@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RouteName } from '../../app';
-import { Button } from '../../components/ui/button/button';
+import './styles.css';
 
-export const IntroPage: React.FC = () => {
-  const navigation = useNavigate();
+export const NotFound: React.FC = () => {
 
   return (
     <div className="wrapper">
@@ -27,26 +26,14 @@ export const IntroPage: React.FC = () => {
               <use xlinkHref="/assets/img/sprite.svg/#icon-logotype" />
             </svg>
             <div className="intro__title-logo">
-              <picture>
-                <source type="image/webp" srcSet="/assets/img/content/sitemap/title-logo.webp, /assets/img/content/sitemap/title-logo@2x.webp 2x" />
-                <img
-                  src="/assets/img/content/sitemap/title-logo.png"
-                  srcSet="/assets/img/content/sitemap/title-logo@2x.png 2x"
-                  width="934"
-                  height="455"
-                  alt="Логотип Fit Friends"
-                />
-              </picture>
+              <div className="not-found">
+                <h1>Page Not Found</h1>
+              </div>
             </div>
             <div className="intro__buttons">
-              <Button text='Регистрация' className="intro__button" onClick={() => navigation(RouteName.Signup)} />
-
-              <p className="intro__text">
-                Есть аккаунт?
-                <Link className="intro__link" to={RouteName.Login}>
-                  Вход
-                </Link>
-              </p>
+              <Link className="not-found__link" to={RouteName.Home}>
+                Домашняя страница
+              </Link>
             </div>
           </div>
         </div>

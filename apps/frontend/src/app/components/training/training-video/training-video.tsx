@@ -1,7 +1,14 @@
 import React from 'react';
+import { Role } from '@fit-friends/shared';
 import { Button } from '../../ui/button/button';
 
-export const TrainingVideo: React.FC = () => {
+interface TrainingVideoProps {
+  role: Role;
+  video: string;
+  isEditable: boolean;
+}
+
+export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEditable }) => {
   return (
     <div className="training-video">
       <h2 className="training-video__title">Видео</h2>
@@ -45,14 +52,20 @@ export const TrainingVideo: React.FC = () => {
         </form>
       </div>
       <div className="training-video__buttons-wrapper">
-        <Button text='Сохранить' className='training-video__button training-video__button--start' disabled />
-        {/* <button className="btn training-video__button training-video__button--start" type="button" disabled>
-          Приступить
-        </button> */}
-        <div className="training-video__edit-buttons">
-            <Button text='Сохранить' />
-          <Button text='Удалить' outlined />
-        </div>
+        {role === Role.Coach ? (
+          <>
+            <Button text="Сохранить" className="training-video__button training-video__button--start" disabled />
+            <div className="training-video__edit-buttons">
+              <Button text="Сохранить" />
+              <Button text="Удалить" outlined />
+            </div>
+          </>
+        ) : (
+          <>
+            <Button text="Приступить" type="button" className="training-video__button training-video__button--start" />
+            <Button text="Закончить" type="button" className="training-video__button training-video__button--stop" />
+          </>
+        )}
       </div>
     </div>
   );

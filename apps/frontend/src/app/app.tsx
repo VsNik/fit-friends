@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { IntroPage } from './pages/intro/intro-page';
 import { LoginPage } from './pages/login/login-page';
 import { SignupPage } from './pages/signup/signup-page';
@@ -9,6 +9,9 @@ import { history } from './utils/history';
 import { HomePage } from './pages/home/home-page';
 import { TrainingsPage } from './pages/trainings/trainings';
 import { TrainingCardPage } from './pages/training-card/training-card-page';
+import { NotFound } from './pages/404/404';
+import { ProtectedRoute } from './components/protected-route/protected-route';
+import { Role } from '@fit-friends/shared';
 
 export enum RouteName {
   Home = '/',
@@ -20,6 +23,7 @@ export enum RouteName {
   Account = '/account/:id',
   Trainings = '/trainings',
   TrainingCard = '/trainings/:id',
+  NotFound = '/not-found',
 }
 
 export function App() {
@@ -28,15 +32,24 @@ export function App() {
 
   return (
     <Routes>
-      <Route path={RouteName.Home} element={<HomePage />} />
       <Route path={RouteName.Intro} element={<IntroPage />} />
       <Route path={RouteName.Login} element={<LoginPage />} />
       <Route path={RouteName.Signup} element={<SignupPage />} />
       <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
       <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
-      <Route path={RouteName.Account} element={<AccountPage />} />
-      <Route path={RouteName.Trainings} element={<TrainingsPage />} />
-      <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
+
+      <Route element={<ProtectedRoute accessRole={Role.User} />}>
+        <Route path={RouteName.Home} element={<HomePage />} />
+        <Route path={RouteName.Trainings} element={<TrainingsPage />} />
+      </Route>
+
+      <Route element={<ProtectedRoute />}>
+        <Route path={RouteName.Account} element={<AccountPage />} />
+        <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
+      </Route>
+
+      <Route path={RouteName.NotFound} element={<NotFound />} />
+      <Route path="*" element={<Navigate to={RouteName.NotFound} replace />} />
     </Routes>
   );
 }

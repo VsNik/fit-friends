@@ -1,0 +1,26 @@
+.not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.not-found h1 {
+    font-size: 80px;
+    color: #f8f8f8;
+}
+
+.not-found__link {
+    text-decoration: underline;
+    -webkit-text-decoration-skip-ink: none;
+    text-decoration-skip-ink: none;
+    text-underline-offset: 2px;
+    font-size: 20px;
+    color: #c5ec2a;
+    transition: text-decoration-color 0.3s ease;
+    margin: 0 15px;
+}
+
+.not-found__link:hover {
+    text-decoration-color: transparent;
+}

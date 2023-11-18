@@ -3,10 +3,17 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
 import { PopularSliderItem } from './popular-slider-item';
 import 'swiper/css';
+import { useNavigate } from 'react-router-dom';
+import { RouteName } from '../../app';
 
 export const PopularSlider: React.FC = () => {
+  const navigation = useNavigate();
   const trainings = useAppSelector((state) => state.popularTrainings.trainings);
   const sliderRef = useRef<SwiperRef | null>(null);
+
+  const onGoTrainingList = () => {
+    navigation(RouteName.Trainings)
+  }
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -22,7 +29,7 @@ export const PopularSlider: React.FC = () => {
         <div className="popular-trainings__wrapper">
           <div className="popular-trainings__title-wrapper">
             <h2 className="popular-trainings__title">Популярные тренировки</h2>
-            <button className="btn-flat popular-trainings__button" type="button">
+            <button className="btn-flat popular-trainings__button" type="button" onClick={onGoTrainingList}>
               <span>Смотреть все</span>
               <svg width="14" height="10" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#arrow-right" />
