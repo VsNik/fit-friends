@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { IUser } from '@fit-friends/shared';
 import { CertificatCarouselItem } from './certificat-carousel-item';
-import 'swiper/css';
 import { ButtonUploadFloat } from '../ui/button-upload-float/button-upload-float';
+import { ButtonIcon } from '../ui/button-icon/button-icon';
+import 'swiper/css';
+import { useSliderControl } from '../../hooks/use-slider-control';
 
 const SLIDERS = 3;
 
@@ -13,8 +15,6 @@ interface CertificateCarouserProps {
 
 export const CertificateCarousel: React.FC<CertificateCarouserProps> = ({ user }) => {
   const [certificates, setCertificates] = useState<string[]>([]);
-  const [isFirstSlide, setIsFirstSlide] = useState<boolean>(true);
-  const [isLastSlide, setIsLastSlide] = useState<boolean>(true);
   const sliderRef = useRef<SwiperRef | null>(null);
 
   useEffect(() => {
@@ -23,15 +23,18 @@ export const CertificateCarousel: React.FC<CertificateCarouserProps> = ({ user }
     }
   }, [user.certificate]);
 
-  useEffect(() => {
-    const index = sliderRef.current?.swiper.realIndex ?? 0;
-    setIsLastSlide(index + SLIDERS >= certificates.length);
-  }, [certificates]);
+  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
+  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, certificates, SLIDERS)
 
-  const handleChangeSlide = (slideIndex: number) => {
-    setIsFirstSlide(slideIndex === 0);
-    setIsLastSlide(slideIndex + SLIDERS >= certificates.length);
-  };
+  // useEffect(() => {
+  //   const index = sliderRef.current?.swiper.realIndex ?? 0;
+  //   setIsLastSlide(index + SLIDERS >= certificates.length);
+  // }, [certificates]);
+
+  // const handleChangeSlide = (slideIndex: number) => {
+  //   setIsFirstSlide(slideIndex === 0);
+  //   setIsLastSlide(slideIndex + SLIDERS >= certificates.length);
+  // };
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -45,7 +48,6 @@ export const CertificateCarousel: React.FC<CertificateCarouserProps> = ({ user }
     <div className="personal-account-coach__additional-info">
       <div className="personal-account-coach__label-wrapper">
         <h2 className="personal-account-coach__label">Дипломы и сертификаты</h2>
-
         <ButtonUploadFloat 
           text='Загрузить' 
           name='certificate' 
@@ -56,28 +58,8 @@ export const CertificateCarousel: React.FC<CertificateCarouserProps> = ({ user }
         />
 
         <div className="personal-account-coach__controls">
-          <button
-            className="btn-icon personal-account-coach__control"
-            type="button"
-            aria-label="previous"
-            onClick={handlePrev}
-            disabled={isFirstSlide}
-          >
-            <svg width="16" height="14" aria-hidden="true">
-              <use xlinkHref="/assets/img/sprite.svg#arrow-left" />
-            </svg>
-          </button>
-          <button 
-            className="btn-icon personal-account-coach__control" 
-            type="button" 
-            aria-label="next" 
-            onClick={handleNext} 
-            disabled={isLastSlide}
-          >
-            <svg width="16" height="14" aria-hidden="true">
-              <use xlinkHref="/assets/img/sprite.svg#arrow-right" />
-            </svg>
-          </button>
+          <ButtonIcon icon='arrow-left' onClick={handlePrev} disabled={isFirstSlide}/>
+          <ButtonIcon icon='arrow-right' onClick={handleNext} disabled={isLastSlide}/>
         </div>
       </div>
 

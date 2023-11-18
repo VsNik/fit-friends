@@ -8,12 +8,13 @@ interface ButtonFloatProps {
   className?: string;
   light?: boolean;
   underline?: boolean;
+  iconLeft?: boolean;
   type?: "button" | "submit";
   form?: string;
 }
 
 export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
-  const {text, icon, onClick, className, type, light, underline, form } = props;
+  const {text, icon, onClick, className, type, light, underline, iconLeft, form } = props;
 
   return (
     <button
@@ -25,10 +26,12 @@ export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
       form={form}
       onClick={onClick}
     >
+      {iconLeft && <span>{text}</span>}
       <svg width="12" height="12" aria-hidden="true">
         <use xlinkHref={`/assets/img/sprite.svg#${icon}`} />
       </svg>
-      <span>{text}</span>
+      {!iconLeft && <span>{text}</span>}
+      {/* <span>{text}</span> */}
     </button>
   );
 };

@@ -1,13 +1,19 @@
 import React, { useCallback, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 import { ForYouSliderItem } from './for-you-slider-item';
 import { useAppSelector } from '../../store/hooks';
+import { ButtonIcon } from '../ui/button-icon/button-icon';
+import 'swiper/css';
+import { useSliderControl } from '../../hooks/use-slider-control';
+
+const SLIDERS = 3;
 
 export const ForYouSlider: React.FC = () => {
   const trainings = useAppSelector(state => state.forYouTrainings.trainings);
-
   const sliderRef = useRef<SwiperRef | null>(null);
+
+  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
+  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -24,20 +30,18 @@ export const ForYouSlider: React.FC = () => {
           <div className="special-for-you__title-wrapper">
             <h2 className="special-for-you__title">Специально подобрано для вас</h2>
             <div className="special-for-you__controls">
-              <button className="btn-icon special-for-you__control" type="button" aria-label="previous" onClick={handlePrev}>
-                <svg width="16" height="14" aria-hidden="true">
-                  <use xlinkHref="/assets/img/sprite.svg#arrow-left" />
-                </svg>
-              </button>
-              <button className="btn-icon special-for-you__control" type="button" aria-label="next" onClick={handleNext}>
-                <svg width="16" height="14" aria-hidden="true">
-                  <use xlinkHref="/assets/img/sprite.svg#arrow-right" />
-                </svg>
-              </button>
+              <ButtonIcon icon='arrow-left' className='special-for-you__control' onClick={handlePrev} disabled={isFirstSlide} />
+              <ButtonIcon icon='arrow-right' className='special-for-you__control' onClick={handleNext} disabled={isLastSlide} />
             </div>
           </div>
 
-          <Swiper spaceBetween={20} slidesPerView={3} className="special-for-you__list" ref={sliderRef}>
+          <Swiper 
+            spaceBetween={20} 
+            slidesPerView={3} 
+            className="special-for-you__list"
+            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}  
+            ref={sliderRef}
+          >
             {trainings?.map((training) => (
               <SwiperSlide key={training.id}>
                 <ForYouSliderItem src={training.bgImage} type="image/jpg" />

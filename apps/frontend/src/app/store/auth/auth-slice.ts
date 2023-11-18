@@ -10,7 +10,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  authUser: {...fakeCoach, role: Role.Coach},
+  authUser: {...fakeCoach, role: Role.User},
   isAuth: true,
   isLoading: false,
   error: '',

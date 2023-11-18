@@ -2,14 +2,22 @@ import React, { useCallback, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
 import { PopularSliderItem } from './popular-slider-item';
-import 'swiper/css';
 import { useNavigate } from 'react-router-dom';
 import { RouteName } from '../../app';
+import { ButtonFloat } from '../ui/button-float/button-float';
+import { ButtonIcon } from '../ui/button-icon/button-icon';
+import 'swiper/css';
+import { useSliderControl } from '../../hooks/use-slider-control';
+
+const SLIDERS = 4;
 
 export const PopularSlider: React.FC = () => {
   const navigation = useNavigate();
   const trainings = useAppSelector((state) => state.popularTrainings.trainings);
   const sliderRef = useRef<SwiperRef | null>(null);
+
+  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
+  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
 
   const onGoTrainingList = () => {
     navigation(RouteName.Trainings)
@@ -29,27 +37,21 @@ export const PopularSlider: React.FC = () => {
         <div className="popular-trainings__wrapper">
           <div className="popular-trainings__title-wrapper">
             <h2 className="popular-trainings__title">Популярные тренировки</h2>
-            <button className="btn-flat popular-trainings__button" type="button" onClick={onGoTrainingList}>
-              <span>Смотреть все</span>
-              <svg width="14" height="10" aria-hidden="true">
-                <use xlinkHref="/assets/img/sprite.svg#arrow-right" />
-              </svg>
-            </button>
+            <ButtonFloat text='Смотреть все' icon='arrow-right' className='popular-trainings__button' iconLeft onClick={onGoTrainingList} />
+
             <div className="popular-trainings__controls">
-              <button className="btn-icon popular-trainings__control" type="button" aria-label="previous" onClick={handlePrev}>
-                <svg width="16" height="14" aria-hidden="true">
-                  <use xlinkHref="/assets/img/sprite.svg#arrow-left" />
-                </svg>
-              </button>
-              <button className="btn-icon popular-trainings__control" type="button" aria-label="next" onClick={handleNext}>
-                <svg width="16" height="14" aria-hidden="true">
-                  <use xlinkHref="/assets/img/sprite.svg#arrow-right" />
-                </svg>
-              </button>
+              <ButtonIcon icon='arrow-left' className='popular-trainings__control' onClick={handlePrev} disabled={isFirstSlide} />
+              <ButtonIcon icon='arrow-right' className='popular-trainings__control' onClick={handleNext} disabled={isLastSlide} />
             </div>
           </div>
 
-          <Swiper spaceBetween={20} slidesPerView={4} className="popular-trainings__list" ref={sliderRef}>
+          <Swiper 
+            spaceBetween={20} 
+            slidesPerView={SLIDERS} 
+            className="popular-trainings__list"
+            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}   
+            ref={sliderRef}
+          >
             {trainings?.map((training) => (
               <SwiperSlide key={training.id}>
                 <PopularSliderItem training={training} />
