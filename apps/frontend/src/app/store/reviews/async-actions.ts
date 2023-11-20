@@ -1,14 +1,7 @@
-import { IReview } from '@fit-friends/shared';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fakeReviews } from '../../fake-data/fake-review';
-
-export const fetchReviews = (): Promise<IReview[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(fakeReviews), 500);
-  });
-};
+import { reviewApi } from '../../services/review-api';
 
 export const fetchReviewsAction = createAsyncThunk('reviews/fetch', async () => {
-  const data = await fetchReviews();
+  const data = await reviewApi.fetchReviews();
   return data;
 });
