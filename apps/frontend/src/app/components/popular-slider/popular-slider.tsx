@@ -17,7 +17,7 @@ export const PopularSlider: React.FC = () => {
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
+  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
 
   const onGoTrainingList = () => {
     navigation(RouteName.Trainings)
@@ -40,8 +40,8 @@ export const PopularSlider: React.FC = () => {
             <ButtonFloat text='Смотреть все' icon='arrow-right' className='popular-trainings__button' iconLeft onClick={onGoTrainingList} />
 
             <div className="popular-trainings__controls">
-              <ButtonIcon icon='arrow-left' className='popular-trainings__control' onClick={handlePrev} disabled={isFirstSlide} />
-              <ButtonIcon icon='arrow-right' className='popular-trainings__control' onClick={handleNext} disabled={isLastSlide} />
+              <ButtonIcon icon='arrow-left' className='popular-trainings__control' onClick={handlePrev} disabled={isDisablePrev} />
+              <ButtonIcon icon='arrow-right' className='popular-trainings__control' onClick={handleNext} disabled={isDisableNext} />
             </div>
           </div>
 

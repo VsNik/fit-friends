@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchReviewsAction } from '../../store/reviews/async-actions';
-import { ThumbnailReview } from '../thumbnails/thumbnail-review';
+import { ThumbnailReview } from '../thumbnails/thumbnail-review/thumbnail-review';
 import { Button } from '../ui/button/button';
 
 export const ReviewsBar: React.FC = () => {

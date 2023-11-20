@@ -14,7 +14,7 @@ export const ForCompanySlider: React.FC = () => {
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, users, SLIDERS);
+  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, users, SLIDERS);
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -33,8 +33,8 @@ export const ForCompanySlider: React.FC = () => {
             <ButtonFloat text='Смотреть все' icon='arrow-right' light iconLeft/>
    
             <div className="look-for-company__controls">
-              <ButtonIcon icon='arrow-left' onClick={handlePrev} className='look-for-company__control' outline disabled={isFirstSlide}/>
-              <ButtonIcon icon='arrow-right' onClick={handleNext} className='look-for-company__control' outline disabled={isLastSlide}/>
+              <ButtonIcon icon='arrow-left' onClick={handlePrev} className='look-for-company__control' outline disabled={isDisablePrev}/>
+              <ButtonIcon icon='arrow-right' onClick={handleNext} className='look-for-company__control' outline disabled={isDisableNext}/>
             </div>
           </div>
 

@@ -1,40 +1,14 @@
 import React from 'react';
+import { ThumbnailLink } from '../../ui/thumbnail-link/thumbnail-link';
 
 export const CoachNavigation: React.FC = () => {
   return (
     <div className="personal-account-coach__navigation">
-      <a className="thumbnail-link thumbnail-link--theme-light" href="#">
-        <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
-          <svg width="30" height="26" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-flash" />
-          </svg>
-        </div>
-        <span className="thumbnail-link__text">Мои тренировки</span>
-      </a>
-      <a className="thumbnail-link thumbnail-link--theme-light" href="#">
-        <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
-          <svg width="30" height="26" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-add" />
-          </svg>
-        </div>
-        <span className="thumbnail-link__text">Создать тренировку</span>
-      </a>
-      <a className="thumbnail-link thumbnail-link--theme-light" href="#">
-        <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
-          <svg width="30" height="26" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-friends" />
-          </svg>
-        </div>
-        <span className="thumbnail-link__text">Мои друзья</span>
-      </a>
-      <a className="thumbnail-link thumbnail-link--theme-light" href="#">
-        <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
-          <svg width="30" height="26" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-bag" />
-          </svg>
-        </div>
-        <span className="thumbnail-link__text">Мои заказы</span>
-      </a>
+      <ThumbnailLink text='Мои тренировки' icon='icon-flash' to='#' />
+      <ThumbnailLink text='Создать тренировку' icon='icon-add' to='#' />
+      <ThumbnailLink text='Мои друзья' icon='icon-friends' to='#' />
+      <ThumbnailLink text='Мои заказы' icon='icon-bag' to='#' />
+      
       <div className="personal-account-coach__calendar">
         <div className="thumbnail-spec-gym">
           <div className="thumbnail-spec-gym__image">

@@ -1,8 +1,8 @@
 import { ITraining } from '@fit-friends/shared';
 import React from 'react';
-import { Hashtag } from '../ui/hashtag/hashtag';
-import { getTrainingRoute } from '../../utils/route';
-import { ButtonLink } from '../ui/button-link/button-link';
+import { Hashtag } from '../../ui/hashtag/hashtag';
+import { ButtonLink } from '../../ui/button-link/button-link';
+import { getTrainingRoute } from '../../../utils/route';
 
 interface ThumbnailTrainingProps {
   training: ITraining;

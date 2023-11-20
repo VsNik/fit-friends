@@ -13,7 +13,7 @@ export const ForYouSlider: React.FC = () => {
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
+  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -30,8 +30,8 @@ export const ForYouSlider: React.FC = () => {
           <div className="special-for-you__title-wrapper">
             <h2 className="special-for-you__title">Специально подобрано для вас</h2>
             <div className="special-for-you__controls">
-              <ButtonIcon icon='arrow-left' className='special-for-you__control' onClick={handlePrev} disabled={isFirstSlide} />
-              <ButtonIcon icon='arrow-right' className='special-for-you__control' onClick={handleNext} disabled={isLastSlide} />
+              <ButtonIcon icon='arrow-left' className='special-for-you__control' onClick={handlePrev} disabled={isDisablePrev} />
+              <ButtonIcon icon='arrow-right' className='special-for-you__control' onClick={handleNext} disabled={isDisableNext} />
             </div>
           </div>
 

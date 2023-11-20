@@ -1,6 +1,6 @@
 import React from 'react';
 import { CoachNavigation } from '../coach-navigation/coach-navigation';
-import { CertificateCarousel } from '../../certificate-carousel/certificate-carousel';
+import { CertificateSlider } from '../../certificate-slider/certificate-slider';
 import { UserInfo } from '../user-info/user-info';
 import { CoachType } from '@fit-friends/shared';
 
@@ -16,7 +16,7 @@ export const CoachAccount: React.FC<CoachAccountProps> = ({ user }) => {
       <div className="inner-page__content">
         <div className="personal-account-coach"></div>
         <CoachNavigation />
-        <CertificateCarousel user={user} />
+        <CertificateSlider user={user} />
       </div>
     </div>
   );

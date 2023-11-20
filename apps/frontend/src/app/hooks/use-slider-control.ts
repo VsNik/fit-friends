@@ -6,6 +6,7 @@ export const useSliderControl = (index: number, items: string[] | object[], show
 
   useEffect(() => {
     setIsLastSlide(index + showCount >= items.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, showCount]);
 
   const handleChangeSlide = (slideIndex: number) => {
@@ -14,8 +15,8 @@ export const useSliderControl = (index: number, items: string[] | object[], show
   };
 
   return {
-    isFirstSlide,
-    isLastSlide,
+    isDisablePrev: isFirstSlide,
+    isDisableNext: isLastSlide,
     handleChangeSlide,
   };
 };

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { ThumbnailTraining } from '../thumbnail-training/thumbnail-training';
 import { fetchTrainingsAction } from '../../store/trainings/async-actions';
+import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
+import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 
 export const TrainingCatalog: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -21,14 +22,7 @@ export const TrainingCatalog: React.FC = () => {
         ))}
       </ul>
 
-      <div className="show-more training-catalog__show-more">
-        <button className="btn show-more__button show-more__button--more" type="button">
-          Показать еще
-        </button>
-        <button className="btn show-more__button show-more__button--to-top" type="button">
-          Вернуться в начало
-        </button>
-      </div>
+      <ButtonShowMore className='training-catalog__show-more' />
     </div>
   );
 };

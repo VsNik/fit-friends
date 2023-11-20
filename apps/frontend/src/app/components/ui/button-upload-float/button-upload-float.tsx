@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 interface ButtonUploadFloatProps {
     name: string;
-    text: string;
+    text?: string;
     icon?: string;
     accept?: string;
     className?: string;

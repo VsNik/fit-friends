@@ -11,10 +11,11 @@ interface ButtonFloatProps {
   iconLeft?: boolean;
   type?: "button" | "submit";
   form?: string;
+  disabled?: boolean;
 }
 
 export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
-  const {text, icon, onClick, className, type, light, underline, iconLeft, form } = props;
+  const {text, icon, onClick, className, type = 'button', light, underline, iconLeft, form, disabled } = props;
 
   return (
     <button
@@ -25,13 +26,13 @@ export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
       type={type}
       form={form}
       onClick={onClick}
+      disabled={disabled}
     >
       {iconLeft && <span>{text}</span>}
       <svg width="12" height="12" aria-hidden="true">
         <use xlinkHref={`/assets/img/sprite.svg#${icon}`} />
       </svg>
       {!iconLeft && <span>{text}</span>}
-      {/* <span>{text}</span> */}
     </button>
   );
 };
