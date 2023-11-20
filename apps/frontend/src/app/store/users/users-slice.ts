@@ -4,7 +4,7 @@ import { fetchCompanyAction, fetchUsersAction } from './async-actions';
 
 export interface UsersFilter {
   location: Location[];
-  type: TrainingType[];
+  type?: TrainingType[];
   level: TrainingLevel | '';
 }
 

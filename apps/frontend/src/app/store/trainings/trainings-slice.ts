@@ -1,4 +1,4 @@
-import { ITraining, TrainingDuration, TrainingType } from '@fit-friends/shared';
+import { ITraining, SortDirection, TrainingType } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchTrainingsAction } from './async-actions';
 
@@ -12,8 +12,9 @@ export interface TrainingsState {
   caloriesFrom?: number;
   ratingTo?: number;
   ratingFrom?: number;
-  duration?: TrainingDuration | null;
-  type?: TrainingType[];  
+  direction?: SortDirection | 'free' | null;
+
+  type?: TrainingType[];
   isLoading: boolean;
   error: string;
 }
@@ -28,8 +29,8 @@ const initialState: TrainingsState = {
   caloriesFrom: 5000,
   ratingTo: 0,
   ratingFrom: 5,
-  duration: null,
-  type: [],  
+  direction: null,
+  type: [],
   isLoading: false,
   error: '',
 };
@@ -38,29 +39,29 @@ export const trainingeSlice = createSlice({
   name: 'trainings',
   initialState,
   reducers: {
-    setPriceAction: (state, {payload}) => {
-      console.log(payload)
+    setPriceAction: (state, { payload }) => {
+      console.log(payload);
       state.priceTo = payload[0];
       state.priceFrom = payload[1];
     },
-    setCaloriesAction: (state, {payload}) => {
+    setCaloriesAction: (state, { payload }) => {
       state.caloriesTo = payload[0];
       state.caloriesFrom = payload[1];
     },
-    setRatingAction: (state, {payload}) => {
+    setRatingAction: (state, { payload }) => {
       state.ratingTo = payload[0];
       state.ratingFrom = payload[1];
     },
-    setDurationAction: (state, {payload}) => {
-      state.duration = payload;
+    setDirectionAction: (state, { payload }) => {
+      state.direction = payload;
     },
-    setTypeAction: (state, {payload}) => {
+    setTypeAction: (state, { payload }) => {
       if (!state.type?.includes(payload)) {
         state.type?.push(payload);
       } else {
-        state.type = state.type.filter((item) => item !== payload)
+        state.type = state.type.filter((item) => item !== payload);
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -68,14 +69,14 @@ export const trainingeSlice = createSlice({
         state.isLoading = true;
         state.error = '';
       })
-      .addCase(fetchTrainingsAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
         state.isLoading = false;
-      })
-  }
+      });
+  },
 });
 
-export const {setPriceAction, setCaloriesAction, setRatingAction, setDurationAction, setTypeAction} = trainingeSlice.actions;
+export const { setPriceAction, setCaloriesAction, setRatingAction, setDirectionAction, setTypeAction } = trainingeSlice.actions;
 export default trainingeSlice.reducer;

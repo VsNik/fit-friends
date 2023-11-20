@@ -2,14 +2,14 @@ import { Role } from '@fit-friends/shared';
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 
-interface ButtonsSortingProps {
+interface ButtonsSortingRoleProps {
   sorting: Role | null;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
 }
 
-export const ButtonsSorting: React.FC<ButtonsSortingProps> = (props) => {
+export const ButtonsSortingRole: React.FC<ButtonsSortingRoleProps> = (props) => {
   const { sorting, onChange, disabled, className } = props;
 
   return (
