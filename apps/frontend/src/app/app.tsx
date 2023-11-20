@@ -12,6 +12,7 @@ import { TrainingCardPage } from './pages/training-card/training-card-page';
 import { NotFound } from './pages/404/404';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import { Role } from '@fit-friends/shared';
+import { UsersPage } from './pages/users/users-page';
 
 export enum RouteName {
   Home = '/',
@@ -24,6 +25,7 @@ export enum RouteName {
   Trainings = '/trainings',
   TrainingCard = '/trainings/:id',
   NotFound = '/not-found',
+  Users = '/users',
 }
 
 export function App() {
@@ -41,6 +43,7 @@ export function App() {
       <Route element={<ProtectedRoute accessRole={Role.User} />}>
         <Route path={RouteName.Home} element={<HomePage />} />
         <Route path={RouteName.Trainings} element={<TrainingsPage />} />
+        <Route path={RouteName.Users} element={<UsersPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>

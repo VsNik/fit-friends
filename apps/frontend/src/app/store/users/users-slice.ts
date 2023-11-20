@@ -1,4 +1,4 @@
-import { IUser, Role, SortDirection, TrainingLevel, TrainingType } from '@fit-friends/shared';
+import { IUser, Role, SortDirection, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCompanyAction, fetchUsersAction } from './async-actions';
 
@@ -58,6 +58,9 @@ export const usersSlice = createSlice({
     setSorting: (state, { payload }) => {
       state.sorting = payload;
     },
+    setDirection: (state, {payload}) => {
+      state.direction = payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -85,3 +88,4 @@ export const usersSlice = createSlice({
 });
 
 export default usersSlice.reducer;
+export const {setLocation, setType, setLevel, setSorting, setDirection} = usersSlice.actions;
