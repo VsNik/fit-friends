@@ -1,6 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TrainingsState } from './trainings-slice';
 import { fetchForYouAction } from './async-actions';
+import { ITraining } from '@fit-friends/shared';
+
+export interface TrainingsState {
+  trainings: ITraining[];
+  page: number;
+  total: number;
+  isLoading: boolean;
+  error: string;
+}
 
 const initialState: TrainingsState = {
   trainings: [],

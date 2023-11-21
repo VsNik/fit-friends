@@ -2710,6 +2710,15 @@ input:active + .custom-textarea__text {
   border-radius: 100px;
 }
 
+.user-card__status.user-card__status--is-not-ready {
+  color: #adadad;
+  border: 1px solid #cfcfcf;
+}
+
+.user-card__status.user-card__status--is-not-ready::after {
+  background-color: #cfcfcf;
+}
+
 .user-card__status::after {
   content: "";
   position: absolute;
@@ -7637,7 +7646,7 @@ input:active + .custom-textarea__text {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background: rgba(24, 24, 24, 0.9);
+  /* background: rgba(24, 24, 24, 0.9); */
   z-index: 100;
   -ms-flex-negative: 0;
   flex-shrink: 0;

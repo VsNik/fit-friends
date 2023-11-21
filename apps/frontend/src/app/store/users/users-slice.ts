@@ -2,15 +2,15 @@ import { IUser, Role, SortDirection, TrainingLevel, TrainingType, Location } fro
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCompanyAction, fetchUsersAction } from './async-actions';
 
-export interface UsersFilter {
+export interface UsersFilters {
   location: Location[];
-  type?: TrainingType[];
+  types?: TrainingType[];
   level: TrainingLevel | '';
 }
 
 export interface UsersState {
   users: IUser[];
-  filter: UsersFilter;
+  filter: UsersFilters;
   sorting: Role | null;
   direction: SortDirection;
   page: number;
@@ -23,7 +23,7 @@ const initialState: UsersState = {
   users: [],
   filter: {
     location: [],
-    type: [],
+    types: [],
     level: '',
   },
   sorting: null,
@@ -46,10 +46,10 @@ export const usersSlice = createSlice({
       }
     },
     setType: (state, { payload }) => {
-      if (state.filter.type?.includes(payload)) {
-        state.filter.type = state.filter.type.filter((item) => item !== payload);
+      if (state.filter.types?.includes(payload)) {
+        state.filter.types = state.filter.types.filter((item) => item !== payload);
       } else {
-        state.filter.type?.push(payload);
+        state.filter.types?.push(payload);
       }
     },
     setLevel: (state, { payload }) => {

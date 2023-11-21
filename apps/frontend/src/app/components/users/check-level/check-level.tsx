@@ -3,7 +3,7 @@ import { InputRadio } from '../../ui/form/input-radio/input-radio';
 import { TrainingLevel } from '@fit-friends/shared';
 import clsx from 'clsx';
 
-interface UserCatalogLevelProps {
+interface CheckLevelProps {
   name: string;
   level: TrainingLevel | '';
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +11,7 @@ interface UserCatalogLevelProps {
   disabled?: boolean;
 }
 
-export const UserCatalogLevel: React.FC<UserCatalogLevelProps> = (props) => {
+export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
   const { name, level, onChange, className, disabled } = props;
 
   return (

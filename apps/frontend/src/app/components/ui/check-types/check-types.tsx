@@ -2,7 +2,7 @@ import { TrainingType } from '@fit-friends/shared';
 import React, { ChangeEvent } from 'react';
 import { Checkbox } from '../form/checkbox/checkbox';
 
-interface UserCatalogTypesProps {
+interface CheckTypesProps {
   name: string;
   types: TrainingType[] | undefined;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
@@ -10,7 +10,7 @@ interface UserCatalogTypesProps {
   disabled?: boolean;
 }
 
-export const UserCatalogTypes: React.FC<UserCatalogTypesProps> = (props) => {
+export const CheckTypes: React.FC<CheckTypesProps> = (props) => {
   const { name, types, onChange, className, disabled } = props;
   const hasTrainingType = (trainingType: TrainingType) => types?.includes(trainingType);
 

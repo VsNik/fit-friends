@@ -2,9 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ITrainingCollection } from '@fit-friends/shared';
 import { trainingApi } from '../../services/training-api';
 
-export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-trainings', async () => {
-  const data = await trainingApi.fetchTrainings(12);
-  return data;
+export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/fetch-trainings', 
+  async (queryString) => {
+    console.log(queryString);
+    const data = await trainingApi.fetchTrainings(12);
+    return data;
 });
 
 export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-for-you', async () => {

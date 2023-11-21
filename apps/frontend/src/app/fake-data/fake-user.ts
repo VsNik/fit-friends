@@ -111,7 +111,7 @@ const fakeCompany: UserType[] = [
   },
 ];
 
-const fakeUserList: IUser[] = [
+export const fakeUserList: IUser[] = [
   {
     id: '1',
     name: 'Елизовета',
@@ -120,7 +120,8 @@ const fakeUserList: IUser[] = [
     gender: Gender.Female,
     birthDay: '20.12.2012',
     role: Role.User,
-    bio: '',
+    bgImage: '/assets/img/content/user-card-photo1.jpg',
+    bio: 'Привет! Я Катерина и мне 27 лет. Обожаю спорт и все, что с&nbsp;ним связанно. Регулярно хожу на&nbsp;тренировки по&nbsp;кроссфиту, также занимаюсь йогой, рястяжкой и&nbsp;пилатесом. Занимаюсь как с тренером индивидуально, так и на&nbsp;групповых занятиях. Люблю соревнования и челленджи, так что присоединяйтесь, давайте объединяться и заниматься вместе',
     location: Location.Pionerskaya,
     trainingLevel: TrainingLevel.Novice,
     trainingType: [TrainingType.Yoga, TrainingType.Crossfit],

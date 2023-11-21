@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '../../components/layouts/app-layout';
-import { UserCatalogForm } from '../../components/users/users-catalog-form/users-catalog-form';
+import { UsersFilter } from '../../components/users-filter/users-filter';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUsersAction } from '../../store/users/async-actions';
 import { UserCatalog } from '../../components/users/user-catalog/user-catalog';
@@ -39,7 +39,7 @@ export const UsersPage: React.FC = () => {
                     underline 
                 />
                 <h3 className="user-catalog-form__title">Фильтры</h3>
-                <UserCatalogForm filter={filters} sorting={sorting} />
+                <UsersFilter filter={filters} sorting={sorting} />
               </div>
             </div>
 

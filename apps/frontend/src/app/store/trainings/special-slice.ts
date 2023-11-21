@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TrainingsState } from './trainings-slice';
 import { fetchSpecialAction } from './async-actions';
+import { TrainingsState } from './for-you-slice';
 
 const initialState: TrainingsState = {
   trainings: [],

@@ -1,15 +1,15 @@
 import React, { ChangeEvent } from 'react';
 import { Location } from '@fit-friends/shared';
-import { Checkbox } from '../ui/form/checkbox/checkbox';
+import { Checkbox } from '../form/checkbox/checkbox';
 
-interface LocationCheckboxGroupProps {
+interface CheckLocationsProps {
   name: string;
   locations: Location[];
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 
-export const LocationCheckboxGroup: React.FC<LocationCheckboxGroupProps> = (props) => {
+export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
   const { name, locations, onChange, disabled } = props;
   const hasLocation = (location: Location) => locations.includes(location);
 

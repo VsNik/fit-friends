@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThumbnailLink } from '../../ui/thumbnail-link/thumbnail-link';
+import { ThumbnailLink } from '../../thumbnails/thumbnail-link/thumbnail-link';
 
 export const CoachNavigation: React.FC = () => {
   return (

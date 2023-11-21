@@ -32,7 +32,7 @@ export const SpecialSlider: React.FC = () => {
             modules={[Autoplay, Pagination]}
             className="special-offers__list"
           >
-            {trainings?.map((training) => (
+            {trainings.map((training) => (
               <SwiperSlide key={training.id}>
                 <SpecialSliderItem title={training.title} src={training.bgImage} price={training.price} />
               </SwiperSlide>

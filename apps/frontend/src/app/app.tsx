@@ -7,12 +7,13 @@ import { QuestionCoachPage } from './pages/question-coach/question-coach-page';
 import { AccountPage } from './pages/account/account-page';
 import { history } from './utils/history';
 import { HomePage } from './pages/home/home-page';
-import { TrainingsPage } from './pages/trainings/trainings';
+import { TrainingsPage } from './pages/trainings/trainings-page';
 import { TrainingCardPage } from './pages/training-card/training-card-page';
 import { NotFound } from './pages/404/404';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import { Role } from '@fit-friends/shared';
 import { UsersPage } from './pages/users/users-page';
+import { UserPage } from './pages/user/user-page';
 
 export enum RouteName {
   Home = '/',
@@ -26,6 +27,7 @@ export enum RouteName {
   TrainingCard = '/trainings/:id',
   NotFound = '/not-found',
   Users = '/users',
+  UserCard = '/users/:id',
 }
 
 export function App() {
@@ -49,6 +51,7 @@ export function App() {
       <Route element={<ProtectedRoute />}>
         <Route path={RouteName.Account} element={<AccountPage />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
+        <Route path={RouteName.UserCard} element={<UserPage />} />
       </Route>
 
       <Route path={RouteName.NotFound} element={<NotFound />} />

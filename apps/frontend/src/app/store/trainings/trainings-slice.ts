@@ -1,36 +1,43 @@
-import { ITraining, SortDirection, TrainingType } from '@fit-friends/shared';
+import { ITraining, SortDirection, TrainingSorting, TrainingType } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchTrainingsAction } from './async-actions';
 
-export interface TrainingsState {
+export interface TrainingFilter {
+  priceTo: number;
+  priceFrom: number;
+  caloriesTo: number;
+  caloriesFrom: number;
+  ratingTo: number;
+  ratingFrom: number;
+  types: TrainingType[];
+}
+
+interface TrainingListState {
   trainings: ITraining[];
   page: number;
   total: number;
-  priceTo?: number;
-  priceFrom?: number;
-  caloriesTo?: number;
-  caloriesFrom?: number;
-  ratingTo?: number;
-  ratingFrom?: number;
-  direction?: SortDirection | 'free' | null;
-
-  type?: TrainingType[];
+  filter: TrainingFilter,
+  sorting: TrainingSorting;
+  direction: SortDirection | 'free' | null;  
   isLoading: boolean;
   error: string;
 }
 
-const initialState: TrainingsState = {
+const initialState: TrainingListState = {
   trainings: [],
   page: 1,
   total: 50,
-  priceTo: 0,
-  priceFrom: 10000,
-  caloriesTo: 1000,
-  caloriesFrom: 5000,
-  ratingTo: 0,
-  ratingFrom: 5,
-  direction: null,
-  type: [],
+  filter: {
+    priceTo: 0,
+    priceFrom: 10000,
+    caloriesTo: 1000,
+    caloriesFrom: 5000,
+    ratingTo: 0,
+    ratingFrom: 5,
+    types: [],
+  },
+  sorting: TrainingSorting.Created,
+  direction: null,  
   isLoading: false,
   error: '',
 };
@@ -40,26 +47,26 @@ export const trainingeSlice = createSlice({
   initialState,
   reducers: {
     setPriceAction: (state, { payload }) => {
-      console.log(payload);
-      state.priceTo = payload[0];
-      state.priceFrom = payload[1];
+      state.filter.priceTo = payload[0];
+      state.filter.priceFrom = payload[1];
     },
     setCaloriesAction: (state, { payload }) => {
-      state.caloriesTo = payload[0];
-      state.caloriesFrom = payload[1];
+      state.filter.caloriesTo = payload[0];
+      state.filter.caloriesFrom = payload[1];
     },
     setRatingAction: (state, { payload }) => {
-      state.ratingTo = payload[0];
-      state.ratingFrom = payload[1];
+      state.filter.ratingTo = payload[0];
+      state.filter.ratingFrom = payload[1];
     },
     setDirectionAction: (state, { payload }) => {
+      state.sorting = TrainingSorting.Price;
       state.direction = payload;
     },
     setTypeAction: (state, { payload }) => {
-      if (!state.type?.includes(payload)) {
-        state.type?.push(payload);
+      if (!state.filter.types?.includes(payload)) {
+        state.filter.types?.push(payload);
       } else {
-        state.type = state.type.filter((item) => item !== payload);
+        state.filter.types = state.filter.types.filter((item) => item !== payload);
       }
     },
   },
