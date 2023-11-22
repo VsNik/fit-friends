@@ -1,6 +1,6 @@
 import { ITraining, SortDirection, TrainingSorting, TrainingType } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTrainingsAction } from './async-actions';
+import { fetchForCoachAction, fetchTrainingsAction } from './async-actions';
 
 export interface TrainingFilter {
   priceTo: number;
@@ -81,7 +81,17 @@ export const trainingeSlice = createSlice({
         state.page = payload.page;
         state.total = payload.total;
         state.isLoading = false;
-      });
+      })
+
+      .addCase(fetchForCoachAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchForCoachAction.fulfilled, (state, {payload}) => {
+        state.trainings = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
+        state.isLoading = false;
+      })
   },
 });
 

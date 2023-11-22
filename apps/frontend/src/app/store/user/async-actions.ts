@@ -1,40 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatch } from '..';
 import { UserInfoType } from '../../components/forms/user-info-form/user-info-form';
 import { IUser } from '@fit-friends/shared';
+import { userApi } from '../../services/user-api';
 
-import { fakeCoach } from '../../fake-data/fake-user';
-
-const fetchUser = (): Promise<IUser> => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(fakeCoach), 1000);
-    })
-}
-
-const updateUser = (user: UserInfoType): Promise<UserInfoType> => {
-  return new Promise((resolve, _reject) => {
-    setTimeout(() => resolve(user), 1000);
-  });
-};
-
-export const fetchUserAction = createAsyncThunk<IUser, undefined>(
+export const fetchUserAction = createAsyncThunk<IUser>(
     'user/fetch-user',
     async () => {
-        const data = await fetchUser();
+        const data = await userApi.fetchUser();
         return data;
     }
 )
 
 export const updateUserAction = createAsyncThunk<
   UserInfoType,
-  UserInfoType,
-  {
-    dispatch: AppDispatch;
-  }
->('user/update', async (user, { dispatch, rejectWithValue }) => {
+  UserInfoType
+>('user/update', async (user, { rejectWithValue }) => {
   try {
-    const data = await updateUser(user);
-    // console.log(data);
+    const data = await userApi.updateUser(user);
     return data;
   } catch (err) {
     return rejectWithValue(err);

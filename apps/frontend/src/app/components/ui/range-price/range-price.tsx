@@ -7,11 +7,12 @@ interface PangePriceProps {
   max: number;
   step: number;
   disabled?: boolean;
+  defaultValues?: number[];
 }
 
 export const RangePrice: React.FC<PangePriceProps> = (props) => {
-  const { min, max, step, onChangedPrice, disabled } = props;
-  const [priceValue, setPriceValue] = useState([min, max]);
+  const { min, max, step, onChangedPrice, disabled, defaultValues } = props;
+  const [priceValue, setPriceValue] = useState(defaultValues ?? [min, max]);
 
   const handleChanged = () => onChangedPrice(priceValue);
 

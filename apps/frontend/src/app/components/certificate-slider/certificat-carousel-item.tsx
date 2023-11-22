@@ -3,6 +3,7 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteSertificateAction, updateCertificateAction } from '../../store/auth/async-actions';
+import { Image } from '../ui/image/image';
 import clsx from 'clsx';
 
 interface CertificatCarouselItemProps {
@@ -16,7 +17,7 @@ interface CertificatCarouselItemProps {
 export const CertificatCarouselItem: React.FC<CertificatCarouselItemProps> = (props) => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => state.auth.isLoading);
-  const { userId, src, srcSet, alt, type } = props;
+  const { userId, src, alt } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState<FileList | null>(null);
   const certificateRef = useRef<HTMLInputElement | null>(null);
@@ -40,12 +41,7 @@ export const CertificatCarouselItem: React.FC<CertificatCarouselItemProps> = (pr
   return (
     <div className="personal-account-coach__item">
       <div className={clsx('certificate-card', { 'certificate-card--edit': isEdit })}>
-        <div className="certificate-card__image">
-          <picture>
-            <source type={type} srcSet={src} />
-            <img src={src} srcSet={srcSet} width="294" height="360" alt={alt} />
-          </picture>
-        </div>
+        <Image src={src} width={294} height={360} alt={alt} />
 
         <form className="certificate-card__buttons">
           <ButtonFloat

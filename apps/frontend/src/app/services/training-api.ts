@@ -25,4 +25,10 @@ export const trainingApi = {
       setTimeout(() => resolve(fakePopularTraining));
     });
   },
+
+  fetchForCoach: (): Promise<ITrainingCollection> => {
+    return new Promise((resolce) => {
+      setTimeout(() => resolce(getFakeTrainings(8)), 500)
+    })
+  }
 };

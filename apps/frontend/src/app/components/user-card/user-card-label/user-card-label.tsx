@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface UserCardLabelProps {
-    onOpenMap: () => void;
+    onOpenMap?: () => void;
     position: string;
 }
 
-export const UserCardLabel: React.FC<UserCardLabelProps> = ({onOpenMap, position}) => {
+export const UserCardLabel: React.FC<UserCardLabelProps> = ({onOpenMap, position}) => {  
     return (
         <div className="user-card__label">
         <Link to="#" onClick={onOpenMap}>

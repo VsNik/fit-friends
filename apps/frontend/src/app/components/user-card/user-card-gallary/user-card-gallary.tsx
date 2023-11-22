@@ -14,7 +14,7 @@ export const UserCardGallary: React.FC<UserCardGallaryProps> = ({ images, classN
             <img src={images[0]} srcSet={images[0]} width="334" height="573" alt="photo1" />
           </li>
           <li className="user-card__gallary-item">
-            <img src="/assets/img/content/user-card-photo2.jpg" srcSet="/assets/img/content/user-card-photo2@2x.jpg 2x" width="334" height="573" alt="photo2" />
+            <img src={images[1]} srcSet={images[1]} width="334" height="573" alt="photo2" />
           </li>
         </ul>
       )}

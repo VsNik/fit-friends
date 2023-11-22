@@ -1,18 +1,18 @@
 import React from 'react';
 import { IUser } from '@fit-friends/shared';
-import { Hashtag } from '../ui/hashtag/hashtag';
-import { Button } from '../ui/button/button';
-import { getUserLocation } from '../../utils/helpers';
-import { UserCardGallary } from './user-card-gallary/user-card-gallary';
-import { UserCardLabel } from './user-card-label/user-card-label';
+import { Hashtag } from '../../ui/hashtag/hashtag';
+import { Button } from '../../ui/button/button';
+import { getUserLocation } from '../../../utils/helpers';
+import { UserCardGallary } from '../user-card-gallary/user-card-gallary';
+import { UserCardLabel } from '../user-card-label/user-card-label';
 import clsx from 'clsx';
 
-interface UserCardProps {
+interface UserCardUserProps {
   user: IUser;
   onOpenMap: () => void;
 }
 
-export const UserCard: React.FC<UserCardProps> = ({ user, onOpenMap }) => {
+export const UserCardUser: React.FC<UserCardUserProps> = ({ user, onOpenMap }) => {
   const position = getUserLocation(user.location);
 
   return (
@@ -48,7 +48,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, onOpenMap }) => {
           <Button text="Добавить в друзья" className="user-card__btn" />
         </div>
 
-        <UserCardGallary images={user.bgImage ? [user.bgImage] : []} className="user-card__gallary"/>
+        <UserCardGallary images={user.bgImage ? [user.bgImage, '/assets/img/content/user-card-photo2.jpg'] : []} className="user-card__gallary"/>
       </div>
     </section>
   );

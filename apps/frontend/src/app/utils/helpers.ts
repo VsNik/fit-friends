@@ -1,4 +1,8 @@
-import { Location } from '@fit-friends/shared';
+import { Location, TrainingType } from '@fit-friends/shared';
+
+export const isNotEmptyObject = (item: object): boolean => {
+  return Object.keys(item).length !== 0;
+}
 
 export const getUserLocation = (name: Location) => {
   const latLon = {
@@ -9,3 +13,17 @@ export const getUserLocation = (name: Location) => {
   };
   return latLon[name];
 };
+
+export const getTrainingName = (type: TrainingType) => {
+  const traininName = {
+    yoga: 'Йога',
+    beg: 'Бег',
+    boxing: 'Бокс',
+    power: 'Силовые',
+    stretching: 'Стрейчинг',
+    crossfit: 'Кроссфит',
+    aerobic: 'Аэробика',
+    pilates: 'Пилатес',
+  }
+  return traininName[type];
+}

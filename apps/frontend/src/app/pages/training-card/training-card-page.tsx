@@ -22,7 +22,7 @@ export const TrainingCardPage: React.FC = () => {
         <div className="container">
           <div className="inner-page__wrapper">
             <h1 className="visually-hidden">Карточка тренировки</h1>
-            <ReviewsBar />
+            <ReviewsBar trainingId={training.id} />
 
             <div className={clsx('training-card', {'training-card--edit': isEditable})}>
               <TrainingInfo training={training} role={role} isEditable={isEditable} onChangeMode={onChangeMode} />

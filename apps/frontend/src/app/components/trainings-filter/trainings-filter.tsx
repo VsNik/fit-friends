@@ -31,7 +31,7 @@ export const TrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
   const filter = useAppSelector((state) => state.trainings.filter);
-  const sorting = useAppSelector(state => state.trainings.direction);
+  const sorting = useAppSelector((state) => state.trainings.direction);
   const isLoading = useAppSelector((state) => state.trainings.isLoading);
 
   const onChangedPrice = (values: number[]) => dispatch(setPriceAction(values));
@@ -49,6 +49,7 @@ export const TrainingsFilter: React.FC = () => {
       <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
       <div className="gym-catalog-form__wrapper">
         <ButtonFloat text="Назад" icon="arrow-left" onClick={() => navigation(RouteName.Home)} className="gym-catalog-form__btnback" underline />
+
         <h3 className="gym-catalog-form__title">Фильтры</h3>
         <form className="gym-catalog-form__form">
           <RangePrice onChangedPrice={onChangedPrice} min={Price.Min} max={Price.Max} step={Price.Step} disabled={isLoading} />

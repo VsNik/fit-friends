@@ -1,13 +1,13 @@
 import React, { useCallback, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
-import { PopularSliderItem } from './popular-slider-item';
 import { useNavigate } from 'react-router-dom';
 import { RouteName } from '../../app';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
-import 'swiper/css';
 import { useSliderControl } from '../../hooks/use-slider-control';
+import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
+import 'swiper/css';
 
 const SLIDERS = 4;
 
@@ -17,11 +17,11 @@ export const PopularSlider: React.FC = () => {
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
+  const { isDisablePrev, isDisableNext, handleChangeSlide } = useSliderControl(indexSlide, trainings, SLIDERS);
 
   const onGoTrainingList = () => {
-    navigation(RouteName.Trainings)
-  }
+    navigation(RouteName.Trainings);
+  };
 
   const handlePrev = useCallback(() => {
     sliderRef.current?.swiper.slidePrev();
@@ -37,24 +37,24 @@ export const PopularSlider: React.FC = () => {
         <div className="popular-trainings__wrapper">
           <div className="popular-trainings__title-wrapper">
             <h2 className="popular-trainings__title">Популярные тренировки</h2>
-            <ButtonFloat text='Смотреть все' icon='arrow-right' className='popular-trainings__button' iconLeft onClick={onGoTrainingList} />
+            <ButtonFloat text="Смотреть все" icon="arrow-right" className="popular-trainings__button" iconLeft onClick={onGoTrainingList} />
 
             <div className="popular-trainings__controls">
-              <ButtonIcon icon='arrow-left' className='popular-trainings__control' onClick={handlePrev} disabled={isDisablePrev} />
-              <ButtonIcon icon='arrow-right' className='popular-trainings__control' onClick={handleNext} disabled={isDisableNext} />
+              <ButtonIcon icon="arrow-left" className="popular-trainings__control" onClick={handlePrev} disabled={isDisablePrev} />
+              <ButtonIcon icon="arrow-right" className="popular-trainings__control" onClick={handleNext} disabled={isDisableNext} />
             </div>
           </div>
 
-          <Swiper 
-            spaceBetween={20} 
-            slidesPerView={SLIDERS} 
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={SLIDERS}
             className="popular-trainings__list"
-            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}   
+            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
             ref={sliderRef}
           >
             {trainings?.map((training) => (
               <SwiperSlide key={training.id}>
-                <PopularSliderItem training={training} />
+                <ThumbnailTraining training={training} />
               </SwiperSlide>
             ))}
           </Swiper>
