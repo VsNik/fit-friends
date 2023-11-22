@@ -1,6 +1,6 @@
-import { TrainingFilter } from '../store/trainings/trainings-slice';
-import { UsersFilters } from '../store/users/users-slice';
+// import { TrainingFilter } from '../store/trainings/trainings-slice';
 import { Role, SortDirection, TrainingSorting } from '@fit-friends/shared';
+import { TrainingFilter, UsersFilters } from '../types/state-type';
 
 export const getUsersQuery = (
   filters: UsersFilters, 

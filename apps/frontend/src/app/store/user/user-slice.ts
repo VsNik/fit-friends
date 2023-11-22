@@ -2,14 +2,9 @@ import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { IUser, TrainingType } from '@fit-friends/shared';
 import { fakeCoach } from '../../fake-data/fake-user';
 import { fetchUserAction, updateUserAction } from './async-actions';
+import { UserState } from '../../types/state-type';
 
-export interface UserStore {
-  user: IUser;
-  isLoading: boolean;
-  error: string;
-}
-
-const initialState: UserStore = {
+const initialState: UserState = {
   user: {} as IUser,
   isLoading: false,
   error: '',

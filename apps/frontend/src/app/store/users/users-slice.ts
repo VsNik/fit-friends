@@ -1,23 +1,7 @@
-import { IUser, Role, SortDirection, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
+import { SortDirection } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCompanyAction, fetchUsersAction } from './async-actions';
-
-export interface UsersFilters {
-  location: Location[];
-  types?: TrainingType[];
-  level: TrainingLevel | '';
-}
-
-export interface UsersState {
-  users: IUser[];
-  filter: UsersFilters;
-  sorting: Role | null;
-  direction: SortDirection;
-  page: number;
-  total: number;
-  isLoading: boolean;
-  error: string;
-}
+import { UsersState } from '../../types/state-type';
 
 const initialState: UsersState = {
   users: [],

@@ -1,14 +1,8 @@
-import { IUser, Role } from '@fit-friends/shared';
+import { Role } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fakeCoach } from '../../fake-data/fake-user';
 import { addCertificateAction, deleteSertificateAction, updateCertificateAction } from './async-actions';
-
-export interface AuthState {
-  authUser: IUser;
-  isAuth: boolean;
-  isLoading: boolean;
-  error: string;
-}
+import { AuthState } from '../../types/state-type';
 
 const initialState: AuthState = {
   authUser: {...fakeCoach, role: Role.User},

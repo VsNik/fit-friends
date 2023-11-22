@@ -1,27 +1,7 @@
-import { ITraining, SortDirection, TrainingSorting, TrainingType } from '@fit-friends/shared';
+import { TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchForCoachAction, fetchTrainingsAction } from './async-actions';
-
-export interface TrainingFilter {
-  priceTo: number;
-  priceFrom: number;
-  caloriesTo: number;
-  caloriesFrom: number;
-  ratingTo: number;
-  ratingFrom: number;
-  types: TrainingType[];
-}
-
-interface TrainingListState {
-  trainings: ITraining[];
-  page: number;
-  total: number;
-  filter: TrainingFilter,
-  sorting: TrainingSorting;
-  direction: SortDirection | 'free' | null;  
-  isLoading: boolean;
-  error: string;
-}
+import { TrainingListState } from '../../types/state-type';
 
 const initialState: TrainingListState = {
   trainings: [],

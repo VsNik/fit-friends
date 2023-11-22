@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchPopularAction } from './async-actions';
-import { TrainingsState } from './for-you-slice';
+import { TrainingsState } from '../../types/state-type';
 
 const initialState: TrainingsState = {
   trainings: [],

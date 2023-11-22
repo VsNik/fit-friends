@@ -1,11 +1,12 @@
 import React, { ChangeEvent } from 'react';
 import { Role } from '@fit-friends/shared';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { UsersFilters, setLevel, setLocation, setSorting, setType } from '../../store/users/users-slice';
+import { setLevel, setLocation, setSorting, setType } from '../../store/users/users-slice';
 import { CheckTypes } from '../ui/check-types/check-types';
 import { CheckLevel } from '../users/check-level/check-level';
 import { ButtonsSortingRole } from '../ui/buttons-sorting-role/buttons-sorting-role';
 import { CheckLocations } from '../ui/check-locations/check-locations';
+import { UsersFilters } from '../../types/state-type';
 
 interface UsersFilterProps {
   filter: UsersFilters;
