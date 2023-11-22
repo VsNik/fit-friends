@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchPopularAction } from './async-actions';
 import { TrainingsState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: TrainingsState = {
   trainings: [],
@@ -11,7 +12,7 @@ const initialState: TrainingsState = {
 };
 
 export const popularSlice = createSlice({
-  name: 'popular-trainings',
+  name: SliceName.Popular,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

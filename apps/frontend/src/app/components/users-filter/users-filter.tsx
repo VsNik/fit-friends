@@ -7,6 +7,7 @@ import { CheckLevel } from '../users/check-level/check-level';
 import { ButtonsSortingRole } from '../ui/buttons-sorting-role/buttons-sorting-role';
 import { CheckLocations } from '../ui/check-locations/check-locations';
 import { UsersFilters } from '../../types/state-type';
+import * as usersSelector from '../../store/users/users-select';
 
 interface UsersFilterProps {
   filter: UsersFilters;
@@ -17,7 +18,7 @@ export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
   const { filter, sorting } = props;
 
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.users.isLoading);
+  const isLoading = useAppSelector(usersSelector.isLoading);
 
   const handleSetLocations = (evt: ChangeEvent<HTMLInputElement>) => {
     dispatch(setLocation(evt.target.value));

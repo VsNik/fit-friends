@@ -2,9 +2,10 @@ import React from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const TrainingCatalog: React.FC = () => {
-  const trainings = useAppSelector(state => state.trainings.trainings);
+  const trainings = useAppSelector(trainingsSelector.trainings);
 
   return (
     <div className="training-catalog">

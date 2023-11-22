@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fakeCoach } from '../../fake-data/fake-user';
 import { addCertificateAction, deleteSertificateAction, updateCertificateAction } from './async-actions';
 import { AuthState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: AuthState = {
   authUser: {...fakeCoach, role: Role.User},
@@ -12,7 +13,7 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: SliceName.Auth,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

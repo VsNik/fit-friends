@@ -2,15 +2,16 @@ import React, { useCallback, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
 import { ForCompanySliderItem } from './for-company-slider-item';
-import 'swiper/css';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { useSliderControl } from '../../hooks/use-slider-control';
+import * as usersSelector from '../../store/users/users-select';
+import 'swiper/css';
 
 const SLIDERS = 4;
 
 export const ForCompanySlider: React.FC = () => {
-  const users = useAppSelector((state) => state.users.users);
+  const users = useAppSelector(usersSelector.users);
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;

@@ -2,6 +2,7 @@ import { SortDirection } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCompanyAction, fetchUsersAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: UsersState = {
   users: [],
@@ -19,7 +20,7 @@ const initialState: UsersState = {
 };
 
 export const usersSlice = createSlice({
-  name: 'users',
+  name: SliceName.Users,
   initialState,
   reducers: {
     setLocation: (state, { payload }) => {

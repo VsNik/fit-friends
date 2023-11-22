@@ -7,13 +7,14 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 import 'swiper/css';
 
 const SLIDERS = 4;
 
 export const PopularSlider: React.FC = () => {
   const navigation = useNavigate();
-  const trainings = useAppSelector((state) => state.popularTrainings.trainings);
+  const trainings = useAppSelector(trainingsSelector.trainingsPopular);
   const sliderRef = useRef<SwiperRef | null>(null);
 
   const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;

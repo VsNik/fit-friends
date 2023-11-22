@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchForYouAction } from './async-actions';
 import { TrainingsState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: TrainingsState = {
   trainings: [],
@@ -11,7 +12,7 @@ const initialState: TrainingsState = {
 };
 
 export const forYouSlice = createSlice({
-  name: 'for-you-trainings',
+  name: SliceName.ForYou,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

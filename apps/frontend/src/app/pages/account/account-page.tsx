@@ -4,10 +4,11 @@ import { CoachAccount } from '../../components/accounts/coach-account/coach-acco
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Role } from '@fit-friends/shared';
 import { fetchUserAction } from '../../store/user/async-actions';
+import * as authSelectors from '../../store/auth/auth-select';
 
 export const AccountPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const {authUser} = useAppSelector((state) => state.auth);
+  const authUser = useAppSelector(authSelectors.authUser);
 
   useEffect(() => {
     dispatch(fetchUserAction());

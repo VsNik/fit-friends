@@ -3,6 +3,7 @@ import { IUser, TrainingType } from '@fit-friends/shared';
 import { fakeCoach } from '../../fake-data/fake-user';
 import { fetchUserAction, updateUserAction } from './async-actions';
 import { UserState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: UserState = {
   user: {} as IUser,
@@ -11,7 +12,7 @@ const initialState: UserState = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: SliceName.User,
   initialState,
   reducers: {},
   extraReducers: (builder) => {

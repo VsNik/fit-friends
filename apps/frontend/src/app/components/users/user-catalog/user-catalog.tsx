@@ -2,9 +2,11 @@ import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { ThumbnailUserCard } from '../../thumbnails/thumbnail-user-card/thumbnail-user-card';
 import { ButtonShowMore } from '../../ui/button-show-more/button-show-more';
+import * as usersSelector from '../../../store/users/users-select';
 
 export const UserCatalog: React.FC = () => {
-  const users = useAppSelector((state) => state.users.users);
+  const users = useAppSelector(usersSelector.users);
+  // const users = useAppSelector((state) => state.users.users);
 
   return (
     <div className="users-catalog">

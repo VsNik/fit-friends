@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TrainingState } from '../../types/state-type';
 import { ITraining } from '@fit-friends/shared';
+import { SliceName } from '../../constants/common';
 
 const initialState: TrainingState = {
   training: {} as ITraining,
@@ -9,7 +10,7 @@ const initialState: TrainingState = {
 };
 
 export const trainingSlice = createSlice({
-  name: 'training',
+  name: SliceName.Training,
   initialState,
   reducers: {},
 });

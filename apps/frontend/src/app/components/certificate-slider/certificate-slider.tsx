@@ -7,6 +7,7 @@ import { useSliderControl } from '../../hooks/use-slider-control';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addCertificateAction } from '../../store/auth/async-actions';
+import * as authSelector from '../../store/auth/auth-select';
 import 'swiper/css';
 
 const SLIDERS = 3;
@@ -17,7 +18,7 @@ interface CertificateSliderProps {
 
 export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.auth.isLoading);
+  const isLoading = useAppSelector(authSelector.isLoading);
   const [certificates, setCertificates] = useState<string[]>([]);
   const sliderRef = useRef<SwiperRef | null>(null);
   const certificateRef = useRef<HTMLInputElement | null>(null);

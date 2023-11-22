@@ -11,6 +11,7 @@ import { fetchForCoachAction } from '../../../store/trainings/async-actions';
 import { CertificatesPopup } from '../../popups/certificates-popup/certificates-popup';
 import { UserCardCertificateSlider } from '../user-card-certificate-slider/user-card-certificate-slider';
 import { UserCardForm } from '../user-card-form/user-card-form';
+import * as trainingsSelector from '../../../store/trainings/trainings-select';
 import clsx from 'clsx';
 
 interface UserCardCoachProps {
@@ -22,7 +23,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap })
   const dispatch = useAppDispatch();
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const position = getUserLocation(user.location);
-  const trainings = useAppSelector((state) => state.trainings.trainings);
+  const trainings = useAppSelector(trainingsSelector.trainings);
 
   useEffect(() => {
     dispatch(fetchForCoachAction());

@@ -5,13 +5,19 @@ import { TrainingCatalog } from '../../components/training-catalog/training-cata
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchTrainingsAction } from '../../store/trainings/async-actions';
 import { getTrainingsQuery } from '../../utils/query-string';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const TrainingsPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const filters = useAppSelector(state => state.trainings.filter);
-  const sorting = useAppSelector(state => state.trainings.sorting);
-  const direction = useAppSelector(state => state.trainings.direction);
-  const page = useAppSelector(state => state.trainings.page);
+  const filters = useAppSelector(trainingsSelector.filter);
+  const sorting = useAppSelector(trainingsSelector.sorting);
+  const direction = useAppSelector(trainingsSelector.direction);
+  const page = useAppSelector(trainingsSelector.page);
+
+  // const filters = useAppSelector(state => state.trainings.filter);
+  // const sorting = useAppSelector(state => state.trainings.sorting);
+  // const direction = useAppSelector(state => state.trainings.direction);
+  // const page = useAppSelector(state => state.trainings.page);
 
   useEffect(() => {
     const queryString = getTrainingsQuery(filters, sorting, direction, page)

@@ -6,15 +6,18 @@ import { TrainingInfo } from '../../components/training/training-info/training-i
 import { TrainingVideo } from '../../components/training/training-video/training-video';
 import { useAppSelector } from '../../store/hooks';
 import { getFakeTrainings } from '../../fake-data/fake-training';
+import * as authSelectors from '../../store/auth/auth-select';
+// import * as trainingSelectors from '../../store/training/training-select';
 
 export const TrainingCardPage: React.FC = () => {
   const training = getFakeTrainings(1).data[0];
-  const {role} = useAppSelector(state => state.auth.authUser);
+  // const training = useAppSelector(trainingSelectors.training)
+  const { role } = useAppSelector(authSelectors.authUser);
   const [isEditable, setIsEditable] = useState(false);
 
   const onChangeMode = (value: boolean) => {
     setIsEditable(value);
-  }
+  };
 
   return (
     <AppLayout>
@@ -24,7 +27,7 @@ export const TrainingCardPage: React.FC = () => {
             <h1 className="visually-hidden">Карточка тренировки</h1>
             <ReviewsBar trainingId={training.id} />
 
-            <div className={clsx('training-card', {'training-card--edit': isEditable})}>
+            <div className={clsx('training-card', { 'training-card--edit': isEditable })}>
               <TrainingInfo training={training} role={role} isEditable={isEditable} onChangeMode={onChangeMode} />
               <TrainingVideo role={role} video={training.video} isEditable={isEditable} />
             </div>

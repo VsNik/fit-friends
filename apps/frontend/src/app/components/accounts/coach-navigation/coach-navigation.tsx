@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThumbnailLink } from '../../thumbnails/thumbnail-link/thumbnail-link';
+import { Image } from '../../ui/image/image';
 
 export const CoachNavigation: React.FC = () => {
   return (
@@ -11,7 +12,8 @@ export const CoachNavigation: React.FC = () => {
       
       <div className="personal-account-coach__calendar">
         <div className="thumbnail-spec-gym">
-          <div className="thumbnail-spec-gym__image">
+          <Image src='/assets/img/content/thumbnails/nearest-gym-01.jpg' className='thumbnail-spec-gym__image' width={330} height={190} />
+          {/* <div className="thumbnail-spec-gym__image">
             <picture>
               <source
                 type="image/webp"
@@ -25,7 +27,7 @@ export const CoachNavigation: React.FC = () => {
                 alt=""
               />
             </picture>
-          </div>
+          </div> */}
 
           <div className="thumbnail-spec-gym__header">
             <h3 className="thumbnail-spec-gym__title">Скоро тут будет интересно</h3>

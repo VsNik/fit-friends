@@ -2,6 +2,7 @@ import { TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchForCoachAction, fetchTrainingsAction } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
+import { SliceName } from '../../constants/common';
 
 const initialState: TrainingListState = {
   trainings: [],
@@ -22,8 +23,8 @@ const initialState: TrainingListState = {
   error: '',
 };
 
-export const trainingeSlice = createSlice({
-  name: 'trainings',
+export const trainingsSlice = createSlice({
+  name: SliceName.Trainings,
   initialState,
   reducers: {
     setPriceAction: (state, { payload }) => {
@@ -75,5 +76,5 @@ export const trainingeSlice = createSlice({
   },
 });
 
-export const { setPriceAction, setCaloriesAction, setRatingAction, setDirectionAction, setTypeAction } = trainingeSlice.actions;
-export default trainingeSlice.reducer;
+export const { setPriceAction, setCaloriesAction, setRatingAction, setDirectionAction, setTypeAction } = trainingsSlice.actions;
+export default trainingsSlice.reducer;

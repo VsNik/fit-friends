@@ -9,6 +9,7 @@ import { setCaloriesAction, setDirectionAction, setPriceAction, setRatingAction,
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { RouteName } from '../../app';
 import { CheckTypes } from '../ui/check-types/check-types';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 enum Price {
   Min = 0,
@@ -30,9 +31,9 @@ enum Rating {
 export const TrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
-  const filter = useAppSelector((state) => state.trainings.filter);
-  const sorting = useAppSelector((state) => state.trainings.direction);
-  const isLoading = useAppSelector((state) => state.trainings.isLoading);
+  const filter = useAppSelector(trainingsSelector.filter);
+  const sorting = useAppSelector(trainingsSelector.direction);
+  const isLoading = useAppSelector(trainingsSelector.isLoading);
 
   const onChangedPrice = (values: number[]) => dispatch(setPriceAction(values));
 

@@ -8,13 +8,19 @@ import { UserCatalog } from '../../components/users/user-catalog/user-catalog';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../app';
 import { getUsersQuery } from '../../utils/query-string';
+import * as usersSelector from '../../store/users/users-select';
 
 export const UsersPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const filters = useAppSelector((state) => state.users.filter);
-  const sorting = useAppSelector((state) => state.users.sorting);
-  const direction = useAppSelector((state) => state.users.direction);
+
+  const filters = useAppSelector(usersSelector.filter);
+  const sorting = useAppSelector(usersSelector.sorting);
+  const direction = useAppSelector(usersSelector.direction);
+
+  // const filters = useAppSelector((state) => state.users.filter);
+  // const sorting = useAppSelector((state) => state.users.sorting);
+  // const direction = useAppSelector((state) => state.users.direction);
 
   useEffect(() => {
     const queryString = getUsersQuery(filters, sorting, direction)

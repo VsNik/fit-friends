@@ -5,9 +5,11 @@ import 'swiper/css';
 import './styles.css';
 import { useAppSelector } from '../../store/hooks';
 import { SpecialSliderItem } from './special-slider-item';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const SpecialSlider: React.FC = () => {
-  const trainings = useAppSelector((state) => state.specialTrainings.trainings);
+  const trainings = useAppSelector(trainingsSelector.trainingsSpecial);
+  // const trainings = useAppSelector((state) => state.specialTrainings.trainings);
 
   return (
     <section className="special-offers">

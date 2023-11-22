@@ -5,6 +5,7 @@ import { fetchReviewsAction } from '../../store/reviews/async-actions';
 import { ThumbnailReview } from '../thumbnails/thumbnail-review/thumbnail-review';
 import { Button } from '../ui/button/button';
 import { ButtonFloat } from '../ui/button-float/button-float';
+import * as reviewsSelector from '../../store/reviews/reviews-select';
 import { RouteName } from '../../app';
 
 interface ReviewsBarProps {
@@ -14,7 +15,7 @@ interface ReviewsBarProps {
 export const ReviewsBar: React.FC<ReviewsBarProps> = ({trainingId}) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
-  const reviews = useAppSelector((state) => state.reviews.reviews);
+  const reviews = useAppSelector(reviewsSelector.reviews);
 
   useEffect(() => {
     dispatch(fetchReviewsAction(trainingId));

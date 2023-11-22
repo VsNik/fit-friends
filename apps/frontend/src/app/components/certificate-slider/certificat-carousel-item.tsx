@@ -4,6 +4,7 @@ import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteSertificateAction, updateCertificateAction } from '../../store/auth/async-actions';
 import { Image } from '../ui/image/image';
+import * as authSelector from '../../store/auth/auth-select';
 import clsx from 'clsx';
 
 interface CertificatCarouselItemProps {
@@ -16,7 +17,7 @@ interface CertificatCarouselItemProps {
 
 export const CertificatCarouselItem: React.FC<CertificatCarouselItemProps> = (props) => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.auth.isLoading);
+  const isLoading = useAppSelector(authSelector.isLoading);
   const { userId, src, alt } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState<FileList | null>(null);

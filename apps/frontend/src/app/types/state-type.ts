@@ -1,4 +1,4 @@
-import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location } from '@fit-friends/shared';
+import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert } from '@fit-friends/shared';
 
 export interface TrainingFilter {
   priceTo: number;
@@ -69,3 +69,8 @@ export type ReviewsState = {
   reviews: IReview[];
   isLoading: boolean;
 };
+
+export type NotificationsState = {
+  notifications: IAlert[];
+  isLoading: boolean;
+}

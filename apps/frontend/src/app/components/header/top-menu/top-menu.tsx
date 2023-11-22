@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, matchRoutes } from 'react-router-dom';
 import clsx from 'clsx';
 import { RouteName } from '../../../app';
 import { getAccountRoute } from '../../../utils/route';
 import { useAppSelector } from '../../../store/hooks';
-import { matchRoutes } from 'react-router-dom';
+import * as authSelector from '../../../store/auth/auth-select';
 
 export const TopMenu: React.FC = () => {
   const { pathname } = useLocation();
-  const { id } = useAppSelector((state) => state.auth.authUser);
+  const { id } = useAppSelector(authSelector.authUser);
 
   const matchPath = (path: RouteName) => {
     const matched = matchRoutes([{ path }], pathname);
