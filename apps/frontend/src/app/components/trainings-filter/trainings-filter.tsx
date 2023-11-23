@@ -7,9 +7,9 @@ import { ButtonsSortingPrice } from '../ui/buttons-sorting-price/buttons-sorting
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setCaloriesAction, setDirectionAction, setPriceAction, setRatingAction, setTypeAction } from '../../store/trainings/trainings-slice';
 import { ButtonFloat } from '../ui/button-float/button-float';
-import { RouteName } from '../../app';
 import { CheckTypes } from '../ui/check-types/check-types';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
+import { RouteName } from '../../constants/route';
 
 enum Price {
   Min = 0,

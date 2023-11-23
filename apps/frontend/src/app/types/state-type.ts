@@ -1,4 +1,5 @@
 import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert } from '@fit-friends/shared';
+import { CreatedOrderType } from './common';
 
 export interface TrainingFilter {
   priceTo: number;
@@ -72,5 +73,10 @@ export type ReviewsState = {
 
 export type NotificationsState = {
   notifications: IAlert[];
+  isLoading: boolean;
+}
+
+export type OrderState = {
+  order: CreatedOrderType,
   isLoading: boolean;
 }

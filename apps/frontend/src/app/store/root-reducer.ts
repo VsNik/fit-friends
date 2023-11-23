@@ -10,6 +10,7 @@ import { specialSlice } from "./trainings/special-slice";
 import { popularSlice } from "./trainings/popular-slice";
 import { reviewsSlice } from "./reviews/reviews-slice";
 import { notificationsSlice } from "./notifications/notifications-slice";
+import { orderSlice } from "./order/order-slice";
 
 export const rootReducer = combineReducers({
     [SliceName.Auth]: authSlice.reducer,
@@ -22,4 +23,5 @@ export const rootReducer = combineReducers({
     [SliceName.Popular]: popularSlice.reducer,
     [SliceName.Reviews]: reviewsSlice.reducer,
     [SliceName.Notifications]: notificationsSlice.reducer,
+    [SliceName.Order]: orderSlice.reducer,
 })

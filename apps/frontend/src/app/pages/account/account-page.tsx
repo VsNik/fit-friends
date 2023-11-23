@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Role } from '@fit-friends/shared';
 import { fetchUserAction } from '../../store/user/async-actions';
 import * as authSelectors from '../../store/auth/auth-select';
+import { UserAccount } from '../../components/accounts/user-account/user-account';
 
 export const AccountPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const AccountPage: React.FC = () => {
       <section className="inner-page">
         <div className="container">
           {authUser.role === Role.Coach && <CoachAccount user={authUser} />}
-          {authUser.role === Role.User && <h1>User account</h1>}
+          {authUser.role === Role.User && <UserAccount user={authUser} />}
         </div>
       </section>
     </AppLayout>

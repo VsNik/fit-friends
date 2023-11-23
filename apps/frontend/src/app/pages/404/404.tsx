@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { RouteName } from '../../app';
+import { RouteName } from '../../constants/route';
 import './styles.css';
 
 export const NotFound: React.FC = () => {
-
   return (
     <div className="wrapper">
       <main>

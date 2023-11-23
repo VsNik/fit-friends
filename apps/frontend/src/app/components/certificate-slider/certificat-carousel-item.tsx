@@ -42,7 +42,7 @@ export const CertificatCarouselItem: React.FC<CertificatCarouselItemProps> = (pr
   return (
     <div className="personal-account-coach__item">
       <div className={clsx('certificate-card', { 'certificate-card--edit': isEdit })}>
-        <Image src={src} width={294} height={360} alt={alt} />
+        <Image src={src} width={294} height={360} alt={alt} className='certificate-card__image' />
 
         <form className="certificate-card__buttons">
           <ButtonFloat

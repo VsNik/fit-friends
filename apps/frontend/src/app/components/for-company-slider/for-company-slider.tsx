@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
 import { ForCompanySliderItem } from './for-company-slider-item';
@@ -7,10 +8,12 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import * as usersSelector from '../../store/users/users-select';
 import 'swiper/css';
+import { RouteName } from '../../constants/route';
 
 const SLIDERS = 4;
 
 export const ForCompanySlider: React.FC = () => {
+  const navigate = useNavigate();
   const users = useAppSelector(usersSelector.users);
   const sliderRef = useRef<SwiperRef | null>(null);
 
@@ -31,7 +34,7 @@ export const ForCompanySlider: React.FC = () => {
         <div className="look-for-company__wrapper">
           <div className="look-for-company__title-wrapper">
             <h2 className="look-for-company__title">Ищут компанию для тренировки</h2>
-            <ButtonFloat text='Смотреть все' icon='arrow-right' light iconLeft/>
+            <ButtonFloat text='Смотреть все' icon='arrow-right' onClick={() => navigate(RouteName.Users)} light iconLeft/>
    
             <div className="look-for-company__controls">
               <ButtonIcon icon='arrow-left' onClick={handlePrev} className='look-for-company__control' outline disabled={isDisablePrev}/>

@@ -2,12 +2,12 @@ import React, { useCallback, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
 import { useNavigate } from 'react-router-dom';
-import { RouteName } from '../../app';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
+import { RouteName } from '../../constants/route';
 import 'swiper/css';
 
 const SLIDERS = 4;

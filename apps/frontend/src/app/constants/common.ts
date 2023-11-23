@@ -11,6 +11,8 @@ export enum SliceName {
   Special = 'SPECIAL',
   Reviews = 'REVIEWS',
   Notifications = 'NOTIFICATIONS',
+  Order = 'ORDER',
+  Orders = 'ORDERS',
 }
 
 export const LocationList = [

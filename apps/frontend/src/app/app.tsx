@@ -1,4 +1,5 @@
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { Role } from '@fit-friends/shared';
 import { IntroPage } from './pages/intro/intro-page';
 import { LoginPage } from './pages/login/login-page';
 import { SignupPage } from './pages/signup/signup-page';
@@ -11,28 +12,26 @@ import { TrainingsPage } from './pages/trainings/trainings-page';
 import { TrainingCardPage } from './pages/training-card/training-card-page';
 import { NotFound } from './pages/404/404';
 import { ProtectedRoute } from './components/protected-route/protected-route';
-import { Role } from '@fit-friends/shared';
 import { UsersPage } from './pages/users/users-page';
 import { UserPage } from './pages/user/user-page';
+import { FriendsPage } from './pages/friends/friends-page';
+import { store } from './store';
+import { checkAuthAction } from './store/auth/async-actions';
+import * as authSelector from './store/auth/auth-select';
+import { useAppSelector } from './store/hooks';
+import { RouteName } from './constants/route';
 
-export enum RouteName {
-  Home = '/',
-  Intro = '/intro',
-  Login = '/login',
-  Signup = '/signup',
-  QuestionUser = '/question-user',
-  QuestionCoach = '/question-coach',
-  Account = '/account/:id',
-  Trainings = '/trainings',
-  TrainingCard = '/trainings/:id',
-  NotFound = '/not-found',
-  Users = '/users',
-  UserCard = '/users/:id',
-}
+store.dispatch(checkAuthAction());
 
-export function App() {
+export function App() {  
   history.navigate = useNavigate();
   history.location = useLocation();
+
+  const isLoading = useAppSelector(authSelector.isLoading);
+
+  if (isLoading) {
+    return <h3>Loading...</h3>;
+  }
 
   return (
     <Routes>
@@ -52,6 +51,7 @@ export function App() {
         <Route path={RouteName.Account} element={<AccountPage />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
         <Route path={RouteName.UserCard} element={<UserPage />} />
+        <Route path={RouteName.Friends} element={<FriendsPage />} />
       </Route>
 
       <Route path={RouteName.NotFound} element={<NotFound />} />

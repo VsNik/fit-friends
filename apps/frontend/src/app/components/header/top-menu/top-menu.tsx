@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link, useLocation, matchRoutes } from 'react-router-dom';
+import { RouteName } from '../../../constants/route';
 import clsx from 'clsx';
-import { RouteName } from '../../../app';
-import { getAccountRoute } from '../../../utils/route';
-import { useAppSelector } from '../../../store/hooks';
-import * as authSelector from '../../../store/auth/auth-select';
 
 export const TopMenu: React.FC = () => {
   const { pathname } = useLocation();
-  const { id } = useAppSelector(authSelector.authUser);
 
   const matchPath = (path: RouteName) => {
     const matched = matchRoutes([{ path }], pathname);
@@ -33,7 +29,7 @@ export const TopMenu: React.FC = () => {
         <li className="main-nav__item">
           <Link
             className={clsx('main-nav__link', { 'is-active': matchPath(RouteName.Account) })}
-            to={getAccountRoute(id)}
+            to={RouteName.Account}
             aria-label="Личный кабинет"
             title="Личный кабинет"
           >
@@ -43,7 +39,12 @@ export const TopMenu: React.FC = () => {
           </Link>
         </li>
         <li className="main-nav__item">
-          <Link className="main-nav__link" to="#" aria-label="Друзья" title="Друзья">
+          <Link 
+            className={clsx('main-nav__link', {'is-active': matchPath(RouteName.Friends)})} 
+            to={RouteName.Friends} 
+            aria-label="Друзья" 
+            title="Друзья"
+          >
             <svg width="22" height="16" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-friends" />
             </svg>

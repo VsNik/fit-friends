@@ -37,7 +37,9 @@ export const loginSchema = Yup.object({
 });
 
 export const signupSchema = Yup.object({
-  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  name: Yup.string().required(NAME_NOT_EMPTY)
+    .min(UserValidate.NameMinLength, USER_NAME_LENGTH)
+    .max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   email: Yup.string().required(EMAIL_NOT_EMPTY).email(INVALID_EMAIL),
   birthday: Yup.string().optional(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
@@ -96,11 +98,18 @@ export const questionCoachSchema = Yup.object({
 export const userInfoSchema = Yup.object({
   name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   bio: Yup.string().required(),
-  personalTraining: Yup.boolean().required(),
+  personalTraining: Yup.boolean(),
+  ready: Yup.boolean(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
   gender: Yup.mixed<Gender>().oneOf(Object.values(Gender)).required(GENDER_NOT_EMPTY),
   trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
     .required()
     .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
     .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
+});
+
+export const updateTrainingSchema = Yup.object({
+  title: Yup.string().required(),
+  description: Yup.string().required(),
+  price: Yup.number().required(),
 });

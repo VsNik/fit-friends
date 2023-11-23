@@ -10,12 +10,7 @@ import { TrainingRating } from '../training-rating/training-rating';
 import { TrainingTextarea } from '../training-textarea/training-textarea';
 import { Hashtag } from '../../ui/hashtag/hashtag';
 import { Button } from '../../ui/button/button';
-
-const updateTrainingSchema = Yup.object({
-  title: Yup.string().required(),
-  description: Yup.string().required(),
-  price: Yup.number().required(),
-});
+import { updateTrainingSchema } from '../../../utils/validate-schemas';
 
 type UpdateTrainingType = Yup.InferType<typeof updateTrainingSchema>;
 
@@ -24,9 +19,12 @@ interface TrainingInfoProps {
   role: Role;
   isEditable: boolean;
   onChangeMode: (value: boolean) => void;
+  onOpenBuyPopup: () => void;
 }
 
-export const TrainingInfo: React.FC<TrainingInfoProps> = ({ training, role, isEditable, onChangeMode }) => {
+export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
+  const { training, role, isEditable, onChangeMode, onOpenBuyPopup } = props;
+
   const methods = useForm<UpdateTrainingType>({
     defaultValues: training,
     resolver: yupResolver(updateTrainingSchema),
@@ -43,7 +41,7 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = ({ training, role, isEd
     <div className="training-info">
       <h2 className="visually-hidden">Информация о тренировке</h2>
       <div className="training-info__header">
-        <TrainingUserInfo />
+        <TrainingUserInfo coach={training.coach} />
 
         {role === Role.Coach && (
           <>
@@ -97,7 +95,7 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = ({ training, role, isEd
               <div className="training-info__price-wrapper">
                 <TrainingInput name="price" label="Стоимость" className="training-info__input--price" disabled={!isEditable} />
                 {role === Role.User ? (
-                  <Button text="Купить" className="training-info__buy" disabled />
+                  <Button text="Купить" className="training-info__buy" type='button' onClick={onOpenBuyPopup} />
                 ) : (
                   <ButtonFloat text="Сделать скидку 10%" icon="icon-discount" type='button' className="training-info__discount" light underline />
                 )}

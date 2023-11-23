@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
-import { RouteName } from '../../app';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { UserCardUser } from '../../components/user-card/user-card-user/user-card-user';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
@@ -12,6 +11,7 @@ import { MapPopup } from '../../components/popups/map-popup/map-popup';
 import { isNotEmptyObject } from '../../utils/helpers';
 import * as userSelector from '../../store/user/user-select';
 import clsx from 'clsx';
+import { RouteName } from '../../constants/route';
 
 export const UserPage: React.FC = () => {
   const [openMap, setOpenMap] = useState<boolean>(false);
@@ -19,7 +19,6 @@ export const UserPage: React.FC = () => {
   const navigation = useNavigate();
   const user = useAppSelector(userSelector.user);
   const isLoading = useAppSelector(userSelector.isLoading);
-  // const { user, isLoading } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchUserAction());

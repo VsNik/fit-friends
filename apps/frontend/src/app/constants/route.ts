@@ -1,0 +1,15 @@
+export enum RouteName {
+  Home = '/',
+  Intro = '/intro',
+  Login = '/login',
+  Signup = '/signup',
+  QuestionUser = '/question-user',
+  QuestionCoach = '/question-coach',
+  Account = '/account',
+  Trainings = '/trainings',
+  TrainingCard = '/trainings/:id',
+  NotFound = '/not-found',
+  Users = '/users',
+  UserCard = '/users/:id',
+  Friends = '/friends',
+}

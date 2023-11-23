@@ -25,7 +25,6 @@ export type UserInfoType = Yup.InferType<typeof userInfoSchema>;
 
 export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable }) => {
   const isLoading = useAppSelector(authSelector.isLoading);
-  // const isLoading = useAppSelector(state => state.user.isLoading);
   const dispatch = useAppDispatch();
   const [location, setLocation] = useState('');
   const [gender, setGender] = useState('');
@@ -56,6 +55,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
   const onSubmit = (data: UserInfoType) => {
     toggleEditMode();
+    console.log(data)
     dispatch(updateUserAction(data));
   };
 

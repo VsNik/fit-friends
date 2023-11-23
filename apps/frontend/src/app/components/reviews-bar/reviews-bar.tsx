@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchReviewsAction } from '../../store/reviews/async-actions';
 import { ThumbnailReview } from '../thumbnails/thumbnail-review/thumbnail-review';
 import { Button } from '../ui/button/button';
 import { ButtonFloat } from '../ui/button-float/button-float';
-import * as reviewsSelector from '../../store/reviews/reviews-select';
-import { RouteName } from '../../app';
+import { IReview, Role } from '@fit-friends/shared';
+import { RouteName } from '../../constants/route';
 
 interface ReviewsBarProps {
-  trainingId: string;
+  reviews: IReview[];
+  role: Role;
 }
 
-export const ReviewsBar: React.FC<ReviewsBarProps> = ({trainingId}) => {
-  const dispatch = useAppDispatch();
+export const ReviewsBar: React.FC<ReviewsBarProps> = ({reviews, role}) => {
   const navigation = useNavigate();
-  const reviews = useAppSelector(reviewsSelector.reviews);
-
-  useEffect(() => {
-    dispatch(fetchReviewsAction(trainingId));
-  }, [dispatch, trainingId]);
 
   return (
     <aside className="reviews-side-bar">
@@ -42,7 +35,7 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = ({trainingId}) => {
         onClick={() => {}} 
         className='reviews-side-bar__button' 
         medium 
-        disabled 
+        disabled={role === Role.Coach}
       />
     </aside>
   );

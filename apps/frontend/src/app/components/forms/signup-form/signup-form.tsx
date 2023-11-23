@@ -12,7 +12,7 @@ import { InputAvatar } from '../../ui/form/input-avatar/input-avatar';
 import { useImagePreview } from '../../../hooks/use-image-preview';
 import { signupSchema } from '../../../utils/validate-schemas';
 import { LocationList } from '../../../constants/common';
-import { RouteName } from '../../../app';
+import { RouteName } from '../../../constants/route';
 
 type SignupType = Yup.InferType<typeof signupSchema>;
 

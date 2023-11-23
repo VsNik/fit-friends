@@ -1,6 +1,6 @@
 import { SortDirection } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCompanyAction, fetchUsersAction } from './async-actions';
+import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
 
@@ -68,7 +68,27 @@ export const usersSlice = createSlice({
         state.page = payload.page;
         state.total = payload.total;
         state.isLoading = false;
-      });
+      })
+
+      .addCase(fetchUserFriendsAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUserFriendsAction.fulfilled, (state, {payload}) => {
+        state.users = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
+        state.isLoading = false;
+      })
+
+      .addCase(fetchCoachFriendsAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCoachFriendsAction.fulfilled, (state, {payload}) => {
+        state.users = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
+        state.isLoading = false;
+      })
   },
 });
 

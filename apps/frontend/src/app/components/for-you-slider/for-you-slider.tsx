@@ -45,7 +45,7 @@ export const ForYouSlider: React.FC = () => {
           >
             {trainings?.map((training) => (
               <SwiperSlide key={training.id}>
-                <ForYouSliderItem src={training.bgImage} type="image/jpg" />
+                <ForYouSliderItem src={training.bgImage} trainingId={training.id} type="image/jpg" />
               </SwiperSlide>
             ))}
           </Swiper>

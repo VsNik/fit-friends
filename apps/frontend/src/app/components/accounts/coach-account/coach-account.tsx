@@ -14,9 +14,10 @@ export const CoachAccount: React.FC<CoachAccountProps> = ({ user }) => {
       <h1 className="visually-hidden">Личный кабинет</h1>
       <UserInfo user={user} />
       <div className="inner-page__content">
-        <div className="personal-account-coach"></div>
-        <CoachNavigation />
-        <CertificateSlider user={user} />
+        <div className="personal-account-coach">
+          <CoachNavigation />
+          <CertificateSlider user={user} />
+        </div>
       </div>
     </div>
   );
