@@ -9,9 +9,11 @@ import { RouteName } from '../../constants/route';
 interface ReviewsBarProps {
   reviews: IReview[];
   role: Role;
+  onOpenPopup: () => void;
 }
 
-export const ReviewsBar: React.FC<ReviewsBarProps> = ({reviews, role}) => {
+export const ReviewsBar: React.FC<ReviewsBarProps> = (props) => {
+  const {reviews, role, onOpenPopup} = props;
   const navigation = useNavigate();
 
   return (
@@ -32,9 +34,9 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = ({reviews, role}) => {
       </ul>
       <Button 
         text='Оставить отзыв'
-        onClick={() => {}} 
+        onClick={onOpenPopup} 
         className='reviews-side-bar__button' 
-        medium 
+        medium
         disabled={role === Role.Coach}
       />
     </aside>

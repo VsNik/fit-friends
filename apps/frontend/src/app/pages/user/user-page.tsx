@@ -9,9 +9,9 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserAction } from '../../store/user/async-actions';
 import { MapPopup } from '../../components/popups/map-popup/map-popup';
 import { isNotEmptyObject } from '../../utils/helpers';
-import * as userSelector from '../../store/user/user-select';
-import clsx from 'clsx';
 import { RouteName } from '../../constants/route';
+import { Modal } from '../../components/ui/modal/modal';
+import * as userSelector from '../../store/user/user-select';
 
 export const UserPage: React.FC = () => {
   const [openMap, setOpenMap] = useState<boolean>(false);
@@ -25,18 +25,14 @@ export const UserPage: React.FC = () => {
   }, [dispatch]);
 
   const handleOpenMap = () => {
-    document.body.classList.add('scroll-lock');
-    document.body.style.paddingRight = '15px';
     setOpenMap(true);
   };
 
   const handleCloseMap = () => {
     setOpenMap(false);
-    document.body.classList.remove('scroll-lock');
-    document.body.style.paddingRight = '';
   };
 
-  if (isLoading) {
+  if (isLoading || !isNotEmptyObject(user)) {
     return <h3>Loading...</h3>;
   }
 
@@ -45,28 +41,22 @@ export const UserPage: React.FC = () => {
       <div className="inner-page inner-page--no-sidebar">
         <div className="container">
           <div className="inner-page__wrapper">
-            <ButtonFloat 
-              text="Назад" 
-              icon="arrow-left" 
-              className="inner-page__back" 
-              onClick={() => navigation(RouteName.Home)} 
-            />
+            <ButtonFloat text="Назад" icon="arrow-left" className="inner-page__back" onClick={() => navigation(RouteName.Home)} />
 
             <div className="inner-page__content">
-              {user?.role === Role.User 
-                ? <UserCardUser user={user} onOpenMap={handleOpenMap} /> 
-                : <UserCardCoach user={user} onOpenMap={handleOpenMap} />
-              }
+              {user?.role === Role.User ? (
+                <UserCardUser user={user} onOpenMap={handleOpenMap} />
+              ) : (
+                <UserCardCoach user={user} onOpenMap={handleOpenMap} />
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {isNotEmptyObject(user) && (
-        <div className={clsx('modal', { 'is-active': openMap })}>
-          <MapPopup onClose={handleCloseMap} title={user.name} location={user.location} />
-        </div>
-      )}
+      <Modal isOpen={openMap} onClose={handleCloseMap}>
+        <MapPopup onClose={handleCloseMap} title={user.name} location={user.location} />
+      </Modal>
     </AppLayout>
   );
 };

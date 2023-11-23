@@ -13,6 +13,7 @@ import { UserCardCertificateSlider } from '../user-card-certificate-slider/user-
 import { UserCardForm } from '../user-card-form/user-card-form';
 import * as trainingsSelector from '../../../store/trainings/trainings-select';
 import clsx from 'clsx';
+import { Modal } from '../../ui/modal/modal';
 
 interface UserCardCoachProps {
   user: IUser;
@@ -30,22 +31,17 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap })
   }, [dispatch]);
 
   const handleOpenPopup = () => {
-    document.body.classList.add('scroll-lock');
-    document.body.style.paddingRight = '15px';
     setOpenPopup(true);
   };
 
   const handleClosePopup = () => {
     setOpenPopup(false);
-    document.body.classList.remove('scroll-lock');
-    document.body.style.paddingRight = '';
   };
 
   return (
     <section className="user-card-coach">
       <h1 className="visually-hidden">Карточка пользователя роль тренер</h1>
-      <div className="user-card-coach__wrapper">        
-
+      <div className="user-card-coach__wrapper">
         <div className="user-card-coach__card">
           <div className="user-card-coach__content">
             <div className="user-card-coach__head">
@@ -96,9 +92,9 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap })
         </div>
       </div>
 
-      <div className={clsx('modal', { 'is-active': openPopup })}>
-        <CertificatesPopup title='Сертификаты' onClose={handleClosePopup} certificates={user.certificate} />
-      </div>
+      <Modal isOpen={openPopup} onClose={handleClosePopup}>
+        <CertificatesPopup title="Сертификаты" onClose={handleClosePopup} certificates={user.certificate} />
+      </Modal>
     </section>
   );
 };
