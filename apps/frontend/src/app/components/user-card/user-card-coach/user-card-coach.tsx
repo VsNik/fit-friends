@@ -1,5 +1,5 @@
 import { IUser } from '@fit-friends/shared';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { UserCardLabel } from '../user-card-label/user-card-label';
 import { getTrainingName, getUserLocation } from '../../../utils/helpers';
 import { ButtonFloat } from '../../ui/button-float/button-float';
@@ -8,35 +8,25 @@ import { Button } from '../../ui/button/button';
 import { UserCardGallary } from '../user-card-gallary/user-card-gallary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchForCoachAction } from '../../../store/trainings/async-actions';
-import { CertificatesPopup } from '../../popups/certificates-popup/certificates-popup';
 import { UserCardCertificateSlider } from '../user-card-certificate-slider/user-card-certificate-slider';
 import { UserCardForm } from '../user-card-form/user-card-form';
 import * as trainingsSelector from '../../../store/trainings/trainings-select';
 import clsx from 'clsx';
-import { Modal } from '../../ui/modal/modal';
 
 interface UserCardCoachProps {
   user: IUser;
   onOpenMap: () => void;
+  onOpenCertificatePopup: () => void;
 }
 
-export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap }) => {
+export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, onOpenCertificatePopup }) => {
   const dispatch = useAppDispatch();
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
   const position = getUserLocation(user.location);
   const trainings = useAppSelector(trainingsSelector.trainings);
 
   useEffect(() => {
     dispatch(fetchForCoachAction());
   }, [dispatch]);
-
-  const handleOpenPopup = () => {
-    setOpenPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setOpenPopup(false);
-  };
 
   return (
     <section className="user-card-coach">
@@ -67,7 +57,12 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap })
               <p>{user.bio}</p>
             </div>
 
-            <ButtonFloat text="Посмотреть сертификаты" icon="icon-teacher" className="user-card-coach__sertificate" onClick={handleOpenPopup} />
+            <ButtonFloat
+              text="Посмотреть сертификаты"
+              icon="icon-teacher"
+              className="user-card-coach__sertificate"
+              onClick={onOpenCertificatePopup}
+            />
 
             <ul className="user-card-coach__hashtag-list">
               {user.trainingType?.map((type) => (
@@ -91,10 +86,6 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap })
           <UserCardForm />
         </div>
       </div>
-
-      <Modal isOpen={openPopup} onClose={handleClosePopup}>
-        <CertificatesPopup title="Сертификаты" onClose={handleClosePopup} certificates={user.certificate} />
-      </Modal>
     </section>
   );
 };

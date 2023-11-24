@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchReviewsAction } from './async-actions';
+import { addReviewAction, fetchReviewsAction } from './async-actions';
 import { ReviewsState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
 
@@ -20,8 +20,13 @@ export const reviewsSlice = createSlice({
       .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
         state.reviews = payload;
         state.isLoading = false;
+      })
+
+      .addCase(addReviewAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addReviewAction.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
       });
   },
 });
-
-export default reviewsSlice.reducer;

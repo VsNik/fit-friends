@@ -11,10 +11,13 @@ import { MapPopup } from '../../components/popups/map-popup/map-popup';
 import { isNotEmptyObject } from '../../utils/helpers';
 import { RouteName } from '../../constants/route';
 import { Modal } from '../../components/ui/modal/modal';
+import { CertificatesPopup } from '../../components/popups/certificates-popup/certificates-popup';
 import * as userSelector from '../../store/user/user-select';
+import { Loader } from '../../components/loader/loader';
 
 export const UserPage: React.FC = () => {
   const [openMap, setOpenMap] = useState<boolean>(false);
+  const [openCertificates, setOpenCertificates] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
   const user = useAppSelector(userSelector.user);
@@ -24,16 +27,20 @@ export const UserPage: React.FC = () => {
     dispatch(fetchUserAction());
   }, [dispatch]);
 
-  const handleOpenMap = () => {
+  const handleOpenMap = () => 
     setOpenMap(true);
-  };
 
-  const handleCloseMap = () => {
+  const handleCloseMap = () => 
     setOpenMap(false);
-  };
+
+  const handleOpenCertificates = () =>
+    setOpenCertificates(true);
+
+  const handleCloseCertificates = () =>
+    setOpenCertificates(false);
 
   if (isLoading || !isNotEmptyObject(user)) {
-    return <h3>Loading...</h3>;
+    return <Loader />
   }
 
   return (
@@ -47,7 +54,7 @@ export const UserPage: React.FC = () => {
               {user?.role === Role.User ? (
                 <UserCardUser user={user} onOpenMap={handleOpenMap} />
               ) : (
-                <UserCardCoach user={user} onOpenMap={handleOpenMap} />
+                <UserCardCoach user={user} onOpenMap={handleOpenMap} onOpenCertificatePopup={handleOpenCertificates} />
               )}
             </div>
           </div>
@@ -57,6 +64,11 @@ export const UserPage: React.FC = () => {
       <Modal isOpen={openMap} onClose={handleCloseMap}>
         <MapPopup onClose={handleCloseMap} title={user.name} location={user.location} />
       </Modal>
+
+      <Modal isOpen={openCertificates} onClose={handleCloseCertificates}>
+        <CertificatesPopup title="Сертификаты" onClose={handleCloseCertificates} certificates={user.certificate} />
+      </Modal>
     </AppLayout>
   );
 };
+

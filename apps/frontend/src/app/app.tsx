@@ -20,6 +20,7 @@ import { checkAuthAction } from './store/auth/async-actions';
 import * as authSelector from './store/auth/auth-select';
 import { useAppSelector } from './store/hooks';
 import { RouteName } from './constants/route';
+import { Loader } from './components/loader/loader';
 
 store.dispatch(checkAuthAction());
 
@@ -30,7 +31,8 @@ export function App() {
   const isLoading = useAppSelector(authSelector.isLoading);
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return <h3>Loading...</h3>
+    // return <Loader />;
   }
 
   return (

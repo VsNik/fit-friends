@@ -14,6 +14,7 @@ import * as reviewsSelector from '../../store/reviews/reviews-select';
 import clsx from 'clsx';
 import { Modal } from '../../components/ui/modal/modal';
 import { ReviewPopup } from '../../components/popups/review-popup/review-popup';
+import { Loader } from '../../components/loader/loader';
 
 export const TrainingCardPage: React.FC = () => {
   const params = useParams();
@@ -21,7 +22,6 @@ export const TrainingCardPage: React.FC = () => {
   const training = useAppSelector(trainingSelector.training);
   const reviews = useAppSelector(reviewsSelector.reviews);
   const isTrainingLoading = useAppSelector(trainingSelector.isLoading);
-  const isReviewsLoading = useAppSelector(reviewsSelector.isLoading);
   const { role } = useAppSelector(authSelectors.authUser);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [openBuyPopup, setOpenBuyPopup] = useState<boolean>(false);
@@ -53,8 +53,9 @@ export const TrainingCardPage: React.FC = () => {
     setOpenReviewPopup(false);
   };
 
-  if (isTrainingLoading || isReviewsLoading) {
-    return <h3>Loading...</h3>;
+  if (isTrainingLoading) {
+    return <h3>Loading...</h3>
+    // return <Loader />
   }
 
   return (
@@ -75,6 +76,7 @@ export const TrainingCardPage: React.FC = () => {
 
       <Modal isOpen={openBuyPopup} onClose={handleCloseBuyPopup}>
         <BuyPopup onClose={handleCloseBuyPopup} title="Купить тренировку" training={training} />
+        {/* <ReviewPopup onClose={handleCloseReviewPopup} title='Оставить отзыв' trainingId={training.id} /> */}
       </Modal>
 
       <Modal isOpen={openReviewPopup} onClose={handleCloseReviewPopup}>

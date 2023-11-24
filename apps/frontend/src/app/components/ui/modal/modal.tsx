@@ -19,20 +19,23 @@ export const Modal: React.FC<ModalProps> = (props) => {
 
     if (isOpen) {
       document.body.classList.add('scroll-lock');
-      document.body.style.paddingRight = '15px';
+      document.body.style.paddingRight = '15px';      
+      document.querySelector('.inner-page')?.setAttribute('inert', 'inert');
       window.addEventListener('keydown', closeModal);
     } else {
       document.body.classList.remove('scroll-lock');
       document.body.style.paddingRight = '';
+      document.querySelector('.inner-page')?.removeAttribute('inert');
     }
     return () => window.removeEventListener('keydown', closeModal);
-  }, [isOpen, onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   return (
     <div className={clsx('modal', { 'is-active': isOpen })}>
       <section className="popup">
         <div className="modal__overlay" onClick={onClose} />
-        {children}
+        {isOpen && children}
       </section>
     </div>
   );
