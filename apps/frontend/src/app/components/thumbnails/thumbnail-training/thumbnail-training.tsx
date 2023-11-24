@@ -3,6 +3,7 @@ import React from 'react';
 import { Hashtag } from '../../ui/hashtag/hashtag';
 import { ButtonLink } from '../../ui/button-link/button-link';
 import { getTrainingRoute } from '../../../utils/route';
+import { Image } from '../../ui/image/image';
 
 interface ThumbnailTrainingProps {
   training: ITraining;
@@ -12,12 +13,7 @@ export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({ training }
   return (
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
-        <div className="thumbnail-training__image">
-          <picture>
-            <source type="image/webp" srcSet={training.bgImage} />
-            <img src={training.bgImage} srcSet={training.bgImage} width="330" height="190" alt="" />
-          </picture>
-        </div>
+        <Image src={training.bgImage} className='thumbnail-training__image' width={330} height={190} />
         <p className="thumbnail-training__price">{training.price}</p>
         <h3 className="thumbnail-training__title">{training.title}</h3>
         <div className="thumbnail-training__info">

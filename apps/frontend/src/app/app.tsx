@@ -21,6 +21,7 @@ import * as authSelector from './store/auth/auth-select';
 import { useAppSelector } from './store/hooks';
 import { RouteName } from './constants/route';
 import { Loader } from './components/loader/loader';
+import { PurchasesPage } from './pages/purchases/purchases-page';
 
 store.dispatch(checkAuthAction());
 
@@ -31,8 +32,7 @@ export function App() {
   const isLoading = useAppSelector(authSelector.isLoading);
 
   if (isLoading) {
-    return <h3>Loading...</h3>
-    // return <Loader />;
+    return <Loader />;
   }
 
   return (
@@ -47,6 +47,7 @@ export function App() {
         <Route path={RouteName.Home} element={<HomePage />} />
         <Route path={RouteName.Trainings} element={<TrainingsPage />} />
         <Route path={RouteName.Users} element={<UsersPage />} />
+        <Route path={RouteName.Purchases} element={<PurchasesPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>

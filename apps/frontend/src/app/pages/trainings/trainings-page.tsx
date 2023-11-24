@@ -14,11 +14,6 @@ export const TrainingsPage: React.FC = () => {
   const direction = useAppSelector(trainingsSelector.direction);
   const page = useAppSelector(trainingsSelector.page);
 
-  // const filters = useAppSelector(state => state.trainings.filter);
-  // const sorting = useAppSelector(state => state.trainings.sorting);
-  // const direction = useAppSelector(state => state.trainings.direction);
-  // const page = useAppSelector(state => state.trainings.page);
-
   useEffect(() => {
     const queryString = getTrainingsQuery(filters, sorting, direction, page)
     dispatch(fetchTrainingsAction(queryString))
