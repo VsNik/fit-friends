@@ -1,4 +1,4 @@
-import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert, StatisticSorting, TrainingSortDirection } from '@fit-friends/shared';
+import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert, StatisticSorting, TrainingSortDirection, TrainingDuration } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 
 export interface TrainingFilter {
@@ -9,6 +9,7 @@ export interface TrainingFilter {
   ratingTo: number;
   ratingFrom: number;
   types: TrainingType[];
+  durations: TrainingDuration[];
 }
 
 export interface UsersFilters {

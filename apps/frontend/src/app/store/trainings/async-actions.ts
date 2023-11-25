@@ -28,11 +28,14 @@ export const fetchForCoachAction = createAsyncThunk<ITrainingCollection>('traini
   return data;
 });
 
-export const fetchOrderTrainingAction = createAsyncThunk<ITrainingCollection, string>(
-  'trainings/fetch-order-trainings',
-  async (queryString) => {
-    console.log(queryString)
-    const data = await trainingApi.fetchOrderTraining();
-    return data;
-  }
-)
+export const fetchOrderTrainingAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-order-trainings', async (queryString) => {
+  console.log(queryString);
+  const data = await trainingApi.fetchOrderTraining();
+  return data;
+});
+
+export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-my-trainings', async (queryString) => {
+  console.log(queryString);
+  const data = await trainingApi.fetchMyTrainings();
+  return data;
+});

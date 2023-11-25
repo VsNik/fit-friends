@@ -1,6 +1,6 @@
 import { TrainingSortDirection, StatisticSorting, TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchForCoachAction, fetchOrderTrainingAction, fetchTrainingsAction } from './async-actions';
+import { fetchForCoachAction, fetchMyTrainingsAction, fetchOrderTrainingAction, fetchTrainingsAction } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
 
@@ -16,6 +16,7 @@ const initialState: TrainingListState = {
     ratingTo: 0,
     ratingFrom: 5,
     types: [],
+    durations: [],
   },
   sorting: TrainingSorting.Created,
   sortStatistic: StatisticSorting.OrderCount,
@@ -49,6 +50,13 @@ export const trainingsSlice = createSlice({
         state.filter.types?.push(payload);
       } else {
         state.filter.types = state.filter.types.filter((item) => item !== payload);
+      }
+    },
+    setDurationAction: (state, {payload}) => {
+      if (!state.filter.durations?.includes(payload)) {
+        state.filter.durations?.push(payload);
+      } else {
+        state.filter.durations = state.filter.durations.filter((item) => item !== payload);
       }
     },
     setSortStatisticAction: (state, { payload }) => {
@@ -86,7 +94,17 @@ export const trainingsSlice = createSlice({
         state.page = payload.page;
         state.total = payload.total;
         state.isLoading = false;
-      });
+      })
+
+      .addCase(fetchMyTrainingsAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchMyTrainingsAction.fulfilled, (state, {payload}) => {
+        state.trainings = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
+        state.isLoading = false;
+      })
   },
 });
 
@@ -96,5 +114,6 @@ export const {
   setRatingAction, 
   setDirectionAction, 
   setTypeAction, 
+  setDurationAction,
   setSortStatisticAction, 
 } = trainingsSlice.actions;

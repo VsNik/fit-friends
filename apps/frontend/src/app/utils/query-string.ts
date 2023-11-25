@@ -1,14 +1,37 @@
-// import { TrainingFilter } from '../store/trainings/trainings-slice';
 import { TrainingSortDirection, Role, SortDirection, TrainingSorting, StatisticSorting } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
 
-export const getUsersQuery = (
-  filters: UsersFilters, 
-  sorting: Role | null, 
-  direction: SortDirection, 
-  page: number = 1, 
-  offset?: number
-): string => {
+const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
+  const { priceTo, priceFrom, caloriesTo, caloriesFrom, ratingTo, ratingFrom } = filters;
+
+  if (priceTo) {
+    query = `${query}&priceTo=${priceTo}`;
+  }
+
+  if (priceFrom) {
+    query = `${query}&priceFrom=${priceFrom}`;
+  }
+
+  if (caloriesTo) {
+    query = `${query}&caloriesTo=${caloriesTo}`;
+  }
+
+  if (caloriesFrom) {
+    query = `${query}&caloriesFrom=${caloriesFrom}`;
+  }
+
+  if (ratingTo) {
+    query = `${query}&ratingTo=${ratingTo}`;
+  }
+
+  if (ratingFrom) {
+    query = `${query}&ratingFrom=${ratingFrom}`;
+  }
+
+  return query;
+};
+
+export const getUsersQuery = (filters: UsersFilters, sorting: Role | null, direction: SortDirection, page: number = 1, offset?: number): string => {
   let query = `?page=${page}`;
   let location = '';
   let type = '';
@@ -46,52 +69,38 @@ export const getUsersQuery = (
   return query;
 };
 
-export const getTrainingsQuery = (
-  filter: TrainingFilter,
-  sorting: TrainingSorting,
-  direction: TrainingSortDirection,
-  page: number = 1,
-): string => {
-  const { priceTo, priceFrom, caloriesTo, caloriesFrom, ratingTo, ratingFrom, types } = filter;
+export const getTrainingsQuery = (filters: TrainingFilter, sorting: TrainingSorting, direction: TrainingSortDirection, page: number = 1): string => {
   let query = `?page=${page}`;
   let type = '';
 
-  if (priceTo) {
-    query = `${query}&priceTo=${priceTo}`;
-  }
+  query = createTrainingRangeQuery(filters, query);
 
-  if (priceFrom) {
-    query = `${query}&priceFrom=${priceFrom}`;
-  }
-
-  if (caloriesTo) {
-    query = `${query}&caloriesTo=${caloriesTo}`;
-  }
-
-  if (caloriesFrom) {
-    query = `${query}&caloriesFrom=${caloriesFrom}`;
-  }
-
-  if (ratingTo) {
-    query = `${query}&ratingTo=${ratingTo}`;
-  }
-
-  if (ratingFrom) {
-    query = `${query}&ratingFrom=${ratingFrom}`;
-  }
-
-  if (types) {
-    for (const typeItem of types) {
+  if (filters.types) {
+    for (const typeItem of filters.types) {
       type = `${type}&type=${typeItem}`;
     }
     query = `${query}${type}`;
   }
 
-  query = `${query}&sorting=${sorting}&direction=${direction ?? SortDirection.Desc}`;
-
-  return query;
+  return `${query}&sorting=${sorting}&direction=${direction ?? SortDirection.Desc}`;
 };
 
 export const getMyOrdersQuery = (sorting: StatisticSorting, direction: TrainingSortDirection, page = 1) => {
   return `?page=${page}&sorting=${sorting}&direction=${direction}`;
-}
+};
+
+export const getMyTrainingsQuery = (filters: TrainingFilter, page = 1) => {
+  let query = `?page=${page}`;
+  let duration = '';
+
+  query = createTrainingRangeQuery(filters, query);
+
+  if (filters.durations) {
+    for (const durationItem of filters.durations) {
+      duration = `${duration}&duration=${durationItem}`;
+    }
+    query = `${query}${duration}`;
+  }
+
+  return query;
+};

@@ -44,5 +44,11 @@ export const trainingApi = {
     return new Promise((resolve) => {
       setTimeout(() => resolve(fakeOrderTraining), TIMEOUT);
     })
+  },
+
+  fetchMyTrainings: (): Promise<ITrainingCollection> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(getFakeTrainings(6)), TIMEOUT);
+    })
   }
 };

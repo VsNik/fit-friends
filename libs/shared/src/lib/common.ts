@@ -42,10 +42,10 @@ export enum TrainingLevel {
 }
 
 export enum TrainingDuration {
-  Low = '10-30 мин',
-  Normal = '30-50 мин',
-  Hi = '50-80 мин',
-  Extra = '80-100 мин',
+  Low = 'low',
+  Normal = 'normal',
+  Hi = 'hi',
+  Extra = 'extra',
 }
 
 export enum OrderType {
