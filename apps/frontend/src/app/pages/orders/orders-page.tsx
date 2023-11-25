@@ -22,7 +22,7 @@ export const OrdersPage: React.FC = () => {
   const page = useAppSelector(trainingsSelector.page);
 
   useEffect(() => {
-    const queryString = getMyOrdersQuery(sorting, direction);
+    const queryString = getMyOrdersQuery(sorting, direction, page);
     dispatch(fetchOrderTrainingAction(queryString));
   }, [dispatch, sorting, direction, page]);
 
