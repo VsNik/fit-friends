@@ -1,4 +1,4 @@
-import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert } from '@fit-friends/shared';
+import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert, StatisticSorting, TrainingSortDirection } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 
 export interface TrainingFilter {
@@ -53,7 +53,8 @@ export type TrainingListState = {
   total: number;
   filter: TrainingFilter;
   sorting: TrainingSorting;
-  direction: SortDirection | 'free' | null;
+  sortStatistic: StatisticSorting;
+  direction: TrainingSortDirection;
   isLoading: boolean;
   error: string;
 };

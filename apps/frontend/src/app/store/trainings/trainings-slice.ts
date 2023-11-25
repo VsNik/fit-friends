@@ -1,6 +1,6 @@
-import { TrainingSorting } from '@fit-friends/shared';
+import { TrainingSortDirection, StatisticSorting, TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchForCoachAction, fetchTrainingsAction } from './async-actions';
+import { fetchForCoachAction, fetchOrderTrainingAction, fetchTrainingsAction } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
 
@@ -18,7 +18,8 @@ const initialState: TrainingListState = {
     types: [],
   },
   sorting: TrainingSorting.Created,
-  direction: null,  
+  sortStatistic: StatisticSorting.OrderCount,
+  direction: TrainingSortDirection.Desc,
   isLoading: false,
   error: '',
 };
@@ -50,6 +51,9 @@ export const trainingsSlice = createSlice({
         state.filter.types = state.filter.types.filter((item) => item !== payload);
       }
     },
+    setSortStatisticAction: (state, { payload }) => {
+      state.sortStatistic = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,14 +71,30 @@ export const trainingsSlice = createSlice({
       .addCase(fetchForCoachAction.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchForCoachAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchForCoachAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
         state.isLoading = false;
       })
+
+      .addCase(fetchOrderTrainingAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchOrderTrainingAction.fulfilled, (state, { payload }) => {
+        state.trainings = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
+        state.isLoading = false;
+      });
   },
 });
 
-export const { setPriceAction, setCaloriesAction, setRatingAction, setDirectionAction, setTypeAction } = trainingsSlice.actions;
-export default trainingsSlice.reducer;
+export const { 
+  setPriceAction, 
+  setCaloriesAction, 
+  setRatingAction, 
+  setDirectionAction, 
+  setTypeAction, 
+  setSortStatisticAction, 
+} = trainingsSlice.actions;

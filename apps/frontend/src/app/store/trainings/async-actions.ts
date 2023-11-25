@@ -27,3 +27,11 @@ export const fetchForCoachAction = createAsyncThunk<ITrainingCollection>('traini
   const data = await trainingApi.fetchForCoach();
   return data;
 });
+
+export const fetchOrderTrainingAction = createAsyncThunk<ITrainingCollection>(
+  'trainings/fetch-order-trainings',
+  async () => {
+    const data = await trainingApi.fetchOrderTraining();
+    return data;
+  }
+)

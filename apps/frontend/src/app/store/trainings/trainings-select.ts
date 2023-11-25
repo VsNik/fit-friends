@@ -9,6 +9,7 @@ export const page = (state: RootState) => all(state).page;
 export const total = (state: RootState) => all(state).total;
 export const filter = (state: RootState) => all(state).filter;
 export const sorting = (state: RootState) => all(state).sorting;
+export const sortStatistic = (state: RootState) => all(state).sortStatistic;
 export const direction = (state: RootState) => all(state).direction;
 
 export const trainingsForYou = (state: RootState) => state[SliceName.ForYou].trainings;

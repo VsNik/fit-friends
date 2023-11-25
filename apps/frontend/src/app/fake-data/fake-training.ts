@@ -255,6 +255,66 @@ export const fakePopular: ITraining[] = [
   },
 ];
 
+export const fakeOrder: ITraining[] = [
+  {
+    id: '1',
+    title: 'Fitball',
+    bgImage: '/assets/img/content/promo-1.png',
+    level: TrainingLevel.Professional,
+    type: TrainingType.Crossfit,
+    duration: TrainingDuration.Normal,
+    price: 1600,
+    calories: 1200,
+    description: 'Горячие предложения на тренировки на фитболе',
+    gender: Gender.AnyGender,
+    video: 'video.mp4',
+    rating: 5,
+    coach: fakeCoach,
+    isSpecial: false,
+    ordersCount: 2,
+    ordersSumm: 3200,
+    createdAt: '2023-11-05T19:43:17.915Z',
+  },
+  {
+    id: '2',
+    title: 'Fleksbend',
+    bgImage: '/assets/img/content/promo-2.png',
+    level: TrainingLevel.Professional,
+    type: TrainingType.Crossfit,
+    duration: TrainingDuration.Normal,
+    price: 2400,
+    calories: 1200,
+    description: 'Горячие предложения наТренировки с резинкой для фитнеса',
+    gender: Gender.AnyGender,
+    video: 'video.mp4',
+    rating: 4,
+    coach: fakeCoach,
+    isSpecial: false,
+    ordersCount: 0,
+    ordersSumm: 0,
+    createdAt: '2023-11-05T19:43:17.915Z',
+  },
+  {
+    id: '3',
+    title: 'Full Body Stretch',
+    bgImage: '/assets/img/content/promo-3.png',
+    level: TrainingLevel.Professional,
+    type: TrainingType.Crossfit,
+    duration: TrainingDuration.Normal,
+    price: 1800,
+    calories: 1200,
+    description: 'Горячие предложения на Комплекс упражнений на растяжку всего тела для новичков',
+    gender: Gender.AnyGender,
+    video: 'video.mp4',
+    rating: 5,
+    coach: fakeCoach,
+    isSpecial: false,
+    ordersCount: 1,
+    ordersSumm: 1800,
+    createdAt: '2023-11-05T19:43:17.915Z',
+  },
+];
+
 export const getFakeTrainings = (count: number): ITrainingCollection => {
   const data = new Array(count).fill(null).map(() => ({
     id: faker.string.uuid(),
@@ -297,4 +357,10 @@ export const fakePopularTraining: ITrainingCollection = {
   data: fakePopular,
   page: 1,
   total: fakePopular.length,
+};
+
+export const fakeOrderTraining: ITrainingCollection = {
+  data: fakeOrder,
+  page: 1,
+  total: fakeOrder.length,
 };

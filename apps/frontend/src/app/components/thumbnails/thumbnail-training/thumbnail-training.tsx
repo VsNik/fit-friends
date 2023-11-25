@@ -4,12 +4,16 @@ import { Hashtag } from '../../ui/hashtag/hashtag';
 import { ButtonLink } from '../../ui/button-link/button-link';
 import { getTrainingRoute } from '../../../utils/route';
 import { Image } from '../../ui/image/image';
+import { ThumbnailTotalInfo } from '../thumbnail-total-info/thumbnail-total-info';
 
 interface ThumbnailTrainingProps {
   training: ITraining;
+  statistic?: boolean;
 }
 
-export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({ training }) => {
+export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = (props) => {
+  const { training, statistic } = props;
+  
   return (
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
@@ -40,6 +44,10 @@ export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = ({ training }
           <ButtonLink text="Отзывы" to="#" small outlined />
         </div>
       </div>
+
+      {statistic && 
+        <ThumbnailTotalInfo count={training.ordersCount} summ={training.ordersSumm} />
+      }
     </div>
   );
 };

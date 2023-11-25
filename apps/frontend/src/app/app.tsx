@@ -22,6 +22,7 @@ import { useAppSelector } from './store/hooks';
 import { RouteName } from './constants/route';
 import { Loader } from './components/loader/loader';
 import { PurchasesPage } from './pages/purchases/purchases-page';
+import { OrdersPage } from './pages/orders/orders-page';
 
 store.dispatch(checkAuthAction());
 
@@ -48,6 +49,10 @@ export function App() {
         <Route path={RouteName.Trainings} element={<TrainingsPage />} />
         <Route path={RouteName.Users} element={<UsersPage />} />
         <Route path={RouteName.Purchases} element={<PurchasesPage />} />
+      </Route>
+
+      <Route element={<ProtectedRoute accessRole={Role.Coach} />}>
+        <Route path={RouteName.Orders} element={<OrdersPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>

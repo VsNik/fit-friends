@@ -13,4 +13,7 @@ export enum RouteName {
   UserCard = '/users/:id',
   Friends = '/friends',
   Purchases = '/purchases',
+  Orders = '/orders',
+  MyTrainings = '/my-trainings',
+  NewTraining = '/raining/new',
 }

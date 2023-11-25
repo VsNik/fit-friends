@@ -74,9 +74,15 @@ export enum SortDirection {
   Desc = 'DESC',
 }
 
+export enum TrainingSortDirection {
+  Asc = 'ASC',
+  Desc = 'DESC',
+  Free = 'free',
+}
+
 export enum StatisticSorting {
-  OrderCount = 'ordersCount',
-  OrderSumm = 'ordersSumm',
+  OrderCount = 'count',
+  OrderSumm = 'summ',
 }
 
 export enum UserSorting {

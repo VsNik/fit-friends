@@ -1,9 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { SortDirection } from '@fit-friends/shared';
+import { TrainingSortDirection, SortDirection } from '@fit-friends/shared';
 
 interface ButtonsSortingPriceProps {
-  sorting: SortDirection | 'free' | null | undefined;
+  sorting: TrainingSortDirection;
   onChecked: (evt: ChangeEvent<HTMLInputElement>) => void;
+  onCheckedFree: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 
@@ -16,7 +17,7 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           type="radio"
           name="sorting"
           value={SortDirection.Asc}
-          checked={sorting === SortDirection.Asc}
+          checked={sorting === TrainingSortDirection.Asc}
           onChange={onChecked}
           disabled={disabled}
         />
@@ -27,7 +28,7 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           type="radio"
           name="sorting"
           value={SortDirection.Desc}
-          checked={sorting === SortDirection.Desc}
+          checked={sorting === TrainingSortDirection.Desc}
           onChange={onChecked}
           disabled={disabled}
         />
@@ -38,7 +39,7 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           type="radio" 
           name="sorting" 
           value="free" 
-          checked={sorting === 'free'} 
+          checked={sorting === TrainingSortDirection.Free} 
           onChange={onChecked} 
           disabled={disabled} 
         />

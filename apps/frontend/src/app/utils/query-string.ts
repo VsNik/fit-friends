@@ -1,5 +1,5 @@
 // import { TrainingFilter } from '../store/trainings/trainings-slice';
-import { Role, SortDirection, TrainingSorting } from '@fit-friends/shared';
+import { TrainingSortDirection, Role, SortDirection, TrainingSorting } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
 
 export const getUsersQuery = (
@@ -49,7 +49,7 @@ export const getUsersQuery = (
 export const getTrainingsQuery = (
   filter: TrainingFilter,
   sorting: TrainingSorting,
-  direction: SortDirection | 'free' | null,
+  direction: TrainingSortDirection,
   page: number = 1,
 ): string => {
   const { priceTo, priceFrom, caloriesTo, caloriesFrom, ratingTo, ratingFrom, types } = filter;

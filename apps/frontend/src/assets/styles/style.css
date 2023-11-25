@@ -9226,6 +9226,19 @@ input:active + .custom-textarea__text {
   opacity: 1;
 }
 
+.btn-filter-sort.active {
+  color: #333333;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.btn-filter-sort:disabled {
+  /* color: #8e8e8e;
+  font-weight: 500;
+  opacity: 0.8; */
+  cursor: default;
+}
+
 .btn-filter-sort span {
   margin-right: 5px;
 }

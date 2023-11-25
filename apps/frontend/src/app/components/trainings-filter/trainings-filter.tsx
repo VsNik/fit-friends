@@ -10,6 +10,7 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { CheckTypes } from '../ui/check-types/check-types';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { RouteName } from '../../constants/route';
+import { SortDirection } from '@fit-friends/shared';
 
 enum Price {
   Min = 0,
@@ -27,6 +28,8 @@ enum Rating {
   Min = 1,
   Max = 5,
 }
+
+export type SortingPrice = SortDirection & 'free';
 
 export const TrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -64,7 +67,7 @@ export const TrainingsFilter: React.FC = () => {
 
           <div className="gym-catalog-form__block gym-catalog-form__block--sort">
             <h4 className="gym-catalog-form__title gym-catalog-form__title--sort">Сортировка</h4>
-            <ButtonsSortingPrice sorting={sorting} onChecked={handleChangeSorting} disabled={isLoading} />
+            <ButtonsSortingPrice sorting={sorting} onChecked={handleChangeSorting} disabled={isLoading} onCheckedFree={() => {}} />
           </div>
         </form>
       </div>

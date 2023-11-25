@@ -9,7 +9,7 @@ export const CoachNavigation: React.FC = () => {
       <ThumbnailLink text='Мои тренировки' icon='icon-flash' to='#' />
       <ThumbnailLink text='Создать тренировку' icon='icon-add' to='#' />
       <ThumbnailLink text='Мои друзья' icon='icon-friends' to={RouteName.Friends} />
-      <ThumbnailLink text='Мои заказы' icon='icon-bag' to='#' />
+      <ThumbnailLink text='Мои заказы' icon='icon-bag' to={RouteName.Orders} />
       
       <div className="personal-account-coach__calendar">
         <div className="thumbnail-spec-gym">
