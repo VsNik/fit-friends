@@ -10,6 +10,7 @@ import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchOrderTrainingAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
+import { getMyOrdersQuery } from '../../utils/query-string';
 
 export const OrdersPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,10 +19,12 @@ export const OrdersPage: React.FC = () => {
   const isLoading = useAppSelector(trainingsSelector.isLoading);
   const sorting = useAppSelector(trainingsSelector.sortStatistic);
   const direction = useAppSelector(trainingsSelector.direction);
+  const page = useAppSelector(trainingsSelector.page);
 
   useEffect(() => {
-    dispatch(fetchOrderTrainingAction());
-  }, [dispatch, sorting, direction]);
+    const queryString = getMyOrdersQuery(sorting, direction);
+    dispatch(fetchOrderTrainingAction(queryString));
+  }, [dispatch, sorting, direction, page]);
 
   return (
     <AppLayout>

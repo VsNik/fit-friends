@@ -1,5 +1,5 @@
 // import { TrainingFilter } from '../store/trainings/trainings-slice';
-import { TrainingSortDirection, Role, SortDirection, TrainingSorting } from '@fit-friends/shared';
+import { TrainingSortDirection, Role, SortDirection, TrainingSorting, StatisticSorting } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
 
 export const getUsersQuery = (
@@ -91,3 +91,7 @@ export const getTrainingsQuery = (
 
   return query;
 };
+
+export const getMyOrdersQuery = (sorting: StatisticSorting, direction: TrainingSortDirection, page = 1) => {
+  return `?page=${page}&sorting=${sorting}&direction=${direction}`;
+}
