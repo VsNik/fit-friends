@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
-import { ForYouSliderItem } from './for-you-slider-item';
+import { ThumbnailTrainingAnons } from '../thumbnails/thumbnails-training-anons/thumbnails-training-anons';
 import { useAppSelector } from '../../store/hooks';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
@@ -13,16 +13,7 @@ export const ForYouSlider: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainingsForYou);
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, trainings, SLIDERS);
-
-  const handlePrev = useCallback(() => {
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    sliderRef.current?.swiper.slideNext();
-  }, []);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, SLIDERS);
 
   return (
     <section className="special-for-you">
@@ -31,21 +22,21 @@ export const ForYouSlider: React.FC = () => {
           <div className="special-for-you__title-wrapper">
             <h2 className="special-for-you__title">Специально подобрано для вас</h2>
             <div className="special-for-you__controls">
-              <ButtonIcon icon='arrow-left' className='special-for-you__control' onClick={handlePrev} disabled={isDisablePrev} />
-              <ButtonIcon icon='arrow-right' className='special-for-you__control' onClick={handleNext} disabled={isDisableNext} />
+              <ButtonIcon icon="arrow-left" className="special-for-you__control" onClick={handlePrev} disabled={isFirstSlide} />
+              <ButtonIcon icon="arrow-right" className="special-for-you__control" onClick={handleNext} disabled={isLastSlide} />
             </div>
           </div>
 
-          <Swiper 
-            spaceBetween={20} 
-            slidesPerView={3} 
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={3}
             className="special-for-you__list"
-            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}  
+            onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
             ref={sliderRef}
           >
             {trainings?.map((training) => (
               <SwiperSlide key={training.id}>
-                <ForYouSliderItem src={training.bgImage} trainingId={training.id} type="image/jpg" />
+                <ThumbnailTrainingAnons training={training} />
               </SwiperSlide>
             ))}
           </Swiper>

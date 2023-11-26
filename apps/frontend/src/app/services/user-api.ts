@@ -1,6 +1,6 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
 import { fakeCoach, fakeCompanyUser, fakeUsers } from '../fake-data/fake-user';
-import { UserInfoType } from '../components/forms/user-info-form/user-info-form';
+import { UserInfoType } from '../types/forms-type';
 
 const TIMEOUT = 500;
 

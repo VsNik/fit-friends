@@ -4,11 +4,11 @@ import { useFormContext } from 'react-hook-form';
 interface InputAvatarProps {
   name: string;
   accept: string;
-  previewImage?: string;  
+  previewImage?: string;
 }
 
 export const InputAvatar: React.FC<InputAvatarProps> = ({name, accept, previewImage}) => {
-  const {register, formState: {errors}} = useFormContext();
+  const {register, formState: {errors}} = useFormContext();  
 
   return (
     <div className="input-load-avatar">

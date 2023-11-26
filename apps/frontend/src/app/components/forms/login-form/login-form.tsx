@@ -1,11 +1,10 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { InferType } from 'yup';
 import { Input } from '../../ui/form/input/input';
 import { loginSchema } from '../../../utils/validate-schemas';
-
-type LoginType = InferType<typeof loginSchema>;
+import { LoginType } from '../../../types/forms-type';
+import { Button } from '../../ui/button/button';
 
 export const LoginForm: React.FC = () => {
   const methods = useForm<LoginType>({
@@ -26,9 +25,7 @@ export const LoginForm: React.FC = () => {
           <Input className="sign-in__input" label="E-mail" name="email" type="email" />
           <Input className="sign-in__input" label="Пароль" name="password" type="password" />
 
-          <button className="btn sign-in__button" type="submit">
-            Продолжить
-          </button>
+          <Button text='Продолжить' className='sign-in__button' type="submit" />
         </div>
       </form>
     </FormProvider>

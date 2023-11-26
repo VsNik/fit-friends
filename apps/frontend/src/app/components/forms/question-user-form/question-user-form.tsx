@@ -1,15 +1,14 @@
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
-import { SpecializationGroup } from '../specialization-group/specialization-group';
-import { DurationGroup } from '../duration-group/duration-group';
-import { LevelGroup } from '../level-group/level-group';
 import { Input } from '../../ui/form/input/input';
 import { questionUserSchema } from '../../../utils/validate-schemas';
-
-type QuestionUserType = Yup.InferType<typeof questionUserSchema>;
+import { QuestionUserType } from '../../../types/forms-type';
+import { DurationGroup } from '../../ui/duration-group/duration-group';
+import { SpecializationGroup } from '../../ui/specialization-group/specialization-group';
+import { LevelGroup } from '../../ui/level-group/level-group';
+import { Button } from '../../ui/button/button';
 
 export const QuestionUserForm: React.FC = () => {
   const methods = useForm<QuestionUserType>({
@@ -84,9 +83,7 @@ export const QuestionUserForm: React.FC = () => {
             </div>
           </div>
 
-          <button className="btn questionnaire-user__button" type="submit">
-            Продолжить
-          </button>
+          <Button text='Продолжить' className='questionnaire-user__button'  type="submit" />
         </div>
       </form>
     </FormProvider>

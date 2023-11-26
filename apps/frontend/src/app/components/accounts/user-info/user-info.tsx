@@ -1,35 +1,42 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useRef, useState } from 'react';
+import { IUser } from '@fit-friends/shared';
 import { UserInfoForm } from '../../forms/user-info-form/user-info-form';
-import { CoachType } from '@fit-friends/shared';
+import { useImagePreview } from '../../../hooks/use-image-preview';
+import { UserInfoAvatar } from '../user-info-avatar/user-info-avatar';
+import clsx from 'clsx';
 
 interface UserInfoProps {
-  user: CoachType;
+  user: IUser;
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const [isEditable, setEditable] = useState(false);
-  
+  const [avatar, setAvatar] = useState<FileList | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const { previewImage, resetImage } = useImagePreview(avatar as FileList);
+
+  const handleClickUpdate = () => {
+    inputRef.current?.click();
+  };
+
+  const handleClickDelete = () => {
+    resetImage();
+  };
+
   return (
     <section className={clsx(isEditable ? 'user-info-edit' : 'user-info')}>
       <div className="user-info-edit__header">
-        <div className="input-load-avatar">
-          <label>
-            <input className="visually-hidden" type="file" name="avatar" accept="image/png, image/jpeg" disabled={!isEditable} />
-            <span className="input-load-avatar__avatar">
-              <img src={user.avatar} width="98" height="98" alt="user avatar" />
-            </span>
-          </label>
-        </div>
+        <UserInfoAvatar user={user} setAvatar={setAvatar} preview={previewImage} inputRef={inputRef} disabled={!isEditable} />
 
         {isEditable && (
           <div className="user-info-edit__controls">
-            <button className="user-info-edit__control-btn" aria-label="обновить">
+            <button className="user-info-edit__control-btn" aria-label="обновить" onClick={handleClickUpdate}>
               <svg width="16" height="16" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#icon-change" />
               </svg>
             </button>
-            <button className="user-info-edit__control-btn" aria-label="удалить">
+            <button className="user-info-edit__control-btn" aria-label="удалить" onClick={handleClickDelete}>
               <svg width="14" height="16" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#icon-trash" />
               </svg>
@@ -38,7 +45,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
         )}
       </div>
 
-      <UserInfoForm user={user} isEditable={isEditable} setEditable={setEditable} />
+      <UserInfoForm user={user} isEditable={isEditable} setEditable={setEditable} avatar={avatar} />
     </section>
   );
 };

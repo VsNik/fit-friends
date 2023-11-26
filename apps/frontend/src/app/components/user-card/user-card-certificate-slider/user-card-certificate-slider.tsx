@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, Fragment } from 'react';
+import React, { useRef, Fragment } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { ITraining } from '@fit-friends/shared';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
@@ -15,24 +15,15 @@ export const UserCardCertificateSlider: React.FC<UserCardCertificateSliderProps>
   const { trainings } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const { isDisablePrev, isDisableNext, handleChangeSlide } = useSliderControl(indexSlide, trainings, SLIDERS);
-
-  const handlePrev = useCallback(() => {
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    sliderRef.current?.swiper.slideNext();
-  }, []);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, SLIDERS);
 
   return (
     <Fragment>
       <div className="user-card-coach__training-head">
         <h2 className="user-card-coach__training-title">Тренировки</h2>
         <div className="user-card-coach__training-bts">
-          <ButtonIcon icon="arrow-left" className="user-card-coach__training-btn" onClick={handlePrev} disabled={isDisablePrev} />
-          <ButtonIcon icon="arrow-right" className="user-card-coach__training-btn" onClick={handleNext} disabled={isDisableNext} />
+          <ButtonIcon icon="arrow-left" className="user-card-coach__training-btn" onClick={handlePrev} disabled={isFirstSlide} />
+          <ButtonIcon icon="arrow-right" className="user-card-coach__training-btn" onClick={handleNext} disabled={isLastSlide} />
         </div>
       </div>
 

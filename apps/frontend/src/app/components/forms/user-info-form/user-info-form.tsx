@@ -1,10 +1,8 @@
 import clsx from 'clsx';
-import * as Yup from 'yup';
 import { IUser } from '@fit-friends/shared';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SpecializationGroup } from '../specialization-group/specialization-group';
 import { Input } from '../../ui/form/input/input';
 import { Textarea } from '../../ui/form/textarea/textarea';
 import { Toggle } from '../../ui/form/toggle/toggle';
@@ -13,17 +11,18 @@ import { GendesrList, LevelsList, LocationList } from '../../../constants/common
 import { userInfoSchema } from '../../../utils/validate-schemas';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateUserAction } from '../../../store/user/async-actions';
+import { UserInfoType } from '../../../types/forms-type';
+import { SpecializationGroup } from '../../ui/specialization-group/specialization-group';
 import * as authSelector from '../../../store/auth/auth-select';
 
 interface UserInfoProps {
   user: IUser;
   isEditable: boolean;
   setEditable: (value: boolean) => void;
+  avatar?: FileList | null;
 }
 
-export type UserInfoType = Yup.InferType<typeof userInfoSchema>;
-
-export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable }) => {
+export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable, avatar }) => {
   const isLoading = useAppSelector(authSelector.isLoading);
   const dispatch = useAppDispatch();
   const [location, setLocation] = useState('');
@@ -37,7 +36,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = methods;
 
   useEffect(() => {

@@ -1,6 +1,8 @@
-import { IUser } from '@fit-friends/shared';
+import { IUser, Role } from '@fit-friends/shared';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '../../services/auth-api';
+import { history } from '../../utils/history';
+import { RouteName } from '../../constants/route';
 
 const addCertificate = (id: string, certificate: File): Promise<{ id: string; certificate: File }> => {
   return new Promise((resolve) => {
@@ -19,6 +21,16 @@ const deleteCertificate = (id: string, src: string): Promise<{ id: string; src: 
     setTimeout(() => resolve({ id, src }), 1000);
   });
 };
+
+export const signupAction = createAsyncThunk<unknown, FormData>(
+  'auth/signup',
+  async (formData) => {
+    if (formData.get('role') === Role.User) {
+      return history.navigate(RouteName.QuestionUser)
+    }
+    return history.navigate(RouteName.QuestionCoach);
+  }
+);
 
 export const checkAuthAction = createAsyncThunk<IUser>(
   'auth/check-auth', 

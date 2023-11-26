@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import FocusLock from 'react-focus-lock';
 import { PopupHeader } from '../popup-header/popup-header';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
@@ -18,16 +18,7 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
   const { onClose, certificates, title } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const { isDisablePrev, isDisableNext, handleChangeSlide } = useSliderControl(indexSlide, certificates ?? [], SLIDERS);
-
-  const handlePrev = useCallback(() => {
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    sliderRef.current?.swiper.slideNext();
-  }, []);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates ?? [], SLIDERS);
 
   return (
     <FocusLock>
@@ -36,8 +27,8 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
 
         <div className="popup__content popup__content--certificates">
           <div className="popup__slider-buttons">
-            <ButtonIcon icon="arrow-left" className="popup__slider-btn popup__slider-btn--prev" onClick={handlePrev} disabled={isDisablePrev} />
-            <ButtonIcon icon="arrow-right" className="popup__slider-btn popup__slider-btn--prev" onClick={handleNext} disabled={isDisableNext} />
+            <ButtonIcon icon="arrow-left" className="popup__slider-btn popup__slider-btn--prev" onClick={handlePrev} disabled={isFirstSlide} />
+            <ButtonIcon icon="arrow-right" className="popup__slider-btn popup__slider-btn--prev" onClick={handleNext} disabled={isLastSlide} />
           </div>
 
           <Swiper

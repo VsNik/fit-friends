@@ -15,5 +15,5 @@ export enum RouteName {
   Purchases = '/purchases',
   Orders = '/orders',
   MyTrainings = '/my-trainings',
-  NewTraining = '/raining/new',
+  AddTraining = '/raining/add',
 }

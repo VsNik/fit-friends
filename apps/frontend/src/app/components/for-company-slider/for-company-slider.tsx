@@ -1,14 +1,14 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
-import { ForCompanySliderItem } from './for-company-slider-item';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { useSliderControl } from '../../hooks/use-slider-control';
+import { RouteName } from '../../constants/route';
+import { ThumbnailUserCard } from '../thumbnails/thumbnail-user-card/thumbnail-user-card';
 import * as usersSelector from '../../store/users/users-select';
 import 'swiper/css';
-import { RouteName } from '../../constants/route';
 
 const SLIDERS = 4;
 
@@ -17,16 +17,7 @@ export const ForCompanySlider: React.FC = () => {
   const users = useAppSelector(usersSelector.users);
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const {isDisablePrev, isDisableNext, handleChangeSlide} = useSliderControl(indexSlide, users, SLIDERS);
-
-  const handlePrev = useCallback(() => {
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    sliderRef.current?.swiper.slideNext();
-  }, []);
+  const {handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide} = useSliderControl(sliderRef, users, SLIDERS);
 
   return (
     <section className="look-for-company">
@@ -37,8 +28,8 @@ export const ForCompanySlider: React.FC = () => {
             <ButtonFloat text='Смотреть все' icon='arrow-right' onClick={() => navigate(RouteName.Users)} light iconLeft/>
    
             <div className="look-for-company__controls">
-              <ButtonIcon icon='arrow-left' onClick={handlePrev} className='look-for-company__control' outline disabled={isDisablePrev}/>
-              <ButtonIcon icon='arrow-right' onClick={handleNext} className='look-for-company__control' outline disabled={isDisableNext}/>
+              <ButtonIcon icon='arrow-left' onClick={handlePrev} className='look-for-company__control' outline disabled={isFirstSlide}/>
+              <ButtonIcon icon='arrow-right' onClick={handleNext} className='look-for-company__control' outline disabled={isLastSlide}/>
             </div>
           </div>
 
@@ -51,7 +42,7 @@ export const ForCompanySlider: React.FC = () => {
           >
             {users?.map((user) => (
               <SwiperSlide key={user.id}>
-                <ForCompanySliderItem user={user} />
+                <ThumbnailUserCard user={user} dark />
               </SwiperSlide>
             ))}
           </Swiper>

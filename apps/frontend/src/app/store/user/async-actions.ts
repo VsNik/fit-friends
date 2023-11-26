@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { UserInfoType } from '../../components/forms/user-info-form/user-info-form';
 import { IUser } from '@fit-friends/shared';
 import { userApi } from '../../services/user-api';
+import { UserInfoType } from '../../types/forms-type';
 
 export const fetchUserAction = createAsyncThunk<IUser>(
     'user/fetch-user',

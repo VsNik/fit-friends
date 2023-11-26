@@ -9,3 +9,11 @@ export const fetchTrainingAction = createAsyncThunk<ITraining, string>(
         return data;
     }
 )
+
+export const createTrainingAction = createAsyncThunk<unknown, FormData>(
+    'training/create-training',
+    async (formData) => {
+        const data = await trainingApi.createTraining(formData);
+        console.log(data);
+    }
+  )

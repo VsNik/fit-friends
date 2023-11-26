@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface SpecialSliderItemProps {
+interface ThumbnailSpecialProps {
     title: string;
     src: string;
     srcSet?: string;
     price: number;
 }
 
-export const SpecialSliderItem: React.FC<SpecialSliderItemProps> = (props) => {
+export const ThumbnailSpecial: React.FC<ThumbnailSpecialProps> = (props) => {
   const {title, src, srcSet, price} = props;
 
   return (
@@ -31,7 +31,7 @@ export const SpecialSliderItem: React.FC<SpecialSliderItemProps> = (props) => {
           <div className="promo-slider__price-container">
             <p className="promo-slider__price">{price} ₽</p>
             <p className="promo-slider__sup">за занятие</p>
-            {/* <p className="promo-slider__old-price">2000 ₽</p> */}
+            <p className="promo-slider__old-price">2000 ₽</p>
           </div>
         </div>
       </aside>

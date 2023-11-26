@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Gender, Location, Role } from '@fit-friends/shared';
+import { Gender, Role } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
 import { InputRadio } from '../../ui/form/input-radio/input-radio';
@@ -12,23 +10,13 @@ import { InputAvatar } from '../../ui/form/input-avatar/input-avatar';
 import { useImagePreview } from '../../../hooks/use-image-preview';
 import { signupSchema } from '../../../utils/validate-schemas';
 import { LocationList } from '../../../constants/common';
-import { RouteName } from '../../../constants/route';
-
-type SignupType = Yup.InferType<typeof signupSchema>;
-
-export interface ISignupData {
-  avatar: string | FileList;
-  email: string;
-  birthday: string;
-  gender: Gender;
-  location: Location;
-  name: string
-  password: string;
-  role: Role;
-}
+import { useAppDispatch } from '../../../store/hooks';
+import { signupAction } from '../../../store/auth/async-actions';
+import { Button } from '../../ui/button/button';
+import { SignupType } from '../../../types/forms-type';
 
 export const SignupForm: React.FC = () => {
-  const navigation = useNavigate();
+  const dispatch = useAppDispatch();
   const [agree, setAgree] = useState(false);
   const [location, setLocation] = useState('');
 
@@ -48,7 +36,6 @@ export const SignupForm: React.FC = () => {
 
   const onSubmit = (data: SignupType) => {
     const birthday = data.birthday?.split('-').reverse().join('-');
-    const avatar = data.avatar instanceof FileList && data.avatar[0];
 
     const formData = new FormData();
     formData.append('name', data.name);
@@ -61,16 +48,10 @@ export const SignupForm: React.FC = () => {
 
     if (data.avatar instanceof FileList && data.avatar[0]) {
       formData.append('avatar', data.avatar[0]);
-    }    
-
-    console.log(formData);
-    console.log({ ...data, avatar, birthday });
-    resetForm();
-
-    if (data.role === Role.User) {
-      return navigation(RouteName.QuestionUser);
     }
-    return navigation(RouteName.QuestionCoach);
+
+    resetForm();
+    dispatch(signupAction(formData));
   };
 
   return (
@@ -136,9 +117,7 @@ export const SignupForm: React.FC = () => {
             </label>
           </div>
 
-          <button disabled={!agree} className="btn sign-up__button" type="submit">
-            Продолжить
-          </button>
+          <Button text='Продолжить' className='sign-up__button' type="submit" />
         </div>
       </form>
     </FormProvider>

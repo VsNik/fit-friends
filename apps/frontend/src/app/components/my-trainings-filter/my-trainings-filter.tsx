@@ -4,25 +4,9 @@ import { RangeCalory } from '../ui/range-calory/range-calory';
 import { RangeRating } from '../ui/range-rating/range-rating';
 import { CheckDuration } from '../ui/check-duration/check-duration';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { setCaloriesAction, setDurationAction, setPriceAction, setRatingAction } from '../../store/trainings/trainings-slice';
-
-enum Price {
-  Min = 0,
-  Max = 10000,
-  Step = 100,
-}
-
-enum Calory {
-  Min = 1000,
-  Max = 5000,
-  Step = 100,
-}
-
-enum Rating {
-  Min = 1,
-  Max = 5,
-}
+import { CaloryRange, PriceRange, RatingRange } from '../../constants/common';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const MyTrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -47,9 +31,9 @@ export const MyTrainingsFilter: React.FC = () => {
 
   return (
     <form className="my-training-form__form">
-      <RangePrice onChangedPrice={onChangedPrice} min={Price.Min} max={Price.Max} step={Price.Step} disabled={isLoading} />
-      <RangeCalory onChangedCalory={onChangeCalory} min={Calory.Min} max={Calory.Max} step={Calory.Step} disabled={isLoading} />
-      <RangeRating onChangedRating={onChangeRating} min={Rating.Min} max={Rating.Max} disabled={isLoading} />
+      <RangePrice onChangedPrice={onChangedPrice} min={PriceRange.Min} max={PriceRange.Max} step={PriceRange.Step} disabled={isLoading} />
+      <RangeCalory onChangedCalory={onChangeCalory} min={CaloryRange.Min} max={CaloryRange.Max} step={CaloryRange.Step} disabled={isLoading} />
+      <RangeRating onChangedRating={onChangeRating} min={RatingRange.Min} max={RatingRange.Max} disabled={isLoading} />
 
       <div className="my-training-form__block my-training-form__block--duration">
         <h4 className="my-training-form__block-title">Длительность</h4>

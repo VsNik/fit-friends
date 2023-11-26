@@ -4,7 +4,6 @@ import { TrainingSortDirection, SortDirection } from '@fit-friends/shared';
 interface ButtonsSortingPriceProps {
   sorting: TrainingSortDirection;
   onChecked: (evt: ChangeEvent<HTMLInputElement>) => void;
-  onCheckedFree: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 

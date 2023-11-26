@@ -6,8 +6,8 @@ const TIMEOUT = 500;
 export const trainingApi = {
   fetchTraining: (): Promise<ITraining> => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(getFakeTrainings(1).data[0]), TIMEOUT)
-    })
+      setTimeout(() => resolve(getFakeTrainings(1).data[0]), TIMEOUT);
+    });
   },
 
   fetchTrainings: (count: number): Promise<ITrainingCollection> => {
@@ -37,18 +37,24 @@ export const trainingApi = {
   fetchForCoach: (): Promise<ITrainingCollection> => {
     return new Promise((resolce) => {
       setTimeout(() => resolce(getFakeTrainings(8)), TIMEOUT);
-    })
+    });
   },
 
   fetchOrderTraining: (): Promise<ITrainingCollection> => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(fakeOrderTraining), TIMEOUT);
-    })
+    });
   },
 
   fetchMyTrainings: (): Promise<ITrainingCollection> => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(getFakeTrainings(6)), TIMEOUT);
-    })
-  }
+    });
+  },
+
+  createTraining: (formData: FormData): Promise<FormData> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(formData), TIMEOUT);
+    });
+  },
 };

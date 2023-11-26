@@ -22,9 +22,14 @@ import {
   NAME_NOT_EMPTY,
   PASSWORD_LENGTH,
   PASSWORD_NOT_EMPTY,
+  PRICE_NOT_EMPTY,
   ROLE_NOT_EMPTY,
   TRAININGTYPE_MAX_SIZE,
   TRAININGTYPE_MIN_SIZE,
+  TRAINING_DESCRIPTION,
+  TRAINING_TITLE_NOT_EMPTY,
+  TRAINING_TYPE_NOT_EMPTY,
+  TRAINING_VIDEO_NOT_EMPTY,
   USER_NAME_LENGTH,
   UserValidate,
 } from '@fit-friends/libs/validation';
@@ -96,7 +101,9 @@ export const questionCoachSchema = Yup.object({
 });
 
 export const userInfoSchema = Yup.object({
-  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  name: Yup.string().required(NAME_NOT_EMPTY)
+    .min(UserValidate.NameMinLength, USER_NAME_LENGTH)
+    .max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   bio: Yup.string().required(),
   personalTraining: Yup.boolean(),
   ready: Yup.boolean(),
@@ -106,10 +113,31 @@ export const userInfoSchema = Yup.object({
     .required()
     .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
     .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
+  avatar: Yup.mixed(),
 });
 
 export const updateTrainingSchema = Yup.object({
   title: Yup.string().required(),
   description: Yup.string().required(),
   price: Yup.number().required(),
+});
+
+export const trainingSchema = Yup.object({
+  title: Yup.string().required(TRAINING_TITLE_NOT_EMPTY),
+  trainingType: Yup.string().required(TRAINING_TYPE_NOT_EMPTY),
+  loseCalory: Yup.number()
+    .transform((value) => (isNaN(value) || value === undefined ? null : value))
+    .required(LOSE_CALORY_NOT_EMPTY),
+  trainingDuration: Yup.string().required(DURATION_NOT_EMPTY),
+  price: Yup.number()
+    .transform((value) => (isNaN(value) || value === undefined ? null : value))
+    .required(PRICE_NOT_EMPTY),
+  trainingLevel: Yup.string().required(LEVEL_NOT_EMPTY),
+  gender: Yup.string().required(GENDER_NOT_EMPTY),
+  description: Yup.string().required(TRAINING_DESCRIPTION),
+  video: Yup.mixed()
+    .required()
+    .test('is-required', TRAINING_VIDEO_NOT_EMPTY, (value) => {
+      return !!(value instanceof FileList && value[0]);
+    }),
 });

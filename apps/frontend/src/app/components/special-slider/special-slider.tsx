@@ -1,15 +1,15 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
+import { useAppSelector } from '../../store/hooks';
+import { ThumbnailSpecial } from '../thumbnails/thumbnail-special/thumbnail-special';
+import { Image } from '../ui/image/image';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 import 'swiper/css';
 import './styles.css';
-import { useAppSelector } from '../../store/hooks';
-import { SpecialSliderItem } from './special-slider-item';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const SpecialSlider: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainingsSpecial);
-  // const trainings = useAppSelector((state) => state.specialTrainings.trainings);
 
   return (
     <section className="special-offers">
@@ -36,7 +36,7 @@ export const SpecialSlider: React.FC = () => {
           >
             {trainings.map((training) => (
               <SwiperSlide key={training.id}>
-                <SpecialSliderItem title={training.title} src={training.bgImage} price={training.price} />
+                <ThumbnailSpecial title={training.title} src={training.bgImage} price={training.price} />
               </SwiperSlide>
             ))}
 
@@ -44,22 +44,7 @@ export const SpecialSlider: React.FC = () => {
           </Swiper>
 
           <div className="thumbnail-spec-gym">
-            <div className="thumbnail-spec-gym__image">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcSet="/assets/img/content/thumbnails/nearest-gym-01.webp, /assets/img/content/thumbnails/nearest-gym-01@2x.webp 2x"
-                />
-                <img
-                  src="/assets/img/content/thumbnails/nearest-gym-01.jpg"
-                  srcSet="/assets/img/content/thumbnails/nearest-gym-01@2x.jpg 2x"
-                  width="330"
-                  height="190"
-                  alt=""
-                />
-              </picture>
-            </div>
-
+            <Image src="/assets/img/content/thumbnails/nearest-gym-01.jpg" className="thumbnail-spec-gym__image" />
             <div className="thumbnail-spec-gym__header">
               <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
             </div>

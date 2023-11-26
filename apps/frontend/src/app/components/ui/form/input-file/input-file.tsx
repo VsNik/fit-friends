@@ -4,9 +4,10 @@ import { useFormContext } from 'react-hook-form';
 interface InputFileProps {
   name: string;
   accept: string;
+  disabled?: boolean;
 }
 
-export const InputFile: React.FC<InputFileProps> = ({ name }) => {
+export const InputFile: React.FC<InputFileProps> = ({ name, accept, disabled }) => {
   const {
     register,
     watch,
@@ -30,7 +31,7 @@ export const InputFile: React.FC<InputFileProps> = ({ name }) => {
             <use xlinkHref="/assets/img/sprite.svg#icon-import" />
           </svg>
         </span>
-        <input {...register(name)} type="file" name={name} tabIndex={-1} accept=".pdf, .jpg, .png" />
+        <input {...register(name)} type="file" name={name} tabIndex={-1} accept={accept} disabled={disabled}/>
         {errors[name] && <i className="custom-input__error">{errors[name]?.message as string}</i>}
       </label>
     </div>

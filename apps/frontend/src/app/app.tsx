@@ -24,6 +24,7 @@ import { Loader } from './components/loader/loader';
 import { PurchasesPage } from './pages/purchases/purchases-page';
 import { OrdersPage } from './pages/orders/orders-page';
 import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
+import { AddTraining } from './pages/add-training/add-training-page';
 
 store.dispatch(checkAuthAction());
 
@@ -55,6 +56,7 @@ export function App() {
       <Route element={<ProtectedRoute accessRole={Role.Coach} />}>
         <Route path={RouteName.Orders} element={<OrdersPage />} />
         <Route path={RouteName.MyTrainings} element={<MyTrainingsPage />} />
+        <Route path={RouteName.AddTraining} element={<AddTraining />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>

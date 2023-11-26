@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, RefObject } from 'react';
+import { SwiperRef } from 'swiper/react';
 
-export const useSliderControl = (index: number, items: string[] | object[], showCount: number) => {
+type SlidListType = string[] | object[];
+
+export const useSliderControl = (sliderRef: RefObject<SwiperRef>, items: SlidListType, showCount: number) => {
   const [isFirstSlide, setIsFirstSlide] = useState<boolean>(true);
-  const [isLastSlide, setIsLastSlide] = useState<boolean>(true);
+  const [isLastSlide, setIsLastSlide] = useState<boolean>(true);  
 
   useEffect(() => {
-    setIsLastSlide(index + showCount >= items.length);
+    const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
+    setIsLastSlide(indexSlide + showCount >= items.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, showCount]);
 
@@ -14,9 +18,19 @@ export const useSliderControl = (index: number, items: string[] | object[], show
     setIsLastSlide(slideIndex + showCount >= items.length);
   };
 
+  const handlePrev = () => {
+    sliderRef.current?.swiper.slidePrev();
+  }
+
+  const handleNext = () => {
+    sliderRef.current?.swiper.slideNext();
+  }
+
   return {
-    isDisablePrev: isFirstSlide,
-    isDisableNext: isLastSlide,
     handleChangeSlide,
+    handlePrev,
+    handleNext,
+    isFirstSlide,
+    isLastSlide,    
   };
 };

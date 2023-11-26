@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { IUser } from '@fit-friends/shared';
-import { CertificatCarouselItem } from './certificat-carousel-item';
+import { ThumbnailCertificat } from '../thumbnails/thumbnail-certificat/thumbnail-certificat';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { ButtonFloat } from '../ui/button-float/button-float';
@@ -30,8 +30,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
     }
   }, [user.certificate]);
 
-  const indexSlide = sliderRef.current?.swiper.realIndex ?? 0;
-  const { isDisablePrev, isDisableNext, handleChangeSlide } = useSliderControl(indexSlide, certificates, SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, SLIDERS);
 
   const handleClicAddCertificate = () => {
     certificateRef.current?.click();
@@ -42,14 +41,6 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
       dispatch(addCertificateAction({ id: user.id, certificate: fileList[0] }));
     }
   };
-
-  const handlePrev = useCallback(() => {
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    sliderRef.current?.swiper.slideNext();
-  }, []);
 
   return (
     <div className="personal-account-coach__additional-info">
@@ -75,8 +66,8 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
         />
 
         <div className="personal-account-coach__controls">
-          <ButtonIcon icon="arrow-left" onClick={handlePrev} disabled={isDisablePrev} />
-          <ButtonIcon icon="arrow-right" onClick={handleNext} disabled={isDisableNext} />
+          <ButtonIcon icon="arrow-left" onClick={handlePrev} disabled={isFirstSlide} />
+          <ButtonIcon icon="arrow-right" onClick={handleNext} disabled={isLastSlide} />
         </div>
       </div>
 
@@ -88,7 +79,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
       >
         {certificates.map((certificate) => (
           <SwiperSlide key={certificate}>
-            <CertificatCarouselItem userId={user.id} src={certificate} alt={`${user.name} - Сертификат`} type="image/jpg" />
+            <ThumbnailCertificat userId={user.id} src={certificate} alt={`${user.name} - Сертификат`} type="image/jpg" />
           </SwiperSlide>
         ))}
       </Swiper>

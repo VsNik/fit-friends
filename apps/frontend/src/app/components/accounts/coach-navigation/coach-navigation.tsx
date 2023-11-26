@@ -7,7 +7,7 @@ export const CoachNavigation: React.FC = () => {
   return (
     <div className="personal-account-coach__navigation">
       <ThumbnailLink text='Мои тренировки' icon='icon-flash' to={RouteName.MyTrainings} />
-      <ThumbnailLink text='Создать тренировку' icon='icon-add' to='#' />
+      <ThumbnailLink text='Создать тренировку' icon='icon-add' to={RouteName.AddTraining} />
       <ThumbnailLink text='Мои друзья' icon='icon-friends' to={RouteName.Friends} />
       <ThumbnailLink text='Мои заказы' icon='icon-bag' to={RouteName.Orders} />
       

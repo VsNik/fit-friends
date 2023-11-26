@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 interface CheckboxProps {
   name: string;
-  value: string;
+  value?: string;
   label?: string;
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
   className?: string;

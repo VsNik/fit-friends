@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { ButtonFloat } from '../../ui/button-float/button-float';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchCoachFriendsAction } from '../../../store/users/async-actions';
-import * as usersSelector from '../../../store/users/users-select';
 import { ThumbnailFriend } from '../../thumbnails/thumbnail-friend/thumbnail-friend';
 import { Button } from '../../ui/button/button';
 import { RouteName } from '../../../constants/route';
+import * as usersSelector from '../../../store/users/users-select';
 
 interface CoachFriendsProps {
   user: CoachType;
