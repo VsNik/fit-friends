@@ -25,8 +25,10 @@ import { PurchasesPage } from './pages/purchases/purchases-page';
 import { OrdersPage } from './pages/orders/orders-page';
 import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
 import { AddTraining } from './pages/add-training/add-training-page';
+import { fetchNotificationAction } from './store/notifications/async-actions';
 
 store.dispatch(checkAuthAction());
+store.dispatch(fetchNotificationAction());
 
 export function App() {  
   history.navigate = useNavigate();

@@ -1,0 +1,26 @@
+import React, { Fragment } from 'react';
+import { ThumbnailNotification } from '../../thumbnails/thumbnail-notification/thumbnail-notification';
+import * as notificationSelector from '../../../store/notifications/notifications-select';
+import { useAppSelector } from '../../../store/hooks';
+import { TopMenuLink } from '../top-menu-link/top-menu-link';
+
+export const Notifications: React.FC = () => {
+  const notifications = useAppSelector(notificationSelector.notifications);
+
+  return (
+    <Fragment>
+      <TopMenuLink icon="icon-notification" to='#' title="Уведомления" />
+
+      <div className="main-nav__dropdown">
+        <p className="main-nav__label">Оповещения</p>
+        <ul className="main-nav__sublist">
+          {notifications?.map((notification) => (
+            <li key={notification.id} className="main-nav__subitem">
+              <ThumbnailNotification notification={notification} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Fragment>
+  );
+};
