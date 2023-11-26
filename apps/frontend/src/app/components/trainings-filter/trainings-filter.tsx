@@ -6,7 +6,7 @@ import { ButtonsSortingPrice } from '../ui/buttons-sorting-price/buttons-sorting
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setCaloriesAction, setDirectionAction, setPriceAction, setRatingAction, setTypeAction } from '../../store/trainings/trainings-slice';
 import { CheckTypes } from '../ui/check-types/check-types';
-import { CaloryRange, PriceRange, RatingRange } from '../../constants/common';
+import { RatingRange } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const TrainingsFilter: React.FC = () => {
@@ -14,6 +14,7 @@ export const TrainingsFilter: React.FC = () => {
   const filter = useAppSelector(trainingsSelector.filter);
   const sorting = useAppSelector(trainingsSelector.direction);
   const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const trainings = useAppSelector(trainingsSelector.trainings);
 
   const onChangedPrice = (values: number[]) => dispatch(setPriceAction(values));
   const onChangeCalory = (values: number[]) => dispatch(setCaloriesAction(values));
@@ -23,8 +24,8 @@ export const TrainingsFilter: React.FC = () => {
 
   return (
     <form className="gym-catalog-form__form">
-      <RangePrice onChangedPrice={onChangedPrice} min={PriceRange.Min} max={PriceRange.Max} step={PriceRange.Step} disabled={isLoading} />
-      <RangeCalory onChangedCalory={onChangeCalory} min={CaloryRange.Min} max={CaloryRange.Max} step={CaloryRange.Step} disabled={isLoading} />
+      <RangePrice trainings={trainings} onChangedPrice={onChangedPrice} disabled={isLoading} />
+      <RangeCalory trainings={trainings} onChangedCalory={onChangeCalory} disabled={isLoading} />
       <RangeRating onChangedRating={onChangeRating} min={RatingRange.Min} max={RatingRange.Max} disabled={isLoading} />
 
       <div className="gym-catalog-form__block gym-catalog-form__block--type">

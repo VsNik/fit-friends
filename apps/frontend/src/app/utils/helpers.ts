@@ -4,6 +4,8 @@ export const isNotEmptyObject = (item: object): boolean => {
   return Object.keys(item).length !== 0;
 }
 
+export const toNumberInputTextValue = (value: string) => Number(value.replace(/\D/g, ''));
+
 export const getUserLocation = (name: Location) => {
   const latLon = {
     [Location.Pionerskaya]: { title: 'Пионерская', lat: 60.0030867, lon: 30.2968189 },
