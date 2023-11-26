@@ -3894,6 +3894,7 @@ input:active + .custom-textarea__text {
 }
 
 .training-info {
+  position: relative;
   width: 100%;
   max-width: 1040px;
   padding: 59px;
@@ -4146,8 +4147,12 @@ input:active + .custom-textarea__text {
 }
 
 .training-info__textarea {
+  position: relative;
   width: 100%;
   min-height: 89px;
+}
+.training-info__textarea.is-invalid .training-info__error {
+  opacity: 1;
 }
 
 .training-info__textarea .training-info__label {

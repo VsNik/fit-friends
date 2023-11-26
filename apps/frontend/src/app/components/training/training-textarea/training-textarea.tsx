@@ -21,6 +21,7 @@ export const TrainingTextarea: React.FC<TrainingTextareaProps> = ({ name, label,
         <span className="training-info__label">{label}</span>
         <textarea {...register(name)} name={name} value={text} disabled={disabled} />
       </label>
+      {errors[name] && <div className="training-info__error">{errors[name]?.message as string}</div>}
     </div>
   );
 };

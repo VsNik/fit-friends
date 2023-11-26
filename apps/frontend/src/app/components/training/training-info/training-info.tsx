@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { ITraining, Role } from '@fit-friends/shared';
 import { ButtonFloat } from '../../ui/button-float/button-float';
 import { TrainingUserInfo } from '../training-user-info/training-user-info';
@@ -11,11 +10,12 @@ import { TrainingTextarea } from '../training-textarea/training-textarea';
 import { Hashtag } from '../../ui/hashtag/hashtag';
 import { Button } from '../../ui/button/button';
 import { updateTrainingSchema } from '../../../utils/validate-schemas';
-
-type UpdateTrainingType = Yup.InferType<typeof updateTrainingSchema>;
+import { UpdateTrainingType } from '../../../types/forms-type';
+import { Loader } from '../../loader/loader';
 
 interface TrainingInfoProps {
   training: ITraining;
+  isLoading: boolean;
   role: Role;
   isEditable: boolean;
   onChangeMode: (value: boolean) => void;
@@ -23,14 +23,19 @@ interface TrainingInfoProps {
 }
 
 export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
-  const { training, role, isEditable, onChangeMode, onOpenBuyPopup } = props;
+  const { training, isLoading, role, isEditable, onChangeMode, onOpenBuyPopup } = props;
 
   const methods = useForm<UpdateTrainingType>({
-    defaultValues: training,
     resolver: yupResolver(updateTrainingSchema),
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
+
+  useEffect(() => {
+    setValue('title', training.title);
+    setValue('description', training.description);
+    setValue('price', training.price);
+  }, [isLoading, setValue, training]);
 
   const onSubmit = (data: UpdateTrainingType) => {
     console.log(data);
@@ -39,6 +44,7 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
 
   return (
     <div className="training-info">
+      { isLoading && <Loader /> }
       <h2 className="visually-hidden">Информация о тренировке</h2>
       <div className="training-info__header">
         <TrainingUserInfo coach={training.coach} />

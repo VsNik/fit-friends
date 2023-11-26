@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Role } from '@fit-friends/shared';
 import { Button } from '../../ui/button/button';
+import { VideoPlayer } from '../video-payer/video-payer';
+import { FormProvider, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { InputFile } from '../../ui/form/input-file/input-file';
+import { VideoType } from '../../../types/forms-type';
+import { videoSchema } from '../../../utils/validate-schemas';
+import { clsx } from 'clsx';
 
 interface TrainingVideoProps {
   role: Role;
@@ -9,64 +16,78 @@ interface TrainingVideoProps {
 }
 
 export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEditable }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [playing, setPlaying] = useState(false);
+  const [videoLoadMode, setVideoLoadMode] = useState<boolean>(false);
+
+  const methods = useForm<VideoType>({
+    resolver: yupResolver(videoSchema),
+  });
+
+  const { handleSubmit, reset, resetField } = methods;
+
+  const handlePlay = () => {
+    videoRef.current?.play();
+  };
+
+  const handleStopTraining = () => {
+    videoRef.current?.load();
+    setIsReady(false);
+    setPlaying(false);
+  };
+
+  const handleStartTraining = () => {
+    setIsReady(true);
+  };
+
+  const handleDeleteVideo = () => {
+    setVideoLoadMode(true);
+    // TODO dispatch delete video
+  };
+
+  const handleSaveVideo = (data: VideoType) => {
+    // TODO dispatch upload video
+    setVideoLoadMode(false);
+    resetField('video');
+    reset();
+  };
+
   return (
-    <div className="training-video">
+    <div
+      className={clsx('training-video', {
+        'training-video--stop': isReady,
+        'training-video--load': videoLoadMode,
+      })}
+    >
       <h2 className="training-video__title">Видео</h2>
-      <div className="training-video__video">
-        <div className="training-video__thumbnail">
-          <picture>
-            <source
-              type="image/webp"
-              srcSet="/assets/img/content/training-video/video-thumbnail.webp, /assets/img/content/training-video/video-thumbnail@2x.webp 2x"
-            />
-            <img
-              src="/assets/img/content/training-video/video-thumbnail.png"
-              srcSet="/assets/img/content/training-video/video-thumbnail@2x.png 2x"
-              width="922"
-              height="566"
-              alt="Обложка видео"
-            />
-          </picture>
-        </div>
-        <button className="training-video__play-button btn-reset">
-          <svg width="18" height="30" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-arrow" />
-          </svg>
-        </button>
-      </div>
-      <div className="training-video__drop-files">
-        <form action="#" method="post">
+      <VideoPlayer
+        isReady={isReady}
+        src="/assets/img/test.mp4"
+        poster="/assets/img/content/training-video/video-thumbnail.png"
+        onPlay={handlePlay}
+        onEnded={handleStopTraining}
+        videoRef={videoRef}
+        setPlaying={setPlaying}
+        isPlaying={playing}
+      />
+
+      <FormProvider {...methods}>
+        <div className="training-video__drop-files">
           <div className="training-video__form-wrapper">
-            <div className="drag-and-drop">
-              <label>
-                <span className="drag-and-drop__label" tabIndex={0}>
-                  Загрузите сюда файлы формата MOV, AVI или MP4
-                  <svg width="20" height="20" aria-hidden="true">
-                    <use xlinkHref="/assets/img/sprite.svg#icon-import-video" />
-                  </svg>
-                </span>
-                <input type="file" name="import" tabIndex={-1} accept=".mov, .avi, .mp4" />
-              </label>
-            </div>
+            <InputFile name="video" />
           </div>
-        </form>
-      </div>
-      <div className="training-video__buttons-wrapper">
-        {role === Role.Coach ? (
-          <>
-            <Button text="Сохранить" className="training-video__button training-video__button--start" disabled />
-            <div className="training-video__edit-buttons">
-              <Button text="Сохранить" />
-              <Button text="Удалить" outlined />
-            </div>
-          </>
-        ) : (
-          <>
-            <Button text="Приступить" type="button" className="training-video__button training-video__button--start" />
-            <Button text="Закончить" type="button" className="training-video__button training-video__button--stop" />
-          </>
-        )}
-      </div>
+        </div>
+
+        <div className="training-video__buttons-wrapper">
+          <Button text="Приступить" type="button" className="training-video__button training-video__button--start" onClick={handleStartTraining} />
+          <Button text="Закончить" type="button" className="training-video__button training-video__button--stop" onClick={handleStopTraining} />
+          <div className="training-video__edit-buttons">
+            <Button text="Сохранить" onClick={handleSubmit(handleSaveVideo)} disabled={!videoLoadMode} />
+            <Button text="Удалить" onClick={handleDeleteVideo} outlined disabled={videoLoadMode} />
+          </div>
+        </div>
+      </FormProvider>
     </div>
   );
 };

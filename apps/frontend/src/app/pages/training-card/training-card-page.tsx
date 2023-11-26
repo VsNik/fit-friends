@@ -11,10 +11,9 @@ import { fetchReviewsAction } from '../../store/reviews/async-actions';
 import * as authSelectors from '../../store/auth/auth-select';
 import * as trainingSelector from '../../store/training/training-select';
 import * as reviewsSelector from '../../store/reviews/reviews-select';
-import clsx from 'clsx';
 import { Modal } from '../../components/ui/modal/modal';
 import { ReviewPopup } from '../../components/popups/review-popup/review-popup';
-import { Loader } from '../../components/loader/loader';
+import clsx from 'clsx';
 
 export const TrainingCardPage: React.FC = () => {
   const params = useParams();
@@ -37,26 +36,13 @@ export const TrainingCardPage: React.FC = () => {
     setIsEditable(value);
   };
 
-  const handleOpenBuyPopup = () => {
-    setOpenBuyPopup(true);
-  };
+  const handleOpenBuyPopup = () => setOpenBuyPopup(true);
 
-  const handleCloseBuyPopup = () => {
-    setOpenBuyPopup(false);
-  };
+  const handleCloseBuyPopup = () => setOpenBuyPopup(false);
 
-  const handleOpenReviewPopup = () => {
-    setOpenReviewPopup(true);
-  };
+  const handleOpenReviewPopup = () => setOpenReviewPopup(true);
 
-  const handleCloseReviewPopup = () => {
-    setOpenReviewPopup(false);
-  };
-
-  if (isTrainingLoading) {
-    return <h3>Loading...</h3>
-    // return <Loader />
-  }
+  const handleCloseReviewPopup = () => setOpenReviewPopup(false);
 
   return (
     <AppLayout>
@@ -67,7 +53,7 @@ export const TrainingCardPage: React.FC = () => {
             <ReviewsBar reviews={reviews} role={role} onOpenPopup={handleOpenReviewPopup} />
 
             <div className={clsx('training-card', { 'training-card--edit': isEditable })}>
-              <TrainingInfo training={training} role={role} isEditable={isEditable} onChangeMode={onChangeMode} onOpenBuyPopup={handleOpenBuyPopup} />
+              <TrainingInfo training={training} isLoading={isTrainingLoading} role={role} isEditable={isEditable} onChangeMode={onChangeMode} onOpenBuyPopup={handleOpenBuyPopup} />
               <TrainingVideo role={role} video={training.video} isEditable={isEditable} />
             </div>
           </div>
@@ -76,7 +62,6 @@ export const TrainingCardPage: React.FC = () => {
 
       <Modal isOpen={openBuyPopup} onClose={handleCloseBuyPopup}>
         <BuyPopup onClose={handleCloseBuyPopup} title="Купить тренировку" training={training} />
-        {/* <ReviewPopup onClose={handleCloseReviewPopup} title='Оставить отзыв' trainingId={training.id} /> */}
       </Modal>
 
       <Modal isOpen={openReviewPopup} onClose={handleCloseReviewPopup}>

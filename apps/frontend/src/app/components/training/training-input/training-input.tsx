@@ -32,7 +32,7 @@ export const TrainingInput: React.FC<TrainingInputProps> = ({ name, label, value
         </span>
         <input {...register(name)} type='text' name={name} value={value} disabled={disabled} />
       </label>
-      <div className="training-info__error">Обязательное поле</div>
+      {errors[name] && <div className="training-info__error">{errors[name]?.message as string}</div>}
     </div>
   );
 };

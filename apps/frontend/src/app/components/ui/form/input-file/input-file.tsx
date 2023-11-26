@@ -3,17 +3,19 @@ import { useFormContext } from 'react-hook-form';
 
 interface InputFileProps {
   name: string;
-  accept: string;
+  accept?: string;
   disabled?: boolean;
 }
 
-export const InputFile: React.FC<InputFileProps> = ({ name, accept, disabled }) => {
+export const InputFile: React.FC<InputFileProps> = (props) => {
+  const { name, accept, disabled } = props
+
   const {
     register,
     watch,
     formState: { errors },
   } = useFormContext();
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState<string>('');
   const fileList = watch(name);
 
   useEffect(() => {

@@ -29,6 +29,7 @@ import {
   TRAINING_DESCRIPTION,
   TRAINING_TITLE_NOT_EMPTY,
   TRAINING_TYPE_NOT_EMPTY,
+  TRAINING_VIDEO_FORMAT,
   TRAINING_VIDEO_NOT_EMPTY,
   USER_NAME_LENGTH,
   UserValidate,
@@ -36,15 +37,37 @@ import {
 import { Gender, Location, Role, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import * as Yup from 'yup';
 
+const VIDEO_TYPES = ['video/quicktime', 'video/mp4'];
+
+const trainingTypesValidator = Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
+  .required()
+  .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
+  .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount);
+
+const trainingTitileValidator = Yup.string().required(TRAINING_TITLE_NOT_EMPTY);
+
+const trainingDescriptionValidator = Yup.string().required(TRAINING_DESCRIPTION);
+
+const trainingVideoValidator = Yup.mixed()
+  .required()
+  .test('is-required', TRAINING_VIDEO_NOT_EMPTY, (value) => {
+    return !!(value instanceof FileList && value[0]);
+  })
+  .test('is-valid-type', TRAINING_VIDEO_FORMAT, (value) => {
+    return value instanceof FileList && value[0] ? VIDEO_TYPES.includes(value[0].type) : true;
+  });
+
+const trainingPriceValidator = Yup.number()
+  .transform((value) => (isNaN(value) || value === undefined ? null : value))
+  .required(PRICE_NOT_EMPTY);
+
 export const loginSchema = Yup.object({
   email: Yup.string().required(EMAIL_NOT_EMPTY).email(INVALID_EMAIL),
   password: Yup.string().required(PASSWORD_NOT_EMPTY),
 });
 
 export const signupSchema = Yup.object({
-  name: Yup.string().required(NAME_NOT_EMPTY)
-    .min(UserValidate.NameMinLength, USER_NAME_LENGTH)
-    .max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   email: Yup.string().required(EMAIL_NOT_EMPTY).email(INVALID_EMAIL),
   birthday: Yup.string().optional(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
@@ -64,10 +87,7 @@ export const signupSchema = Yup.object({
 });
 
 export const questionUserSchema = Yup.object({
-  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
-    .required()
-    .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
-    .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
+  trainingType: trainingTypesValidator,
   trainingDuration: Yup.mixed<TrainingDuration>().oneOf(Object.values(TrainingDuration)).required(DURATION_NOT_EMPTY),
   trainingLevel: Yup.mixed<TrainingLevel>().oneOf(Object.values(TrainingLevel)).required(LEVEL_NOT_EMPTY),
   loseCalories: Yup.number()
@@ -83,10 +103,7 @@ export const questionUserSchema = Yup.object({
 });
 
 export const questionCoachSchema = Yup.object({
-  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
-    .required()
-    .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
-    .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
+  trainingType: trainingTypesValidator,
   trainingLevel: Yup.mixed<TrainingLevel>().oneOf(Object.values(TrainingLevel)).required(LEVEL_NOT_EMPTY),
   merits: Yup.string().required(MERITS_NOT_EMPTY).min(UserValidate.MeritsMinLength).max(UserValidate.MeritsMaxLength),
   personalTraining: Yup.boolean().required(),
@@ -101,43 +118,36 @@ export const questionCoachSchema = Yup.object({
 });
 
 export const userInfoSchema = Yup.object({
-  name: Yup.string().required(NAME_NOT_EMPTY)
-    .min(UserValidate.NameMinLength, USER_NAME_LENGTH)
-    .max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
+  name: Yup.string().required(NAME_NOT_EMPTY).min(UserValidate.NameMinLength, USER_NAME_LENGTH).max(UserValidate.NameMaxLength, USER_NAME_LENGTH),
   bio: Yup.string().required(),
   personalTraining: Yup.boolean(),
   ready: Yup.boolean(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), LOCATION_NOT_EMPTY).required(),
   gender: Yup.mixed<Gender>().oneOf(Object.values(Gender)).required(GENDER_NOT_EMPTY),
-  trainingType: Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
-    .required()
-    .test('is-valid-min--length', TRAININGTYPE_MIN_SIZE, (value) => value.length >= UserValidate.TrainingTypeMinCount)
-    .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount),
+  trainingType: trainingTypesValidator,
   avatar: Yup.mixed(),
 });
 
 export const updateTrainingSchema = Yup.object({
-  title: Yup.string().required(),
-  description: Yup.string().required(),
-  price: Yup.number().required(),
+  title: trainingTitileValidator,
+  description: trainingDescriptionValidator,
+  price: trainingPriceValidator,
 });
 
 export const trainingSchema = Yup.object({
-  title: Yup.string().required(TRAINING_TITLE_NOT_EMPTY),
+  title: trainingTitileValidator,
   trainingType: Yup.string().required(TRAINING_TYPE_NOT_EMPTY),
   loseCalory: Yup.number()
     .transform((value) => (isNaN(value) || value === undefined ? null : value))
     .required(LOSE_CALORY_NOT_EMPTY),
   trainingDuration: Yup.string().required(DURATION_NOT_EMPTY),
-  price: Yup.number()
-    .transform((value) => (isNaN(value) || value === undefined ? null : value))
-    .required(PRICE_NOT_EMPTY),
+  price: trainingPriceValidator,
   trainingLevel: Yup.string().required(LEVEL_NOT_EMPTY),
   gender: Yup.string().required(GENDER_NOT_EMPTY),
-  description: Yup.string().required(TRAINING_DESCRIPTION),
-  video: Yup.mixed()
-    .required()
-    .test('is-required', TRAINING_VIDEO_NOT_EMPTY, (value) => {
-      return !!(value instanceof FileList && value[0]);
-    }),
+  description: trainingDescriptionValidator,
+  video: trainingVideoValidator,
+});
+
+export const videoSchema = Yup.object({
+  video: trainingVideoValidator,
 });
