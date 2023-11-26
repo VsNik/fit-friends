@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ITraining } from '@fit-friends/shared';
 import { RangeSlider } from '../form/range-slider/range-slider';
 import { CaloryRange } from '../../../constants/common';
-import { ITraining } from '@fit-friends/shared';
 import { isNotEmptyObject, toNumberInputTextValue } from '../../../utils/helpers';
 
 interface RangeCaloryProps {
@@ -17,9 +17,10 @@ export const RangeCalory: React.FC<RangeCaloryProps> = (props) => {
 
     useEffect(() => {
       if (isNotEmptyObject(trainings) && !isMounted) {
+        const calories = trainings.map((item) => item.calories);
         setCaloryValue([
-          Math.min(...trainings.map((item) => item.calories)),
-          Math.max(...trainings.map((item) => item.calories))
+          Math.min(...calories),
+          Math.max(...calories)
         ]);
         setIsMounted(true)
       }

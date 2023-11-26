@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { RangeSlider } from '../form/range-slider/range-slider';
 import { ITraining } from '@fit-friends/shared';
+import { RangeSlider } from '../form/range-slider/range-slider';
 import { isNotEmptyObject, toNumberInputTextValue } from '../../../utils/helpers';
 import { PriceRange } from '../../../constants/common';
 
@@ -17,9 +17,10 @@ export const RangePrice: React.FC<PangePriceProps> = (props) => {
 
   useEffect(() => {
     if (isNotEmptyObject(trainings) && !isMounted) {
+      const prices = trainings.map((item) => item.price);
       setPriceValue([
-        Math.min(...trainings.map((item) => item.price)),
-        Math.max(...trainings.map((item) => item.price))
+        Math.min(...prices),
+        Math.max(...prices)
       ]);
       setIsMounted(true);
     }
