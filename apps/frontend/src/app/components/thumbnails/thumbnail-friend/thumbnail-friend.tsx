@@ -1,12 +1,13 @@
-import { IUser, Role } from '@fit-friends/shared';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IUser, Role } from '@fit-friends/shared';
 import { Button } from '../../ui/button/button';
 import { Hashtag } from '../../ui/hashtag/hashtag';
-import { Image } from '../../ui/image/image';
 import { getUserLocation } from '../../../utils/helpers';
-import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
 import { getUserRoute } from '../../../utils/route';
+import { ThumbnailReadyStatus } from '../thumbnail-ready-status/thumbnail-ready-status';
+import { Avatar } from '../../ui/avatar/avatar';
+import clsx from 'clsx';
 
 interface ThumbnailFriendProps {
   user: IUser;
@@ -14,7 +15,7 @@ interface ThumbnailFriendProps {
 
 export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
   const location = getUserLocation(user.location);
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   return (
     <li className="friends-list__item">
@@ -26,10 +27,10 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
           })}
         >
           <div className="thumbnail-friend__image-status">
-            {user.avatar && <Image src={user.avatar} width={78} height={78} className="thumbnail-friend__image" />}
+            <Avatar src={user.avatar} width={78} height={78} className="thumbnail-friend__image" />
           </div>
           <div className="thumbnail-friend__header">
-            <h2 className="thumbnail-friend__name">Виктория</h2>
+            <h2 className="thumbnail-friend__name">{user.name}</h2>
             <div className="thumbnail-friend__location">
               <svg width="14" height="16" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#icon-location" />
@@ -45,9 +46,7 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
             ))}
           </ul>
           <div className="thumbnail-friend__activity-bar">
-            <div className="thumbnail-friend__ready-status thumbnail-friend__ready-status--is-ready">
-              <span>Готов к&nbsp;тренировке</span>
-            </div>
+            <ThumbnailReadyStatus user={user} />
           </div>
         </div>
 

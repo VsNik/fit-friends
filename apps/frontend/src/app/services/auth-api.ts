@@ -6,7 +6,7 @@ const TIMEOUT = 500;
 export const authApi = {
   checkAuth: (): Promise<IUser> => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeCoach), TIMEOUT);
+      setTimeout(() => resolve(fakeUser), TIMEOUT);
     });
   },
 };
