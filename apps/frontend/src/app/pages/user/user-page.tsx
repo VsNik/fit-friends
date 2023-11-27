@@ -8,7 +8,6 @@ import { UserCardCoach } from '../../components/user-card/user-card-coach/user-c
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserAction } from '../../store/user/async-actions';
 import { MapPopup } from '../../components/popups/map-popup/map-popup';
-import { isNotEmptyObject } from '../../utils/helpers';
 import { RouteName } from '../../constants/route';
 import { Modal } from '../../components/ui/modal/modal';
 import { CertificatesPopup } from '../../components/popups/certificates-popup/certificates-popup';
@@ -39,13 +38,11 @@ export const UserPage: React.FC = () => {
   const handleCloseCertificates = () =>
     setOpenCertificates(false);
 
-  if (isLoading || !isNotEmptyObject(user)) {
-    return <Loader />
-  }
-
   return (
     <AppLayout>
       <div className="inner-page inner-page--no-sidebar">
+        {isLoading && <Loader />}
+
         <div className="container">
           <div className="inner-page__wrapper">
             <ButtonFloat text="Назад" icon="arrow-left" className="inner-page__back" onClick={() => navigation(RouteName.Home)} />

@@ -4,8 +4,7 @@ import { ITraining } from '@fit-friends/shared';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
 import { ThumbnailTraining } from '../../thumbnails/thumbnail-training/thumbnail-training';
 import { useSliderControl } from '../../../hooks/use-slider-control';
-
-const SLIDERS = 4;
+import { CountSlide } from '../../../constants/common';
 
 interface UserCardCertificateSliderProps {
   trainings: ITraining[];
@@ -15,7 +14,7 @@ export const UserCardCertificateSlider: React.FC<UserCardCertificateSliderProps>
   const { trainings } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, CountSlide.CoachCard);
 
   return (
     <Fragment>
@@ -29,7 +28,7 @@ export const UserCardCertificateSlider: React.FC<UserCardCertificateSliderProps>
 
       <Swiper
         spaceBetween={20}
-        slidesPerView={SLIDERS}
+        slidesPerView={CountSlide.CoachCard}
         className="user-card-coach__training-list"
         onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
         ref={sliderRef}

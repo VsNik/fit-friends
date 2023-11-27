@@ -7,7 +7,7 @@ import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchOrderTrainingAction } from '../../store/trainings/async-actions';
+import { fetchMyOrdersAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyOrdersQuery } from '../../utils/query-string';
 import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
@@ -23,7 +23,7 @@ export const OrdersPage: React.FC = () => {
 
   useEffect(() => {
     const queryString = getMyOrdersQuery(sorting, direction, page);
-    dispatch(fetchOrderTrainingAction(queryString));
+    dispatch(fetchMyOrdersAction(queryString));
   }, [dispatch, sorting, direction, page]);
 
   return (

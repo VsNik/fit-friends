@@ -9,12 +9,13 @@ export const TrainingCatalog: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainings);
   const isLoading = useAppSelector(trainingsSelector.isLoading);
 
-  if (isLoading) {
-    return <Loader />
-  }
+  // if (isLoading) {
+  //   return <Loader />
+  // }
 
   return (
     <div className="training-catalog">
+      {isLoading && <Loader />}
       <ul className="training-catalog__list">
         {trainings?.map((training) => (
           <li key={training.id} className="training-catalog__item">

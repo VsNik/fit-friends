@@ -40,6 +40,7 @@ export const TrainingsPage: React.FC = () => {
                   className="gym-catalog-form__btnback"
                   underline
                 />
+                
                 <h3 className="gym-catalog-form__title">Фильтры</h3>
                 <TrainingsFilter />
               </div>

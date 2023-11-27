@@ -21,6 +21,7 @@ export const CountSlide = {
   Company: 4,
   Certificate: 3,
   PopupCertificate: 1,
+  CoachCard: 4,
 } as const
 
 export const locationsList = [
