@@ -1,4 +1,18 @@
-import { IReview, ITraining, IUser, Role, SortDirection, TrainingLevel, TrainingSorting, TrainingType, Location, IAlert, StatisticSorting, TrainingSortDirection, TrainingDuration } from '@fit-friends/shared';
+import {
+  IReview,
+  ITraining,
+  IUser,
+  Role,
+  SortDirection,
+  TrainingLevel,
+  TrainingSorting,
+  TrainingType,
+  Location,
+  IAlert,
+  StatisticSorting,
+  TrainingSortDirection,
+  TrainingDuration,
+} from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 
 export interface TrainingFilter {
@@ -14,7 +28,7 @@ export interface TrainingFilter {
 
 export interface UsersFilters {
   location: Location[];
-  types?: TrainingType[];
+  types: TrainingType[];
   level: TrainingLevel | '';
 }
 
@@ -76,9 +90,9 @@ export type ReviewsState = {
 export type NotificationsState = {
   notifications: IAlert[];
   isLoading: boolean;
-}
+};
 
 export type OrderState = {
-  order: CreatedOrderType,
+  order: CreatedOrderType;
   isLoading: boolean;
-}
+};

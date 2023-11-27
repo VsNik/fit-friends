@@ -9,15 +9,17 @@ interface ButtonIconProps {
   disabled?: boolean;
   className?: string;
   outline?: boolean;
+  big?: boolean;
 }
 
 export const ButtonIcon: React.FC<ButtonIconProps> = (props) => {
-  const { icon, width, height, onClick, disabled, className, outline } = props;
+  const { icon, width, height, onClick, disabled, className, outline, big } = props;
 
   return (
     <button
       className={clsx('btn-icon', className, {
         'btn-icon--outlined': outline,
+        'btn-icon--big': big,
       })}
       type="button"
       aria-label="previous"

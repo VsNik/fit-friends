@@ -3,8 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
 import { useAppSelector } from '../../store/hooks';
 import { ThumbnailSpecial } from '../thumbnails/thumbnail-special/thumbnail-special';
-import { Image } from '../ui/image/image';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
+import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
 import 'swiper/css';
 import './styles.css';
 
@@ -43,12 +43,10 @@ export const SpecialSlider: React.FC = () => {
             <div className="promo-slider__dots" />
           </Swiper>
 
-          <div className="thumbnail-spec-gym">
-            <Image src="/assets/img/content/thumbnails/nearest-gym-01.jpg" className="thumbnail-spec-gym__image" />
-            <div className="thumbnail-spec-gym__header">
-              <h3 className="thumbnail-spec-gym__title">Скоро здесь появится что - то полезное</h3>
-            </div>
-          </div>
+          <ThumbnailBanner 
+            image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+            text="Скоро здесь появится что - то полезное" 
+          />
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThumbnailLink } from '../../thumbnails/thumbnail-link/thumbnail-link';
-import { Image } from '../../ui/image/image';
 import { RouteName } from '../../../constants/route';
+import { ThumbnailBanner } from '../../thumbnails/thumbnail-banner/thumbnail-banner';
 
 export const CoachNavigation: React.FC = () => {
   return (
@@ -12,12 +12,10 @@ export const CoachNavigation: React.FC = () => {
       <ThumbnailLink text='Мои заказы' icon='icon-bag' to={RouteName.Orders} />
       
       <div className="personal-account-coach__calendar">
-        <div className="thumbnail-spec-gym">
-          <Image src='/assets/img/content/thumbnails/nearest-gym-01.jpg' className='thumbnail-spec-gym__image' width={330} height={190} />
-          <div className="thumbnail-spec-gym__header">
-            <h3 className="thumbnail-spec-gym__title">Скоро тут будет интересно</h3>
-          </div>
-        </div>
+        <ThumbnailBanner 
+          image='/assets/img/content/thumbnails/nearest-gym-01.jpg' 
+          text='Скоро тут будет интересно' 
+        />
       </div>
     </div>
   );

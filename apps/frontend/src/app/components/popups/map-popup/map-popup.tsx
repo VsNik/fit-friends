@@ -1,10 +1,12 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import { Location } from '@fit-friends/shared';
 import { getUserLocation } from '../../../utils/helpers';
 import { PopupHeader } from '../popup-header/popup-header';
+import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/images/marker-shadow.png";
+import './laflet-fix';
 
 interface MapPopupProps {
   onClose: () => void;

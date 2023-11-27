@@ -49,14 +49,11 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
           </div>
         </div>
 
-        {}
         <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user">
           <p className="thumbnail-friend__request-text">Запрос на&nbsp;персональную тренировку</p>
           <div className="thumbnail-friend__button-wrapper">
             <Button text="Принять" className="thumbnail-friend__button" darckBg medium />
             <Button text="Отклонить" className="thumbnail-friend__button" darckBg outlined medium />
-            {/* <button className="btn btn--medium btn--dark-bg thumbnail-friend__button" type="button">Принять </button>
-            <button className="btn btn--medium btn--outlined btn--dark-bg thumbnail-friend__button" type="button">Отклонить </button> */}
           </div>
         </div>
       </div>

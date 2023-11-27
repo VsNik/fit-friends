@@ -4,7 +4,7 @@ import { AppLayout } from '../../components/layouts/app-layout';
 import { UsersFilter } from '../../components/users-filter/users-filter';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUsersAction } from '../../store/users/async-actions';
-import { UserCatalog } from '../../components/users/user-catalog/user-catalog';
+import { UserCatalog } from '../../components/user-catalog/user-catalog';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { getUsersQuery } from '../../utils/query-string';
 import * as usersSelector from '../../store/users/users-select';

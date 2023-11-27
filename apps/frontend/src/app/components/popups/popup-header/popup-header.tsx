@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { ButtonIcon } from '../../ui/button-icon/button-icon';
 
 interface PopupHeaderProps {
   onClose: () => void;
@@ -23,11 +24,7 @@ export const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
         </p>
       )}
 
-      <button className="btn-icon btn-icon--outlined btn-icon--big" type="button" aria-label="close" onClick={onClose}>
-        <svg width="20" height="20" aria-hidden="true">
-          <use xlinkHref="/assets/img/sprite.svg#icon-cross" />
-        </svg>
-      </button>
+      <ButtonIcon icon='icon-cross' onClick={onClose} outline big />
     </div>
   );
 };

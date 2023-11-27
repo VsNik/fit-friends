@@ -11,6 +11,7 @@ import * as orderSelector from '../../../store/order/order-select';
 import { Loader } from '../../loader/loader';
 import { CheckPayment } from '../../ui/check-payment/check-payment';
 import { CheckCount } from '../../ui/check-count/check-count';
+import { toNumberInputTextValue } from '../../../utils/helpers';
 
 const MAX_COUNT = 99;
 
@@ -44,7 +45,7 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
   };
 
   const handleInputCount = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(evt.target.value.replace(/\D/g, ''));
+    const value = toNumberInputTextValue(evt.target.value);
     setCount(value > MAX_COUNT ? MAX_COUNT : value);
   };
 
@@ -75,7 +76,7 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
               <p className="popup__product-price">{training.price} ₽</p>
             </div>
 
-            <CheckCount 
+            <CheckCount
               count={count}
               onChange={handleInputCount}
               onIncriment={handleIncrement}

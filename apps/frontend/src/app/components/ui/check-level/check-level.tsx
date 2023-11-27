@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { InputRadio } from '../../ui/form/input-radio/input-radio';
+import { InputRadio } from '../form/input-radio/input-radio';
 import { TrainingLevel } from '@fit-friends/shared';
 import clsx from 'clsx';
 

@@ -1,4 +1,4 @@
-import { SortDirection } from '@fit-friends/shared';
+import { Location, SortDirection, TrainingType } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
@@ -23,27 +23,35 @@ export const usersSlice = createSlice({
   name: SliceName.Users,
   initialState,
   reducers: {
-    setLocation: (state, { payload }) => {
+    setLocationAction: (state, { payload }) => {
       if (state.filter.location?.includes(payload)) {
         state.filter.location = state.filter.location.filter((item) => item !== payload);
       } else {
         state.filter.location?.push(payload);
       }
     },
-    setType: (state, { payload }) => {
+    setTypeAction: (state, {payload}) => {
       if (state.filter.types?.includes(payload)) {
         state.filter.types = state.filter.types.filter((item) => item !== payload);
       } else {
         state.filter.types?.push(payload);
       }
     },
-    setLevel: (state, { payload }) => {
+    setAllLocationsAction: (state) => {
+      const locations = Object.values(Location).map((item) => item);
+      state.filter.location = state.filter.location.length !== locations.length ? locations : [];         
+    },
+    setAllTypesAction: (state) => {
+      const types = Object.values(TrainingType).map((item) => item);
+      state.filter.types = state.filter.types.length !== types.length ? types : [];
+    }, 
+    setLevelAction: (state, { payload }) => {
       state.filter.level = payload;
     },
-    setSorting: (state, { payload }) => {
+    setSortingAction: (state, { payload }) => {
       state.sorting = payload;
     },
-    setDirection: (state, {payload}) => {
+    setDirectionAction: (state, {payload}) => {
       state.direction = payload;
     }
   },
@@ -92,5 +100,12 @@ export const usersSlice = createSlice({
   },
 });
 
-export default usersSlice.reducer;
-export const {setLocation, setType, setLevel, setSorting, setDirection} = usersSlice.actions;
+export const {
+  setLocationAction, 
+  setTypeAction, 
+  setLevelAction, 
+  setSortingAction, 
+  setDirectionAction, 
+  setAllLocationsAction, 
+  setAllTypesAction
+} = usersSlice.actions;

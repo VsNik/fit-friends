@@ -5,10 +5,10 @@ import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-tr
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { Toggle } from '../ui/form/toggle/toggle';
 
-const CONT_FACE_TRAININGS = 4;
+const CONT_FAKE_TRAININGS = 4;
 
 export const Purchases: React.FC = () => {
-  const trainings = getFakeTrainings(CONT_FACE_TRAININGS).data;
+  const trainings = getFakeTrainings(CONT_FAKE_TRAININGS).data;
 
   return (
     <div className="my-purchases__wrapper">
