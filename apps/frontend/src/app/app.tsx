@@ -17,7 +17,6 @@ import { UserPage } from './pages/user/user-page';
 import { FriendsPage } from './pages/friends/friends-page';
 import { store } from './store';
 import { checkAuthAction } from './store/auth/async-actions';
-import * as authSelector from './store/auth/auth-select';
 import { useAppSelector } from './store/hooks';
 import { RouteName } from './constants/route';
 import { Loader } from './components/loader/loader';
@@ -27,6 +26,7 @@ import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
 import { AddTraining } from './pages/add-training/add-training-page';
 import { fetchNotificationAction } from './store/notifications/async-actions';
 import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-route';
+import * as authSelector from './store/auth/auth-select';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchNotificationAction());

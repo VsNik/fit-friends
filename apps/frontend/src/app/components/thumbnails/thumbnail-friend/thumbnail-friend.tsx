@@ -5,16 +5,20 @@ import { Hashtag } from '../../ui/hashtag/hashtag';
 import { Image } from '../../ui/image/image';
 import { getUserLocation } from '../../../utils/helpers';
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
+import { getUserRoute } from '../../../utils/route';
 
 interface ThumbnailFriendProps {
   user: IUser;
 }
 
 export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
-    const location = getUserLocation(user.location);
+  const location = getUserLocation(user.location);
+  const navigation = useNavigate()
+
   return (
     <li className="friends-list__item">
-      <div className="thumbnail-friend">
+      <div className="thumbnail-friend" onClick={() => navigation(getUserRoute(user.id))}>
         <div
           className={clsx('thumbnail-friend__info', {
             'thumbnail-friend__info--theme-light': user.role === Role.User,
@@ -22,9 +26,7 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
           })}
         >
           <div className="thumbnail-friend__image-status">
-            {user.avatar && 
-                <Image src={user.avatar} width={78} height={78} className="thumbnail-friend__image" />
-            }
+            {user.avatar && <Image src={user.avatar} width={78} height={78} className="thumbnail-friend__image" />}
           </div>
           <div className="thumbnail-friend__header">
             <h2 className="thumbnail-friend__name">Виктория</h2>
