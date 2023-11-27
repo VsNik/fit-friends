@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { ButtonFloat } from '../../ui/button-float/button-float';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { deleteSertificateAction, updateCertificateAction } from '../../../store/auth/async-actions';
+import { updateCertificateAction, deleteSertificateAction } from '../../../store/user/async-actions';
 import { Image } from '../../ui/image/image';
 import * as authSelector from '../../../store/auth/auth-select';
 import clsx from 'clsx';
@@ -20,12 +20,14 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) =
   const isLoading = useAppSelector(authSelector.isLoading);
   const { userId, src, alt } = props;
   const [isEdit, setIsEdit] = useState(false);
-  const [file, setFile] = useState<FileList | null>(null);
+  const [fileList, setFile] = useState<FileList | null>(null);
   const certificateRef = useRef<HTMLInputElement | null>(null);
 
   const onSave = () => {
-    if (file) {
-      dispatch(updateCertificateAction({ id: userId, src, certificate: file[0] }));
+    if (fileList) {
+      const formData = new FormData();
+      formData.append('certificate', fileList[0]);
+      dispatch(updateCertificateAction({ id: userId, src, formData }));
       setFile(null);
     }
     setIsEdit(false);

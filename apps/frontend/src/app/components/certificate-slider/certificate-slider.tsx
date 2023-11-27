@@ -6,9 +6,9 @@ import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addCertificateAction } from '../../store/auth/async-actions';
-import * as authSelector from '../../store/auth/auth-select';
 import { CountSlide } from '../../constants/common';
+import { addCertificateAction } from '../../store/user/async-actions';
+import * as authSelector from '../../store/auth/auth-select';
 import 'swiper/css';
 
 interface CertificateSliderProps {
@@ -29,7 +29,8 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
     }
   }, [user.certificate]);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, CountSlide.Certificate);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = 
+    useSliderControl(sliderRef, certificates, CountSlide.Certificate);
 
   const handleClicAddCertificate = () => {
     certificateRef.current?.click();
@@ -37,7 +38,9 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
 
   const handleUpload = (fileList: FileList | null) => {
     if (fileList && fileList[0]) {
-      dispatch(addCertificateAction({ id: user.id, certificate: fileList[0] }));
+      const formData = new FormData();
+      formData.append('certificate', fileList[0]);
+      dispatch(addCertificateAction({ id: user.id, formData }));
     }
   };
 

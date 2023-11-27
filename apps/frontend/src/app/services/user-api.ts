@@ -46,5 +46,23 @@ export const userApi = {
     return new Promise((resolve) => {
       setTimeout(() => resolve(user), TIMEOUT);
     });
+  },
+
+  addCertificate: (id: string, formData: FormData): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), TIMEOUT);
+    });
+  },
+
+  updateCertificate: (id: string, src: string, formData: FormData): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), TIMEOUT);
+    });
+  },
+
+  deleteCertificate: (id: string, src: string): Promise<{ id: string; src: string }> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve({ id, src }), 1000);
+    });
   }
 };

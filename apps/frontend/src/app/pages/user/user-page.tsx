@@ -16,30 +16,25 @@ import * as userSelector from '../../store/user/user-select';
 
 export const UserPage: React.FC = () => {
   const params = useParams();
-  const [openMap, setOpenMap] = useState<boolean>(false);
-  const [openCertificates, setOpenCertificates] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
+  
+  const [openMap, setOpenMap] = useState<boolean>(false);
+  const [openCertificates, setOpenCertificates] = useState<boolean>(false);  
+  
   const user = useAppSelector(userSelector.user);
   const isLoading = useAppSelector(userSelector.isLoading);
 
   useEffect(() => {
     if (params.id) {
       dispatch(fetchUserAction(params.id));
-    }    
+    } 
   }, [dispatch, params]);
 
-  const handleOpenMap = () => 
-    setOpenMap(true);
-
-  const handleCloseMap = () => 
-    setOpenMap(false);
-
-  const handleOpenCertificates = () =>
-    setOpenCertificates(true);
-
-  const handleCloseCertificates = () =>
-    setOpenCertificates(false);
+  const handleOpenMap = () => setOpenMap(true);
+  const handleCloseMap = () => setOpenMap(false);
+  const handleOpenCertificates = () => setOpenCertificates(true);
+  const handleCloseCertificates = () =>setOpenCertificates(false);
 
   return (
     <AppLayout>

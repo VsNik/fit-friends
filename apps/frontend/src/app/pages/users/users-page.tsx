@@ -40,6 +40,7 @@ export const UsersPage: React.FC = () => {
                     className='user-catalog-form__btnback' 
                     underline 
                 />
+
                 <h3 className="user-catalog-form__title">Фильтры</h3>
                 <UsersFilter filter={filters} sorting={sorting} />
               </div>
