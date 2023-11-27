@@ -7,7 +7,7 @@ import { RouteName } from '../../../constants/route';
 
 export const AnonimousRoute: React.FC = () => {
   const isAuth = useAppSelector(authSelector.isAuth);
-  const { role } = useAppSelector(authSelector.authUser);
+  const role = useAppSelector(authSelector.authRole);
 
   if (isAuth) {
     return role === Role.User 

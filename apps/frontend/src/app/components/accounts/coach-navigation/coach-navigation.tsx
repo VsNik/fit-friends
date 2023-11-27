@@ -2,10 +2,16 @@ import React from 'react';
 import { ThumbnailLink } from '../../thumbnails/thumbnail-link/thumbnail-link';
 import { RouteName } from '../../../constants/route';
 import { ThumbnailBanner } from '../../thumbnails/thumbnail-banner/thumbnail-banner';
+import * as userSelector from '../../../store/user/user-select';
+import { useAppSelector } from '../../../store/hooks';
+import { Loader } from '../../loader/loader';
 
 export const CoachNavigation: React.FC = () => {
+  const isLoading = useAppSelector(userSelector.isLoading);
+
   return (
     <div className="personal-account-coach__navigation">
+      {isLoading && <Loader />}
       <ThumbnailLink text='Мои тренировки' icon='icon-flash' to={RouteName.MyTrainings} />
       <ThumbnailLink text='Создать тренировку' icon='icon-add' to={RouteName.AddTraining} />
       <ThumbnailLink text='Мои друзья' icon='icon-friends' to={RouteName.Friends} />

@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ accessRole }) => {
   const isAuth = useAppSelector(authSelector.isAuth);
-  const { role } = useAppSelector(authSelector.authUser);
+  const role = useAppSelector(authSelector.authRole);
 
   if (!isAuth) {
     return <Navigate to={RouteName.Intro} replace />;

@@ -1,7 +1,7 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { IUser, TrainingType } from '@fit-friends/shared';
 import { fakeCoach } from '../../fake-data/fake-user';
-import { fetchUserAction, updateUserAction } from './async-actions';
+import { fetchAuthAction, fetchUserAction, updateUserAction } from './async-actions';
 import { UserState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
 
@@ -17,9 +17,16 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchAuthAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAuthAction.fulfilled, (state, {payload}) => {
+        state.user = payload;
+        state.isLoading = false;
+      })
+
       .addCase(fetchUserAction.pending, (state) => {
         state.isLoading = true;
-        state.user = {} as IUser;
       })
       .addCase(fetchUserAction.fulfilled, (state, {payload}) => {
         state.user = payload;
@@ -47,5 +54,3 @@ export const userSlice = createSlice({
       });
   },
 });
-
-export default userSlice.reducer;

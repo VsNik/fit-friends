@@ -1,4 +1,3 @@
-import { UserType } from '@fit-friends/shared';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ButtonFloat } from '../../ui/button-float/button-float';
@@ -11,18 +10,18 @@ import * as usersSelector from '../../../store/users/users-select';
 import { Loader } from '../../loader/loader';
 
 interface UserFriendsProps {
-  user: UserType;
+  userId: string;
 }
 
-export const UserFriends: React.FC<UserFriendsProps> = ({ user }) => {
+export const UserFriends: React.FC<UserFriendsProps> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const friends = useAppSelector(usersSelector.users);
   const isLoading = useAppSelector(usersSelector.isLoading);
 
   useEffect(() => {
-    dispatch(fetchUserFriendsAction(user.id))
-  }, [dispatch, user.id]);
+    dispatch(fetchUserFriendsAction(userId))
+  }, [dispatch, userId]);
 
   if (isLoading) {
     return <Loader />

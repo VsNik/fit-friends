@@ -8,17 +8,17 @@ export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string
   return data;
 });
 
-export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-for-you', async () => {
+export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('for-tou/fetch-for-you', async () => {
   const data = await trainingApi.fetchForYou();
   return data;
 });
 
-export const fetchSpecialAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-special', async () => {
+export const fetchSpecialAction = createAsyncThunk<ITrainingCollection>('special/fetch-special', async () => {
   const data = await trainingApi.fetchSpecial();
   return data;
 });
 
-export const fetchPopularAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-popular', async () => {
+export const fetchPopularAction = createAsyncThunk<ITrainingCollection>('popular/fetch-popular', async () => {
   const data = await trainingApi.fetchPopular();
   return data;
 });
@@ -39,3 +39,11 @@ export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, stri
   const data = await trainingApi.fetchMyTrainings();
   return data;
 });
+
+export const fetchPurchasesAction = createAsyncThunk<ITrainingCollection>(
+  'trainings/purchases',
+  async () => {
+    const data = await trainingApi.fetchTrainings(4);
+    return data;
+  }
+)

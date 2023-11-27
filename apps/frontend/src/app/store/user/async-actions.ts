@@ -3,6 +3,14 @@ import { IUser } from '@fit-friends/shared';
 import { userApi } from '../../services/user-api';
 import { UserInfoType } from '../../types/forms-type';
 
+export const fetchAuthAction = createAsyncThunk<IUser>(
+  'user/fetc-auth',
+  async () => {
+    const data = await userApi.fetchUser();
+    return data;
+  }
+)
+
 export const fetchUserAction = createAsyncThunk<IUser>(
     'user/fetch-user',
     async () => {

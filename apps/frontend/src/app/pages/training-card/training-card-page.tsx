@@ -21,7 +21,7 @@ export const TrainingCardPage: React.FC = () => {
   const training = useAppSelector(trainingSelector.training);
   const reviews = useAppSelector(reviewsSelector.reviews);
   const isTrainingLoading = useAppSelector(trainingSelector.isLoading);
-  const { role } = useAppSelector(authSelectors.authUser);
+  const role = useAppSelector(authSelectors.authRole)!;
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [openBuyPopup, setOpenBuyPopup] = useState<boolean>(false);
   const [openReviewPopup, setOpenReviewPopup] = useState<boolean>(false);

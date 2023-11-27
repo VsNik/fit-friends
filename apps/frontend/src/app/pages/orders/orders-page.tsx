@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { ButtonsSorting } from '../../components/ui/buttons-sorting/buttons-sorting';
 import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-training/thumbnail-training';
-import { Button } from '../../components/ui/button/button';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
@@ -11,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchOrderTrainingAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyOrdersQuery } from '../../utils/query-string';
+import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
 
 export const OrdersPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,9 +29,9 @@ export const OrdersPage: React.FC = () => {
   return (
     <AppLayout>
       <section className="my-orders">
-        {isLoading ?? <Loader />}
         <div className="container">
           <div className="my-orders__wrapper">
+            {isLoading && <Loader />}
             <ButtonFloat text="Назад" icon="arrow-left" className="my-orders__back" onClick={() => navigate(RouteName.Account)} underline />
 
             <div className="my-orders__title-wrapper">
@@ -47,10 +47,7 @@ export const OrdersPage: React.FC = () => {
               ))}
             </ul>
 
-            <div className="show-more my-orders__show-more">
-              <Button text="Показать еще" className="show-more__button show-more__button--more" />
-              <Button text="Вернуться в начало" className="show-more__button show-more__button--to-top" />
-            </div>
+            <ButtonShowMore className="my-orders__show-more" />
           </div>
         </div>
       </section>

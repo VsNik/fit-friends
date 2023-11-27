@@ -1,5 +1,5 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
-import { fakeCoach, fakeCompanyUser, fakeUsers } from '../fake-data/fake-user';
+import { fakeCompanyUser, fakeUsers, testUser } from '../fake-data/fake-user';
 import { UserInfoType } from '../types/forms-type';
 
 const TIMEOUT = 500;
@@ -7,7 +7,7 @@ const TIMEOUT = 500;
 export const userApi = {
   fetchUser: (): Promise<IUser> => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeCoach), TIMEOUT);
+      setTimeout(() => resolve(testUser), TIMEOUT);
     });
   },
 

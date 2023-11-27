@@ -59,6 +59,7 @@ export const usersSlice = createSlice({
     builder
       .addCase(fetchUsersAction.pending, (state) => {
         state.isLoading = true;
+        state.users = [];
       })
       .addCase(fetchUsersAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -69,6 +70,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchCompanyAction.pending, (state) => {
         state.isLoading = true;
+        state.users = [];
         state.error = '';
       })
       .addCase(fetchCompanyAction.fulfilled, (state, { payload }) => {
@@ -80,6 +82,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchUserFriendsAction.pending, (state) => {
         state.isLoading = true;
+        state.users = [];
       })
       .addCase(fetchUserFriendsAction.fulfilled, (state, {payload}) => {
         state.users = payload.data;
@@ -90,6 +93,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchCoachFriendsAction.pending, (state) => {
         state.isLoading = true;
+        state.users = [];
       })
       .addCase(fetchCoachFriendsAction.fulfilled, (state, {payload}) => {
         state.users = payload.data;

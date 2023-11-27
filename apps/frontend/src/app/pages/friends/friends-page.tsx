@@ -7,15 +7,16 @@ import { CoachFriends } from '../../components/friends/coach-friends/coach-frien
 import { UserFriends } from '../../components/friends/user-friends/userFriends';
 
 export const FriendsPage: React.FC = () => {
-  const authUser = useAppSelector(authSelector.authUser);
+  const authId = useAppSelector(authSelector.authId);
+  const authRole = useAppSelector(authSelector.authRole);
 
   return (
     <AppLayout>
       <section className="friends-list">
         <div className="container">
-            {authUser.role === Role.User 
-                ? <UserFriends user={authUser} />
-                : <CoachFriends user={authUser} />
+            {authRole === Role.User 
+                ? <UserFriends userId={authId} />
+                : <CoachFriends userId={authId} />
             }
         </div>
       </section>

@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { Purchases } from '../../components/purchases/purchases';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchPurchasesAction } from '../../store/trainings/async-actions';
 
 export const PurchasesPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPurchasesAction());
+  }, [dispatch]);
+
   return (
     <AppLayout>
       <section className="my-purchases">

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { IUser } from '@fit-friends/shared';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../ui/form/input/input';
@@ -30,14 +30,19 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
   const [level, setLevel] = useState('');
 
   const methods = useForm<UserInfoType>({
-    defaultValues: user,
+    defaultValues: useMemo(() => user, [user]),
     resolver: yupResolver(userInfoSchema),
   });
 
   const {
     handleSubmit,
+    reset,
     formState: { errors }
   } = methods;
+
+  useEffect(() => {
+    reset(user)
+  }, [user, reset]);
 
   useEffect(() => {
     setLocation(user.location);

@@ -33,7 +33,9 @@ export interface UsersFilters {
 }
 
 export type AuthState = {
-  authUser: IUser;
+  // authUser: IUser;
+  authId: string;
+  authRole?: Role;
   isAuth: boolean;
   isLoading: boolean;
   error: string;

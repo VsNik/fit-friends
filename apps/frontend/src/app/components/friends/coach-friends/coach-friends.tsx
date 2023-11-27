@@ -1,4 +1,3 @@
-import { CoachType, Role } from '@fit-friends/shared';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ButtonFloat } from '../../ui/button-float/button-float';
@@ -11,20 +10,20 @@ import * as usersSelector from '../../../store/users/users-select';
 import { Loader } from '../../loader/loader';
 
 interface CoachFriendsProps {
-  user: CoachType;
+  userId: string;
 }
 
-export const CoachFriends: React.FC<CoachFriendsProps> = ({ user }) => {
+export const CoachFriends: React.FC<CoachFriendsProps> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const friends = useAppSelector(usersSelector.users);
   const isLoading = useAppSelector(usersSelector.isLoading);
 
-  const friendList = friends?.filter((item) => item.role !== Role.Coach);
+  // const friendList = friends?.filter((item) => item.role !== Role.Coach);
 
   useEffect(() => {
-    dispatch(fetchCoachFriendsAction(user.id))
-  }, [dispatch, user.id]);
+    dispatch(fetchCoachFriendsAction(userId))
+  }, [dispatch, userId]);
 
   if (isLoading) {
     return <Loader />
@@ -39,7 +38,7 @@ export const CoachFriends: React.FC<CoachFriendsProps> = ({ user }) => {
       </div>
 
       <ul className="friends-list__list">
-        {friendList?.map((friend) => 
+        {friends?.map((friend) => 
             <ThumbnailFriend key={friend.id} user={friend} />
         )}        
       </ul>

@@ -2,10 +2,12 @@ import { createSlice, AnyAction } from '@reduxjs/toolkit';
 import { addCertificateAction, checkAuthAction, deleteSertificateAction, updateCertificateAction } from './async-actions';
 import { AuthState } from '../../types/state-type';
 import { SliceName } from '../../constants/common';
-import { IUser } from '@fit-friends/shared';
+// import { IUser } from '@fit-friends/shared';
 
 const initialState: AuthState = {
-  authUser: {} as IUser,
+  // authUser: {} as IUser,
+  authId: '',
+  // authRole: null,
   isAuth: false,
   isLoading: false,
   error: '',
@@ -22,12 +24,14 @@ export const authSlice = createSlice({
         state.error = '';
       })
       .addCase(checkAuthAction.fulfilled, (state, {payload}) => {
-        state.authUser = payload;
+        // state.authUser = payload;
+        state.authId = payload.id;
+        state.authRole = payload.role;
         state.isAuth = true;
         state.isLoading = false;
       })
       .addCase(checkAuthAction.rejected, (state, action: AnyAction) => {
-        state.authUser = {} as IUser;
+        // state.authUser = {} as IUser;
         state.isAuth = false;
         state.error = action.payload;
         state.isLoading = false;
@@ -55,5 +59,3 @@ export const authSlice = createSlice({
       })
   }
 });
-
-export default authSlice.reducer;
