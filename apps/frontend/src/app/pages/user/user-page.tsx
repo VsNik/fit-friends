@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { UserCardUser } from '../../components/user-card/user-card-user/user-card-user';
@@ -11,10 +11,11 @@ import { MapPopup } from '../../components/popups/map-popup/map-popup';
 import { RouteName } from '../../constants/route';
 import { Modal } from '../../components/ui/modal/modal';
 import { CertificatesPopup } from '../../components/popups/certificates-popup/certificates-popup';
-import * as userSelector from '../../store/user/user-select';
 import { Loader } from '../../components/loader/loader';
+import * as userSelector from '../../store/user/user-select';
 
 export const UserPage: React.FC = () => {
+  const params = useParams();
   const [openMap, setOpenMap] = useState<boolean>(false);
   const [openCertificates, setOpenCertificates] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -23,8 +24,10 @@ export const UserPage: React.FC = () => {
   const isLoading = useAppSelector(userSelector.isLoading);
 
   useEffect(() => {
-    dispatch(fetchUserAction());
-  }, [dispatch]);
+    if (params.id) {
+      dispatch(fetchUserAction(params.id));
+    }    
+  }, [dispatch, params]);
 
   const handleOpenMap = () => 
     setOpenMap(true);

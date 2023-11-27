@@ -7,8 +7,8 @@ import { fetchUsersAction } from '../../store/users/async-actions';
 import { UserCatalog } from '../../components/user-catalog/user-catalog';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { getUsersQuery } from '../../utils/query-string';
-import * as usersSelector from '../../store/users/users-select';
 import { RouteName } from '../../constants/route';
+import * as usersSelector from '../../store/users/users-select';
 
 export const UsersPage: React.FC = () => {
   const dispatch = useAppDispatch();

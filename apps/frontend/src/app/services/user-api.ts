@@ -5,9 +5,16 @@ import { UserInfoType } from '../types/forms-type';
 const TIMEOUT = 500;
 
 export const userApi = {
-  fetchUser: (): Promise<IUser> => {
+  fetchAuth: (): Promise<IUser> => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(testUser), TIMEOUT);
+    });
+  },
+
+  fetchUser: (id: string): Promise<IUser> => {
+    const user = fakeUsers.data.find((user) => user.id === id)!;
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(user), TIMEOUT);
     });
   },
 

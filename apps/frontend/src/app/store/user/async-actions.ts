@@ -5,12 +5,12 @@ import { UserInfoType } from '../../types/forms-type';
 
 // Авторизированный пользователь
 export const fetchAuthAction = createAsyncThunk<IUser>('user/fetc-auth', async () => {
-  const data = await userApi.fetchUser();
+  const data = await userApi.fetchAuth();
   return data;
 });
 // Пользователь по ID
-export const fetchUserAction = createAsyncThunk<IUser>('user/fetch-user', async () => {
-  const data = await userApi.fetchUser();
+export const fetchUserAction = createAsyncThunk<IUser, string>('user/fetch-user', async (id) => {
+  const data = await userApi.fetchUser(id);
   return data;
 });
 // Обновление пользователя
