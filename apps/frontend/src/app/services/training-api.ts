@@ -1,5 +1,5 @@
 import { ITraining, ITrainingCollection } from '@fit-friends/shared';
-import { fakeForYouTrainings, fakeOrderTraining, fakePopularTraining, fakeSpecialTrainings, getFakeTrainings } from '../fake-data/fake-training';
+import { fakeForYouTrainings, fakeOrderTrainings, fakePopularTrainings, fakeSpecialTrainings, getFakeTrainings } from '../fake-data/fake-training';
 
 const TIMEOUT = 500;
 
@@ -30,7 +30,7 @@ export const trainingApi = {
 
   fetchPopular: (): Promise<ITrainingCollection> => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(fakePopularTraining), TIMEOUT);
+      setTimeout(() => resolve(fakePopularTrainings), TIMEOUT);
     });
   },
 
@@ -42,7 +42,7 @@ export const trainingApi = {
 
   fetchOrderTraining: (): Promise<ITrainingCollection> => {
     return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeOrderTraining), TIMEOUT);
+      setTimeout(() => resolve(fakeOrderTrainings), TIMEOUT);
     });
   },
 

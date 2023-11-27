@@ -137,7 +137,7 @@ const fakeCompany: UserType[] = [
   },
 ];
 
-export const fakeUserList: IUser[] = [
+export const fakeUsersList: IUser[] = [
   {
     id: '1',
     name: 'Елизовета',
@@ -639,7 +639,7 @@ export const fakeCompanyUser: IUserCollection = {
 };
 
 export const fakeUsers: IUserCollection = {
-  data: fakeUserList,
+  data: fakeUsersList,
   page: 1,
-  total: fakeUserList.length,
+  total: fakeUsersList.length,
 }

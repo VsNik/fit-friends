@@ -8,9 +8,8 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addCertificateAction } from '../../store/auth/async-actions';
 import * as authSelector from '../../store/auth/auth-select';
+import { CountSlide } from '../../constants/common';
 import 'swiper/css';
-
-const SLIDERS = 3;
 
 interface CertificateSliderProps {
   user: IUser;
@@ -30,7 +29,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
     }
   }, [user.certificate]);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, CountSlide.Certificate);
 
   const handleClicAddCertificate = () => {
     certificateRef.current?.click();
@@ -72,7 +71,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
       </div>
 
       <Swiper
-        slidesPerView={SLIDERS}
+        slidesPerView={CountSlide.Certificate}
         className="personal-account-coach__list"
         onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
         ref={sliderRef}

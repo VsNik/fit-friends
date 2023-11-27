@@ -3,7 +3,7 @@ import { Gender } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
-import { DurationList, LevelsList, TrainingsList } from '../../../constants/common';
+import { durationsList, levelsList, trainingsList } from '../../../constants/common';
 import { Button } from '../../ui/button/button';
 import { InputRadio } from '../../ui/form/input-radio/input-radio';
 import { Textarea } from '../../ui/form/textarea/textarea';
@@ -68,18 +68,18 @@ export const AddTrainingForm: React.FC = () => {
             <div className="create-training__block">
               <h2 className="create-training__legend">Характеристики тренировки</h2>
               <div className="create-training__info">
-                <Select name="trainingType" options={TrainingsList} label="Выберите тип тренировки" selected={type} setSelected={setType}/>
+                <Select name="trainingType" options={trainingsList} label="Выберите тип тренировки" selected={type} setSelected={setType}/>
                 <Input name="loseCalory" className="custom-input--with-text-right" text="ккал" label="Сколько калорий потратим" type="number"/>
                 <Select
                   name="trainingDuration"
-                  options={DurationList}
+                  options={durationsList}
                   label="Сколько времени потратим"
                   selected={duration}
                   setSelected={setDuration}
                   disabled={isLoading}
                 />
                 <Input name="price" className="custom-input--with-text-right" text="₽" label="Стоимость тренировки" type="number"/>
-                <Select name="trainingLevel" options={LevelsList} label="Выберите уровень тренировки" selected={level} setSelected={setLevel}/>
+                <Select name="trainingLevel" options={levelsList} label="Выберите уровень тренировки" selected={level} setSelected={setLevel}/>
 
                 <div className="create-training__radio-wrapper">
                   <span className="create-training__label">Кому подойдет тренировка</span>

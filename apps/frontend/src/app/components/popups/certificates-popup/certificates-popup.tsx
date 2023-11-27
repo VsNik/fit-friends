@@ -5,8 +5,7 @@ import { ButtonIcon } from '../../ui/button-icon/button-icon';
 import { Image } from '../../ui/image/image';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useSliderControl } from '../../../hooks/use-slider-control';
-
-const SLIDERS = 1;
+import { CountSlide } from '../../../constants/common';
 
 interface CertificatesPopupProps {
   onClose: () => void;
@@ -18,7 +17,7 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
   const { onClose, certificates, title } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates ?? [], SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates ?? [], CountSlide.PopupCertificate);
 
   return (
     <FocusLock>
@@ -32,7 +31,7 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
           </div>
 
           <Swiper
-            slidesPerView={SLIDERS}
+            slidesPerView={CountSlide.PopupCertificate}
             className="popup__slider-list"
             onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
             ref={sliderRef}

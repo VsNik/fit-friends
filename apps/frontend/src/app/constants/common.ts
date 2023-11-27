@@ -15,26 +15,34 @@ export enum SliceName {
   Orders = 'ORDERS',
 }
 
-export const LocationList = [
+export const CountSlide = {
+  ForYou: 3,
+  Popular: 4,
+  Company: 4,
+  Certificate: 3,
+  PopupCertificate: 1,
+} as const
+
+export const locationsList = [
   { value: Location.Pionerskaya, label: 'Пионерская' },
   { value: Location.Udelnaya, label: 'Удельная' },
   { value: Location.Zvezdnaya, label: 'Звездная' },
   { value: Location.Sportivnaya, label: 'Спортивная' },
 ];
 
-export const GendesrList = [
+export const gendersList = [
   { value: Gender.Male, label: 'Мужской' },
   { value: Gender.Female, label: 'Женский' },
   { value: Gender.AnyGender, label: 'Неважно' },
 ];
 
-export const LevelsList = [
+export const levelsList = [
   { value: TrainingLevel.Novice, label: 'Новичек' },
   { value: TrainingLevel.Amateur, label: 'Любитель' },
   { value: TrainingLevel.Professional, label: 'Профессионал' },
 ];
 
-export const TrainingsList = [
+export const trainingsList = [
   {value: TrainingType.Yoga, label: 'Йога'},
   {value: TrainingType.Power, label: 'Силовые'},
   {value: TrainingType.Crossfit, label: 'Кроссфит'},
@@ -45,7 +53,7 @@ export const TrainingsList = [
   {value: TrainingType.Stretching, label: 'Стрейчинг'},
 ]
 
-export const DurationList = [
+export const durationsList = [
   {value: TrainingDuration.Low, label: '10 мин - 30 мин'},
   {value: TrainingDuration.Normal, label: '30 мин - 50 мин'},
   {value: TrainingDuration.Hi, label: '50 мин - 80 мин'},

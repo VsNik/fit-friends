@@ -6,14 +6,20 @@ import { Role } from '@fit-friends/shared';
 import { fetchUserAction } from '../../store/user/async-actions';
 import * as authSelectors from '../../store/auth/auth-select';
 import { UserAccount } from '../../components/accounts/user-account/user-account';
+import { Loader } from '../../components/loader/loader';
 
 export const AccountPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(authSelectors.authUser);
+  const isLoading = useAppSelector(authSelectors.isLoading);
 
   useEffect(() => {
     dispatch(fetchUserAction());
   }, [dispatch]);
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <AppLayout>

@@ -8,16 +8,16 @@ import { useSliderControl } from '../../hooks/use-slider-control';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 import { RouteName } from '../../constants/route';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
+import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
+import { CountSlide } from '../../constants/common';
 import 'swiper/css';
-
-const SLIDERS = 4;
 
 export const PopularSlider: React.FC = () => {
   const navigation = useNavigate();
   const trainings = useAppSelector(trainingsSelector.trainingsPopular);
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, CountSlide.Popular);
 
   const onGoTrainingList = () => {
     navigation(RouteName.Trainings);
@@ -39,16 +39,22 @@ export const PopularSlider: React.FC = () => {
 
           <Swiper
             spaceBetween={20}
-            slidesPerView={SLIDERS}
+            slidesPerView={CountSlide.Popular}
             className="popular-trainings__list"
             onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
             ref={sliderRef}
           >
-            {trainings?.map((training) => (
-              <SwiperSlide key={training.id}>
-                <ThumbnailTraining training={training} />
+            {trainings.length ? (
+              trainings?.map((training) => (
+                <SwiperSlide key={training.id}>
+                  <ThumbnailTraining training={training} />
+                </SwiperSlide>
+              ))
+            ) : (
+              <SwiperSlide>
+                <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
               </SwiperSlide>
-            ))}
+            )}
           </Swiper>
         </div>
       </div>

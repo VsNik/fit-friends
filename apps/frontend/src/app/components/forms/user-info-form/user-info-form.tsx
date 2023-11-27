@@ -7,7 +7,7 @@ import { Input } from '../../ui/form/input/input';
 import { Textarea } from '../../ui/form/textarea/textarea';
 import { Toggle } from '../../ui/form/toggle/toggle';
 import { Select } from '../../ui/form/select/select';
-import { GendesrList, LevelsList, LocationList } from '../../../constants/common';
+import { gendersList, levelsList, locationsList } from '../../../constants/common';
 import { userInfoSchema } from '../../../utils/validate-schemas';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateUserAction } from '../../../store/user/async-actions';
@@ -95,7 +95,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
         <Select
           label='Локация'
-          options={LocationList}
+          options={locationsList}
           name="location"
           selected={location}
           setSelected={setLocation}
@@ -105,7 +105,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
         <Select
           label='Пол'
-          options={GendesrList}
+          options={gendersList}
           name="gender"
           selected={gender}
           setSelected={setGender}
@@ -115,7 +115,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
         <Select
           label='Уровень'
-          options={LevelsList}
+          options={levelsList}
           name="trainingLevel"
           selected={level}
           setSelected={setLevel}

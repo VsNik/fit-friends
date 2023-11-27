@@ -9,7 +9,7 @@ import { RoleBtnRadio } from '../../ui/form/role-btn-radio/role-btn-radio';
 import { InputAvatar } from '../../ui/form/input-avatar/input-avatar';
 import { useImagePreview } from '../../../hooks/use-image-preview';
 import { signupSchema } from '../../../utils/validate-schemas';
-import { LocationList } from '../../../constants/common';
+import { locationsList } from '../../../constants/common';
 import { useAppDispatch } from '../../../store/hooks';
 import { signupAction } from '../../../store/auth/async-actions';
 import { Button } from '../../ui/button/button';
@@ -70,7 +70,7 @@ export const SignupForm: React.FC = () => {
             <Input label="E-mail" name="email" type="email" />
             <Input label="Дата рождения" name="birthday" type="date" />
             <Select 
-              options={LocationList}
+              options={locationsList}
               name="location"
               label='Ваша локация'
               placeholder="Выберите локацию"

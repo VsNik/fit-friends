@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
-import { useAppSelector } from '../../store/hooks';
-import * as authSelector from '../../store/auth/auth-select';
-import { RouteName } from '../../constants/route';
+import { useAppSelector } from '../../../store/hooks';
+import { RouteName } from '../../../constants/route';
+import * as authSelector from '../../../store/auth/auth-select';
 
 interface ProtectedRouteProps {
   accessRole?: Role;

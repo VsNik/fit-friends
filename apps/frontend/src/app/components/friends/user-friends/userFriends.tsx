@@ -8,6 +8,7 @@ import { ThumbnailFriend } from '../../thumbnails/thumbnail-friend/thumbnail-fri
 import { Button } from '../../ui/button/button';
 import { RouteName } from '../../../constants/route';
 import * as usersSelector from '../../../store/users/users-select';
+import { Loader } from '../../loader/loader';
 
 interface UserFriendsProps {
   user: UserType;
@@ -17,10 +18,15 @@ export const UserFriends: React.FC<UserFriendsProps> = ({ user }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const friends = useAppSelector(usersSelector.users);
+  const isLoading = useAppSelector(usersSelector.isLoading);
 
   useEffect(() => {
     dispatch(fetchUserFriendsAction(user.id))
   }, [dispatch, user.id]);
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <div className="friends-list__wrapper">

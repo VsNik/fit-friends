@@ -96,7 +96,7 @@ const forYouTrainings: ITraining[] = [
   },
 ];
 
-export const fakeSpecial: ITraining[] = [
+export const fakeSpecials: ITraining[] = [
   {
     id: '1',
     title: 'Fitball',
@@ -150,7 +150,7 @@ export const fakeSpecial: ITraining[] = [
   },
 ];
 
-export const fakePopular: ITraining[] = [
+export const fakePopulars: ITraining[] = [
   {
     id: '1',
     title: 'run, forrest, run',
@@ -255,7 +255,7 @@ export const fakePopular: ITraining[] = [
   },
 ];
 
-export const fakeOrder: ITraining[] = [
+export const fakeOrders: ITraining[] = [
   {
     id: '1',
     title: 'Fitball',
@@ -348,19 +348,19 @@ export const fakeForYouTrainings: ITrainingCollection = {
 };
 
 export const fakeSpecialTrainings: ITrainingCollection = {
-  data: fakeSpecial,
+  data: fakeSpecials,
   page: 1,
-  total: fakeSpecial.length,
+  total: fakeSpecials.length,
 };
 
-export const fakePopularTraining: ITrainingCollection = {
-  data: fakePopular,
+export const fakePopularTrainings: ITrainingCollection = {
+  data: fakePopulars,
   page: 1,
-  total: fakePopular.length,
+  total: fakePopulars.length,
 };
 
-export const fakeOrderTraining: ITrainingCollection = {
-  data: fakeOrder,
+export const fakeOrderTrainings: ITrainingCollection = {
+  data: fakeOrders,
   page: 1,
-  total: fakeOrder.length,
+  total: fakeOrders.length,
 };

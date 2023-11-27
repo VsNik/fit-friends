@@ -5,15 +5,15 @@ import { useAppSelector } from '../../store/hooks';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
+import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
+import { CountSlide } from '../../constants/common';
 import 'swiper/css';
-
-const SLIDERS = 3;
 
 export const ForYouSlider: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainingsForYou);
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, SLIDERS);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, trainings, CountSlide.ForYou);
 
   return (
     <section className="special-for-you">
@@ -29,16 +29,22 @@ export const ForYouSlider: React.FC = () => {
 
           <Swiper
             spaceBetween={20}
-            slidesPerView={3}
+            slidesPerView={CountSlide.ForYou}
             className="special-for-you__list"
             onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
             ref={sliderRef}
           >
-            {trainings?.map((training) => (
-              <SwiperSlide key={training.id}>
-                <ThumbnailTrainingAnons training={training} />
+            {trainings.length ? (
+              trainings.map((training) => (
+                <SwiperSlide key={training.id}>
+                  <ThumbnailTrainingAnons training={training} />
+                </SwiperSlide>
+              ))
+            ) : (
+              <SwiperSlide>
+                <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
               </SwiperSlide>
-            ))}
+            )}
           </Swiper>
         </div>
       </div>

@@ -11,7 +11,7 @@ import { HomePage } from './pages/home/home-page';
 import { TrainingsPage } from './pages/trainings/trainings-page';
 import { TrainingCardPage } from './pages/training-card/training-card-page';
 import { NotFound } from './pages/404/404';
-import { ProtectedRoute } from './components/protected-route/protected-route';
+import { ProtectedRoute } from './components/routes/protected-route/protected-route';
 import { UsersPage } from './pages/users/users-page';
 import { UserPage } from './pages/user/user-page';
 import { FriendsPage } from './pages/friends/friends-page';
@@ -26,6 +26,7 @@ import { OrdersPage } from './pages/orders/orders-page';
 import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
 import { AddTraining } from './pages/add-training/add-training-page';
 import { fetchNotificationAction } from './store/notifications/async-actions';
+import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-route';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchNotificationAction());
@@ -43,10 +44,14 @@ export function App() {
   return (
     <Routes>
       <Route path={RouteName.Intro} element={<IntroPage />} />
-      <Route path={RouteName.Login} element={<LoginPage />} />
-      <Route path={RouteName.Signup} element={<SignupPage />} />
-      <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
-      <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
+
+      <Route element={<AnonimousRoute />}>
+        <Route path={RouteName.Login} element={<LoginPage />} />
+        <Route path={RouteName.Signup} element={<SignupPage />} />
+      </Route>
+
+      {/* <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
+      <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} /> */}
 
       <Route element={<ProtectedRoute accessRole={Role.User} />}>
         <Route path={RouteName.Home} element={<HomePage />} />
@@ -62,6 +67,8 @@ export function App() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
+        <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
+        <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
         <Route path={RouteName.Account} element={<AccountPage />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
         <Route path={RouteName.UserCard} element={<UserPage />} />

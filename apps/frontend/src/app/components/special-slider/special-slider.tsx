@@ -17,36 +17,35 @@ export const SpecialSlider: React.FC = () => {
         <div className="special-offers__wrapper">
           <h2 className="visually-hidden">Специальные предложения</h2>
 
-          <Swiper
-            centeredSlides={true}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            pagination={{
-              clickable: true,
-              el: '.promo-slider__dots',
-              type: 'bullets',
-              bulletClass: 'promo-slider__dot',
-              bulletActiveClass: 'promo-slider__dot-active',
-            }}
-            modules={[Autoplay, Pagination]}
-            className="special-offers__list"
-          >
-            {trainings.map((training) => (
-              <SwiperSlide key={training.id}>
-                <ThumbnailSpecial title={training.title} src={training.bgImage} price={training.price} />
-              </SwiperSlide>
-            ))}
+          {trainings.length && (
+            <Swiper
+              centeredSlides={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{
+                clickable: true,
+                el: '.promo-slider__dots',
+                type: 'bullets',
+                bulletClass: 'promo-slider__dot',
+                bulletActiveClass: 'promo-slider__dot-active',
+              }}
+              modules={[Autoplay, Pagination]}
+              className="special-offers__list"
+            >
+              {trainings.map((training) => (
+                <SwiperSlide key={training.id}>
+                  <ThumbnailSpecial title={training.title} src={training.bgImage} price={training.price} />
+                </SwiperSlide>
+              ))}
 
-            <div className="promo-slider__dots" />
-          </Swiper>
+              <div className="promo-slider__dots" />
+            </Swiper>
+          )}
 
-          <ThumbnailBanner 
-            image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
-            text="Скоро здесь появится что - то полезное" 
-          />
+          <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
         </div>
       </div>
     </section>
