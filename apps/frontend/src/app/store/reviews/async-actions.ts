@@ -8,11 +8,7 @@ export const fetchReviewsAction = createAsyncThunk<IReview[], string>('reviews/f
   return data;
 });
 
-export const addReviewAction = createAsyncThunk<CreateReviewType, CreateReviewType>(
-  'reviews/add-review',
-  async (review) => {
-    const data = await reviewApi.addReview(review);
-    console.log(data);
-    return data;
-  }
-)
+export const addReviewAction = createAsyncThunk<CreateReviewType, CreateReviewType>('reviews/add-review', async (review) => {
+  const data = await reviewApi.addReview(review);
+  return data;
+});

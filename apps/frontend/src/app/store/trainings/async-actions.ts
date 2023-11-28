@@ -3,7 +3,6 @@ import { ITrainingCollection } from '@fit-friends/shared';
 import { trainingApi } from '../../services/training-api';
 
 export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-trainings', async (queryString) => {
-  console.log(queryString);
   const data = await trainingApi.fetchTrainings(12);
   return data;
 });
@@ -29,13 +28,11 @@ export const fetchForCoachAction = createAsyncThunk<ITrainingCollection>('traini
 });
 
 export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-order-trainings', async (queryString) => {
-  console.log(queryString);
   const data = await trainingApi.fetchOrderTraining();
   return data;
 });
 
 export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-my-trainings', async (queryString) => {
-  console.log(queryString);
   const data = await trainingApi.fetchMyTrainings();
   return data;
 });

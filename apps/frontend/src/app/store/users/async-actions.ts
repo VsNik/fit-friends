@@ -8,7 +8,6 @@ export const fetchCompanyAction = createAsyncThunk<IUserCollection>('users/fetch
 });
 
 export const fetchUsersAction = createAsyncThunk<IUserCollection, string>('users/fetch-users', async (queryString) => {
-  console.log(queryString);
   const data = await userApi.fetchUsers(queryString);
   return data;
 });

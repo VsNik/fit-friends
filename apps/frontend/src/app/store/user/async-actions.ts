@@ -36,8 +36,6 @@ export const updateCertificateAction = createAsyncThunk<unknown, { id: string; s
   },
 );
 
-export const deleteSertificateAction = createAsyncThunk<unknown, { id: string; src: string }>(
-  'user/delete-certificate', 
-  async ({ id, src }) => {
-    await userApi.deleteCertificate(id, src);
+export const deleteSertificateAction = createAsyncThunk<unknown, { id: string; src: string }>('user/delete-certificate', async ({ id, src }) => {
+  await userApi.deleteCertificate(id, src);
 });
