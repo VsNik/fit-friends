@@ -3,7 +3,7 @@ import { Gender } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
-import { durationsList, levelsList, trainingsList } from '../../../constants/common';
+import { LoadStatus, durationsList, levelsList, trainingsList } from '../../../constants/common';
 import { Button } from '../../ui/button/button';
 import { InputRadio } from '../../ui/form/input-radio/input-radio';
 import { Textarea } from '../../ui/form/textarea/textarea';
@@ -18,10 +18,11 @@ import * as trainingSelector from '../../../store/training/training-select';
 
 export const AddTrainingForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(trainingSelector.isLoading);
+  const loadStatus = useAppSelector(trainingSelector.loadStatus);
   const [type, setType] = useState('');
   const [duration, setDuration] = useState('');
   const [level, setLevel] = useState('');
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const methods = useForm<AddTrainingType>({
     defaultValues: { gender: Gender.AnyGender },

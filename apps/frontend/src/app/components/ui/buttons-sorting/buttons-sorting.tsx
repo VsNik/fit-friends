@@ -4,6 +4,7 @@ import { setSortStatisticAction, setDirectionAction } from '../../../store/train
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { ButtonSortDirection } from '../button-sort-direction/button-sort-direction';
 import * as trainingsSelector from '../../../store/trainings/trainings-select';
+import { LoadStatus } from '../../../constants/common';
 
 type Sort = {
   sorting: StatisticSorting;
@@ -18,9 +19,10 @@ interface ButtonsSortingProps {
 export const ButtonsSorting: React.FC<ButtonsSortingProps> = (props) => {
   const { sorting, direction } = props;
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
   const [countSorting, setCountSorting] = useState<Sort>({ sorting: StatisticSorting.OrderCount, direct: direction });
-  const [summSorting, setSummSorting] = useState<Sort>({ sorting: StatisticSorting.OrderSumm, direct: direction });  
+  const [summSorting, setSummSorting] = useState<Sort>({ sorting: StatisticSorting.OrderSumm, direct: direction });
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const reversDirection = (value: TrainingSortDirection) => {
     return value === TrainingSortDirection.Desc 

@@ -28,6 +28,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = (props) => {
         onPause={() => setPlaying(false)}
         ref={videoRef}
       />
+      
       {!isPlaying && (
         <button
           className={clsx('training-video__play-button btn-reset', {

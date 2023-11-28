@@ -7,9 +7,10 @@ import * as authSelector from '../../../store/auth/auth-select';
 
 interface ProtectedRouteProps {
   accessRole?: Role;
+  redirect?: RouteName;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ accessRole }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ accessRole, redirect }) => {
   const isAuth = useAppSelector(authSelector.isAuth);
   const role = useAppSelector(authSelector.authRole);
 
@@ -18,6 +19,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ accessRole }) =>
   }
 
   if (accessRole && accessRole !== role) {
+    if (redirect) {
+      return <Navigate to={redirect} replace />
+    }
+    
     return role === Role.User 
       ? <Navigate to={RouteName.Home} replace /> 
       : <Navigate to={RouteName.Account} replace />;

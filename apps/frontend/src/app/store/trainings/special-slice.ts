@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchSpecialAction } from './async-actions';
 import { TrainingsState } from '../../types/state-type';
-import { SliceName } from '../../constants/common';
+import { LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: TrainingsState = {
   trainings: [],
   page: 1,
   total: 50,
-  isLoading: false,
+  loadStatus: LoadStatus.Never,
   error: '',
 };
 
@@ -18,16 +18,14 @@ export const specialSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSpecialAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.error = '';
       })
       .addCase(fetchSpecialAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       });
   },
 });
-
-export default specialSlice.reducer;

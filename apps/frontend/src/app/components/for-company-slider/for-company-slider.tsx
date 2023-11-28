@@ -7,9 +7,9 @@ import { ButtonFloat } from '../ui/button-float/button-float';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { RouteName } from '../../constants/route';
 import { ThumbnailUserCard } from '../thumbnails/thumbnail-user-card/thumbnail-user-card';
-import * as usersSelector from '../../store/users/users-select';
 import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
 import { CountSlide } from '../../constants/common';
+import * as usersSelector from '../../store/users/users-select';
 import 'swiper/css';
 
 export const ForCompanySlider: React.FC = () => {
@@ -48,7 +48,10 @@ export const ForCompanySlider: React.FC = () => {
               ))
             ) : (
               <SwiperSlide>
-                <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
+                <ThumbnailBanner 
+                  image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+                  text="Скоро здесь появится что - то полезное" 
+                />
               </SwiperSlide>
             )}
           </Swiper>

@@ -5,21 +5,23 @@ import { ButtonsSorting } from '../../components/ui/buttons-sorting/buttons-sort
 import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-training/thumbnail-training';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchMyOrdersAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyOrdersQuery } from '../../utils/query-string';
 import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
+import { LoadStatus } from '../../constants/common';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const OrdersPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const trainings = useAppSelector(trainingsSelector.trainings);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
   const sorting = useAppSelector(trainingsSelector.sortStatistic);
-  const direction = useAppSelector(trainingsSelector.direction);
+  const direction = useAppSelector(trainingsSelector.direction);  
   const page = useAppSelector(trainingsSelector.page);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   useEffect(() => {
     const queryString = getMyOrdersQuery(sorting, direction, page);

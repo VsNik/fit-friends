@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Location } from '@fit-friends/shared';
 import { Checkbox } from '../form/checkbox/checkbox';
+import { getUserLocation } from '../../../utils/helpers';
 
 interface CheckLocationsProps {
   name: string;
@@ -19,7 +20,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
         <Checkbox
           value={Location.Pionerskaya}
           name={name}
-          label="Пионерская"
+          label={getUserLocation(Location.Pionerskaya).title}
           onChange={onChange}
           checked={hasLocation(Location.Pionerskaya)}
           disabled={disabled}
@@ -29,7 +30,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
         <Checkbox
           value={Location.Udelnaya}
           name={name}
-          label="Удельная"
+          label={getUserLocation(Location.Udelnaya).title}
           onChange={onChange}
           checked={hasLocation(Location.Udelnaya)}
           disabled={disabled}
@@ -39,7 +40,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
         <Checkbox
           value={Location.Zvezdnaya}
           name={name}
-          label="Звездная"
+          label={getUserLocation(Location.Zvezdnaya).title}
           onChange={onChange}
           checked={hasLocation(Location.Zvezdnaya)}
           disabled={disabled}
@@ -49,7 +50,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
         <Checkbox
           value={Location.Sportivnaya}
           name={name}
-          label="Спортивная"
+          label={getUserLocation(Location.Sportivnaya).title}
           onChange={onChange}
           checked={hasLocation(Location.Sportivnaya)}
           disabled={disabled}

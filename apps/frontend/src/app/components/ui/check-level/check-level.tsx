@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { InputRadio } from '../form/input-radio/input-radio';
 import { TrainingLevel } from '@fit-friends/shared';
 import clsx from 'clsx';
+import { getLevelName } from '../../../utils/helpers';
 
 interface CheckLevelProps {
   name: string;
@@ -19,7 +20,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
       <InputRadio
         name={name}
         value={TrainingLevel.Novice}
-        label="Новичок"
+        label={getLevelName(TrainingLevel.Novice)}
         onChange={onChange}
         checked={level === TrainingLevel.Novice}
         disabled={disabled}
@@ -27,7 +28,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
       <InputRadio
         name={name}
         value={TrainingLevel.Amateur}
-        label="Любитель"
+        label={getLevelName(TrainingLevel.Amateur)}
         onChange={onChange}
         checked={level === TrainingLevel.Amateur}
         disabled={disabled}
@@ -35,7 +36,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
       <InputRadio
         name={name}
         value={TrainingLevel.Professional}
-        label="Профессионал"
+        label={getLevelName(TrainingLevel.Professional)}
         onChange={onChange}
         checked={level === TrainingLevel.Professional}
         disabled={disabled}

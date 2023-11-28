@@ -2,9 +2,10 @@ import React, { useEffect, Fragment } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchUserFriendsAction } from '../../../store/users/async-actions';
 import { ThumbnailFriend } from '../../thumbnails/thumbnail-friend/thumbnail-friend';
-import * as usersSelector from '../../../store/users/users-select';
 import { Loader } from '../../loader/loader';
 import { ButtonShowMore } from '../../ui/button-show-more/button-show-more';
+import { LoadStatus } from '../../../constants/common';
+import * as usersSelector from '../../../store/users/users-select';
 
 interface UserFriendsProps {
   userId: string;
@@ -13,7 +14,8 @@ interface UserFriendsProps {
 export const UserFriends: React.FC<UserFriendsProps> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const friends = useAppSelector(usersSelector.users);
-  const isLoading = useAppSelector(usersSelector.isLoading);
+  const loadStatus = useAppSelector(usersSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   useEffect(() => {
     dispatch(fetchUserFriendsAction(userId));

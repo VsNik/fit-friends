@@ -7,7 +7,7 @@ import { Input } from '../../ui/form/input/input';
 import { Textarea } from '../../ui/form/textarea/textarea';
 import { Toggle } from '../../ui/form/toggle/toggle';
 import { Select } from '../../ui/form/select/select';
-import { gendersList, levelsList, locationsList } from '../../../constants/common';
+import { LoadStatus, gendersList, levelsList, locationsList } from '../../../constants/common';
 import { userInfoSchema } from '../../../utils/validate-schemas';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateUserAction } from '../../../store/user/async-actions';
@@ -23,11 +23,13 @@ interface UserInfoProps {
 }
 
 export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable, avatar }) => {
-  const isLoading = useAppSelector(authSelector.isLoading);
+  const loadStatus = useAppSelector(authSelector.loadStatus);
   const dispatch = useAppDispatch();
   const [location, setLocation] = useState('');
   const [gender, setGender] = useState('');
   const [level, setLevel] = useState('');
+
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const methods = useForm<UserInfoType>({
     defaultValues: useMemo(() => user, [user]),

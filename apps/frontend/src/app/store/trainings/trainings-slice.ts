@@ -2,7 +2,7 @@ import { TrainingSortDirection, StatisticSorting, TrainingSorting } from '@fit-f
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchForCoachAction, fetchMyTrainingsAction, fetchMyOrdersAction, fetchPurchasesAction, fetchTrainingsAction } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
-import { SliceName } from '../../constants/common';
+import { LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: TrainingListState = {
   trainings: [],
@@ -21,7 +21,7 @@ const initialState: TrainingListState = {
   sorting: TrainingSorting.Created,
   sortStatistic: StatisticSorting.OrderCount,
   direction: TrainingSortDirection.Desc,
-  isLoading: false,
+  loadStatus: LoadStatus.Never,
   error: '',
 };
 
@@ -66,54 +66,54 @@ export const trainingsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrainingsAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.error = '';
       })
       .addCase(fetchTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchForCoachAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchForCoachAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchMyOrdersAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchMyOrdersAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchMyTrainingsAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchMyTrainingsAction.fulfilled, (state, {payload}) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchPurchasesAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchPurchasesAction.fulfilled, (state, {payload}) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
   },
 });

@@ -4,6 +4,7 @@ import { ButtonIcon } from '../../ui/button-icon/button-icon';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateCertificateAction, deleteSertificateAction } from '../../../store/user/async-actions';
 import { Image } from '../../ui/image/image';
+import { LoadStatus } from '../../../constants/common';
 import * as authSelector from '../../../store/auth/auth-select';
 import clsx from 'clsx';
 
@@ -17,11 +18,13 @@ interface ThumbnailCertificatProps {
 
 export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(authSelector.isLoading);
+  const loadStatus = useAppSelector(authSelector.loadStatus);
   const { userId, src, alt } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [fileList, setFile] = useState<FileList | null>(null);
   const certificateRef = useRef<HTMLInputElement | null>(null);
+
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const onSave = () => {
     if (fileList) {
@@ -53,7 +56,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) =
             className="certificate-card__button certificate-card__button--edit"
             onClick={() => setIsEdit(true)}
             underline
-            disabled={isLoading}
+            disabled={loadStatus === LoadStatus.Loading}
           />
 
           <ButtonFloat

@@ -43,11 +43,9 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEdi
 
   const handleDeleteVideo = () => {
     setVideoLoadMode(true);
-    // TODO dispatch delete video
   };
 
   const handleSaveVideo = (data: VideoType) => {
-    // TODO dispatch upload video
     setVideoLoadMode(false);
     resetField('video');
     reset();

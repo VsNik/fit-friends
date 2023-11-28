@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IUser, Role } from '@fit-friends/shared';
 import { Button } from '../../ui/button/button';
@@ -16,6 +16,14 @@ interface ThumbnailFriendProps {
 export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
   const location = getUserLocation(user.location);
   const navigation = useNavigate();
+
+  const handleAccept = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+  }
+
+  const handleReject = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+  }
 
   return (
     <li className="friends-list__item">
@@ -53,8 +61,8 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
         <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user">
           <p className="thumbnail-friend__request-text">Запрос на&nbsp;персональную тренировку</p>
           <div className="thumbnail-friend__button-wrapper">
-            <Button text="Принять" className="thumbnail-friend__button" darckBg medium />
-            <Button text="Отклонить" className="thumbnail-friend__button" darckBg outlined medium />
+            <Button text="Принять" className="thumbnail-friend__button" onClick={handleAccept} darckBg medium />
+            <Button text="Отклонить" className="thumbnail-friend__button" onClick={handleReject} darckBg outlined medium />
           </div>
         </div>
       </div>

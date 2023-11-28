@@ -6,10 +6,12 @@ import { Toggle } from '../ui/form/toggle/toggle';
 import { useAppSelector } from '../../store/hooks';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { Loader } from '../loader/loader';
+import { LoadStatus } from '../../constants/common';
 
 export const Purchases: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainings);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   return (
     <div className="my-purchases__wrapper">

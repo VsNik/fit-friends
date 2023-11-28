@@ -1,15 +1,15 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../store/hooks';
-import { useNavigate } from 'react-router-dom';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 import { RouteName } from '../../constants/route';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
 import { CountSlide } from '../../constants/common';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 import 'swiper/css';
 
 export const PopularSlider: React.FC = () => {

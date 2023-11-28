@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { ButtonIcon } from '../button-icon/button-icon';
 
 interface CheckCountProps {
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
@@ -16,33 +17,25 @@ export const CheckCount: React.FC<CheckCountProps> = (props) => {
     <div className="popup__product-quantity">
       <p className="popup__quantity">Количество</p>
       <div className="input-quantity">
-        <button 
-          className="btn-icon btn-icon--quantity" 
-          type="button" 
-          aria-label="minus" 
+        <ButtonIcon 
+          icon="icon-minus" 
+          className="btn-icon--quantity" 
           onClick={onDecriment} 
-          disabled={count === 0 || disabled}
-        >
-          <svg width="12" height="12" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-minus" />
-          </svg>
-        </button>
+          disabled={count === 0 || disabled} 
+        />
+
         <div className="input-quantity__input">
           <label>
             <input type="text" name="count" value={count} size={2} onChange={onChange} />
           </label>
         </div>
-        <button
-          className="btn-icon btn-icon--quantity"
-          type="button"
-          aria-label="plus"
-          onClick={onIncriment}
-          disabled={count >= maxCount || disabled}
-        >
-          <svg width="12" height="12" aria-hidden="true">
-            <use xlinkHref="/assets/img/sprite.svg#icon-plus" />
-          </svg>
-        </button>
+        
+        <ButtonIcon 
+          icon="icon-plus" 
+          className="btn-icon--quantity" 
+          onClick={onIncriment} 
+          disabled={count >= maxCount || disabled} 
+        />
       </div>
     </div>
   );

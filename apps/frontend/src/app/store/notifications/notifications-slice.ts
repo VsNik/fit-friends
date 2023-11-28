@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NotificationsState } from '../../types/state-type';
-import { SliceName } from '../../constants/common';
+import { LoadStatus, SliceName } from '../../constants/common';
 import { fetchNotificationAction } from './async-actions';
 
 const initialState: NotificationsState = {
   notifications: [],
-  isLoading: false,
+  loadStatus: LoadStatus.Never,
 };
 
 export const notificationsSlice = createSlice({
@@ -15,10 +15,10 @@ export const notificationsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotificationAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchNotificationAction.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
         state.notifications = payload;
       });
   },

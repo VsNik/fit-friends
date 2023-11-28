@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { OrderState } from '../../types/state-type';
 import { CreatedOrderType } from '../../types/common';
-import { SliceName } from '../../constants/common';
+import { LoadStatus, SliceName } from '../../constants/common';
 import { createOrderAction } from './async-action';
 
 const initialState: OrderState = {
   order: {} as CreatedOrderType,
-  isLoading: false,
+  loadStatus: LoadStatus.Never,
 };
 
 export const orderSlice = createSlice({
@@ -16,11 +16,11 @@ export const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createOrderAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
       })
       .addCase(createOrderAction.fulfilled, (state, { payload }) => {
         state.order = payload;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       });
   },
 });

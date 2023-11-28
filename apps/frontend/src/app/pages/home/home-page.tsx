@@ -7,16 +7,17 @@ import { ForCompanySlider } from '../../components/for-company-slider/for-compan
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchForYouAction, fetchPopularAction, fetchSpecialAction } from '../../store/trainings/async-actions';
 import { fetchCompanyAction } from '../../store/users/async-actions';
+import { Loader } from '../../components/loader/loader';
+import { LoadStatus } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 import * as usersSelector from '../../store/users/users-select';
-import { Loader } from '../../components/loader/loader';
 
 export const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const isLoadingForYou = useAppSelector(trainingsSelector.isLoadingForYou);
-  const isLoadingSpecial = useAppSelector(trainingsSelector.isLoadingSpecial);
-  const isLoadingPopular = useAppSelector(trainingsSelector.isLoadingPopular);
-  const isLoadingCompany = useAppSelector(usersSelector.isLoading);
+  const forYouLoadStatus = useAppSelector(trainingsSelector.forYouLoadStatus);
+  const specialLoadStatus = useAppSelector(trainingsSelector.specialLoadStatus);
+  const popularLoadStatus = useAppSelector(trainingsSelector.popularLoadStatus);
+  const loadStatusCompany = useAppSelector(usersSelector.loadStatus);
 
   useEffect(() => {
     dispatch(fetchForYouAction());
@@ -25,7 +26,12 @@ export const HomePage: React.FC = () => {
     dispatch(fetchCompanyAction());
   }, [dispatch]);
 
-  if (isLoadingForYou || isLoadingSpecial || isLoadingPopular || isLoadingCompany) {
+  if (
+      forYouLoadStatus === LoadStatus.Loading || 
+      specialLoadStatus === LoadStatus.Loading || 
+      popularLoadStatus === LoadStatus.Loading || 
+      loadStatusCompany === LoadStatus.Loading
+    ) {
     return <Loader />;
   }
 

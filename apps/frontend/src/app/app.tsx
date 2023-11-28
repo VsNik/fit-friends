@@ -27,17 +27,18 @@ import { AddTraining } from './pages/add-training/add-training-page';
 import { fetchNotificationAction } from './store/notifications/async-actions';
 import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-route';
 import * as authSelector from './store/auth/auth-select';
+import { LoadStatus } from './constants/common';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchNotificationAction());
 
-export function App() {  
+export function App() {
   history.navigate = useNavigate();
   history.location = useLocation();
 
-  const isLoading = useAppSelector(authSelector.isLoading);
+  const loadStatus = useAppSelector(authSelector.loadStatus);
 
-  if (isLoading) {
+  if (loadStatus === LoadStatus.Loading) {
     return <Loader />;
   }
 
@@ -50,8 +51,13 @@ export function App() {
         <Route path={RouteName.Signup} element={<SignupPage />} />
       </Route>
 
-      {/* <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
-      <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} /> */}
+      <Route element={<ProtectedRoute accessRole={Role.User} redirect={RouteName.Intro} />}>
+        <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
+      </Route>
+
+      <Route element={<ProtectedRoute accessRole={Role.Coach} redirect={RouteName.Intro} />}>
+        <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
+      </Route>
 
       <Route element={<ProtectedRoute accessRole={Role.User} />}>
         <Route path={RouteName.Home} element={<HomePage />} />
@@ -67,8 +73,6 @@ export function App() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path={RouteName.QuestionUser} element={<QuestionUserPage />} />
-        <Route path={RouteName.QuestionCoach} element={<QuestionCoachPage />} />
         <Route path={RouteName.Account} element={<AccountPage />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
         <Route path={RouteName.UserCard} element={<UserPage />} />

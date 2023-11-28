@@ -8,11 +8,12 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { BuyPopup } from '../../components/popups/buy-popup/buy-popup';
 import { fetchTrainingAction } from '../../store/training/async-actions';
 import { fetchReviewsAction } from '../../store/reviews/async-actions';
+import { Modal } from '../../components/ui/modal/modal';
+import { ReviewPopup } from '../../components/popups/review-popup/review-popup';
+import { LoadStatus } from '../../constants/common';
 import * as authSelectors from '../../store/auth/auth-select';
 import * as trainingSelector from '../../store/training/training-select';
 import * as reviewsSelector from '../../store/reviews/reviews-select';
-import { Modal } from '../../components/ui/modal/modal';
-import { ReviewPopup } from '../../components/popups/review-popup/review-popup';
 import clsx from 'clsx';
 
 export const TrainingCardPage: React.FC = () => {
@@ -20,11 +21,12 @@ export const TrainingCardPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const training = useAppSelector(trainingSelector.training);
   const reviews = useAppSelector(reviewsSelector.reviews);
-  const isTrainingLoading = useAppSelector(trainingSelector.isLoading);
+  const trainingLoadStatus = useAppSelector(trainingSelector.loadStatus);
   const role = useAppSelector(authSelectors.authRole)!;
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [openBuyPopup, setOpenBuyPopup] = useState<boolean>(false);
   const [openReviewPopup, setOpenReviewPopup] = useState<boolean>(false);
+  const isTrainingLoading = trainingLoadStatus === LoadStatus.Loading;
   const trainingId = params.id!;
 
   useEffect(() => {
@@ -37,11 +39,8 @@ export const TrainingCardPage: React.FC = () => {
   };
 
   const handleOpenBuyPopup = () => setOpenBuyPopup(true);
-
   const handleCloseBuyPopup = () => setOpenBuyPopup(false);
-
   const handleOpenReviewPopup = () => setOpenReviewPopup(true);
-
   const handleCloseReviewPopup = () => setOpenReviewPopup(false);
 
   return (

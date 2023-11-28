@@ -1,5 +1,5 @@
-import { IUser, Role } from '@fit-friends/shared';
 import React from 'react';
+import { IUser, Role } from '@fit-friends/shared';
 
 interface ThumbnailReadyStatusProps {
   user: IUser;

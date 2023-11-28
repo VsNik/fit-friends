@@ -1,4 +1,4 @@
-import { Location, TrainingType, TrainingDuration } from '@fit-friends/shared';
+import { Location, TrainingType, TrainingDuration, TrainingLevel } from '@fit-friends/shared';
 
 export const isNotEmptyObject = (item: object): boolean => {
   return Object.keys(item).length !== 0;
@@ -38,4 +38,13 @@ export const getDurationName = (duration: TrainingDuration) => {
     [TrainingDuration.Extra]: '80 мин - 100 мин',
   }
   return durationName[duration];
+}
+
+export const getLevelName = (level: TrainingLevel) => {
+  const levelName = {
+    [TrainingLevel.Novice]: 'Новичок',
+    [TrainingLevel.Amateur]: 'Любитель',
+    [TrainingLevel.Professional]: 'Профессионал',
+  }
+  return levelName[level];
 }

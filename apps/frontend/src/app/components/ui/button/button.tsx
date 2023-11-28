@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import clsx from 'clsx';
 
 interface ButtonProps {
   text: string;
-  onClick?: () => void;
+  onClick?: (evt: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   medium?: boolean;
   small?: boolean;

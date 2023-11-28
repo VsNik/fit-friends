@@ -6,15 +6,16 @@ import { ButtonsSortingPrice } from '../ui/buttons-sorting-price/buttons-sorting
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setCaloriesAction, setDirectionAction, setPriceAction, setRatingAction, setTypeAction } from '../../store/trainings/trainings-slice';
 import { CheckTypes } from '../ui/check-types/check-types';
-import { RatingRange } from '../../constants/common';
+import { LoadStatus, RatingRange } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const TrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const filter = useAppSelector(trainingsSelector.filter);
   const sorting = useAppSelector(trainingsSelector.direction);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
   const trainings = useAppSelector(trainingsSelector.trainings);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const onChangedPrice = (values: number[]) => dispatch(setPriceAction(values));
   const onChangeCalory = (values: number[]) => dispatch(setCaloriesAction(values));

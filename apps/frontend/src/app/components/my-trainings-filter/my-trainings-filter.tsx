@@ -5,14 +5,15 @@ import { RangeRating } from '../ui/range-rating/range-rating';
 import { CheckDuration } from '../ui/check-duration/check-duration';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setCaloriesAction, setDurationAction, setPriceAction, setRatingAction } from '../../store/trainings/trainings-slice';
-import { RatingRange } from '../../constants/common';
+import { LoadStatus, RatingRange } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const MyTrainingsFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const filter = useAppSelector(trainingsSelector.filter);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
   const trainings = useAppSelector(trainingsSelector.trainings);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const onChangedPrice = (values: number[]) => dispatch(setPriceAction(values));
   const onChangeCalory = (values: number[]) => dispatch(setCaloriesAction(values));

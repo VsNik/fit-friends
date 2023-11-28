@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { addReviewAction } from '../../../store/reviews/async-actions';
 import { Loader } from '../../loader/loader';
 import { CheckRating } from '../../ui/check-rating/check-rating';
+import { LoadStatus } from '../../../constants/common';
+import * as reviewsSelector from '../../../store/reviews/reviews-select';
 
 interface ReviewPopupProps {
   onClose: () => void;
@@ -18,7 +20,8 @@ export const ReviewPopup: React.FC<ReviewPopupProps> = (props) => {
   const { title, trainingId, onClose } = props;
   const [rating, setRating] = useState<number>(0);
   const [text, setText] = useState<string>('');
-  const isLoading = useAppSelector((state) => state.REVIEWS.isLoading);
+  const loadStatus = useAppSelector(reviewsSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   const handleSetRating = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(evt.target.value, 10);

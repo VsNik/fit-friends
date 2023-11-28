@@ -4,9 +4,9 @@ import { ThumbnailTrainingAnons } from '../thumbnails/thumbnails-training-anons/
 import { useAppSelector } from '../../store/hooks';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { ThumbnailBanner } from '../thumbnails/thumbnail-banner/thumbnail-banner';
 import { CountSlide } from '../../constants/common';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 import 'swiper/css';
 
 export const ForYouSlider: React.FC = () => {
@@ -42,7 +42,10 @@ export const ForYouSlider: React.FC = () => {
               ))
             ) : (
               <SwiperSlide>
-                <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
+                <ThumbnailBanner 
+                  image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+                  text="Скоро здесь появится что - то полезное" 
+                />
               </SwiperSlide>
             )}
           </Swiper>

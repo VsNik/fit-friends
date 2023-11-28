@@ -32,6 +32,7 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = (props) => {
           <ThumbnailReview key={review.id} review={review} />
         ))}
       </ul>
+      
       <Button 
         text='Оставить отзыв'
         onClick={onOpenPopup} 

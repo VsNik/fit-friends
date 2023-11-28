@@ -14,6 +14,7 @@ import {
   TrainingDuration,
 } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
+import { LoadStatus } from '../constants/common';
 
 export interface TrainingFilter {
   priceTo: number;
@@ -36,13 +37,13 @@ export type AuthState = {
   authId: string;
   authRole?: Role;
   isAuth: boolean;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
 export type UserState = {
   user: IUser;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
@@ -53,13 +54,13 @@ export type UsersState = {
   direction: SortDirection;
   page: number;
   total: number;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
 export type TrainingState = {
   training: ITraining;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
@@ -71,7 +72,7 @@ export type TrainingListState = {
   sorting: TrainingSorting;
   sortStatistic: StatisticSorting;
   direction: TrainingSortDirection;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
@@ -79,21 +80,21 @@ export type TrainingsState = {
   trainings: ITraining[];
   page: number;
   total: number;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
   error: string;
 };
 
 export type ReviewsState = {
   reviews: IReview[];
-  isLoading: boolean;
+  loadStatus: LoadStatus;
 };
 
 export type NotificationsState = {
   notifications: IAlert[];
-  isLoading: boolean;
+  loadStatus: LoadStatus;
 };
 
 export type OrderState = {
   order: CreatedOrderType;
-  isLoading: boolean;
+  loadStatus: LoadStatus;
 };

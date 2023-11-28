@@ -1,5 +1,5 @@
-import { IReview } from '@fit-friends/shared';
 import React from 'react';
+import { IReview } from '@fit-friends/shared';
 import { Avatar } from '../../ui/avatar/avatar';
 
 interface ThumbnailReviewProps {

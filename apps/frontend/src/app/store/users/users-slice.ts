@@ -2,7 +2,7 @@ import { Location, SortDirection, TrainingType } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
-import { SliceName } from '../../constants/common';
+import { LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: UsersState = {
   users: [],
@@ -15,7 +15,7 @@ const initialState: UsersState = {
   direction: SortDirection.Desc,
   page: 1,
   total: 50,
-  isLoading: false,
+  loadStatus: LoadStatus.Never,
   error: '',
 };
 
@@ -58,18 +58,18 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsersAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.users = [];
       })
       .addCase(fetchUsersAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchCompanyAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.users = [];
         state.error = '';
       })
@@ -77,29 +77,29 @@ export const usersSlice = createSlice({
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchUserFriendsAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.users = [];
       })
       .addCase(fetchUserFriendsAction.fulfilled, (state, {payload}) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchCoachFriendsAction.pending, (state) => {
-        state.isLoading = true;
+        state.loadStatus = LoadStatus.Loading;
         state.users = [];
       })
       .addCase(fetchCoachFriendsAction.fulfilled, (state, {payload}) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-        state.isLoading = false;
+        state.loadStatus = LoadStatus.Loaded;
       })
   },
 });

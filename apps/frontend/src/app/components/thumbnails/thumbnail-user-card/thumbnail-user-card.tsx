@@ -4,8 +4,8 @@ import { ButtonLink } from '../../ui/button-link/button-link';
 import { getUserRoute } from '../../../utils/route';
 import { Hashtag } from '../../ui/hashtag/hashtag';
 import { Avatar } from '../../ui/avatar/avatar';
-import clsx from 'clsx';
 import { getTrainingName } from '../../../utils/helpers';
+import clsx from 'clsx';
 
 interface ThumbnailUserCardProps {
   user: IUser;

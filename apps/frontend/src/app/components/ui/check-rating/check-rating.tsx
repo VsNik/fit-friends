@@ -16,10 +16,11 @@ export const CheckRating: React.FC<CheckRatingProps> = (props) => {
             <div className="popup__rate-item-wrap">
               <label>
                 <input 
-                    type="radio" 
-                    name="rating" 
-                    value={index + 1} 
-                    onChange={onChange} checked={value === index + 1} 
+                  type="radio" 
+                  name="rating" 
+                  value={index + 1} 
+                  onChange={onChange} 
+                  checked={value === index + 1} 
                 />
                 <span className="popup__rate-number">{index + 1}</span>
               </label>

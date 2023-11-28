@@ -12,6 +12,7 @@ import { RouteName } from '../../constants/route';
 import { Modal } from '../../components/ui/modal/modal';
 import { CertificatesPopup } from '../../components/popups/certificates-popup/certificates-popup';
 import { Loader } from '../../components/loader/loader';
+import { LoadStatus } from '../../constants/common';
 import * as userSelector from '../../store/user/user-select';
 
 export const UserPage: React.FC = () => {
@@ -23,7 +24,8 @@ export const UserPage: React.FC = () => {
   const [openCertificates, setOpenCertificates] = useState<boolean>(false);  
   
   const user = useAppSelector(userSelector.user);
-  const isLoading = useAppSelector(userSelector.isLoading);
+  const loadStatus = useAppSelector(userSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   useEffect(() => {
     if (params.id) {

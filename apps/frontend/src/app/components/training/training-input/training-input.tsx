@@ -2,12 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 
-export enum TrainingInputType {
-  Title = 'title',
-  Price = 'price',
-  Rating = 'rating',
-}
-
 interface TrainingInputProps {
   name: string;
   label?: string;

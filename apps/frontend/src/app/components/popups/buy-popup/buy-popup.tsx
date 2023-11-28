@@ -12,6 +12,7 @@ import { Loader } from '../../loader/loader';
 import { CheckPayment } from '../../ui/check-payment/check-payment';
 import { CheckCount } from '../../ui/check-count/check-count';
 import { toNumberInputTextValue } from '../../../utils/helpers';
+import { LoadStatus } from '../../../constants/common';
 
 const MAX_COUNT = 99;
 
@@ -23,10 +24,11 @@ interface ByTrainingPopupProps {
 
 export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(orderSelector.isLoading);
+  const loadStatus = useAppSelector(orderSelector.loadStatus);
   const { onClose, training, title } = props;
   const [count, setCount] = useState<number>(0);
   const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.Visa);
+  const isLoading = loadStatus === LoadStatus.Loading;
   const totalPrice = training.price * count;
 
   const closePopup = () => {
@@ -34,7 +36,7 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
     onClose();
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     const order: CreatedOrderType = {
       type: OrderType.Abonement,
       training: training.id,
@@ -49,13 +51,8 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
     setCount(value > MAX_COUNT ? MAX_COUNT : value);
   };
 
-  const handleIncrement = () => {
-    setCount(count + 1);
-  };
-
-  const handleDecrement = () => {
-    setCount(count - 1);
-  };
+  const handleIncrement = () => setCount(count + 1);
+  const handleDecrement = () => setCount(count - 1);
 
   const handleChangePaymentType = (evt: ChangeEvent<HTMLInputElement>) => {
     const type = evt.target.value as PaymentType;
@@ -100,7 +97,7 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
           </div>
 
           <div className="popup__button">
-            <Button text="Купить" onClick={() => onSubmit()} disabled={count === 0 || isLoading} />
+            <Button text="Купить" onClick={() => handleSubmit()} disabled={count === 0 || isLoading} />
           </div>
         </div>
       </div>

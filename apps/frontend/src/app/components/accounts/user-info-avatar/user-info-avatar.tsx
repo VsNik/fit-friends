@@ -1,5 +1,5 @@
-import { IUser } from '@fit-friends/shared';
 import React, { Ref } from 'react';
+import { IUser } from '@fit-friends/shared';
 
 interface UserInfoAvatarProps {
   user: IUser;

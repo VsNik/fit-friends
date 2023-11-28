@@ -19,13 +19,11 @@ export const Modal: React.FC<ModalProps> = (props) => {
 
     if (isOpen) {
       document.body.classList.add('scroll-lock');
-      document.body.style.paddingRight = '15px';      
-      document.querySelector('.inner-page')?.setAttribute('inert', 'inert');
+      document.body.style.paddingRight = '15px';
       window.addEventListener('keydown', closeModal);
     } else {
       document.body.classList.remove('scroll-lock');
       document.body.style.paddingRight = '';
-      document.querySelector('.inner-page')?.removeAttribute('inert');
     }
     return () => window.removeEventListener('keydown', closeModal);
     // eslint-disable-next-line react-hooks/exhaustive-deps

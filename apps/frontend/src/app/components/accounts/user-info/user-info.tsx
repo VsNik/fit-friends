@@ -10,7 +10,7 @@ interface UserInfoProps {
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
-  const [isEditable, setEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
   const [avatar, setAvatar] = useState<FileList | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -45,7 +45,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
         )}
       </div>
 
-      <UserInfoForm user={user} isEditable={isEditable} setEditable={setEditable} avatar={avatar} />
+      <UserInfoForm user={user} isEditable={isEditable} setEditable={setIsEditable} avatar={avatar} />
     </section>
   );
 };

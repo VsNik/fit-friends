@@ -18,7 +18,7 @@ export const ThumbnailSpecial: React.FC<ThumbnailSpecialProps> = (props) => {
           <img src={src} srcSet={srcSet} width="1040" height="469" alt="promo" />
         </div>
         <div className="promo-slider__header">
-          <h3 className="promo-slider__title">Fitball</h3>
+          <h3 className="promo-slider__title">{title}</h3>
           <div className="promo-slider__logo">
             <svg width="74" height="74" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#logotype" />

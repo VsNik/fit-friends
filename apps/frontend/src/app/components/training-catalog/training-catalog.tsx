@@ -2,16 +2,14 @@ import React from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { Loader } from '../loader/loader';
+import { LoadStatus } from '../../constants/common';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const TrainingCatalog: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainings);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
-
-  // if (isLoading) {
-  //   return <Loader />
-  // }
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   return (
     <div className="training-catalog">

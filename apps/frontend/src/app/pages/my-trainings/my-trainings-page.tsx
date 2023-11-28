@@ -5,12 +5,13 @@ import { MyTrainingsFilter } from '../../components/my-trainings-filter/my-train
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
 import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-training/thumbnail-training';
-import { Button } from '../../components/ui/button/button';
-import * as trainingsSelector from '../../store/trainings/trainings-select';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchMyTrainingsAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyTrainingsQuery } from '../../utils/query-string';
+import { LoadStatus } from '../../constants/common';
+import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
+import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const MyTrainingsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,8 @@ export const MyTrainingsPage: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainings);
   const filters = useAppSelector(trainingsSelector.filter);
   const page = useAppSelector(trainingsSelector.page);
-  const isLoading = useAppSelector(trainingsSelector.isLoading);
+  const loadStatus = useAppSelector(trainingsSelector.loadStatus);
+  const isLoading = loadStatus === LoadStatus.Loading;
 
   useEffect(() => {
     const queryString = getMyTrainingsQuery(filters, page)
@@ -57,10 +59,8 @@ export const MyTrainingsPage: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="show-more my-trainings__show-more">
-                  <Button text="Показать еще" className="show-more__button show-more__button--more" />
-                  <Button text="Вернуться в начало" className="show-more__button show-more__button--to-top" />
-                </div>
+
+                <ButtonShowMore className='my-trainings__show-more' />
               </div>
             </div>
           </div>

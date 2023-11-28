@@ -15,6 +15,12 @@ export enum SliceName {
   Orders = 'ORDERS',
 }
 
+export enum LoadStatus {
+  Never = 'never',
+  Loading = 'loading',
+  Loaded = 'loaded',
+}
+
 export const CountSlide = {
   ForYou: 3,
   Popular: 4,

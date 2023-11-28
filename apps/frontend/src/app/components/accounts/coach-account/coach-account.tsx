@@ -13,6 +13,7 @@ export const CoachAccount: React.FC<CoachAccountProps> = ({ user }) => {
     <div className="inner-page__wrapper">
       <h1 className="visually-hidden">Личный кабинет</h1>
       <UserInfo user={user} />
+      
       <div className="inner-page__content">
         <div className="personal-account-coach">
           <CoachNavigation />
