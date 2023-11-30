@@ -1,28 +1,21 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType, Location } from '@fit-friends/shared';
 import {
-  BIO_IS_STRING,
-  BIO_LENGTH,
-  BIRTHDAY_IS_STRING,
-  BURN_CALORY_IS_NUMBER,
-  BURN_CALORY_MAX,
-  BURN_CALORY_MIN,
-  DURATION_VALUES,
-  GENDER_VALUES,
-  LEVEL_VALUES,
-  LOCATION_VALUES,
-  LOSE_CALORY_IS_NUMBER,
-  LOSE_CALORY_MAX,
-  LOSE_CALORY_MIN,
-  MERITS_IS_STRING,
-  MERTIS_LENGTH,
-  NAME_IS_STRING,
-  PERSONAL_IS_BOOLEAN,
-  READY_IS_BOOLEAN,
-  TRAININGTYPE_MAX_SIZE,
-  TRAININGTYPE_NOT_EMPTY,
-  TRAININGTYPE_VALUES,
-  USER_NAME_LENGTH,
+  UserError,
+  TrainingError,
   UserValidate,
+  USER_NAME_LENGTH,
+  GENDER_VALUES,
+  BIO_LENGTH,
+  LOCATION_VALUES,
+  LEVEL_VALUES,
+  TRAININGTYPE_VALUES,
+  TRAININGTYPE_MAX_SIZE,
+  DURATION_VALUES,
+  MERTIS_LENGTH,
+  LOSE_CALORY_MIN,
+  LOSE_CALORY_MAX,
+  BURN_CALORY_MIN,
+  BURN_CALORY_MAX,
 } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
@@ -30,7 +23,7 @@ import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsInt, IsNumbe
 
 export class UpdateDto {
   @ApiProperty({ description: 'Имя пользователя', example: 'Ivanov Ivan', required: false })
-  @IsString({ message: NAME_IS_STRING })
+  @IsString({ message: UserError.NameString })
   @Length(UserValidate.NameMinLength, UserValidate.NameMaxLength, { message: USER_NAME_LENGTH })
   @IsOptional()
   readonly name?: string;
@@ -45,12 +38,12 @@ export class UpdateDto {
   readonly gender?: Gender;
 
   @ApiProperty({ description: 'Дата рождения', example: '01.01.1991', required: false })
-  @IsString({ message: BIRTHDAY_IS_STRING })
+  @IsString({ message: UserError.BirtdayString })
   @IsOptional()
   readonly birthDay?: string;
 
   @ApiProperty({ type: 'text', description: 'Описание пользователя', example: 'some text description', required: false })
-  @IsString({ message: BIO_IS_STRING })
+  @IsString({ message: UserError.BioString })
   @Length(UserValidate.BioMinLength, UserValidate.BioMaxLength, { message: BIO_LENGTH })
   @IsOptional()
   readonly bio?: string;
@@ -68,7 +61,7 @@ export class UpdateDto {
   @ApiProperty({ type: 'array', description: 'Тип тренировок', example: [TrainingType.Crossfit, TrainingType.Boxing], required: false })
   @Transform(({ value }) => (Array.isArray(value) ? value : value.split(',')))
   @IsArray()
-  @ArrayNotEmpty({ message: TRAININGTYPE_NOT_EMPTY })
+  @ArrayNotEmpty({ message: TrainingError.TypeRequired })
   @ArrayMaxSize(UserValidate.TrainingTypeMaxCount, { message: TRAININGTYPE_MAX_SIZE })
   @IsEnum(TrainingType, { each: true, message: TRAININGTYPE_VALUES })
   @IsOptional()
@@ -82,7 +75,7 @@ export class UpdateDto {
   @ApiProperty({ description: 'Количество калорий для сброса', example: 1000, required: false })
   @Type(() => Number)
   @IsInt()
-  @IsNumber({}, { message: LOSE_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.LoseCaloryNumber })
   @Min(UserValidate.CaloryMin, { message: LOSE_CALORY_MIN })
   @Max(UserValidate.CaloryMax, { message: LOSE_CALORY_MAX })
   @IsOptional()
@@ -91,7 +84,7 @@ export class UpdateDto {
   @ApiProperty({ description: 'Количество калорий для траты в день', example: 1000, required: false })
   @Type(() => Number)
   @IsInt()
-  @IsNumber({}, { message: BURN_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.BurnCaloryNumber })
   @Min(UserValidate.CaloryMin, { message: BURN_CALORY_MIN })
   @Max(UserValidate.CaloryMax, { message: BURN_CALORY_MAX })
   @IsOptional()
@@ -99,7 +92,7 @@ export class UpdateDto {
 
   @ApiProperty({ type: 'boolean', description: 'Готовность к тренировке', example: true, required: false })
   @Type(() => Boolean)
-  @IsBoolean({ message: READY_IS_BOOLEAN })
+  @IsBoolean({ message: UserError.ReadyBoolean })
   @IsOptional()
   readonly ready?: boolean;
 
@@ -108,14 +101,14 @@ export class UpdateDto {
   readonly certificate?: string[];
 
   @ApiProperty({ description: 'Заслуги тренера', required: false })
-  @IsString({ message: MERITS_IS_STRING })
+  @IsString({ message: UserError.MeritsString })
   @Length(UserValidate.MeritsMinLength, UserValidate.MeritsMaxLength, { message: MERTIS_LENGTH })
   @IsOptional()
   readonly merits?: string;
 
   @ApiProperty({ type: 'boolean', description: 'Личные тренировки', example: true, required: false })
-  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
-  @IsBoolean({ message: PERSONAL_IS_BOOLEAN })
+  @Transform(({ value }) => (value && value === 'true') || value === true || value === 1 || value === '1')
+  @IsBoolean({ message: UserError.PersonalBoolean })
   @IsOptional()
   readonly personalTraining?: boolean;
 }

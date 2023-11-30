@@ -1,6 +1,6 @@
 import 'multer';
 import { Request } from 'express';
-import { Role } from './common';
+import {Role} from '@fit-friends/shared';
 
 export type ExpressFile = Express.Multer.File;
 

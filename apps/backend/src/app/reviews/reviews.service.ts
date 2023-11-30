@@ -6,7 +6,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewEntity } from './entities/review.entity';
 import { IReview } from '@fit-friends/shared';
 import { Pagination } from '@fit-friends/filters';
-import { TRAINING_NOT_FOUND_ERROR, UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
+import { AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class ReviewsService {
@@ -20,13 +20,13 @@ export class ReviewsService {
   async create(dto: CreateReviewDto, trainingId: string, currentUserId: string) {
     const user = await this.usersService.findById(currentUserId);
     if (!user) {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
 
     const training = await this.trainingsService.findById(trainingId);
 
     if (!training) {
-      throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.TrainingNotFound);
     }
 
     const reviewEntity = ReviewEntity.create({ ...dto, user, training });
@@ -39,7 +39,7 @@ export class ReviewsService {
   async getForTraining(trainingId: string, currentUserId: string, pagination: Pagination): Promise<[IReview[], number]> {
     const user = await this.usersService.findById(currentUserId);
     if (!user) {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
     const [data, count] = await this.reviewsRepository.getByTrainingId(trainingId, pagination);
     return [data.map((item) => item.toObject()), count];

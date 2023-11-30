@@ -5,7 +5,7 @@ import { TrainingsService } from '../trainings/trainings.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderEntity } from './entities/order.entity';
 import { BalanceService } from '../balance/balance.service';
-import { TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
+import { AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class OrdersService {
@@ -21,7 +21,7 @@ export class OrdersService {
     const user = await this.usersService.getUser(userId);
     const training = await this.trainingsService.findById(trainingId);
     if (!training) {
-      throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.TrainingNotFound);
     }
 
     const price = training.price;

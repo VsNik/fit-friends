@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CREDENTIALS_ERROR, UNAUTHORIZED_ERROR, USER_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
+import { OtherError, AppError } from '@fit-friends/libs/validation';
 import { RequestExpress } from '@fit-friends/libs/types';
 import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/shared';
 import { JwtService } from '@nestjs/jwt';
@@ -27,16 +27,16 @@ export class AuthService {
 
   async verifyUser({ email, password }: LoginDto, req: RequestExpress): Promise<IAuthToken> {
     if (req.accessToken) {
-      return {accessToken: req.accessToken}
+      return { accessToken: req.accessToken };
     }
-    
+
     const existUser = await this.usersService.findByEmail(email);
     if (!existUser) {
-      throw new BadRequestException(CREDENTIALS_ERROR);
+      throw new BadRequestException(OtherError.Credentials);
     }
     const isValidPswd = await compare(password, existUser.password);
     if (!isValidPswd) {
-      throw new BadRequestException(CREDENTIALS_ERROR);
+      throw new BadRequestException(OtherError.Credentials);
     }
     return this.createAuthToken(existUser.toObject(), randomUUID());
   }
@@ -46,7 +46,7 @@ export class AuthService {
     await this.removeSession(sessionId);
     const user = await this.usersService.findById(userId);
     if (!user) {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.UserNotFound);
     }
     return this.createAuthToken(user.toObject(), randomUUID());
   }
@@ -59,7 +59,7 @@ export class AuthService {
   async findUserById(id: string): Promise<IUser> {
     const existUser = await this.usersService.findById(id);
     if (!existUser) {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.UserNotFound);
     }
     return existUser.toObject();
   }
@@ -85,14 +85,14 @@ export class AuthService {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
     } catch {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
   }
 
   private async removeSession(sessionId: string): Promise<boolean> {
     const existToken = await this.tokensService.isExist(sessionId);
     if (!existToken) {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
     return this.tokensService.deleteRefreshSession(sessionId);
   }

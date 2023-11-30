@@ -1,5 +1,5 @@
 import { createSlice, AnyAction } from '@reduxjs/toolkit';
-import { checkAuthAction } from './async-actions';
+import { checkAuthAction, signupAction } from './async-actions';
 import { AuthState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -7,6 +7,7 @@ const initialState: AuthState = {
   authId: '',
   isAuth: false,
   loadStatus: LoadStatus.Never,
+  isReady: false,
   error: '',
 };
 
@@ -16,6 +17,16 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(signupAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(signupAction.fulfilled, (state, {payload}) => {
+        state.isAuth = true;
+        state.authRole = payload;
+        state.loadStatus = LoadStatus.Loaded;
+        state.isReady = true;
+      })
+
       .addCase(checkAuthAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
         state.error = '';

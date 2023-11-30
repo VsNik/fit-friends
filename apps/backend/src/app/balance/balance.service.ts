@@ -2,8 +2,8 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
 import { IBalance, ITraining } from '@fit-friends/shared';
-import {Pagination} from '@fit-friends/filters';
-import { TRAININGS_COUNT_ERROR, TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
+import { Pagination } from '@fit-friends/filters';
+import { OtherError, AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class BalanceService {
@@ -42,7 +42,7 @@ export class BalanceService {
     const existTBalance = await this.getByTriningId(trainingId, userId);
 
     if (existTBalance.count < count) {
-      throw new BadRequestException(TRAININGS_COUNT_ERROR);
+      throw new BadRequestException(OtherError.TrainingCount);
     }
 
     existTBalance.dismission(count);
@@ -53,7 +53,7 @@ export class BalanceService {
   async getByTriningId(trainingId: string, currentUserId: string): Promise<BalanceEntity> {
     const balance = await this.balanceRepository.findByTrainingId(trainingId);
     if (!balance || balance.userId !== currentUserId) {
-      throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.TrainingNotFound);
     }
     return balance;
   }

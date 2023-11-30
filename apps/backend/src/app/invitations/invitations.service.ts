@@ -7,7 +7,7 @@ import { UsersService } from '../users/users.service';
 import { InvitationEntity } from './entities/invitation.entity';
 import { InviteCreatedEvent } from './events/invite-created.event';
 import { InviteStatusChangedEvent } from './events/invite-status-changed.event';
-import { INVITATION_NOT_FOUND, SELF_INVITE_ERROR, UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
+import { OtherError, AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class InvitationsService {
@@ -20,7 +20,7 @@ export class InvitationsService {
 
   async create(toUserId: string, initiatorId: string): Promise<InvitationEntity> {
     if (initiatorId === toUserId) {
-      throw new BadRequestException(SELF_INVITE_ERROR);
+      throw new BadRequestException(OtherError.SelfInvite);
     }
 
     const toUser = await this.usersService.getUser(toUserId);
@@ -38,10 +38,7 @@ export class InvitationsService {
 
     const createdInvitation = await this.invitationsRepository.save(invitation);
 
-    this.eventEmitter.emit(
-        AppEvent.InviteCreated, 
-        new InviteCreatedEvent(initiatorUser.id, initiatorUser.name, toUser.id)
-    );
+    this.eventEmitter.emit(AppEvent.InviteCreated, new InviteCreatedEvent(initiatorUser.id, initiatorUser.name, toUser.id));
 
     return createdInvitation;
   }
@@ -49,21 +46,18 @@ export class InvitationsService {
   async changeStatus(invitationId: string, status: InviteStatus, userId: string): Promise<InvitationEntity> {
     const user = await this.usersService.findById(userId);
     if (!user) {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
 
     const invitation = await this.invitationsRepository.findById(invitationId);
     if (!invitation) {
-      throw new NotFoundException(INVITATION_NOT_FOUND);
+      throw new NotFoundException(AppError.InvitationNotFound);
     }
 
     invitation.changeStatus(status);
     await this.invitationsRepository.update(invitation);
 
-    this.eventEmitter.emit(
-        AppEvent.InviteStatusChanged, 
-        new InviteStatusChangedEvent(userId, user.name, invitation.initiatorId, status)
-    );
+    this.eventEmitter.emit(AppEvent.InviteStatusChanged, new InviteStatusChangedEvent(userId, user.name, invitation.initiatorId, status));
 
     return invitation;
   }

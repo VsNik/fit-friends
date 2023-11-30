@@ -37,6 +37,7 @@ export type AuthState = {
   authId: string;
   authRole?: Role;
   isAuth: boolean;
+  isReady: boolean;
   loadStatus: LoadStatus;
   error: string;
 };

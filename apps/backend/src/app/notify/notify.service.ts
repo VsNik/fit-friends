@@ -3,8 +3,7 @@ import { INotifyRepository, NOTIFY_REPO } from './entities/notify-repository.int
 import { NotifyEntity } from './entities/notify.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TrainingCreatedEvent } from '../trainings/events/training-created.event';
-import { NOTIFY_EMPTY_ERROR } from '@fit-friends/libs/validation';
-
+import { OtherError } from '@fit-friends/libs/validation';
 
 export enum MailNotify {
   Subject = 'Новые тренировки на FitFriends',
@@ -28,7 +27,7 @@ export class NotifyService {
     const notifys = await this.notifyRepository.findByCoachId(coachId);
 
     if (!notifys) {
-      throw new BadRequestException(NOTIFY_EMPTY_ERROR);
+      throw new BadRequestException(OtherError.NotifyEmpty);
     }
 
     for (const notify of notifys) {

@@ -1,14 +1,18 @@
 import { IUser, Role } from '@fit-friends/shared';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '../../services/auth-api';
-import { history } from '../../utils/history';
 import { RouteName } from '../../constants/route';
+import { AppDispatch } from '..';
+import { redirectToRoute } from '../action';
 
-export const signupAction = createAsyncThunk<unknown, FormData>('auth/signup', async (formData) => {
+export const signupAction = createAsyncThunk<Role, FormData, { dispatch: AppDispatch }>('auth/signup', async (formData, { dispatch }) => {
+  const data = await authApi.signup(formData);
   if (formData.get('role') === Role.User) {
-    return history.navigate(RouteName.QuestionUser);
+    dispatch(redirectToRoute(RouteName.QuestionUser));
+  } else {
+    dispatch(redirectToRoute(RouteName.QuestionCoach));
   }
-  return history.navigate(RouteName.QuestionCoach);
+  return data.get('role') as Role;
 });
 
 export const checkAuthAction = createAsyncThunk<IUser>('auth/check-auth', async (_, { rejectWithValue }) => {

@@ -2,8 +2,8 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { ALERT_REPO, IAlertsRepository } from './entities/alerts-repository.interface';
 import { AlertEntity } from './entities/alert.entity';
 import { IAlert } from '@fit-friends/shared';
-import {Pagination} from '@fit-friends/filters';
-import { ALERT_NOT_FOUND, NOT_YOUR_ALERT } from '@fit-friends/libs/validation';
+import { Pagination } from '@fit-friends/filters';
+import { AppError, OtherError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class AlertsService {
@@ -25,11 +25,11 @@ export class AlertsService {
   async delete(alertId: string, currentUserId: string): Promise<boolean> {
     const alert = await this.alertsRepository.findById(alertId);
     if (!alert) {
-      throw new NotFoundException(ALERT_NOT_FOUND);
+      throw new NotFoundException(AppError.AlertNotFound);
     }
 
     if (alert.userId !== currentUserId) {
-      throw new BadRequestException(NOT_YOUR_ALERT);
+      throw new BadRequestException(OtherError.NotYouAlert);
     }
 
     return this.alertsRepository.delete(alertId);

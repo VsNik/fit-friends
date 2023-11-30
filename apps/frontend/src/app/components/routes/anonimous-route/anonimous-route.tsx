@@ -8,11 +8,12 @@ import { RouteName } from '../../../constants/route';
 export const AnonimousRoute: React.FC = () => {
   const isAuth = useAppSelector(authSelector.isAuth);
   const role = useAppSelector(authSelector.authRole);
+  const isReady = useAppSelector(authSelector.isReady);
 
-  if (isAuth) {
+  if (!isReady && isAuth) {
     return role === Role.User 
-        ? <Navigate to={RouteName.Home} replace /> 
-        : <Navigate to={RouteName.Account} replace />;
+        ? <Navigate to={RouteName.Home} /> 
+        : <Navigate to={RouteName.Account} />;
   }
 
   return <Outlet />;

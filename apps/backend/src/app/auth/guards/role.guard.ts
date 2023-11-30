@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UNAUTHORIZED_ERROR } from '@fit-friends/libs/validation';
+import { AppError } from '@fit-friends/libs/validation';
 import { RequestExpress } from '@fit-friends/libs/types';
 import { Role } from '@fit-friends/shared';
 import { ROLES_KEY } from '../decorators/roles.decorator';
@@ -13,7 +13,7 @@ export class RoleGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<RequestExpress>();
 
     if (!request.role) {
-      throw new UnauthorizedException(UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
 
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [context.getHandler(), context.getClass()]);

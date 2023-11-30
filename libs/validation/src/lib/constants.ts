@@ -5,20 +5,20 @@ export const MAX_AVATAR_SIZE = 1024 * 1024;
 export const MAX_LIMIT = 50;
 export const DEFAULT_PAGE = 1;
 
-export enum UserValidate {
-  NameMinLength = 1,
-  NameMaxLength = 15,
-  PasswordMinLength = 6,
-  PasswordMaxLength = 12,
-  BioMinLength = 10,
-  BioMaxLength = 140,
-  CaloryMin = 1000,
-  CaloryMax = 5000,
-  TrainingTypeMinCount = 1,
-  TrainingTypeMaxCount = 3,
-  MeritsMinLength = 10,
-  MeritsMaxLength = 140,
-}
+export const UserValidate = {
+  NameMinLength: 1,
+  NameMaxLength: 15,
+  PasswordMinLength: 6,
+  PasswordMaxLength: 12,
+  BioMinLength: 10,
+  BioMaxLength: 140,
+  CaloryMin: 1000,
+  CaloryMax: 5000,
+  TrainingTypeMinCount: 1,
+  TrainingTypeMaxCount: 3,
+  MeritsMinLength: 10,
+  MeritsMaxLength: 140,
+} as const;
 
 export enum TrainingValidate {
   TitleMinLength = 1,

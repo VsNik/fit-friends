@@ -24,9 +24,9 @@ export const SignupForm: React.FC = () => {
     defaultValues: { gender: Gender.Male, role: Role.Coach },
     resolver: yupResolver(signupSchema),
   });
-  
+
   const fileImage = methods.watch('avatar');
-  const {previewImage, resetImage} = useImagePreview(fileImage as FileList);
+  const { previewImage, resetImage } = useImagePreview(fileImage as FileList);
 
   const resetForm = () => {
     methods.reset();
@@ -59,7 +59,7 @@ export const SignupForm: React.FC = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="sign-up">
           <div className="sign-up__load-photo">
-            <InputAvatar name='avatar' previewImage={previewImage} accept='image/png, image/jpeg'/>
+            <InputAvatar name="avatar" previewImage={previewImage} accept="image/png, image/jpeg" />
             <div className="sign-up__description">
               <h2 className="sign-up__legend">Загрузите фото профиля</h2>
               <span className="sign-up__text">JPG, PNG, оптимальный размер 100&times;100&nbsp;px</span>
@@ -69,10 +69,10 @@ export const SignupForm: React.FC = () => {
             <Input label="Имя" name="name" type="text" />
             <Input label="E-mail" name="email" type="email" />
             <Input label="Дата рождения" name="birthday" type="date" />
-            <Select 
+            <Select
               options={locationsList}
               name="location"
-              label='Ваша локация'
+              label="Ваша локация"
               placeholder="Выберите локацию"
               selected={location}
               setSelected={setLocation}
@@ -82,9 +82,9 @@ export const SignupForm: React.FC = () => {
             <div className="sign-up__radio">
               <span className="sign-up__label">Пол</span>
               <div className="custom-toggle-radio custom-toggle-radio--big">
-                <InputRadio name="gender" value={Gender.Male} label="Мужской"/>
-                <InputRadio name="gender" value={Gender.Female} label="Женский"/>
-                <InputRadio name="gender" value={Gender.AnyGender} label="Неважно"/>
+                <InputRadio name="gender" value={Gender.Male} label="Мужской" />
+                <InputRadio name="gender" value={Gender.Female} label="Женский" />
+                <InputRadio name="gender" value={Gender.AnyGender} label="Неважно" />
               </div>
             </div>
           </div>
@@ -92,20 +92,14 @@ export const SignupForm: React.FC = () => {
           <div className="sign-up__role">
             <h2 className="sign-up__legend">Выберите роль</h2>
             <div className="role-selector sign-up__role-selector">
-              <RoleBtnRadio role={Role.Coach}/>
-              <RoleBtnRadio role={Role.User}/>
+              <RoleBtnRadio role={Role.Coach} />
+              <RoleBtnRadio role={Role.User} />
             </div>
           </div>
 
           <div className="sign-up__checkbox">
             <label>
-              <input 
-                type="checkbox" 
-                value="user-agreement" 
-                name="user-agreement" 
-                defaultChecked={agree}
-                onClick={() => setAgree(!agree)}
-              />
+              <input type="checkbox" value="user-agreement" name="user-agreement" defaultChecked={agree} onClick={() => setAgree(!agree)} />
               <span className="sign-up__checkbox-icon">
                 <svg width="9" height="6" aria-hidden="true">
                   <use xlinkHref="/assets/img/sprite.svg#arrow-check" />
@@ -117,7 +111,7 @@ export const SignupForm: React.FC = () => {
             </label>
           </div>
 
-          <Button text='Продолжить' className='sign-up__button' type="submit" />
+          <Button text="Продолжить" className="sign-up__button" type="submit" disabled={!agree} />
         </div>
       </form>
     </FormProvider>

@@ -2,29 +2,17 @@ import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-frie
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
-  DURATION_NOT_EMPTY,
-  DURATION_VALUES,
-  GENDER_NOT_EMPTY,
-  GENDER_VALUES,
-  LEVEL_NOT_EMPTY,
-  LEVEL_VALUES,
-  LOSE_CALORY_IS_NUMBER,
-  LOSE_CALORY_MAX,
-  LOSE_CALORY_MIN,
-  LOSE_CALORY_NOT_EMPTY,
-  PRICE_IS_NUMBER,
-  PRICE_NOT_EMPTY,
-  SPECIAL_IS_BOOLEAN,
-  SPECIAL_NOT_EMPTY,
-  TRAININGTYPE_VALUES,
-  TRAINING_DESCRIPTION,
-  TRAINING_DESCRIPTION_IS_STRING,
-  TRAINING_DESCRIPTION_LENGTH,
-  TRAINING_TITLE_IS_STRING,
-  TRAINING_TITLE_LENGTH,
-  TRAINING_TITLE_NOT_EMPTY,
-  TRAINING_TYPE_NOT_EMPTY,
+  UserError,
+  TrainingError,
   TrainingValidate,
+  GENDER_VALUES,
+  LEVEL_VALUES,
+  TRAININGTYPE_VALUES,
+  DURATION_VALUES,
+  TRAINING_TITLE_LENGTH,
+  TRAINING_DESCRIPTION_LENGTH,
+  LOSE_CALORY_MIN,
+  LOSE_CALORY_MAX,
 } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -33,9 +21,9 @@ export class CreateTrainingDto {
     description: 'Название тренировки',
     example: 'Some training',
   })
-  @IsString({ message: TRAINING_TITLE_IS_STRING })
+  @IsString({ message: TrainingError.TitleString })
   @Length(TrainingValidate.TitleMinLength, TrainingValidate.TitleMaxLength, { message: TRAINING_TITLE_LENGTH })
-  @IsNotEmpty({ message: TRAINING_TITLE_NOT_EMPTY })
+  @IsNotEmpty({ message: TrainingError.TitleRequired })
   readonly title: string;
 
   @ApiProperty({
@@ -44,7 +32,7 @@ export class CreateTrainingDto {
     example: 'professional',
   })
   @IsEnum(TrainingLevel, { message: LEVEL_VALUES })
-  @IsNotEmpty({ message: LEVEL_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.LevelRequired })
   readonly level: TrainingLevel;
 
   @ApiProperty({
@@ -53,7 +41,7 @@ export class CreateTrainingDto {
     example: TrainingType.Boxing,
   })
   @IsEnum(TrainingType, { each: true, message: TRAININGTYPE_VALUES })
-  @IsNotEmpty({ message: TRAINING_TYPE_NOT_EMPTY })
+  @IsNotEmpty({ message: TrainingError.TypeRequired })
   readonly type: TrainingType;
 
   @ApiProperty({
@@ -62,7 +50,7 @@ export class CreateTrainingDto {
     example: TrainingDuration.Normal,
   })
   @IsEnum(TrainingDuration, { message: DURATION_VALUES })
-  @IsNotEmpty({ message: DURATION_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.DurationRequired })
   readonly duration: TrainingDuration;
 
   @ApiProperty({
@@ -70,9 +58,9 @@ export class CreateTrainingDto {
     example: 5000,
   })
   @Type(() => Number)
-  @IsNumber({ allowInfinity: true, allowNaN: true }, { message: PRICE_IS_NUMBER })
-  @IsPositive({ message: PRICE_IS_NUMBER })
-  @IsNotEmpty({ message: PRICE_NOT_EMPTY })
+  @IsNumber({ allowInfinity: true, allowNaN: true }, { message: TrainingError.PriceNumber })
+  @IsPositive({ message: TrainingError.PriceNumber })
+  @IsNotEmpty({ message: TrainingError.PriceRequired })
   readonly price: number;
 
   @ApiProperty({
@@ -80,19 +68,19 @@ export class CreateTrainingDto {
     example: 3000,
   })
   @Type(() => Number)
-  @IsNumber({}, { message: LOSE_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.LoseCaloryNumber })
   @Min(TrainingValidate.CaloryMin, { message: LOSE_CALORY_MIN })
   @Max(TrainingValidate.CaloryMax, { message: LOSE_CALORY_MAX })
-  @IsNotEmpty({ message: LOSE_CALORY_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.LoseCaloryRequired })
   readonly calories: number;
 
   @ApiProperty({
     description: 'Описание тренировки',
     example: 'Some decription text',
   })
-  @IsString({ message: TRAINING_DESCRIPTION_IS_STRING })
+  @IsString({ message: TrainingError.DescString })
   @Length(TrainingValidate.DescriptionMinLength, TrainingValidate.DescriptionMaxLength, { message: TRAINING_DESCRIPTION_LENGTH })
-  @IsNotEmpty({ message: TRAINING_DESCRIPTION })
+  @IsNotEmpty({ message: TrainingError.DescRequired })
   readonly description: string;
 
   @ApiProperty({
@@ -101,7 +89,7 @@ export class CreateTrainingDto {
     example: Gender.Male,
   })
   @IsEnum(Gender, { message: GENDER_VALUES })
-  @IsNotEmpty({ message: GENDER_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.GenderRequired })
   readonly gender: Gender;
 
   @ApiProperty({
@@ -119,7 +107,7 @@ export class CreateTrainingDto {
     example: true,
   })
   @Type(() => Boolean)
-  @IsBoolean({ message: SPECIAL_IS_BOOLEAN })
-  @IsNotEmpty({ message: SPECIAL_NOT_EMPTY })
+  @IsBoolean({ message: TrainingError.SpecialBoolean })
+  @IsNotEmpty({ message: TrainingError.SpecialRequired })
   readonly isSpecial: boolean;
 }

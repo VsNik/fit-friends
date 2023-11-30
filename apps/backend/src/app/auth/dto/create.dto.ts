@@ -3,30 +3,18 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import {
-  BIO_IS_STRING,
-  BIO_LENGTH,
-  BIRTHDAY_IS_STRING,
-  EMAIL_NOT_EMPTY,
-  GENDER_NOT_EMPTY,
-  GENDER_VALUES,
-  INVALID_EMAIL,
-  LEVEL_NOT_EMPTY,
-  LEVEL_VALUES,
-  LOCATION_NOT_EMPTY,
-  LOCATION_VALUES,
-  NAME_IS_STRING,
-  NAME_NOT_EMPTY,
-  PASSWORD_IS_STRING,
-  PASSWORD_LENGTH,
-  PASSWORD_NOT_EMPTY,
-  ROLE_NOT_EMPTY,
-  ROLE_VALUES,
-  TRAININGTYPE_MAX_SIZE,
-  TRAININGTYPE_NOT_EMPTY,
-  TRAININGTYPE_VALUES,
-  TRAINING_TYPE_NOT_EMPTY,
-  USER_NAME_LENGTH,
+  UserError,
+  TrainingError,
   UserValidate,
+  USER_NAME_LENGTH,
+  PASSWORD_LENGTH,
+  GENDER_VALUES,
+  ROLE_VALUES,
+  BIO_LENGTH,
+  LOCATION_VALUES,
+  LEVEL_VALUES,
+  TRAININGTYPE_VALUES,
+  TRAININGTYPE_MAX_SIZE,
 } from '@fit-friends/libs/validation';
 
 export class CreateDto {
@@ -34,17 +22,17 @@ export class CreateDto {
     description: 'Имя пользователя',
     example: 'Ivanov Ivan',
   })
-  @IsString({ message: NAME_IS_STRING })
+  @IsString({ message: UserError.NameString })
   @Length(UserValidate.NameMinLength, UserValidate.NameMaxLength, { message: USER_NAME_LENGTH })
-  @IsNotEmpty({ message: NAME_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.NameRequired })
   readonly name: string;
 
   @ApiProperty({
     description: 'Email адрес',
     example: 'ivan@app.test',
   })
-  @IsEmail({}, { message: INVALID_EMAIL })
-  @IsNotEmpty({ message: EMAIL_NOT_EMPTY })
+  @IsEmail({}, { message: UserError.EmailIncorrect })
+  @IsNotEmpty({ message: UserError.EmailRequired })
   readonly email: string;
 
   @ApiProperty({
@@ -60,9 +48,9 @@ export class CreateDto {
     description: 'Пароль пользователя',
     example: 'password',
   })
-  @IsString({ message: PASSWORD_IS_STRING })
+  @IsString({ message: UserError.PasswordString })
   @Length(UserValidate.PasswordMinLength, UserValidate.PasswordMaxLength, { message: PASSWORD_LENGTH })
-  @IsNotEmpty({ message: PASSWORD_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.PasswordRequired })
   readonly password: string;
 
   @ApiProperty({
@@ -71,7 +59,7 @@ export class CreateDto {
     example: 'male',
   })
   @IsEnum(Gender, { message: GENDER_VALUES })
-  @IsNotEmpty({ message: GENDER_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.GenderRequired })
   readonly gender: Gender;
 
   @ApiProperty({
@@ -79,7 +67,7 @@ export class CreateDto {
     example: '01.01.1991',
     required: false,
   })
-  @IsString({ message: BIRTHDAY_IS_STRING })
+  @IsString({ message: UserError.BirtdayString })
   @IsOptional()
   readonly birthDay?: string;
 
@@ -89,7 +77,7 @@ export class CreateDto {
     example: Role.User,
   })
   @IsEnum(Role, { message: ROLE_VALUES })
-  @IsNotEmpty({ message: ROLE_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.RoleRequired })
   readonly role: Role;
 
   @ApiProperty({
@@ -98,7 +86,7 @@ export class CreateDto {
     example: 'some text description',
     required: false,
   })
-  @IsString({ message: BIO_IS_STRING })
+  @IsString({ message: UserError.BioString })
   @Length(UserValidate.BioMinLength, UserValidate.BioMaxLength, { message: BIO_LENGTH })
   @IsOptional()
   readonly bio?: string;
@@ -109,7 +97,7 @@ export class CreateDto {
     example: Location.Pionerskaya,
   })
   @IsEnum(Location, { message: LOCATION_VALUES })
-  @IsNotEmpty({ message: LOCATION_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.LocationRequired })
   readonly location: Location;
 
   @ApiProperty({
@@ -118,7 +106,7 @@ export class CreateDto {
     example: 'professional',
   })
   @IsEnum(TrainingLevel, { message: LEVEL_VALUES })
-  @IsNotEmpty({ message: LEVEL_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.LevelRequired })
   readonly trainingLevel: TrainingLevel;
 
   @ApiProperty({
@@ -128,9 +116,9 @@ export class CreateDto {
   })
   @Transform(({ value }) => (Array.isArray(value) ? value : value.split(',')))
   @IsArray()
-  @ArrayNotEmpty({ message: TRAININGTYPE_NOT_EMPTY })
+  @ArrayNotEmpty({ message: TrainingError.TypeRequired })
   @ArrayMaxSize(UserValidate.TrainingTypeMaxCount, { message: TRAININGTYPE_MAX_SIZE })
   @IsEnum(TrainingType, { each: true, message: TRAININGTYPE_VALUES })
-  @IsNotEmpty({ message: TRAINING_TYPE_NOT_EMPTY })
+  @IsNotEmpty({ message: TrainingError.TypeRequired })
   readonly trainingType: TrainingType[];
 }

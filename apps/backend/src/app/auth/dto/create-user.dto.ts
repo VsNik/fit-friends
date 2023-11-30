@@ -3,18 +3,12 @@ import { CreateDto } from './create.dto';
 import { TrainingDuration } from '@fit-friends/shared';
 import { Transform, Type } from 'class-transformer';
 import {
-  BURN_CALORY_IS_NUMBER,
   BURN_CALORY_MAX,
   BURN_CALORY_MIN,
-  BURN_CALORY_NOT_EMPTY,
-  DURATION_NOT_EMPTY,
   DURATION_VALUES,
-  LOSE_CALORY_IS_NUMBER,
   LOSE_CALORY_MAX,
   LOSE_CALORY_MIN,
-  LOSE_CALORY_NOT_EMPTY,
-  READY_IS_BOOLEAN,
-  READY_NOT_EMPTY,
+  UserError,
   UserValidate,
 } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
@@ -26,7 +20,7 @@ export class CreateUserDto extends CreateDto {
     example: TrainingDuration.Normal,
   })
   @IsEnum(TrainingDuration, { message: DURATION_VALUES })
-  @IsNotEmpty({ message: DURATION_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.DurationRequired })
   readonly trainingTime: TrainingDuration;
 
   @ApiProperty({
@@ -35,10 +29,10 @@ export class CreateUserDto extends CreateDto {
   })
   @Type(() => Number)
   @IsInt()
-  @IsNumber({}, { message: LOSE_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.LoseCaloryNumber })
   @Min(UserValidate.CaloryMin, { message: LOSE_CALORY_MIN })
   @Max(UserValidate.CaloryMax, { message: LOSE_CALORY_MAX })
-  @IsNotEmpty({ message: LOSE_CALORY_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.LoseCaloryRequired })
   readonly loseCalories: number;
 
   @ApiProperty({
@@ -47,10 +41,10 @@ export class CreateUserDto extends CreateDto {
   })
   @Type(() => Number)
   @IsInt()
-  @IsNumber({}, { message: BURN_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.BurnCaloryNumber })
   @Min(UserValidate.CaloryMin, { message: BURN_CALORY_MIN })
   @Max(UserValidate.CaloryMax, { message: BURN_CALORY_MAX })
-  @IsNotEmpty({ message: BURN_CALORY_NOT_EMPTY })
+  @IsNotEmpty({ message: UserError.BurnCaloryRequired })
   readonly burnCalories: number;
 
   @ApiProperty({
@@ -58,8 +52,8 @@ export class CreateUserDto extends CreateDto {
     description: 'Готовность к тренировке',
     example: true,
   })
-  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
-  @IsBoolean({ message: READY_IS_BOOLEAN })
-  @IsNotEmpty({ message: READY_NOT_EMPTY })
+  @Transform(({ value }) => (value && value === 'true') || value === true || value === 1 || value === '1')
+  @IsBoolean({ message: UserError.ReadyBoolean })
+  @IsNotEmpty({ message: UserError.ReadyRequired })
   readonly ready: boolean;
 }

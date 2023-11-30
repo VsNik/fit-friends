@@ -2,8 +2,8 @@ import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile } from '@fit-friends/libs/types';
-import {IUser, Role, UploadType} from '@fit-friends/shared';
-import {Pagination, UsersFilter} from '@fit-friends/filters';
+import { IUser, Role, UploadType } from '@fit-friends/shared';
+import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { AppEvent, PASSWORD_SALT } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
 import { IUsersRepository, USERS_REPO } from './entities/users-repository.interface';
@@ -13,13 +13,7 @@ import { UserEntity } from './entities/user.entity';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
 import { UpdateDto } from './dto/update.dto';
-import {
-  COACH_NOT_FOUND_ERROR,
-  FOLLOW_EQUAL_ERROR,
-  SUBSCRIBE_ROLE_ERROR,
-  USER_EXIST_ERROR,
-  USER_NOT_FOUND_ERROR,
-} from '@fit-friends/libs/validation';
+import { OtherError, AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class UsersService {
@@ -38,7 +32,7 @@ export class UsersService {
   async create(dto: CreateUserDto | CreateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
     const existUser = await this.findByEmail(dto.email);
     if (existUser) {
-      throw new BadRequestException(USER_EXIST_ERROR);
+      throw new BadRequestException(OtherError.UserExist);
     }
 
     const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
@@ -67,10 +61,6 @@ export class UsersService {
       existUser.updateRoleUser(dto);
     } else {
       if (fileCertificate) {
-        // if (existUser.certificate) {
-        //   await this.fileService.delete(existUser.certificate);
-        // }
-
         existUser.setCertificate(await this.fileService.upload(fileCertificate, UploadType.Certificate));
       }
 
@@ -83,12 +73,12 @@ export class UsersService {
 
   async followUnfollow(followId: string, currentUserId: string): Promise<boolean> {
     if (followId === currentUserId) {
-      throw new BadRequestException(FOLLOW_EQUAL_ERROR);
+      throw new BadRequestException(OtherError.FollowEqual);
     }
 
     const followUser = await this.findById(followId);
     if (!followUser) {
-      throw new BadRequestException(USER_NOT_FOUND_ERROR);
+      throw new BadRequestException(AppError.UserNotFound);
     }
 
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
@@ -119,11 +109,11 @@ export class UsersService {
   async subscribeUnsubscribe(coachId: string, currentUserId: string) {
     const coachUser = await this.findById(coachId);
     if (!coachUser) {
-      throw new NotFoundException(COACH_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.CoachNotFound);
     }
 
     if (coachUser.role !== Role.Coach) {
-      throw new BadRequestException(SUBSCRIBE_ROLE_ERROR);
+      throw new BadRequestException(OtherError.SubscribeRole);
     }
 
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
@@ -151,7 +141,7 @@ export class UsersService {
   async getUser(id: string): Promise<UserEntity> {
     const existUser = await this.findById(id);
     if (!existUser) {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.UserNotFound);
     }
 
     return existUser;

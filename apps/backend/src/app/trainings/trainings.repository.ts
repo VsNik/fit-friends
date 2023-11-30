@@ -6,7 +6,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
 import { ITraining } from '@fit-friends/shared';
 import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
-import { TRAINING_NOT_FOUND_ERROR } from '@fit-friends/libs/validation';
+import { AppError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class TrainingsRepository implements ITrainingsRepository {
@@ -15,7 +15,7 @@ export class TrainingsRepository implements ITrainingsRepository {
   async get(id: string): Promise<TrainingEntity> {
     const training = await this.findById(id);
     if (!training) {
-      throw new NotFoundException(TRAINING_NOT_FOUND_ERROR);
+      throw new NotFoundException(AppError.TrainingNotFound);
     }
     return training;
   }

@@ -1,4 +1,4 @@
-import { RATING_IS_NUMBER, REVIEW_IS_STRING, REVIEW_NOT_EMPTY, ReviewValidate } from '@fit-friends/libs/validation';
+import { ReviewValidate, OtherError, RATING_IS_NUMBER, REVIEW_IS_STRING } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsNumber, IsString, Length, Max, Min } from 'class-validator';
@@ -6,7 +6,7 @@ import { IsInt, IsNotEmpty, IsNumber, IsString, Length, Max, Min } from 'class-v
 export class CreateReviewDto {
   @ApiProperty({
     description: 'Оценка тренировки',
-    example: 5
+    example: 5,
   })
   @IsInt()
   @Type(() => Number)
@@ -17,10 +17,10 @@ export class CreateReviewDto {
 
   @ApiProperty({
     description: 'Текст отзыва',
-    example: 'Хорошая тренировка'
+    example: 'Хорошая тренировка',
   })
   @IsString({ message: REVIEW_IS_STRING })
   @Length(ReviewValidate.TextMinLength, ReviewValidate.TextMaxLength, { message: REVIEW_IS_STRING })
-  @IsNotEmpty({ message: REVIEW_NOT_EMPTY })
+  @IsNotEmpty({ message: OtherError.ReviewRequired })
   readonly text: string;
 }

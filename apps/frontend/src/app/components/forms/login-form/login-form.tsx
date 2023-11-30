@@ -7,6 +7,7 @@ import { LoginType } from '../../../types/forms-type';
 import { Button } from '../../ui/button/button';
 
 export const LoginForm: React.FC = () => {
+
   const methods = useForm<LoginType>({
     resolver: yupResolver(loginSchema),
   });
@@ -14,7 +15,6 @@ export const LoginForm: React.FC = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = (data: LoginType) => {
-    console.log(data);
     reset();
   };
 

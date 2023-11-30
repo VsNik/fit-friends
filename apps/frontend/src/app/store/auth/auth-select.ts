@@ -7,3 +7,4 @@ export const authId = (state: RootState) => all(state).authId;
 export const authRole = (state: RootState) => all(state).authRole;
 export const isAuth = (state: RootState) => all(state).isAuth;
 export const loadStatus = (state: RootState) => all(state).loadStatus;
+export const isReady = (state: RootState) => all(state).isReady;

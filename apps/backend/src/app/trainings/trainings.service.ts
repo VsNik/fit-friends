@@ -12,7 +12,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { FilesService } from '../files/files.service';
 import { TrainingCreatedEvent } from './events/training-created.event';
-import { NOT_OWNER_ERROR } from '@fit-friends/libs/validation';
+import { OtherError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class TrainingsService {
@@ -65,7 +65,7 @@ export class TrainingsService {
     const coach = await this.usersService.getUser(coachId);
 
     if (existTraining.coach.id !== coach.id) {
-      throw new BadRequestException(NOT_OWNER_ERROR);
+      throw new BadRequestException(OtherError.NotOwner);
     }
 
     Object.assign(existTraining, dto);

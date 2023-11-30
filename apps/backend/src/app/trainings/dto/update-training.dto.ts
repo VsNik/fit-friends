@@ -2,31 +2,27 @@ import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-frie
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Min } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import {
-  DURATION_VALUES,
+  UserError,
+  TrainingError,
+  TrainingValidate,
   GENDER_VALUES,
   LEVEL_VALUES,
-  LOSE_CALORY_IS_NUMBER,
-  LOSE_CALORY_MAX,
-  LOSE_CALORY_MIN,
-  PRICE_IS_NUMBER,
-  SPECIAL_IS_BOOLEAN,
   TRAININGTYPE_VALUES,
-  TRAINING_DESCRIPTION_IS_STRING,
-  TRAINING_DESCRIPTION_LENGTH,
-  TRAINING_TITLE_IS_STRING,
+  DURATION_VALUES,
   TRAINING_TITLE_LENGTH,
-  TrainingValidate,
+  TRAINING_DESCRIPTION_LENGTH,
+  LOSE_CALORY_MIN,
+  LOSE_CALORY_MAX,
 } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateTrainingDto {
-
   @ApiProperty({
     description: 'Название тренировки',
     example: 'Some training',
     required: false,
   })
-  @IsString({ message: TRAINING_TITLE_IS_STRING })
+  @IsString({ message: TrainingError.TitleString })
   @Length(TrainingValidate.TitleMinLength, TrainingValidate.TitleMaxLength, { message: TRAINING_TITLE_LENGTH })
   @IsOptional()
   readonly title: string;
@@ -67,8 +63,8 @@ export class UpdateTrainingDto {
     required: false,
   })
   @Type(() => Number)
-  @IsNumber({ allowInfinity: true, allowNaN: true }, { message: PRICE_IS_NUMBER })
-  @IsPositive({ message: PRICE_IS_NUMBER })
+  @IsNumber({ allowInfinity: true, allowNaN: true }, { message: TrainingError.PriceNumber })
+  @IsPositive({ message: TrainingError.PriceNumber })
   @IsOptional()
   readonly price: number;
 
@@ -78,7 +74,7 @@ export class UpdateTrainingDto {
     required: false,
   })
   @Type(() => Number)
-  @IsNumber({}, { message: LOSE_CALORY_IS_NUMBER })
+  @IsNumber({}, { message: UserError.LoseCaloryNumber })
   @Min(TrainingValidate.CaloryMin, { message: LOSE_CALORY_MIN })
   @Max(TrainingValidate.CaloryMax, { message: LOSE_CALORY_MAX })
   @IsOptional()
@@ -89,7 +85,7 @@ export class UpdateTrainingDto {
     example: 'Some decription text',
     required: false,
   })
-  @IsString({ message: TRAINING_DESCRIPTION_IS_STRING })
+  @IsString({ message: TrainingError.DescString })
   @Length(TrainingValidate.DescriptionMinLength, TrainingValidate.DescriptionMaxLength, { message: TRAINING_DESCRIPTION_LENGTH })
   @IsOptional()
   readonly description: string;
@@ -119,8 +115,8 @@ export class UpdateTrainingDto {
     example: true,
     required: false,
   })
-  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
-  @IsBoolean({ message: SPECIAL_IS_BOOLEAN })
+  @Transform(({ value }) => (value && value === 'true') || value === true || value === 1 || value === '1')
+  @IsBoolean({ message: TrainingError.SpecialBoolean })
   @IsOptional()
   readonly isSpecial: boolean;
 }
