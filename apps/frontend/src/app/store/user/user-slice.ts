@@ -1,6 +1,5 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
-import { IUser, TrainingType } from '@fit-friends/shared';
-import { fakeCoach } from '../../fake-data/fake-user';
+import { IUser } from '@fit-friends/shared';
 import { fetchAuthAction, fetchUserAction, updateUserAction } from './async-actions';
 import { UserState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
@@ -38,14 +37,7 @@ export const userSlice = createSlice({
         state.error = '';
       })
       .addCase(updateUserAction.fulfilled, (state, { payload }) => {
-        state.user = {...fakeCoach, 
-          name: payload.name,
-          bio: payload.bio,
-          personalTraining: payload.personalTraining,
-          location: payload.location,
-          gender: payload.gender,
-          trainingType: payload.trainingType as TrainingType[]
-        };
+        state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
       .addCase(updateUserAction.rejected, (state, action: AnyAction) => {

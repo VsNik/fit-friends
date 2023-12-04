@@ -40,13 +40,14 @@ export const QuestionCoachForm: React.FC = () => {
 
   const onSubmit = (data: QuestionCoachType) => {
     setIsLoading(true);
-    const certificate = data.certificate as FileList;
+    const fileList = data.certificate as FileList;
+
     const formData = new FormData();
     formData.append('trainingType', data.trainingType.toString());
     formData.append('trainingLevel', data.trainingLevel);
     formData.append('merits', data.merits);
     formData.append('personalTraining', `${data.personalTraining}`);
-    formData.append('certificate', certificate[0]);
+    formData.append('certificate', fileList[0]);
     dispatch(createCoachAction(formData))
       .unwrap()
       .then(() => {
@@ -74,7 +75,7 @@ export const QuestionCoachForm: React.FC = () => {
 
             <div className="questionnaire-coach__block">
               <span className="questionnaire-coach__legend">Ваши дипломы и сертификаты</span>
-              <InputFile name="certificate" accept=".pdf, .jpg, .png" />
+              <InputFile name="certificate" accept=".pdf" placeholder='Загрузите сюда файлы формата PDF' />
             </div>
 
             <div className="questionnaire-coach__block">

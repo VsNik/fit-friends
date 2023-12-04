@@ -23,7 +23,7 @@ export const UserInfoAvatar: React.FC<UserInfoAvatarProps> = ({ user, setAvatar,
           onChange={(evt) => setAvatar(evt.target.files)}
         />
         <span className="input-load-avatar__avatar">
-          <img src={preview || user.avatar} width="98" height="98" alt="user avatar" />
+          <img src={preview || user.avatar || '/assets/img/default_avatar.png'} width="98" height="98" alt="user avatar" />
         </span>
       </label>
     </div>

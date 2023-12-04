@@ -1,6 +1,7 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
 import { fakeCompanyUser, fakeUsers, testUser } from '../fake-data/fake-user';
-import { UserInfoType } from '../types/forms-type';
+import api from './api';
+import { AxiosResponse } from 'axios';
 
 const TIMEOUT = 500;
 
@@ -42,10 +43,8 @@ export const userApi = {
     });
   },
 
-  updateUser: (user: UserInfoType): Promise<UserInfoType> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(user), TIMEOUT);
-    });
+  updateUser: (formData: FormData): Promise<AxiosResponse<IUser>> => {
+    return api.patch<IUser>('/users', formData);
   },
 
   addCertificate: (id: string, formData: FormData): Promise<void> => {

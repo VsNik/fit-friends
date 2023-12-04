@@ -21,6 +21,14 @@ import * as Yup from 'yup';
 
 const VIDEO_TYPES = ['video/quicktime', 'video/mp4'];
 
+const avatarValidator = Yup.mixed()
+  .test('is-valid-type', OtherError.AvatarType, (value) => {
+    return value instanceof FileList && value[0] ? IMAGE_TYPES.includes(value[0].type) : true;
+  })
+  .test('is-valid-size', AVATAR_SIZE_ERROR, (value) => {
+    return value instanceof FileList && value[0] ? value[0].size <= MAX_AVATAR_SIZE : true;
+  });
+
 const trainingTypesValidator = Yup.array(Yup.mixed<TrainingType>().oneOf(Object.values(TrainingType)))
   .required()
   .test('is-valid-min--length', UserError.TypeMinCount, (value) => value.length >= UserValidate.TrainingTypeMinCount)
@@ -110,7 +118,8 @@ export const userInfoSchema = Yup.object({
   location: Yup.mixed<Location>().oneOf(Object.values(Location), UserError.LocationRequired).required(),
   gender: Yup.mixed<Gender>().oneOf(Object.values(Gender)).required(UserError.GenderRequired),
   trainingType: trainingTypesValidator,
-  avatar: Yup.mixed(),
+  trainingLevel: Yup.mixed<TrainingLevel>().oneOf(Object.values(TrainingLevel)).required(UserError.LevelRequired),
+  avatar: avatarValidator,
 });
 
 export const updateTrainingSchema = Yup.object({

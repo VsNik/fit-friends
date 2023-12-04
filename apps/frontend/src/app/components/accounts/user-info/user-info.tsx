@@ -12,6 +12,7 @@ interface UserInfoProps {
 export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [avatar, setAvatar] = useState<FileList | null>(null);
+  const [avatarError, setAvatarError] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { previewImage, resetImage } = useImagePreview(avatar as FileList);
@@ -22,12 +23,15 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
 
   const handleClickDelete = () => {
     resetImage();
+    setAvatar(null);
+    inputRef.current!.value = '';  
   };
 
   return (
     <section className={clsx(isEditable ? 'user-info-edit' : 'user-info')}>
       <div className="user-info-edit__header">
         <UserInfoAvatar user={user} setAvatar={setAvatar} preview={previewImage} inputRef={inputRef} disabled={!isEditable} />
+        {avatarError && <i className='custom-textarea__error'>{avatarError}</i>}
 
         {isEditable && (
           <div className="user-info-edit__controls">
@@ -45,7 +49,9 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
         )}
       </div>
 
-      <UserInfoForm user={user} isEditable={isEditable} setEditable={setIsEditable} avatar={avatar} />
+      
+
+      <UserInfoForm user={user} isEditable={isEditable} setEditable={setIsEditable} avatar={avatar} setAvatarError={setAvatarError} />
     </section>
   );
 };

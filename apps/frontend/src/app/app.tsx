@@ -3,7 +3,6 @@ import { Role } from '@fit-friends/shared';
 import { IntroPage } from './pages/intro/intro-page';
 import { LoginPage } from './pages/login/login-page';
 import { SignupPage } from './pages/signup/signup-page';
-import { AccountPage } from './pages/account/account-page';
 import { history } from './utils/history';
 import { HomePage } from './pages/home/home-page';
 import { TrainingsPage } from './pages/trainings/trainings-page';
@@ -26,6 +25,7 @@ import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-ro
 import * as authSelector from './store/auth/auth-select';
 import { LoadStatus } from './constants/common';
 import { QuestionPage } from './pages/question/question-page';
+import { Account } from './pages/account/account';
 
 // store.dispatch(fetchNotificationAction());
 
@@ -66,7 +66,7 @@ export function App() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path={RouteName.Account} element={<AccountPage />} />
+        <Route path={RouteName.Account} element={<Account />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
         <Route path={RouteName.UserCard} element={<UserPage />} />
         <Route path={RouteName.Friends} element={<FriendsPage />} />

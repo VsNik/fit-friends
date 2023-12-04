@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IUser } from '@fit-friends/shared';
 import { userApi } from '../../services/user-api';
-import { UserInfoType } from '../../types/forms-type';
+import { authApi } from '../../services/auth-api';
 
 export const fetchAuthAction = createAsyncThunk<IUser>('user/fetc-auth', async () => {
-  const data = await userApi.fetchAuth();
+  const {data} = await authApi.checkAuth();
   return data;
 });
 
@@ -13,9 +13,9 @@ export const fetchUserAction = createAsyncThunk<IUser, string>('user/fetch-user'
   return data;
 });
 
-export const updateUserAction = createAsyncThunk<UserInfoType, UserInfoType>('user/update', async (user, { rejectWithValue }) => {
+export const updateUserAction = createAsyncThunk<IUser, FormData>('user/update', async (formData, { rejectWithValue }) => {
   try {
-    const data = await userApi.updateUser(user);
+    const {data} = await userApi.updateUser(formData);
     return data;
   } catch (err) {
     return rejectWithValue(err);

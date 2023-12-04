@@ -3,7 +3,6 @@ import { ButtonFloat } from '../../ui/button-float/button-float';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { updateCertificateAction, deleteSertificateAction } from '../../../store/user/async-actions';
-import { Image } from '../../ui/image/image';
 import { LoadStatus } from '../../../constants/common';
 import * as authSelector from '../../../store/auth/auth-select';
 import clsx from 'clsx';
@@ -12,14 +11,13 @@ interface ThumbnailCertificatProps {
   userId: string;
   src: string;
   srcSet?: string;
-  alt?: string;
   type?: string;
 }
 
 export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) => {
   const dispatch = useAppDispatch();
   const loadStatus = useAppSelector(authSelector.loadStatus);
-  const { userId, src, alt } = props;
+  const { userId, src } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [fileList, setFile] = useState<FileList | null>(null);
   const certificateRef = useRef<HTMLInputElement | null>(null);
@@ -33,6 +31,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) =
       dispatch(updateCertificateAction({ id: userId, src, formData }));
       setFile(null);
     }
+    certificateRef.current!.files = null;
     setIsEdit(false);
   };
 
@@ -47,8 +46,10 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) =
   return (
     <div className="personal-account-coach__item">
       <div className={clsx('certificate-card', { 'certificate-card--edit': isEdit })}>
-        <Image src={src} width={294} height={360} alt={alt} className='certificate-card__image' />
-
+        <div className='certificate-card__image'>
+          <iframe src={`${src}#toolbar=0`} width={294} height={360} title='certificate' style={{border: 0}} />   
+        </div>      
+      
         <form className="certificate-card__buttons">
           <ButtonFloat
             text="Изменить"
@@ -73,7 +74,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = (props) =
               className="visually-hidden"
               type="file"
               name="certificate"
-              accept=".pdf, .jpg, .png"              
+              accept=".pdf"
               onChange={(evt) => setFile(evt.target.files)}
               ref={certificateRef}
             />

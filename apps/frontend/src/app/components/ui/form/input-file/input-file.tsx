@@ -5,10 +5,11 @@ interface InputFileProps {
   name: string;
   accept?: string;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 export const InputFile: React.FC<InputFileProps> = (props) => {
-  const { name, accept, disabled } = props
+  const { name, accept, disabled, placeholder } = props
 
   const {
     register,
@@ -28,7 +29,7 @@ export const InputFile: React.FC<InputFileProps> = (props) => {
     <div className="drag-and-drop questionnaire-coach__drag-and-drop">
       <label>
         <span className="drag-and-drop__label" tabIndex={0}>
-          {fileName ? fileName : 'Загрузите сюда файлы формата PDF, JPG или PNG'}
+          {fileName ? fileName : placeholder ?? 'Загрузите сюда файлы формата PDF, JPG или PNG'}
           <svg width="20" height="20" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#icon-import" />
           </svg>

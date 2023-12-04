@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { IUser } from '@fit-friends/shared';
+import { IUser, Role } from '@fit-friends/shared';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,9 +20,26 @@ interface UserInfoProps {
   isEditable: boolean;
   setEditable: (value: boolean) => void;
   avatar?: FileList | null;
+  setAvatarError: (value: string) => void;
 }
 
-export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable, avatar }) => {
+const getFieldUpdateUser = (user: IUser): UserInfoType => {
+  const fields = {
+    avatar: user.avatar,
+    name: user.name,
+    bio: user.bio!,
+    trainingType: user.trainingType!,
+    location: user.location,
+    gender: user.gender,
+    trainingLevel: user.trainingLevel!,
+  };
+  if (user.role === Role.User) {
+    return { ...fields, ready: user.ready };
+  }
+  return { ...fields, personalTraining: user.personalTraining };
+};
+
+export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable, avatar, setAvatarError }) => {
   const loadStatus = useAppSelector(authSelector.loadStatus);
   const dispatch = useAppDispatch();
   const [location, setLocation] = useState('');
@@ -32,26 +49,33 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
   const isLoading = loadStatus === LoadStatus.Loading;
 
   const methods = useForm<UserInfoType>({
-    defaultValues: useMemo(() => user, [user]),
+    defaultValues: useMemo(() => getFieldUpdateUser(user), [user]),
     resolver: yupResolver(userInfoSchema),
   });
 
   const {
     handleSubmit,
     reset,
-    formState: { errors }
+    setValue,
+    formState: { errors },
   } = methods;
 
   useEffect(() => {
-    reset(user)
-  }, [user, reset]);
+      setAvatarError(errors['avatar']?.message as string ?? '');
+  }, [errors, avatar, setAvatarError]);
 
   useEffect(() => {
+    const avatarImg = avatar as FileList;
+    avatarImg && setValue('avatar', avatar ? avatarImg : '');
+  }, [avatar, setValue]);
+
+  useEffect(() => {
+    reset(getFieldUpdateUser(user));
     setLocation(user.location);
     setGender(user.gender);
     setLevel(user.trainingLevel!);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const toggleEditMode = () => {
     if (Object.keys(errors).length === 0) {
@@ -60,15 +84,32 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
   };
 
   const onSubmit = (data: UserInfoType) => {
-    toggleEditMode();
-    console.log(data)
-    dispatch(updateUserAction(data));
+    setEditable(false);
+    const fileAvatar = avatar?.[0];
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('bio', data.bio);
+    formData.append('trainingType', data.trainingType.join(','));
+    formData.append('location', data.location);
+    formData.append('gender', data.gender);
+    formData.append('trainingLevel', data.trainingLevel);
+
+    if (user.role === Role.User) {
+      formData.append('ready', `${data.ready}`);
+    } else {
+      formData.append('personalTraining', `${data.personalTraining}`);
+    }
+
+    if (fileAvatar) {
+      formData.append('avatar', fileAvatar);
+    }
+    dispatch(updateUserAction(formData));
   };
 
   return (
     <FormProvider {...methods}>
       <form className={clsx(isEditable ? 'user-info-edit__form' : 'user-info__form')} onSubmit={handleSubmit(onSubmit)}>
-        {isEditable || (Object.keys(errors).length !== 0) || isLoading ? (
+        {isEditable || Object.keys(errors).length !== 0 || isLoading ? (
           <button className="btn-flat btn-flat--underlined user-info-edit__save-button" type="submit" aria-label="Сохранить" disabled={isLoading}>
             <svg width="12" height="12" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-edit" />
@@ -92,41 +133,46 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
         <div className="user-info-edit__section user-info-edit__section--status">
           <h2 className="user-info-edit__title user-info-edit__title--status">Статус</h2>
-          <Toggle name="personalTraining" label="Готов тренировать" className="user-info-edit__toggle" disabled={!isEditable} />
+          <Toggle
+            name={`${user?.role === Role.User ? 'ready' : 'personalTraining'}`}
+            label={`${user?.role === Role.User ? 'Готов к тренировке' : 'Готов тренировать'}`}
+            className="user-info-edit__toggle"
+            disabled={!isEditable}
+          />
         </div>
 
         <div className="user-info-edit__section">
           <h2 className="user-info-edit__title user-info-edit__title--specialization">Специализация</h2>
-          <SpecializationGroup className='user-info-edit__specialization' disabled={!isEditable}/>
+          <SpecializationGroup className="user-info-edit__specialization" disabled={!isEditable} />
         </div>
 
         <Select
-          label='Локация'
+          label="Локация"
           options={locationsList}
           name="location"
           selected={location}
           setSelected={setLocation}
-          className='user-info-edit__select'
+          className="user-info-edit__select"
           disabled={!isEditable}
         />
 
         <Select
-          label='Пол'
+          label="Пол"
           options={gendersList}
           name="gender"
           selected={gender}
           setSelected={setGender}
-          className='user-info-edit__select'
+          className="user-info-edit__select"
           disabled={!isEditable}
         />
 
         <Select
-          label='Уровень'
+          label="Уровень"
           options={levelsList}
           name="trainingLevel"
           selected={level}
           setSelected={setLevel}
-          className='user-info-edit__select'
+          className="user-info-edit__select"
           disabled={!isEditable}
         />
       </form>

@@ -1,9 +1,17 @@
-import { IAuthToken, TrainingDuration } from '@fit-friends/shared';
+import { IAuthToken, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { UserRdo } from './user.rdo';
 
 export class UserProfileRdo extends UserRdo {
+  @ApiProperty({ description: 'Уровень подготовки', example: TrainingLevel.Professional })
+  @Expose()
+  trainingLevel: TrainingLevel;
+
+  @ApiProperty({ description: 'Тип тренировок', example: [TrainingType.Crossfit, TrainingType.Boxing] })
+  @Expose()
+  trainingType: TrainingType[];
+
   @ApiProperty({ description: 'Продолжительность тренировки', example: TrainingDuration.Normal })
   @Expose()
   trainingDuration?: TrainingDuration;

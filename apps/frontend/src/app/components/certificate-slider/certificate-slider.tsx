@@ -83,7 +83,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
       >
         {certificates.map((certificate) => (
           <SwiperSlide key={certificate}>
-            <ThumbnailCertificat userId={user.id} src={certificate} alt={`${user.name} - Сертификат`} type="image/jpg" />
+            <ThumbnailCertificat userId={user.id} src={certificate} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -19,7 +19,7 @@ export class UserEntity implements IUser {
   loseCalories?: number;
   burnCalories?: number;
   ready?: boolean;
-  certificate?: string[];
+  certificate?: string[] = [];
   merits?: string;
   personalTraining?: boolean;
   followers?: IUser[];

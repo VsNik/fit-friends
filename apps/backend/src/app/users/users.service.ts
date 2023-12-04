@@ -58,7 +58,9 @@ export class UsersService {
   async createCoachProfile(userId: string, dto: CreateCoachDto, fileCertificate: ExpressFile): Promise<CoachType> {
     const existUser = await this.getUser(userId);
     const certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
+
     existUser.updateRoleCoach({ ...dto, certificate: [certificate] });
+    existUser.setCertificate(certificate);
     await this.usersRepository.update(existUser);
     return existUser.toObject();
   }

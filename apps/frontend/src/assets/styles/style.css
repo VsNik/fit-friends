@@ -2499,6 +2499,7 @@ input:active + .custom-textarea__text {
 }
 
 .user-info-edit__header {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
