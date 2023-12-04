@@ -2,7 +2,7 @@ export enum UploadType {
   Avatar = 'avatar',
   BgUser = 'bg-user',
   BgTraining = 'bg-training',
-  Certificate = 'certificate',
+  Certificate = 'certificates',
   Video = 'video',
 }
 

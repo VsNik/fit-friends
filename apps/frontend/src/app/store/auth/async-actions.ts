@@ -1,4 +1,4 @@
-import { IAccessTokenPayload, IUser, Role } from '@fit-friends/shared';
+import { IAccessTokenPayload, IUser } from '@fit-friends/shared';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
 import { authApi } from '../../services/auth-api';
@@ -34,11 +34,7 @@ export const signupAction = createAsyncThunk<IUser, FormData, { dispatch: AppDis
   async (formData, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await authApi.signup(formData);
-      if (data.role === Role.User) {
-        dispatch(redirectToRoute(RouteName.QuestionUser));
-      } else {
-        dispatch(redirectToRoute(RouteName.QuestionCoach));
-      }
+      dispatch(redirectToRoute(RouteName.Question));
       return data;
     } catch (err) {
       const error = err as AxiosError;
