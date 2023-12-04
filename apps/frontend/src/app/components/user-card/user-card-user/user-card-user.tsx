@@ -34,21 +34,21 @@ export const UserCardUser: React.FC<UserCardUserProps> = ({ user, onOpenMap }) =
           <div className="user-card__text">{user.bio}</div>
 
           <ul className="user-card__hashtag-list">
-            {user.trainingType.map((type) => (
+            {user.trainingType?.map((type) => (
               <li key={type} className="user-card__hashtag-item">
                 <Hashtag title={type} />
               </li>
             ))}
 
             <li className="user-card__hashtag-item">
-              <Hashtag title={user.trainingLevel} />
+              <Hashtag title={user.trainingLevel!} />
             </li>
           </ul>
 
           <Button text="Добавить в друзья" className="user-card__btn" />
         </div>
 
-        <UserCardGallary images={user.bgImage ? [user.bgImage, '/assets/img/content/user-card-photo2.jpg'] : []} className="user-card__gallary"/>
+        <UserCardGallary images={user.bgImage} className="user-card__gallary"/>
       </div>
     </section>
   );

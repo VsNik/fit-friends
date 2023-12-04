@@ -7,6 +7,12 @@ import { store } from './app/store';
 import App from './app/app';
 import './assets/styles/style.css';
 import { ScrollTop } from './app/components/scroll-top';
+import { getAccessToken } from './app/services/token';
+import { checkAuthAction } from './app/store/auth/async-actions';
+
+if (getAccessToken()) {
+  store.dispatch(checkAuthAction());
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

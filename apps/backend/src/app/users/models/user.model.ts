@@ -36,17 +36,17 @@ export class User {
   @Column({ type: 'enum', enum: Location })
   location: Location;
 
-  @Column()
-  bgImage: string;
+  @Column('simple-array')
+  bgImage: string[];
 
-  @Column({ type: 'enum', enum: TrainingLevel })
-  trainingLevel: TrainingLevel;
+  @Column({ type: 'enum', enum: TrainingLevel, nullable: true })
+  trainingLevel?: TrainingLevel;
 
-  @Column({ type: 'enum', array: true, enum: TrainingType })
-  trainingType: TrainingType[];
+  @Column({ type: 'enum', array: true, enum: TrainingType, nullable: true })
+  trainingType?: TrainingType[];
 
   @Column({ type: 'enum', enum: TrainingDuration, nullable: true })
-  trainingTime?: TrainingDuration;
+  trainingDuration?: TrainingDuration;
 
   @Column({ nullable: true })
   loseCalories?: number;

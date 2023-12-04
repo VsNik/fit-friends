@@ -1,18 +1,30 @@
-import { IUser } from '@fit-friends/shared';
-import { fakeCoach } from '../fake-data/fake-user';
-
-const TIMEOUT = 500;
+import { IAuthToken, IUser, ICreatedProfile } from '@fit-friends/shared';
+import { LoginType, QuestionUserType } from '../types/forms-type';
+import { AxiosResponse } from 'axios';
+import api from './api';
 
 export const authApi = {
-  signup: (formData: FormData): Promise<FormData> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(formData), TIMEOUT);
-    })
+  login: ({email, password}: LoginType): Promise<AxiosResponse<IAuthToken>> => {
+    return api.post<IAuthToken>('/auth/login', {email, password});
   },
 
-  checkAuth: (): Promise<IUser> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeCoach), TIMEOUT);
-    });
+  signup: (formData: FormData): Promise<AxiosResponse<IUser>> => {
+    return api.post<IUser>('/auth/signup', formData);
   },
+
+  checkAuth: (): Promise<AxiosResponse<IUser>> => {
+    return api.get<IUser>('/auth/check');
+  },
+
+  createUser: (id: string, data: QuestionUserType): Promise<AxiosResponse<ICreatedProfile>> => {
+    return api.post<ICreatedProfile>(`/auth/create/user/${id}`, data);
+  },
+
+  createCoch: (id: string, formData: FormData): Promise<AxiosResponse<ICreatedProfile>> => {
+    return api.post<ICreatedProfile>(`/auth/create/coach/${id}`, formData);
+  },
+
+  logout: (token: string): Promise<AxiosResponse<void>> => {
+    return api.post('/auth/logout', {refreshToken: token})
+  }
 };

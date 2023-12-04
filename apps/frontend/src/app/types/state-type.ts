@@ -12,6 +12,7 @@ import {
   StatisticSorting,
   TrainingSortDirection,
   TrainingDuration,
+  IErrorResponse,
 } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 import { LoadStatus } from '../constants/common';
@@ -39,7 +40,7 @@ export type AuthState = {
   isAuth: boolean;
   isReady: boolean;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type UserState = {

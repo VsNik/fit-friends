@@ -76,7 +76,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
           </div>
 
           <UserCardGallary
-            images={user.bgImage ? [user.bgImage, '/assets/img/content/user-coach-photo2.jpg'] : []}
+            images={user.bgImage}
             className="user-card-coach__gallary"
           />
         </div>

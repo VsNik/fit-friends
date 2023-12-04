@@ -83,6 +83,7 @@ export const questionUserSchema = Yup.object({
     .required(UserError.BurnCaloryRequired)
     .min(1000, BURN_CALORY_MIN)
     .max(5000, BURN_CALORY_MAX),
+  ready: Yup.boolean()
 });
 
 export const questionCoachSchema = Yup.object({
@@ -98,6 +99,7 @@ export const questionCoachSchema = Yup.object({
     .test('is-valid-type', CertificateError.Type, (value) => {
       return value instanceof FileList && value[0] ? CERTIFICATE_TYPE.includes(value[0].type) : true;
     }),
+  ready: Yup.boolean(),
 });
 
 export const userInfoSchema = Yup.object({

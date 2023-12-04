@@ -12,9 +12,9 @@ export class UserEntity implements IUser {
   role: Role;
   bio?: string;
   location: Location;
-  bgImage: string;
-  trainingLevel: TrainingLevel;
-  trainingType: TrainingType[];
+  bgImage: string[];
+  trainingLevel?: TrainingLevel;
+  trainingType?: TrainingType[];
   trainingDuration?: TrainingDuration;
   loseCalories?: number;
   burnCalories?: number;

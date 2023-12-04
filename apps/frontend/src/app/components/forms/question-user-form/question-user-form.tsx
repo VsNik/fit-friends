@@ -1,5 +1,5 @@
-import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, FormProvider, FieldPath } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { Input } from '../../ui/form/input/input';
@@ -9,8 +9,18 @@ import { DurationGroup } from '../../ui/duration-group/duration-group';
 import { SpecializationGroup } from '../../ui/specialization-group/specialization-group';
 import { LevelGroup } from '../../ui/level-group/level-group';
 import { Button } from '../../ui/button/button';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { createUserAction } from '../../../store/auth/async-actions';
+import { Loader } from '../../loader/loader';
+import * as authSelector from '../../../store/auth/auth-select';
+
+type QuestionUserFieldError = FieldPath<QuestionUserType>;
 
 export const QuestionUserForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const authError = useAppSelector(authSelector.error);
+  const [isLoading, setIsLoading] = useState(false);
+
   const methods = useForm<QuestionUserType>({
     defaultValues: {
       trainingType: [TrainingType.Boxing, TrainingType.Power],
@@ -21,16 +31,34 @@ export const QuestionUserForm: React.FC = () => {
   });
   const {
     handleSubmit,
+    reset,
     formState: { errors },
+    setError
   } = methods;
 
+  useEffect(() => {
+    if (authError && authError.message instanceof Array) {
+      authError.message.forEach((err) => {
+        setError(err.field as QuestionUserFieldError, {message: err.error});
+      });
+    }    
+  }, [authError, setError]);
+
   const onSubmit = (data: QuestionUserType) => {
-    console.log(data);
+    setIsLoading(true);
+    dispatch(createUserAction({...data, ready: true}))
+      .unwrap()
+      .then(() => {
+        reset();
+        setIsLoading(false)
+      })
+      .catch(() => setIsLoading(false));
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {isLoading && <Loader />}
         <div className="questionnaire-user">
           <h1 className="visually-hidden">Опросник</h1>
           <div className="questionnaire-user__wrapper">
@@ -83,7 +111,7 @@ export const QuestionUserForm: React.FC = () => {
             </div>
           </div>
 
-          <Button text='Продолжить' className='questionnaire-user__button'  type="submit" />
+          <Button text='Продолжить' className='questionnaire-user__button'  type="submit" disabled={isLoading} />
         </div>
       </form>
     </FormProvider>

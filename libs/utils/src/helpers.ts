@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { readdir } from 'fs-extra';
+import { readdirSync } from 'fs-extra';
 import { UploadType } from '@fit-friends/shared';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import {MAX_LIMIT} from '@fit-friends/libs/validation';
@@ -29,9 +29,9 @@ export function parseTime(time: string): TimeAndUnit {
   return { value, unit };
 }
 
-export async function getRandomBg(bgType: UploadType.BgTraining | UploadType.BgUser) {
-  const uploadDir = `${resolve(__dirname, process.env.STATIC_DIR)}/${bgType}`;
-  const imageList = await readdir(uploadDir);
+export function getRandomBg(bgType: UploadType) {
+  const uploadDir = `${resolve(process.cwd(), 'dist', 'apps', 'backend', process.env.STATIC_DIR)}/${bgType}`;
+  const imageList = readdirSync(uploadDir);
   const index = getRandomInt(1, imageList.length);
   return `${process.env.SERVER_HOST}${process.env.STATIC_ROOT}/${bgType}/${imageList[index - 1]}`;
 }

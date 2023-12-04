@@ -33,7 +33,7 @@ export const ThumbnailUserCard: React.FC<ThumbnailUserCardProps> = ({ user, clas
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">
-        {user.trainingType.map((type) => (
+        {user.trainingType?.map((type) => (
           <li key={type} className="thumbnail-user__hashtags-item">
             <Hashtag title={getTrainingName(type)} className="thumbnail-user__hashtag" />
           </li>

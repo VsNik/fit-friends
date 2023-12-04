@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { IUser, Role, UploadType } from '@fit-friends/shared';
+import { CoachType, IUser, Role, UploadType, UserType } from '@fit-friends/shared';
 import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { AppEvent, PASSWORD_SALT } from '@fit-friends/libs/constants';
 import { getRandomBg } from '@fit-friends/libs/utils';
@@ -14,6 +14,7 @@ import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
 import { UpdateDto } from './dto/update.dto';
 import { OtherError, AppError } from '@fit-friends/libs/validation';
+import { SignupDto } from '../auth/dto/signup.dto';
 
 @Injectable()
 export class UsersService {
@@ -29,21 +30,37 @@ export class UsersService {
     return [data.map((item) => item.toObject()), count];
   }
 
-  async create(dto: CreateUserDto | CreateCoachDto, fileAvatar: ExpressFile, fileCertificate?: ExpressFile): Promise<IUser> {
+  async create(dto: SignupDto, fileAvatar: ExpressFile): Promise<IUser> {
     const existUser = await this.findByEmail(dto.email);
     if (existUser) {
       throw new BadRequestException(OtherError.UserExist);
     }
 
     const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);
-    const certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
-    const bgImage = await getRandomBg(UploadType.BgUser);
+    const bgImage = Array(2)
+      .fill(null)
+      .map(() => getRandomBg(UploadType.BgUser));
 
     const passwordHash = await hash(dto.password, PASSWORD_SALT);
-    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage, certificate: [certificate] });
+    const userEntity = UserEntity.create({ ...dto, password: passwordHash, avatar, bgImage });
     const savedUser = await this.usersRepository.save(userEntity);
 
     return savedUser.toObject();
+  }
+
+  async createUserProfile(userId: string, dto: CreateUserDto): Promise<UserType> {
+    const existUser = await this.getUser(userId);
+    existUser.updateRoleUser(dto);
+    await this.usersRepository.update(existUser);
+    return existUser.toObject();
+  }
+
+  async createCoachProfile(userId: string, dto: CreateCoachDto, fileCertificate: ExpressFile): Promise<CoachType> {
+    const existUser = await this.getUser(userId);
+    const certificate = await this.fileService.upload(fileCertificate, UploadType.Certificate);
+    existUser.updateRoleCoach({ ...dto, certificate: [certificate] });
+    await this.usersRepository.update(existUser);
+    return existUser.toObject();
   }
 
   async update(userId: string, dto: UpdateDto, fileAvatar: ExpressFile, fileCertificate: ExpressFile): Promise<IUser> {

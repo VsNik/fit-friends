@@ -7,13 +7,14 @@ interface TopMenuLinkProps {
   title: string;
   icon: string;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
 export const TopMenuLink: React.FC<TopMenuLinkProps> = (props) => {
-  const { to, title, icon, isActive } = props;
+  const { to, title, icon, isActive, onClick } = props;
 
   return (
-    <Link className={clsx('main-nav__link', { 'is-active': isActive })} to={to} aria-label={title} title={title}>
+    <Link className={clsx('main-nav__link', { 'is-active': isActive })} to={to} aria-label={title} title={title} onClick={onClick}>
       <svg width="18" height="18" aria-hidden="true">
         <use xlinkHref={`/assets/img/sprite.svg#${icon}`} />
       </svg>

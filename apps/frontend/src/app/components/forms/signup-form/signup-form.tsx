@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Gender, Role } from '@fit-friends/shared';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldPath, FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
@@ -10,31 +10,42 @@ import { InputAvatar } from '../../ui/form/input-avatar/input-avatar';
 import { useImagePreview } from '../../../hooks/use-image-preview';
 import { signupSchema } from '../../../utils/validate-schemas';
 import { locationsList } from '../../../constants/common';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { signupAction } from '../../../store/auth/async-actions';
 import { Button } from '../../ui/button/button';
 import { SignupType } from '../../../types/forms-type';
+import { Loader } from '../../loader/loader';
+import * as authSelector from '../../../store/auth/auth-select';
+
+type SignupFieldError = FieldPath<SignupType>;
 
 export const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
+  const authError = useAppSelector(authSelector.error);
   const [agree, setAgree] = useState(false);
   const [location, setLocation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const methods = useForm<SignupType>({
     defaultValues: { gender: Gender.Male, role: Role.Coach },
     resolver: yupResolver(signupSchema),
   });
 
+  const {setError, reset} = methods;
+
   const fileImage = methods.watch('avatar');
   const { previewImage, resetImage } = useImagePreview(fileImage as FileList);
 
-  const resetForm = () => {
-    methods.reset();
-    setLocation('');
-    resetImage();
-  };
+  useEffect(() => {
+    if (authError && authError.message instanceof Array) {
+      authError.message.forEach((err) => {
+        setError(err.field as SignupFieldError, {message: err.error});
+      });
+    }    
+  }, [authError, setError]);
 
   const onSubmit = (data: SignupType) => {
+    setIsLoading(true);
     const birthday = data.birthday?.split('-').reverse().join('-');
 
     const formData = new FormData();
@@ -50,13 +61,22 @@ export const SignupForm: React.FC = () => {
       formData.append('avatar', data.avatar[0]);
     }
 
-    resetForm();
-    dispatch(signupAction(formData));
+    dispatch(signupAction(formData))
+    .unwrap()
+    .then(() =>{
+      reset();
+      setLocation('');
+      resetImage();
+      setIsLoading(false);
+    })
+    .catch(() => setIsLoading(false));
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {isLoading && <Loader />}
+        
         <div className="sign-up">
           <div className="sign-up__load-photo">
             <InputAvatar name="avatar" previewImage={previewImage} accept="image/png, image/jpeg" />
@@ -111,7 +131,7 @@ export const SignupForm: React.FC = () => {
             </label>
           </div>
 
-          <Button text="Продолжить" className="sign-up__button" type="submit" disabled={!agree} />
+          <Button text="Продолжить" className="sign-up__button" type="submit" disabled={!agree || isLoading} />
         </div>
       </form>
     </FormProvider>

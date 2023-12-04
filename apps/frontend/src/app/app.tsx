@@ -29,8 +29,8 @@ import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-ro
 import * as authSelector from './store/auth/auth-select';
 import { LoadStatus } from './constants/common';
 
-store.dispatch(checkAuthAction());
-store.dispatch(fetchNotificationAction());
+// store.dispatch(checkAuthAction());
+// store.dispatch(fetchNotificationAction());
 
 export function App() {
   history.navigate = useNavigate();

@@ -49,7 +49,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
   useEffect(() => {
     setLocation(user.location);
     setGender(user.gender);
-    setLevel(user.trainingLevel);
+    setLevel(user.trainingLevel!);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

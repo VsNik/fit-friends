@@ -89,3 +89,14 @@ export enum UserSorting {
   Created = 'createdAt',
   Role = 'role',
 }
+
+export type ValidateError = {
+  field: string;
+  error: string;
+}
+
+export interface IErrorResponse {
+  error: string;
+  message: string | ValidateError[];
+  statusCode: number;
+}

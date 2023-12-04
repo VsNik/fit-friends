@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Req,
-  UploadedFile,
-  UploadedFiles,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -22,10 +9,10 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile, RequestExpress } from '@fit-friends/libs/types';
-import { AvatarValidatePipe, UserFilesValidatePipe } from '@fit-friends/libs/pipes';
-import { LoggedRdo, UserProfileRdo } from '@fit-friends/libs/rdo';
+import { AvatarValidatePipe } from '@fit-friends/libs/pipes';
+import { LoggedRdo, UserProfileRdo, UserRdo } from '@fit-friends/libs/rdo';
 import { fillObject } from '@fit-friends/libs/utils';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -35,6 +22,7 @@ import { RefreshDto } from './dto/refresh.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { UserId } from './decorators/user-id.decorator';
 import { AnonymousGuard } from './guards/anonymous.guard';
+import { SignupDto } from './dto/signup.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -43,31 +31,33 @@ export class AuthController {
 
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Регистрация пользователя' })
-  @ApiCreatedResponse({ type: UserProfileRdo })
-  @UseGuards(UserProfileRdo)
+  @ApiCreatedResponse({ type: UserRdo })
+  @UseGuards(AnonymousGuard)
   @UseInterceptors(FileInterceptor('avatar'))
-  @Post('signup-user')
-  async signupUser(@Body() createUserDto: CreateUserDto, @UploadedFile(AvatarValidatePipe) avatar: ExpressFile): Promise<UserProfileRdo> {
-    const createdUser = await this.authService.signup(createUserDto, avatar);
+  @Post('signup')
+  async signup(@Body() signupDto: SignupDto, @UploadedFile(AvatarValidatePipe) avatar: ExpressFile) {
+    const createdUser = await this.authService.signup(signupDto, avatar);
     return fillObject(UserProfileRdo, createdUser);
   }
 
-  @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Регистрация тренера' })
+  @ApiOperation({ summary: 'Создание профиля пользователя' })
   @ApiCreatedResponse({ type: UserProfileRdo })
-  @UseGuards(AnonymousGuard)
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'avatar', maxCount: 1 },
-      { name: 'certificate', maxCount: 1 },
-    ]),
-  )
-  @Post('signup-coach')
-  async signupCoach(
+  @Post('create/user/:id')
+  async createUserProfile(@Param('id') userId: string, @Body() createUserDto: CreateUserDto): Promise<UserProfileRdo> {
+    const createdUser = await this.authService.createUserProfile(userId, createUserDto);
+    return fillObject(UserProfileRdo, createdUser);
+  }
+
+  @ApiOperation({ summary: 'Создание профиля тренира' })
+  @ApiCreatedResponse({ type: UserProfileRdo })
+  @UseInterceptors(FileInterceptor('certificate'))
+  @Post('create/coach/:id')
+  async createCoachProfile(
+    @Param('id') userId: string,
     @Body() createCoachDto: CreateCoachDto,
-    @UploadedFiles(new UserFilesValidatePipe()) files: { avatar: ExpressFile; certificate: ExpressFile },
+    @UploadedFile() certificate: ExpressFile,
   ): Promise<UserProfileRdo> {
-    const createdCoach = await this.authService.signup(createCoachDto, files.avatar, files.certificate);
+    const createdCoach = await this.authService.createCoachProfile(userId, createCoachDto, certificate);
     return fillObject(UserProfileRdo, createdCoach);
   }
 
@@ -95,7 +85,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth()
-  @Delete('logout')
+  @Post('logout')
   async logout(@Body() { refreshToken }: RefreshDto) {
     return await this.authService.logout(refreshToken);
   }

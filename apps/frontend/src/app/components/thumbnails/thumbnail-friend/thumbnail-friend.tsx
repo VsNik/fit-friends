@@ -47,7 +47,7 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user }) => {
             </div>
           </div>
           <ul className="thumbnail-friend__training-types-list">
-            {user.trainingType.map((type) => (
+            {user.trainingType?.map((type) => (
               <li key={type}>
                 <Hashtag title={type} className="thumbnail-friend__hashtag" />
               </li>

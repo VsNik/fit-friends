@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { OtherError, AppError } from '@fit-friends/libs/validation';
-import { RequestExpress } from '@fit-friends/libs/types';
+import { ExpressFile, RequestExpress } from '@fit-friends/libs/types';
 import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/shared';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -11,6 +11,7 @@ import { CreateCoachDto } from './dto/create-coach.dto';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { TokensService } from '../tokens/tokens.service';
+import { SignupDto } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,8 +22,24 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  signup(dto: CreateUserDto | CreateCoachDto, avatar: Express.Multer.File, certificate?: Express.Multer.File): Promise<IUser> {
-    return this.usersService.create(dto, avatar, certificate);
+  signup(dto: SignupDto, avatar: Express.Multer.File): Promise<IUser> {
+    return this.usersService.create(dto, avatar);
+  }
+
+  async createUserProfile(userId: string, createUserDto: CreateUserDto) {
+    const createdUser = await this.usersService.createUserProfile(userId, createUserDto);
+    return {
+      ...createdUser,
+      token: await this.createAuthToken(createdUser, randomUUID()),
+    }
+  }
+
+  async createCoachProfile(userId: string, createCoachDto: CreateCoachDto, certificate: ExpressFile) {
+    const createdCoach = await this.usersService.createCoachProfile(userId, createCoachDto, certificate);
+    return {
+      ...createdCoach,
+      token: await this.createAuthToken(createdCoach, randomUUID()),
+    }
   }
 
   async verifyUser({ email, password }: LoginDto, req: RequestExpress): Promise<IAuthToken> {

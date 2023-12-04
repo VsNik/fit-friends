@@ -1,8 +1,9 @@
 import { hashSync } from 'bcrypt';
 import { setSeederFactory } from 'typeorm-extension';
 import { Faker } from '@faker-js/faker';
-import { Gender, Role, TrainingLevel, TrainingType, Location, TrainingDuration } from '@fit-friends/shared';
+import { Gender, Role, TrainingLevel, TrainingType, Location, TrainingDuration, UploadType } from '@fit-friends/shared';
 import { User } from '../../app/users/models/user.model';
+import { getRandomBg } from '@fit-friends/libs/utils';
 
 const PASSWORD = 'password';
 const trainingTypes = [
@@ -29,18 +30,18 @@ export const UsersFactory = setSeederFactory(User, (faker: Faker) => {
   user.role = role;
   user.bio = faker.lorem.sentence(7);
   user.location = faker.helpers.enumValue(Location);
-  user.bgImage = faker.image.urlLoremFlickr({ width: 240, height: 320, category: 'nature' });
+  user.bgImage = faker.helpers.multiple(() => getRandomBg(UploadType.BgUser), {count: 2});
   user.trainingLevel = faker.helpers.enumValue(TrainingLevel);
   user.trainingType = faker.helpers.arrayElements(trainingTypes, { min: 1, max: 3 });
   user.createdAt = faker.date.between({ from: '2012-01-01T00:00:00.000Z', to: '2023-01-01T00:00:00.000Z' }).toISOString();
 
   if (role === Role.User) {
-    user.trainingTime = faker.helpers.enumValue(TrainingDuration);
+    user.trainingDuration = faker.helpers.enumValue(TrainingDuration);
     user.loseCalories = faker.number.int({ min: 1000, max: 5000 });
     user.burnCalories = faker.number.int({ min: 1000, max: 5000 });
     user.ready = !!faker.helpers.arrayElement([0, 1]);
   } else {
-    user.certificate = [faker.image.urlLoremFlickr({ width: 240, height: 320, category: 'nature' })];
+    user.certificate = faker.helpers.multiple(() => getRandomBg(UploadType.Certificate), {count: 2});
     user.merits = faker.lorem.sentence(15);
     user.personalTraining = !!faker.helpers.arrayElement([0, 1]);
   }

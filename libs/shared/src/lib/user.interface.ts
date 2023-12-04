@@ -1,4 +1,5 @@
 import { Gender, Role, TrainingDuration, TrainingLevel, TrainingType, Location } from './common';
+import { IAuthToken } from './token.types';
 
 export interface IUser {
   id: string;
@@ -11,9 +12,9 @@ export interface IUser {
   role: Role;
   bio?: string;
   location: Location;
-  bgImage?: string;
-  trainingLevel: TrainingLevel;
-  trainingType: TrainingType[];
+  bgImage?: string[];
+  trainingLevel?: TrainingLevel;
+  trainingType?: TrainingType[];
   trainingDuration?: TrainingDuration;
   loseCalories?: number;
   burnCalories?: number;
@@ -22,6 +23,30 @@ export interface IUser {
   merits?: string;
   personalTraining?: boolean;
   subscribers?: IUser[];
+  createdAt: string;
+}
+
+export interface ICreatedProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  gender: Gender;
+  birthDay?: string;
+  role: Role;
+  bio?: string;
+  location: Location;
+  bgImage: string;
+  trainingLevel: TrainingLevel;
+  trainingType: TrainingType[];
+  trainingDuration?: TrainingDuration;
+  loseCalories?: number;
+  burnCalories?: number;
+  ready?: boolean;
+  certificate?: string;
+  merits?: string;
+  personalTraining?: boolean;
+  token?: IAuthToken;
   createdAt: string;
 }
 

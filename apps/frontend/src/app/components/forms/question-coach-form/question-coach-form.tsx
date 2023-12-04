@@ -1,5 +1,5 @@
-import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, FormProvider, FieldPath } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { InputFile } from '../../ui/form/input-file/input-file';
@@ -9,8 +9,17 @@ import { QuestionCoachType } from '../../../types/forms-type';
 import { SpecializationGroup } from '../../ui/specialization-group/specialization-group';
 import { LevelGroup } from '../../ui/level-group/level-group';
 import { Button } from '../../ui/button/button';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { createCoachAction } from '../../../store/auth/async-actions';
+import * as authSelector from '../../../store/auth/auth-select';
+
+type QuestionCoachFieldError = FieldPath<QuestionCoachType>;
 
 export const QuestionCoachForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const authError = useAppSelector(authSelector.error);
+  const [isLoading, setIsLoading] = useState(false);
+
   const methods = useForm<QuestionCoachType>({
     defaultValues: { 
         trainingType: [TrainingType.Power, TrainingType.Boxing],
@@ -19,10 +28,32 @@ export const QuestionCoachForm: React.FC = () => {
     resolver: yupResolver(questionCoachSchema),
     mode: 'all',
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset, setError } = methods;
+
+  useEffect(() => {
+    if (authError && authError.message instanceof Array) {
+      authError.message.forEach((err) => {
+        setError(err.field as QuestionCoachFieldError, {message: err.error});
+      });
+    }    
+  }, [authError, setError]);
 
   const onSubmit = (data: QuestionCoachType) => {
-    console.log(data);
+    setIsLoading(true);
+    const certificate = data.certificate as FileList;
+    const formData = new FormData();
+    formData.append('trainingType', data.trainingType.toString());
+    formData.append('trainingLevel', data.trainingLevel);
+    formData.append('merits', data.merits);
+    formData.append('personalTraining', `${data.personalTraining}`);
+    formData.append('certificate', certificate[0]);
+    dispatch(createCoachAction(formData))
+      .unwrap()
+      .then(() => {
+        reset();
+        setIsLoading(false)
+      })
+      .catch(() => setIsLoading(false));
   };
 
   return (
@@ -64,7 +95,7 @@ export const QuestionCoachForm: React.FC = () => {
             </div>
           </div>
 
-          <Button text='Продолжить' className='questionnaire-coach__button' type="submit" />
+          <Button text='Продолжить' className='questionnaire-coach__button' type="submit" disabled={isLoading} />
         </div>
       </form>
     </FormProvider>
