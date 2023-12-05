@@ -8,17 +8,16 @@ export const fetchCompanyAction = createAsyncThunk<IUserCollection>('users/fetch
 });
 
 export const fetchUsersAction = createAsyncThunk<IUserCollection, string>('users/fetch-users', async (queryString) => {
-  console.log(queryString)
   const {data} = await userApi.fetchUsers(queryString);
   return data;
 });
 
 export const fetchUserFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-user-friends', async (id) => {
-  const data = await userApi.fetchUserFriends();
+  const {data} = await userApi.fetchUserFriends();
   return data;
 });
 
 export const fetchCoachFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-coach-friends', async (id) => {
-  const data = await userApi.fetchUserFriends();
+  const {data} = await userApi.fetchCoachFriends();
   return data;
 });

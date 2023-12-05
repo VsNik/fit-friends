@@ -109,6 +109,18 @@ export class UsersController {
     return fillObject(SuccessRdo, { success: result });
   }
 
+  @ApiOperation({ summary: 'удалить из друзей для тренера' })
+  @ApiOkResponse({ type: SuccessRdo })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post(':id/coach-unfollow')
+  async unfollowForCoach(@Param('id', new ParseUUIDPipe()) followId: string, @UserId() currentUserId: string) {
+    const result = await this.usersService.unfollowForCoach(followId, currentUserId);
+    return fillObject(SuccessRdo, { success: result });
+  }
+
   @ApiOperation({ summary: 'Список друзей тренера' })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })

@@ -5,6 +5,7 @@ import {
   deleteCertificateAction,
   fetchAuthAction,
   fetchUserAction,
+  removeFriendAction,
   toFriendAction,
   updateCertificateAction,
   updateUserAction,
@@ -82,6 +83,14 @@ export const userSlice = createSlice({
       })
       .addCase(toFriendAction.fulfilled, (state) => {
         state.user.isFollow = !state.user.isFollow;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(removeFriendAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(removeFriendAction.fulfilled, (state) => {
+        state.user.isFollow = false;
         state.loadStatus = LoadStatus.Loaded;
       });
   },

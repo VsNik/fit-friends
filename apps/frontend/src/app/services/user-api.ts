@@ -1,5 +1,5 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
-import { fakeCompanyUser, fakeUsers, testUser } from '../fake-data/fake-user';
+import { fakeCompanyUser, testUser } from '../fake-data/fake-user';
 import api from './api';
 import { AxiosResponse } from 'axios';
 
@@ -14,10 +14,6 @@ export const userApi = {
 
   fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {   
     return api.get<IUser>(`/users/${id}/show`);
-    // const user = fakeUsers.data.find((user) => user.id === id)!;
-    // return new Promise((resolve) => {
-    //   setTimeout(() => resolve(user), TIMEOUT);
-    // });
   },
 
   fetchCompany: (): Promise<IUserCollection> => {
@@ -27,22 +23,15 @@ export const userApi = {
   },
 
   fetchUsers: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>(`/users${queryString}`)
-    // return new Promise((resolve) => {
-    //   setTimeout(() => resolve(fakeUsers), TIMEOUT);
-    // });
+    return api.get<IUserCollection>(`/users${queryString}`);
   },
 
-  fetchUserFriends: (): Promise<IUserCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeUsers), TIMEOUT);
-    });
+  fetchUserFriends: (): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>('/users/friends-user');
   },
 
-  fetchCoachFriends: (): Promise<IUserCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeUsers), TIMEOUT);
-    });
+  fetchCoachFriends: (): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>('/users/friends-coach')
   },
 
   updateUser: (formData: FormData): Promise<AxiosResponse<IUser>> => {
@@ -63,5 +52,9 @@ export const userApi = {
 
   toFriend: (id: string): Promise<AxiosResponse<void>> => {
     return api.post(`/users/${id}/follow`);
+  },
+
+  removeFriend: (id: string): Promise<AxiosResponse<void>> => {
+    return api.post(`/users/${id}/coach-unfollow`);
   }
 };

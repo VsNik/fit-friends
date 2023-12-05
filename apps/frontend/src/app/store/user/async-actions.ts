@@ -51,3 +51,10 @@ export const toFriendAction = createAsyncThunk<void, string>(
     await userApi.toFriend(id);
   }
 )
+
+export const removeFriendAction = createAsyncThunk<void, string>(
+  'user/remove-coach-friend',
+  async (id) => {
+    await userApi.removeFriend(id);
+  }
+)

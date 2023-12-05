@@ -149,6 +149,27 @@ export class UsersService {
     return true;
   }
 
+  async unfollowForCoach(followId: string, currentUserId: string) {
+    if (followId === currentUserId) {
+      throw new BadRequestException(OtherError.FollowEqual);
+    }
+
+    const followUser = await this.usersRepository.findByIdAndRelation(followId);
+    if (!followUser) {
+      throw new BadRequestException(AppError.UserNotFound);
+    }
+
+    // const currentUser = await this.findById(currentUserId);
+    const index = followUser.followers.findIndex((item) => item.id === currentUserId);
+
+    if (index >= 0) {
+      followUser.followers.splice(index, 1);
+      await this.usersRepository.save(followUser);
+      return true;
+    }
+    return false;
+  }
+
   async getFollowing(userId: string, pagination: Pagination) {
     return this.usersRepository.findFollowings(userId, pagination);
   }
