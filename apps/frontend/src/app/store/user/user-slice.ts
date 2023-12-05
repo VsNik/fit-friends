@@ -6,6 +6,7 @@ import {
   fetchAuthAction,
   fetchUserAction,
   removeFriendAction,
+  subscribeAction,
   toFriendAction,
   updateCertificateAction,
   updateUserAction,
@@ -92,6 +93,14 @@ export const userSlice = createSlice({
       .addCase(removeFriendAction.fulfilled, (state) => {
         state.user.isFollow = false;
         state.loadStatus = LoadStatus.Loaded;
-      });
+      })
+
+      .addCase(subscribeAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(subscribeAction.fulfilled, (state) => {
+        state.user.isSubscribe = !state.user.isSubscribe;
+        state.loadStatus = LoadStatus.Loaded;
+      })
   },
 });

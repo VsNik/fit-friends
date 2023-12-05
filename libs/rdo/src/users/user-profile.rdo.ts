@@ -40,8 +40,13 @@ export class UserProfileRdo extends UserRdo {
   @Expose()
   personalTraining?: boolean;
 
+  @ApiProperty({ description: 'Являеся / не является другом', example: true })
   @Expose()
   isFollow?: boolean;
+
+  @ApiProperty({ description: 'Подписан / не подписан на уведомления', example: true })
+  @Expose()
+  isSubscribe?: boolean;
 
   @Expose()
   token?: IAuthToken;

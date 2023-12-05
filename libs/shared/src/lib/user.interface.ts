@@ -24,6 +24,7 @@ export interface IUser {
   personalTraining?: boolean;
   subscribers?: IUser[];
   isFollow?: boolean;
+  isSubscribe?: boolean;
   createdAt: string;
 }
 

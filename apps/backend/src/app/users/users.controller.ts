@@ -164,7 +164,7 @@ export class UsersController {
     const result = await this.usersService.subscribeUnsubscribe(coachId, currentUserId);
     return fillObject(SuccessRdo, { success: result });
   }
-
+  
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: ' Добавить сертификат тренера' })
   @ApiCreatedResponse({type: UserProfileRdo})

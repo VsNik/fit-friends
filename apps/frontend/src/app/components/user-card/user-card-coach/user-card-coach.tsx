@@ -1,4 +1,4 @@
-import { IUser } from '@fit-friends/shared';
+import { IUser, Role } from '@fit-friends/shared';
 import React, { useEffect } from 'react';
 import { UserCardLabel } from '../user-card-label/user-card-label';
 import { getTrainingName, getUserLocation } from '../../../utils/helpers';
@@ -29,6 +29,17 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
     dispatch(fetchForCoachAction());
   }, [dispatch]);
 
+  const checkTraing = user.role === Role.User ? user.ready : user.personalTraining;
+
+  const readyText =
+    user.role === Role.User
+      ? checkTraing
+        ? 'Готов к тренировке'
+        : 'Не готов к тренировке'
+      : checkTraing
+        ? 'Готов тренировать'
+        : 'Не готов тренировать';
+
   return (
     <section className="user-card-coach">
       <h1 className="visually-hidden">Карточка пользователя роль тренер</h1>
@@ -49,8 +60,15 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
                 <span>Тренер</span>
               </div>
 
-              <div className={clsx('user-card-coach__status', 'user-card-coach__status--check')}>
-                <span>Готов тренировать</span>
+              <div
+                className={clsx({
+                  'user-card-coach__status': checkTraing,
+                  'user-card-coach__status--check': checkTraing,
+                  'user-card-coach-2__status': !checkTraing,
+                  'user-card-coach-2__status--check': !checkTraing,
+                })}
+              >
+                <span>{readyText}</span>
               </div>
             </div>
 
@@ -76,15 +94,12 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
             <FriendsButton user={user} disabled={isLoading} />
           </div>
 
-          <UserCardGallary
-            images={user?.bgImage}
-            className="user-card-coach__gallary"
-          />
+          <UserCardGallary images={user?.bgImage} className="user-card-coach__gallary" />
         </div>
 
         <div className="user-card-coach__training">
           <UserCardCertificateSlider trainings={trainings} />
-          <UserCardForm />
+          <UserCardForm user={user} />
         </div>
       </div>
     </section>

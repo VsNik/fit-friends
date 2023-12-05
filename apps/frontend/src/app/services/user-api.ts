@@ -12,7 +12,7 @@ export const userApi = {
     });
   },
 
-  fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {   
+  fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {
     return api.get<IUser>(`/users/${id}/show`);
   },
 
@@ -31,7 +31,7 @@ export const userApi = {
   },
 
   fetchCoachFriends: (): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>('/users/friends-coach')
+    return api.get<IUserCollection>('/users/friends-coach');
   },
 
   updateUser: (formData: FormData): Promise<AxiosResponse<IUser>> => {
@@ -47,7 +47,7 @@ export const userApi = {
   },
 
   deleteCertificate: (src: string): Promise<AxiosResponse<IUser>> => {
-    return api.post<IUser>('/users/certificate/remove', {src});
+    return api.post<IUser>('/users/certificate/remove', { src });
   },
 
   toFriend: (id: string): Promise<AxiosResponse<void>> => {
@@ -56,5 +56,9 @@ export const userApi = {
 
   removeFriend: (id: string): Promise<AxiosResponse<void>> => {
     return api.post(`/users/${id}/coach-unfollow`);
-  }
+  },
+
+  subscribe: (id: string): Promise<AxiosResponse<void>> => {
+    return api.post(`/users/${id}/subscribe`);
+  },
 };

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { Button } from '../../ui/button/button';
 import { removeFriendAction, toFriendAction } from '../../../store/user/async-actions';
 import * as authSelector from '../../../store/auth/auth-select';
+import clsx from 'clsx';
 
 interface FriendsButtonProps {
   user: IUser;
@@ -27,9 +28,10 @@ export const FriendsButton: React.FC<FriendsButtonProps> = ({ user, disabled }) 
   return (
     <Button
       text={`${user.isFollow ? 'Удалить из друзей' : 'Добавить в друзья'}`}
-      className="user-card__btn"
+      className={clsx("user-card__btn")}
       onClick={toggleFriend}
       disabled={isDisabled}
+      outlined={user.isFollow}
     />
   );
 };

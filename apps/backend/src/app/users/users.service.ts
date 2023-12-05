@@ -223,13 +223,18 @@ export class UsersService {
     const existUser = await this.getUser(id);
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
     let isFollow = false;
+    let isSubscribe = false;
     if (currentUser.role === Role.User) {
       const followerIds = currentUser.followers?.map((item) => item.id);
       isFollow = followerIds?.includes(id) ?? false;
-      return { ...existUser, isFollow };
+      const subscribeIds = currentUser.subscribing?.map((item) => item.id);
+      isSubscribe = subscribeIds?.includes(id);
+
+      return { ...existUser, isFollow, isSubscribe };
     } else {
       const followingIds = currentUser.following?.map((item) => item.id);
       isFollow = followingIds?.includes(id) ?? false;
+      
       return { ...existUser, isFollow };
     }
   }
