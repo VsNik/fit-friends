@@ -4,6 +4,7 @@ import { Checkbox } from '../../ui/form/checkbox/checkbox';
 import { IUser } from '@fit-friends/shared';
 import { subscribeAction } from '../../../store/user/async-actions';
 import { useAppDispatch } from '../../../store/hooks';
+import { createInvitationAction } from '../../../store/invitation/async-actions';
 
 interface UserCardFormProps {
   user: IUser;
@@ -16,10 +17,14 @@ export const UserCardForm: React.FC<UserCardFormProps> = ({user}) => {
     dispatch(subscribeAction(user.id));
   }
 
+  const handleCreateInvite = () => {
+    dispatch(createInvitationAction(user.id));
+  }
+
   return (
-    <form className="user-card-coach__training-form">
+    <div className="user-card-coach__training-form">
       {(user.personalTraining && user.isFollow) &&
-        <Button text="Хочу персональную тренировку" className="user-card-coach__btn-training" />
+        <Button text="Хочу персональную тренировку" className="user-card-coach__btn-training" onClick={handleCreateInvite}/>
       }      
 
       <div className="user-card-coach__training-check">
@@ -30,6 +35,6 @@ export const UserCardForm: React.FC<UserCardFormProps> = ({user}) => {
           onChange={handleSubscribe} 
         />
       </div>
-    </form>
+    </div>
   );
 };

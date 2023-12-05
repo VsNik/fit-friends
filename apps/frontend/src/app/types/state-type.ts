@@ -13,6 +13,7 @@ import {
   TrainingSortDirection,
   TrainingDuration,
   IErrorResponse,
+  IInvitation,
 } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 import { LoadStatus } from '../constants/common';
@@ -93,6 +94,8 @@ export type ReviewsState = {
 
 export type NotificationsState = {
   notifications: IAlert[];
+  page: number;
+  total: number;
   loadStatus: LoadStatus;
 };
 
@@ -100,3 +103,8 @@ export type OrderState = {
   order: CreatedOrderType;
   loadStatus: LoadStatus;
 };
+
+export type InviteState = {
+  invitation: IInvitation;
+  loadStatus: LoadStatus;
+}

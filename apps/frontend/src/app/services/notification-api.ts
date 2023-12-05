@@ -1,12 +1,9 @@
-import { IAlert } from '@fit-friends/shared';
-import { fakeNotifications } from '../fake-data/fake-notification';
-
-const INTERVAL = 500;
+import { IAlertCollection } from '@fit-friends/shared';
+import { AxiosResponse } from 'axios';
+import api from './api';
 
 export const notificationApi = {
-  fetchNotification: (): Promise<IAlert[]> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeNotifications), INTERVAL);
-    });
+  fetchNotification: (): Promise<AxiosResponse<IAlertCollection>> => {
+    return api.get<IAlertCollection>('/alerts');
   },
 };

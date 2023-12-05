@@ -12,3 +12,4 @@ export * from './lib/alert.interface';
 export * from './lib/user-collection.interface';
 export * from './lib/training-collection.interface';
 export * from './lib/order-collection.interface';
+export * from './lib/alert-collection.interface';

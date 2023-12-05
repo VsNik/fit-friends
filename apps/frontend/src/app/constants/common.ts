@@ -13,6 +13,7 @@ export enum SliceName {
   Notifications = 'NOTIFICATIONS',
   Order = 'ORDER',
   Orders = 'ORDERS',
+  Invite = 'INVITE',
 }
 
 export enum LoadStatus {

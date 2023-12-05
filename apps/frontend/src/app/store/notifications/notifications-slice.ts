@@ -5,6 +5,8 @@ import { fetchNotificationAction } from './async-actions';
 
 const initialState: NotificationsState = {
   notifications: [],
+  page: 1,
+  total: 0,
   loadStatus: LoadStatus.Never,
 };
 
@@ -19,7 +21,9 @@ export const notificationsSlice = createSlice({
       })
       .addCase(fetchNotificationAction.fulfilled, (state, { payload }) => {
         state.loadStatus = LoadStatus.Loaded;
-        state.notifications = payload;
+        state.notifications = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
       });
   },
 });

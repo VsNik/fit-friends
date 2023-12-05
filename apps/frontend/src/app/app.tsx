@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
 import { IntroPage } from './pages/intro/intro-page';
@@ -12,28 +13,33 @@ import { ProtectedRoute } from './components/routes/protected-route/protected-ro
 import { UsersPage } from './pages/users/users-page';
 import { UserPage } from './pages/user/user-page';
 import { FriendsPage } from './pages/friends/friends-page';
-// import { store } from './store';
-import { useAppSelector } from './store/hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { RouteName } from './constants/route';
 import { Loader } from './components/loader/loader';
 import { PurchasesPage } from './pages/purchases/purchases-page';
 import { OrdersPage } from './pages/orders/orders-page';
 import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
 import { AddTraining } from './pages/add-training/add-training-page';
-// import { fetchNotificationAction } from './store/notifications/async-actions';
+import { fetchNotificationAction } from './store/notifications/async-actions';
 import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-route';
 import * as authSelector from './store/auth/auth-select';
 import { LoadStatus } from './constants/common';
 import { QuestionPage } from './pages/question/question-page';
 import { Account } from './pages/account/account';
 
-// store.dispatch(fetchNotificationAction());
-
 export function App() {
+  const dispatch = useAppDispatch()
   history.navigate = useNavigate();
   history.location = useLocation();
 
   const loadStatus = useAppSelector(authSelector.loadStatus);
+  const isAuth = useAppSelector(authSelector.isAuth);
+
+  useEffect(() => {
+    if (isAuth) {
+      dispatch(fetchNotificationAction());
+    }
+  }, [dispatch, isAuth]);
 
   if (loadStatus === LoadStatus.Loading) {
     return <Loader />;
