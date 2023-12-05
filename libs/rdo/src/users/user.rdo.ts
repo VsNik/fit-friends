@@ -46,6 +46,14 @@ export class UserRdo {
   @Expose()
   trainingType: TrainingType[];
 
+  @ApiProperty({ description: 'Признак готовности к тренировкам', example: true })
+  @Expose()
+  ready?: boolean;
+
+  @ApiProperty({ description: 'Признак готовности персонально тренировать', example: true })
+  @Expose()
+  personalTraining?: boolean;
+
   @ApiProperty({ description: 'Дата регистрации', example: '2014-03-14T15:07:48.845Z' })
   @Expose()
   createdAt: string;
