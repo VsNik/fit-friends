@@ -4,7 +4,7 @@ import { ButtonLink } from '../../ui/button-link/button-link';
 import { getUserRoute } from '../../../utils/route';
 import { Hashtag } from '../../ui/hashtag/hashtag';
 import { Avatar } from '../../ui/avatar/avatar';
-import { getTrainingName } from '../../../utils/helpers';
+import { getTrainingName, getUserLocation } from '../../../utils/helpers';
 import clsx from 'clsx';
 
 interface ThumbnailUserCardProps {
@@ -29,7 +29,7 @@ export const ThumbnailUserCard: React.FC<ThumbnailUserCardProps> = ({ user, clas
           <svg width="14" height="16" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#icon-location" />
           </svg>
-          <address className="thumbnail-user__location-address">{user.location}</address>
+          <address className="thumbnail-user__location-address">{getUserLocation(user.location).title}</address>
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">

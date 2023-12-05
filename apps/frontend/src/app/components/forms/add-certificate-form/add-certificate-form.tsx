@@ -1,6 +1,6 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { addCertificateSchema } from '../../../utils/validate-schemas';
 import { AddCertificateType } from '../../../types/forms-type';
 import { useAppDispatch } from '../../../store/hooks';
@@ -22,6 +22,7 @@ export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, 
   } = useForm<AddCertificateType>({
     resolver: yupResolver(addCertificateSchema),
   });
+
   const certificateData = useWatch({ control, name: 'certificate' });
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, 
     const formData = new FormData();
     formData.append('certificate', certificate[0]);
     console.log(certificate[0]);
-    dispatch(addCertificateAction({ id: userId, formData }));
+    dispatch(addCertificateAction(formData));
   };
 
   return (

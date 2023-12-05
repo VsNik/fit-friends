@@ -4,7 +4,6 @@ import { UserCardLabel } from '../user-card-label/user-card-label';
 import { getTrainingName, getUserLocation } from '../../../utils/helpers';
 import { ButtonFloat } from '../../ui/button-float/button-float';
 import { Hashtag } from '../../ui/hashtag/hashtag';
-import { Button } from '../../ui/button/button';
 import { UserCardGallary } from '../user-card-gallary/user-card-gallary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchForCoachAction } from '../../../store/trainings/async-actions';
@@ -12,16 +11,18 @@ import { UserCardCertificateSlider } from '../user-card-certificate-slider/user-
 import { UserCardForm } from '../user-card-form/user-card-form';
 import * as trainingsSelector from '../../../store/trainings/trainings-select';
 import clsx from 'clsx';
+import { FriendsButton } from '../friends-button/friends-button';
 
 interface UserCardCoachProps {
   user: IUser;
   onOpenMap: () => void;
   onOpenCertificatePopup: () => void;
+  isLoading?: boolean;
 }
 
-export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, onOpenCertificatePopup }) => {
+export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, onOpenCertificatePopup, isLoading }) => {
   const dispatch = useAppDispatch();
-  const position = getUserLocation(user.location);
+  const position = getUserLocation(user?.location);
   const trainings = useAppSelector(trainingsSelector.trainings);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
         <div className="user-card-coach__card">
           <div className="user-card-coach__content">
             <div className="user-card-coach__head">
-              <h2 className="user-card-coach__title">{user.name}</h2>
+              <h2 className="user-card-coach__title">{user?.name}</h2>
             </div>
 
             <UserCardLabel position={position?.title} onOpenMap={onOpenMap} />
@@ -54,7 +55,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
             </div>
 
             <div className="user-card-coach__text">
-              <p>{user.bio}</p>
+              <p>{user?.bio}</p>
             </div>
 
             <ButtonFloat
@@ -65,18 +66,18 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
             />
 
             <ul className="user-card-coach__hashtag-list">
-              {user.trainingType?.map((type) => (
+              {user?.trainingType?.map((type) => (
                 <li key={type} className="user-card-coach__hashtag-item">
                   <Hashtag title={getTrainingName(type)} />
                 </li>
               ))}
             </ul>
 
-            <Button text="Добавить в друзья" className="user-card-coach__btn" />
+            <FriendsButton user={user} disabled={isLoading} />
           </div>
 
           <UserCardGallary
-            images={user.bgImage}
+            images={user?.bgImage}
             className="user-card-coach__gallary"
           />
         </div>

@@ -12,11 +12,12 @@ export const userApi = {
     });
   },
 
-  fetchUser: (id: string): Promise<IUser> => {
-    const user = fakeUsers.data.find((user) => user.id === id)!;
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(user), TIMEOUT);
-    });
+  fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {   
+    return api.get<IUser>(`/users/${id}/show`);
+    // const user = fakeUsers.data.find((user) => user.id === id)!;
+    // return new Promise((resolve) => {
+    //   setTimeout(() => resolve(user), TIMEOUT);
+    // });
   },
 
   fetchCompany: (): Promise<IUserCollection> => {
@@ -25,10 +26,11 @@ export const userApi = {
     });
   },
 
-  fetchUsers: (queryString: string): Promise<IUserCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeUsers), TIMEOUT);
-    });
+  fetchUsers: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>(`/users${queryString}`)
+    // return new Promise((resolve) => {
+    //   setTimeout(() => resolve(fakeUsers), TIMEOUT);
+    // });
   },
 
   fetchUserFriends: (): Promise<IUserCollection> => {
@@ -47,21 +49,19 @@ export const userApi = {
     return api.patch<IUser>('/users', formData);
   },
 
-  addCertificate: (id: string, formData: FormData): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(), TIMEOUT);
-    });
+  addCertificate: (formData: FormData): Promise<AxiosResponse<IUser>> => {
+    return api.post<IUser>('/users/certificate', formData);
   },
 
-  updateCertificate: (id: string, src: string, formData: FormData): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(), TIMEOUT);
-    });
+  updateCertificate: (formData: FormData): Promise<AxiosResponse<IUser>> => {
+    return api.patch<IUser>('/users/certificate', formData);
   },
 
-  deleteCertificate: (id: string, src: string): Promise<{ id: string; src: string }> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({ id, src }), 1000);
-    });
+  deleteCertificate: (src: string): Promise<AxiosResponse<IUser>> => {
+    return api.post<IUser>('/users/certificate/remove', {src});
+  },
+
+  toFriend: (id: string): Promise<AxiosResponse<void>> => {
+    return api.post(`/users/${id}/follow`);
   }
 };

@@ -23,6 +23,7 @@ export interface IUser {
   merits?: string;
   personalTraining?: boolean;
   subscribers?: IUser[];
+  isFollow?: boolean;
   createdAt: string;
 }
 

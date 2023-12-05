@@ -63,7 +63,7 @@ export const getUsersQuery = (filters: UsersFilters, sorting: Role | null, direc
   }
 
   if (direction) {
-    query = `${query}&direction=${direction};`;
+    query = `${query}&direction=${direction}`;
   }
 
   return query;

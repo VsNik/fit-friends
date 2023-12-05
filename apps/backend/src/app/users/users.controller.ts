@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -16,13 +17,14 @@ import {
 import { ExpressFile } from '@fit-friends/libs/types';
 import { IUser, Location, Role, SortDirection, TrainingLevel, TrainingType, UserSorting } from '@fit-friends/shared';
 import { Pagination, UsersFilter } from '@fit-friends/filters';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { UserFilesValidatePipe } from '@fit-friends/libs/pipes';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { SuccessRdo, UpdateUserRdo, UserCollectionRdo, UserProfileRdo, UserRdo } from '@fit-friends/libs/rdo';
 import {
   ApiBearerAuth,
   ApiConsumes,
+  ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiOperation,
@@ -37,6 +39,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { UpdateDto } from './dto/update.dto';
+import { CertificateDto } from './dto/certificate.dto';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -69,9 +72,8 @@ export class UsersController {
   @ApiOkResponse({ type: UserProfileRdo })
   @UseGuards(AuthGuard)
   @Get(':id/show')
-  async userDetail(@Param('id', new ParseUUIDPipe()) id: string): Promise<UserProfileRdo> {
-    const user = await this.usersService.getUser(id);
-    console.log(user);
+  async userDetail(@Param('id', new ParseUUIDPipe()) id: string, @UserId() currentUserId: string): Promise<UserProfileRdo> {
+    const user = await this.usersService.getDetails(id, currentUserId);
     return fillObject(UserProfileRdo, user);
   }
 
@@ -91,7 +93,6 @@ export class UsersController {
     @UserId() userId: string,
     @UploadedFiles(new UserFilesValidatePipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile },
   ): Promise<UpdateUserRdo> {
-    console.log(dto);
     const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
     return fillObject(UpdateUserRdo, user);
   }
@@ -150,6 +151,40 @@ export class UsersController {
   async subscribeUnsubscribe(@Param('coachId', new ParseUUIDPipe()) coachId: string, @UserId() currentUserId: string): Promise<SuccessRdo> {
     const result = await this.usersService.subscribeUnsubscribe(coachId, currentUserId);
     return fillObject(SuccessRdo, { success: result });
+  }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: ' Добавить сертификат тренера' })
+  @ApiCreatedResponse({type: UserProfileRdo})
+  @UseInterceptors(FileInterceptor('certificate'))
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Post('certificate')
+  async addCertificate(@UserId() userId: string, @UploadedFile() certificate: ExpressFile) {
+    const user = await this.usersService.addCertificate(userId, certificate);
+    return fillObject(UserProfileRdo, user);
+  }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: ' Изменить сертификат тренера' })  
+  @ApiOkResponse({type: UserProfileRdo})
+  @UseInterceptors(FileInterceptor('certificate'))
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Patch('certificate')
+  async updateCertificate(@Body() {src}: CertificateDto, @UserId() userId: string, @UploadedFile() certificate: ExpressFile) {
+    const user = await this.usersService.updateCertificate(userId, src, certificate);
+    return fillObject(UserProfileRdo, user);
+  }
+
+  @ApiOperation({ summary: ' Удалить сертификат тренера' })
+  @ApiOkResponse({type: UserProfileRdo})
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Post('certificate/remove')
+  async deleteCertificate(@Body() {src}: CertificateDto, @UserId() userId: string) {
+    const user = await this.usersService.deleteSertificate(userId, src);
+    return fillObject(UserProfileRdo, user);
   }
 
   private mapUserCollection(users: IUser[], total: number, page: number) {

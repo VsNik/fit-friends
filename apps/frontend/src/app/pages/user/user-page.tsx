@@ -49,7 +49,7 @@ export const UserPage: React.FC = () => {
 
             <div className="inner-page__content">
               {user?.role === Role.User ? (
-                <UserCardUser user={user} onOpenMap={handleOpenMap} />
+                <UserCardUser user={user} onOpenMap={handleOpenMap} isLoading={isLoading} />
               ) : (
                 <UserCardCoach user={user} onOpenMap={handleOpenMap} onOpenCertificatePopup={handleOpenCertificates} />
               )}
@@ -59,11 +59,11 @@ export const UserPage: React.FC = () => {
       </div>
 
       <Modal isOpen={openMap} onClose={handleCloseMap}>
-        <MapPopup onClose={handleCloseMap} title={user.name} location={user.location} />
+        <MapPopup onClose={handleCloseMap} title={user?.name} location={user?.location} />
       </Modal>
 
       <Modal isOpen={openCertificates} onClose={handleCloseCertificates}>
-        <CertificatesPopup title="Сертификаты" onClose={handleCloseCertificates} certificates={user.certificate} />
+        <CertificatesPopup title="Сертификаты" onClose={handleCloseCertificates} certificates={user?.certificate} />
       </Modal>
     </AppLayout>
   );

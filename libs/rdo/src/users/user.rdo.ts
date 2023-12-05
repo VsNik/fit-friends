@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Gender, Role, Location } from '@fit-friends/shared';
+import { Gender, Role, Location, TrainingType } from '@fit-friends/shared';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserRdo {
@@ -42,6 +42,9 @@ export class UserRdo {
   @ApiProperty({ description: 'Фоновое изображение', example: 'http://localhost:5000/bg-user/user-coach-photo1.jpg' })
   @Expose()
   bgImage: string;
+
+  @Expose()
+  trainingType: TrainingType[];
 
   @ApiProperty({ description: 'Дата регистрации', example: '2014-03-14T15:07:48.845Z' })
   @Expose()

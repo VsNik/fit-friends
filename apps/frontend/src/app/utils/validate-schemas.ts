@@ -150,3 +150,11 @@ export const videoSchema = Yup.object({
 export const addCertificateSchema = Yup.object({
   certificate: certificateValidator,
 });
+
+export const updateCertificateSchema = Yup.object({
+  certificate: Yup.mixed()
+    .test('is-valid-type', CertificateError.Type, (value) => {
+      return value instanceof FileList && value[0] ? CERTIFICATE_TYPE.includes(value[0].type) : true;
+    })
+})
+

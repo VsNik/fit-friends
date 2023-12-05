@@ -90,6 +90,38 @@ export class UsersService {
     return existUser.toObject();
   }
 
+  async addCertificate(userId: string, certificateFile: ExpressFile): Promise<IUser> {
+    const existUser = await this.getUser(userId);
+    const certificate = await this.fileService.upload(certificateFile, UploadType.Certificate);
+    existUser.setCertificate(certificate);
+    await this.usersRepository.update(existUser);
+    return existUser.toObject();
+  }
+
+  async updateCertificate(userId: string, src: string, certificate: ExpressFile): Promise<IUser> {
+    const existUser = await this.getUser(userId);
+    const certificates = existUser.certificate;
+    if (certificates.includes(src)) {
+      const updatedCertificates = certificates.filter((item) => item !== src);
+      existUser.certificate = updatedCertificates;
+      await this.fileService.delete(src);
+      const addedCertificate = await this.fileService.upload(certificate, UploadType.Certificate);
+      existUser.setCertificate(addedCertificate);
+      await this.usersRepository.update(existUser);
+    }
+    return existUser.toObject();
+  }
+
+  async deleteSertificate(userId: string, src: string) {
+    const existUser = await this.getUser(userId);
+    const certificates = existUser.certificate;
+    const updatedCertificates = certificates.filter((item) => item !== src);
+    existUser.certificate = updatedCertificates;
+    await this.fileService.delete(src);
+    await this.usersRepository.update(existUser);
+    return existUser.toObject();
+  }
+
   async followUnfollow(followId: string, currentUserId: string): Promise<boolean> {
     if (followId === currentUserId) {
       throw new BadRequestException(OtherError.FollowEqual);
@@ -164,5 +196,20 @@ export class UsersService {
     }
 
     return existUser;
+  }
+
+  async getDetails(id: string, currentUserId: string) {
+    const existUser = await this.getUser(id);
+    const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
+    let isFollow = false;
+    if (currentUser.role === Role.User) {
+      const followerIds = currentUser.followers?.map((item) => item.id);
+      isFollow = followerIds?.includes(id) ?? false;
+      return { ...existUser, isFollow };
+    } else {
+      const followingIds = currentUser.following?.map((item) => item.id);
+      isFollow = followingIds?.includes(id) ?? false;
+      return { ...existUser, isFollow };
+    }
   }
 }

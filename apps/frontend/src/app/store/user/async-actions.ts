@@ -9,7 +9,7 @@ export const fetchAuthAction = createAsyncThunk<IUser>('user/fetc-auth', async (
 });
 
 export const fetchUserAction = createAsyncThunk<IUser, string>('user/fetch-user', async (id, { rejectWithValue }) => {
-  const data = await userApi.fetchUser(id);
+  const {data} = await userApi.fetchUser(id);
   return data;
 });
 
@@ -22,20 +22,32 @@ export const updateUserAction = createAsyncThunk<IUser, FormData>('user/update',
   }
 });
 
-export const addCertificateAction = createAsyncThunk<unknown, {id: string, formData: FormData}>(
+export const addCertificateAction = createAsyncThunk<IUser, FormData>(
   'user/add-certificate',
-  async ({ id, formData }) => {
-    await userApi.addCertificate(id, formData);
+  async (formData) => {
+    const {data} = await userApi.addCertificate(formData);
+    return data;
   },
 );
 
-export const updateCertificateAction = createAsyncThunk<unknown, { id: string; src: string; formData: FormData }>(
+export const updateCertificateAction = createAsyncThunk<IUser, FormData>(
   'user/update-certificate',
-  async ({ id, src, formData }) => {
-    await userApi.updateCertificate(id, src, formData);
+  async (formData) => {
+    const {data} = await userApi.updateCertificate(formData);
+    return data;
   },
 );
 
-export const deleteSertificateAction = createAsyncThunk<unknown, { id: string; src: string }>('user/delete-certificate', async ({ id, src }) => {
-  await userApi.deleteCertificate(id, src);
+export const deleteCertificateAction = createAsyncThunk<IUser, string>(
+  'user/delete-certificate', 
+  async (src) => {
+    const {data} = await userApi.deleteCertificate(src);
+    return data;
 });
+
+export const toFriendAction = createAsyncThunk<void, string>(
+  'user/to-friend',
+  async (id) => {
+    await userApi.toFriend(id);
+  }
+)

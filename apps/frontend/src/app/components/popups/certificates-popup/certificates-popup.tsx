@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import FocusLock from 'react-focus-lock';
 import { PopupHeader } from '../popup-header/popup-header';
 import { ButtonIcon } from '../../ui/button-icon/button-icon';
-import { Image } from '../../ui/image/image';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useSliderControl } from '../../../hooks/use-slider-control';
 import { CountSlide } from '../../../constants/common';
@@ -17,7 +16,11 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
   const { onClose, certificates, title } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates ?? [], CountSlide.PopupCertificate);
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(
+    sliderRef,
+    certificates ?? [],
+    CountSlide.PopupCertificate,
+  );
 
   return (
     <FocusLock>
@@ -39,7 +42,9 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
             {certificates?.map((certificate) => (
               <SwiperSlide key={certificate}>
                 <li className="popup__slide popup__slide--current">
-                  <Image src={certificate} className="popup__slide-img" width={294} height={360} />
+                  <div className="popup__slide-img">
+                    <iframe src={`${certificate}#toolbar=0`} width={294} height={360} title="certificate" style={{ border: 0 }} />
+                  </div>
                 </li>
               </SwiperSlide>
             ))}

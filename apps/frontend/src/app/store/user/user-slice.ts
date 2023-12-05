@@ -1,6 +1,14 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { IUser } from '@fit-friends/shared';
-import { fetchAuthAction, fetchUserAction, updateUserAction } from './async-actions';
+import {
+  addCertificateAction,
+  deleteCertificateAction,
+  fetchAuthAction,
+  fetchUserAction,
+  toFriendAction,
+  updateCertificateAction,
+  updateUserAction,
+} from './async-actions';
 import { UserState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -19,7 +27,7 @@ export const userSlice = createSlice({
       .addCase(fetchAuthAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(fetchAuthAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchAuthAction.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
@@ -27,7 +35,7 @@ export const userSlice = createSlice({
       .addCase(fetchUserAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(fetchUserAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchUserAction.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
@@ -42,6 +50,38 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserAction.rejected, (state, action: AnyAction) => {
         state.error = action.payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(addCertificateAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(addCertificateAction.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(updateCertificateAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(updateCertificateAction.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(deleteCertificateAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(deleteCertificateAction.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(toFriendAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(toFriendAction.fulfilled, (state) => {
+        state.user.isFollow = !state.user.isFollow;
         state.loadStatus = LoadStatus.Loaded;
       });
   },

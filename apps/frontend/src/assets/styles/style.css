@@ -4487,7 +4487,8 @@ input:active + .custom-textarea__text {
   min-width: 334px;
   width: -webkit-min-content;
   width: -moz-min-content;
-  width: min-content;
+  /* width: min-content; */
+  width: 334px;
   height: 100%;
   padding: 30px 20px 23px;
   border: 1px solid #c5ec2a;

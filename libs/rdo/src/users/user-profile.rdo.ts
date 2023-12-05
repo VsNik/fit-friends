@@ -41,5 +41,8 @@ export class UserProfileRdo extends UserRdo {
   personalTraining?: boolean;
 
   @Expose()
+  isFollow?: boolean;
+
+  @Expose()
   token?: IAuthToken;
 }
