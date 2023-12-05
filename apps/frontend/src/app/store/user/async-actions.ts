@@ -22,7 +22,7 @@ export const updateUserAction = createAsyncThunk<IUser, FormData>('user/update',
   }
 });
 
-export const addCertificateAction = createAsyncThunk<unknown, { id: string; formData: FormData }>(
+export const addCertificateAction = createAsyncThunk<unknown, {id: string, formData: FormData}>(
   'user/add-certificate',
   async ({ id, formData }) => {
     await userApi.addCertificate(id, formData);

@@ -1,5 +1,6 @@
 import { InferType } from 'yup';
 import {
+  addCertificateSchema,
   loginSchema,
   questionCoachSchema,
   questionUserSchema,
@@ -18,3 +19,4 @@ export type UserInfoType = InferType<typeof userInfoSchema>;
 export type AddTrainingType = InferType<typeof trainingSchema>;
 export type UpdateTrainingType = InferType<typeof updateTrainingSchema>;
 export type VideoType = InferType<typeof videoSchema>;
+export type AddCertificateType = InferType<typeof addCertificateSchema>;

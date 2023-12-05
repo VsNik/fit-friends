@@ -4,10 +4,9 @@ import { IUser } from '@fit-friends/shared';
 import { ThumbnailCertificat } from '../thumbnails/thumbnail-certificat/thumbnail-certificat';
 import { ButtonIcon } from '../ui/button-icon/button-icon';
 import { useSliderControl } from '../../hooks/use-slider-control';
-import { ButtonFloat } from '../ui/button-float/button-float';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { CountSlide, LoadStatus } from '../../constants/common';
-import { addCertificateAction } from '../../store/user/async-actions';
+import { AddCertificateForm } from '../forms/add-certificate-form/add-certificate-form';
 import * as authSelector from '../../store/auth/auth-select';
 import 'swiper/css';
 
@@ -16,58 +15,30 @@ interface CertificateSliderProps {
 }
 
 export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) => {
-  const dispatch = useAppDispatch();
   const loadStatus = useAppSelector(authSelector.loadStatus);
   const [certificates, setCertificates] = useState<string[]>([]);
   const sliderRef = useRef<SwiperRef | null>(null);
-  const certificateRef = useRef<HTMLInputElement | null>(null);
 
   const isLoading = loadStatus === LoadStatus.Loading;
 
   useEffect(() => {
     if (user.certificate) {
-      const userCertificates = Array.isArray(user.certificate) ? user.certificate : [user.certificate];
+      const userCertificates = 
+        Array.isArray(user.certificate) 
+          ? user.certificate 
+          : [user.certificate];
       setCertificates(userCertificates);
     }
   }, [user.certificate]);
 
-  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = 
-    useSliderControl(sliderRef, certificates, CountSlide.Certificate);
-
-  const handleClicAddCertificate = () => {
-    certificateRef.current?.click();
-  };
-
-  const handleUpload = (fileList: FileList | null) => {
-    if (fileList && fileList[0]) {
-      const formData = new FormData();
-      formData.append('certificate', fileList[0]);
-      dispatch(addCertificateAction({ id: user.id, formData }));
-    }
-  };
+  const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, CountSlide.Certificate);
 
   return (
     <div className="personal-account-coach__additional-info">
       <div className="personal-account-coach__label-wrapper">
         <h2 className="personal-account-coach__label">Дипломы и сертификаты</h2>
 
-        <input
-          className="visually-hidden"
-          type="file"
-          name="certificate"
-          accept=".pdf, .jpg, .png"          
-          onChange={(evt) => handleUpload(evt.target.files)}
-          ref={certificateRef}
-        />
-
-        <ButtonFloat
-          text="Загрузить"
-          icon="icon-import"
-          className="personal-account-coach__button"
-          underline
-          onClick={handleClicAddCertificate}
-          disabled={isLoading}
-        />
+        <AddCertificateForm userId={user.id} disabled={isLoading} />
 
         <div className="personal-account-coach__controls">
           <ButtonIcon icon="arrow-left" onClick={handlePrev} disabled={isFirstSlide} />

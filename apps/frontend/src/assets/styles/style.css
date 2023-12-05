@@ -9449,6 +9449,14 @@ input:active + .custom-textarea__text {
   color: #181818;
 }
 
+.personal-account-coach__add-certificate-error {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #e4001b;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
 .personal-account-coach__button {
   margin-right: 43px;
 }
