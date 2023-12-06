@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Init1701695418327 implements MigrationInterface {
-    name = 'Init1701695418327'
+export class Init1701884310149 implements MigrationInterface {
+    name = 'Init1701884310149'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "reviews" ("id" uuid NOT NULL, "rating" integer NOT NULL DEFAULT '0', "text" character varying NOT NULL, "createdAt" character varying NOT NULL, "userId" uuid, "trainingId" uuid, CONSTRAINT "PK_231ae565c273ee700b283f15c1d" PRIMARY KEY ("id"))`);
@@ -18,8 +18,8 @@ export class Init1701695418327 implements MigrationInterface {
         await queryRunner.query(`CREATE TYPE "public"."users_location_enum" AS ENUM('pionerskaya', 'udelnaya', 'zvezdnaya', 'sportivnaya')`);
         await queryRunner.query(`CREATE TYPE "public"."users_traininglevel_enum" AS ENUM('novice', 'amateur', 'professional')`);
         await queryRunner.query(`CREATE TYPE "public"."users_trainingtype_enum" AS ENUM('yoga', 'beg', 'boxing', 'power', 'stretching', 'crossfit', 'aerobic', 'pilates')`);
-        await queryRunner.query(`CREATE TYPE "public"."users_trainingtime_enum" AS ENUM('low', 'normal', 'hi', 'extra')`);
-        await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL, "name" character varying NOT NULL, "email" character varying NOT NULL, "avatar" character varying NOT NULL DEFAULT '', "password" character varying NOT NULL, "gender" "public"."users_gender_enum" NOT NULL DEFAULT 'any', "birthDay" character varying NOT NULL DEFAULT '', "role" "public"."users_role_enum" NOT NULL, "bio" character varying NOT NULL DEFAULT '', "location" "public"."users_location_enum" NOT NULL, "bgImage" text NOT NULL, "trainingLevel" "public"."users_traininglevel_enum", "trainingType" "public"."users_trainingtype_enum" array, "trainingTime" "public"."users_trainingtime_enum", "loseCalories" integer, "burnCalories" integer, "ready" boolean, "certificate" text, "merits" character varying, "personalTraining" boolean, "createdAt" character varying NOT NULL, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "public"."users_trainingduration_enum" AS ENUM('low', 'normal', 'hi', 'extra')`);
+        await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL, "name" character varying NOT NULL, "email" character varying NOT NULL, "avatar" character varying NOT NULL DEFAULT '', "password" character varying NOT NULL, "gender" "public"."users_gender_enum" NOT NULL DEFAULT 'any', "birthDay" character varying NOT NULL DEFAULT '', "role" "public"."users_role_enum" NOT NULL, "bio" character varying NOT NULL DEFAULT '', "location" "public"."users_location_enum" NOT NULL, "bgImage" text NOT NULL, "trainingLevel" "public"."users_traininglevel_enum", "trainingType" "public"."users_trainingtype_enum" array, "trainingDuration" "public"."users_trainingduration_enum", "loseCalories" integer, "burnCalories" integer, "ready" boolean, "certificate" text NOT NULL DEFAULT '[]', "merits" character varying, "personalTraining" boolean, "createdAt" character varying NOT NULL, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "tokens" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" uuid NOT NULL, "sessionId" uuid NOT NULL, "expiresTo" TIMESTAMP NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_3001e89ada36263dabf1fb6210a" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "balans" ("id" uuid NOT NULL, "userId" uuid NOT NULL, "count" integer NOT NULL DEFAULT '0', "createdAt" character varying NOT NULL, "trainingId" uuid, CONSTRAINT "PK_72d2149c8cc9614e74f022a8f6f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "notifications" ("id" uuid NOT NULL, "coachId" uuid NOT NULL, "coachName" character varying NOT NULL, "subscribeEmails" character varying array NOT NULL, "trainingTitle" character varying NOT NULL, "trainingImage" character varying NOT NULL, "createdAt" character varying NOT NULL, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`);
@@ -68,7 +68,7 @@ export class Init1701695418327 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "balans"`);
         await queryRunner.query(`DROP TABLE "tokens"`);
         await queryRunner.query(`DROP TABLE "users"`);
-        await queryRunner.query(`DROP TYPE "public"."users_trainingtime_enum"`);
+        await queryRunner.query(`DROP TYPE "public"."users_trainingduration_enum"`);
         await queryRunner.query(`DROP TYPE "public"."users_trainingtype_enum"`);
         await queryRunner.query(`DROP TYPE "public"."users_traininglevel_enum"`);
         await queryRunner.query(`DROP TYPE "public"."users_location_enum"`);

@@ -1,18 +1,25 @@
 import { IAlert } from '@fit-friends/shared';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../../store/hooks';
+import { removeNotificationAction } from '../../../store/notifications/async-actions';
 
 interface ThumbnailNotificationProps {
     notification: IAlert;
 }
 
 export const ThumbnailNotification: React.FC<ThumbnailNotificationProps> = ({notification}) => {
+  const dispatch = useAppDispatch();
+
+  const handleRemoveNotify = () => {
+    dispatch(removeNotificationAction(notification.id!));  
+  }
+
   return (
-    <Link className="notification is-active" to="#">
+    <span className="notification is-active" onClick={handleRemoveNotify}>
       <p className="notification__text">{notification.text}</p>
       <time className="notification__time" dateTime="2023-12-23 12:35">
         {notification.createdAt}
       </time>
-    </Link>
+    </span>
   );
 };

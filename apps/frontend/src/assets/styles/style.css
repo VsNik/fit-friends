@@ -5304,6 +5304,7 @@ input:active + .custom-textarea__text {
 }
 
 .thumbnail-friend__training-types-list {
+  position: absolute;
   -ms-grid-column: 3;
   -ms-grid-column-span: 1;
   grid-column: 3/4;
@@ -5315,7 +5316,7 @@ input:active + .custom-textarea__text {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  margin-top: 15px;
+  margin-top: 5px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr;

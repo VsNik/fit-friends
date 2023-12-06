@@ -6,7 +6,6 @@ interface ThumbnailReadyStatusProps {
 }
 
 export const ThumbnailReadyStatus: React.FC<ThumbnailReadyStatusProps> = ({ user }) => {
-  console.log(user)
   return user.role === Role.User ? (
     <div className={`thumbnail-friend__ready-status thumbnail-friend__ready-status--${user.ready ? 'is-ready' : 'is-not-ready'}`}>
       <span>{user.ready ? 'Готов к тренировке' : 'Не готов к тренировке'}</span>

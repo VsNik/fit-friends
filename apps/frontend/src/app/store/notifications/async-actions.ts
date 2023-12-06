@@ -9,3 +9,11 @@ export const fetchNotificationAction = createAsyncThunk<IAlertCollection>(
     return data;
   })
 ;
+
+export const removeNotificationAction = createAsyncThunk<string, string>(
+  'notify/remove-notify',
+  async (id) => {
+    await notificationApi.removeNorification(id);
+    return id;
+  }
+)

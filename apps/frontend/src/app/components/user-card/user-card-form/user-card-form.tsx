@@ -4,7 +4,7 @@ import { Checkbox } from '../../ui/form/checkbox/checkbox';
 import { IUser } from '@fit-friends/shared';
 import { subscribeAction } from '../../../store/user/async-actions';
 import { useAppDispatch } from '../../../store/hooks';
-import { createInvitationAction } from '../../../store/invitation/async-actions';
+import { createInvitationAction } from '../../../store/invitations/async-action';
 
 interface UserCardFormProps {
   user: IUser;

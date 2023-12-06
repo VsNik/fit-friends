@@ -153,6 +153,7 @@ export class UsersController {
     return this.mapUserCollection(data, total, pagination.page);
   }
 
+
   @ApiOperation({ summary: ' Подписатся / отписатся на новые тренеровки тренера' })
   @ApiOkResponse({ type: SuccessRdo })
   @ApiForbiddenResponse({ description: 'Forbidden.' })

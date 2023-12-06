@@ -57,7 +57,7 @@ export class User {
   @Column({ nullable: true })
   ready?: boolean;
 
-  @Column('simple-array', { nullable: true })
+  @Column('simple-array', { default: [] })
   certificate: string[];
 
   @Column({ nullable: true })

@@ -83,9 +83,10 @@ export class UsersRepository implements IUsersRepository {
 
   async findFollowers(userId: string, pagination: Pagination): Promise<[UserEntity[], number]> {
     const [data, count] = await this.repository.findAndCount({
-      where: {
-        following: { id: userId },
-      },
+      where: [
+        {following: { id: userId }},
+        {followers: { id: userId }},
+      ],
       order: { createdAt: pagination.direction },
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),

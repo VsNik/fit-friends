@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { InviteStatus } from '@fit-friends/shared';
+import { IInvitation, InviteStatus } from '@fit-friends/shared';
 import { AppEvent } from '@fit-friends/libs/constants';
 import { IInvitationsRepository, INVITATIONS_REPO } from './entities/invitations-repository.interface';
 import { UsersService } from '../users/users.service';
@@ -61,4 +61,8 @@ export class InvitationsService {
 
     return invitation;
   }
+
+  async getUserInvite(currentUserId: string): Promise<IInvitation[]> {
+    return this.invitationsRepository.findForUserId(currentUserId);
+  } 
 }

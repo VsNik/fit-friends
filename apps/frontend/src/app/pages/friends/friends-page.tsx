@@ -32,7 +32,7 @@ export const FriendsPage: React.FC = () => {
             
             {authRole === Role.User 
               ? <UserFriends userId={authId} /> 
-              : <CoachFriends userId={authId} />
+              : <CoachFriends userId={authId}/>
             }
           </div>
         </div>

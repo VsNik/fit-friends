@@ -133,20 +133,32 @@ export class UsersService {
     }
 
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
-    const index = currentUser.followers.findIndex((item) => item.id === followId);
+    const indexFollower = currentUser.followers.findIndex((item) => item.id === followId);
+    const indexFollowing = currentUser.following.findIndex((item) => item.id === followId);
 
-    if (index < 0) {
+    if (indexFollower < 0 && indexFollowing < 0) {
       currentUser.followers.push(followUser);
       await this.usersRepository.save(currentUser);
 
-      this.eventEmitter.emit(AppEvent.AddedToFriends, new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name));
+      this.eventEmitter.emit(
+        AppEvent.AddedToFriends, 
+        new UserAddedToFriendsEvent(followId, currentUser.id, currentUser.name)
+      );
 
       return true;
     }
 
-    currentUser.followers.splice(index, 1);
-    await this.usersRepository.save(currentUser);
-    return true;
+    if (indexFollower >= 0) {
+      currentUser.followers.splice(indexFollower, 1);
+      await this.usersRepository.save(currentUser);
+      return true;
+    }
+
+    if (indexFollowing >= 0) {
+      currentUser.following.splice(indexFollower, 1);
+      await this.usersRepository.save(currentUser);
+      return true;
+    }
   }
 
   async unfollowForCoach(followId: string, currentUserId: string) {
@@ -159,7 +171,6 @@ export class UsersService {
       throw new BadRequestException(AppError.UserNotFound);
     }
 
-    // const currentUser = await this.findById(currentUserId);
     const index = followUser.followers.findIndex((item) => item.id === currentUserId);
 
     if (index >= 0) {
@@ -170,12 +181,13 @@ export class UsersService {
     return false;
   }
 
-  async getFollowing(userId: string, pagination: Pagination) {
-    return this.usersRepository.findFollowings(userId, pagination);
+  async getFollowing(currentUserId: string, pagination: Pagination) {
+    const following = await this.usersRepository.findFollowings(currentUserId, pagination);
+    return following;
   }
 
-  async getFollowers(userId: string, pagination: Pagination) {
-    return this.usersRepository.findFollowers(userId, pagination);
+  async getFollowers(currentUserId: string, pagination: Pagination) {
+    return this.usersRepository.findFollowers(currentUserId, pagination);
   }
 
   async subscribeUnsubscribe(coachId: string, currentUserId: string) {
@@ -219,14 +231,17 @@ export class UsersService {
     return existUser;
   }
 
-  async getDetails(id: string, currentUserId: string) {
+  async getDetails(id: string, currentUserId: string): Promise<IUser> {
     const existUser = await this.getUser(id);
     const currentUser = await this.usersRepository.findByIdAndRelation(currentUserId);
+
     let isFollow = false;
     let isSubscribe = false;
+
     if (currentUser.role === Role.User) {
       const followerIds = currentUser.followers?.map((item) => item.id);
-      isFollow = followerIds?.includes(id) ?? false;
+      const followingIds = currentUser.following?.map((item) => item.id);
+      isFollow = (followerIds?.includes(id) || followingIds?.includes(id)) ?? false;
       const subscribeIds = currentUser.subscribing?.map((item) => item.id);
       isSubscribe = subscribeIds?.includes(id);
 

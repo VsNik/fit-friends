@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseUUIDPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { Role } from '@fit-friends/shared';
 import { InvitationsService } from './invitations.service';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -47,5 +47,14 @@ export class InvitationsController {
   ): Promise<InvitationRdo> {
     const invitation = await this.invitationsService.changeStatus(invitationId, status, userId);
     return fillObject(InvitationRdo, invitation);
+  }
+
+  @ApiOperation({ summary: 'Список заявок пользователя' })
+  @ApiOkResponse({ type: [InvitationRdo] })
+  @UseGuards(AuthGuard)
+  @Get()
+  async myInvite(@UserId() currentUserId: string): Promise<InvitationRdo[]> {
+    const invitations = await this.invitationsService.getUserInvite(currentUserId);
+    return invitations.map((item) => fillObject(InvitationRdo, item));
   }
 }

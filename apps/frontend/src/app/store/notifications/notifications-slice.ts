@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NotificationsState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
-import { fetchNotificationAction } from './async-actions';
+import { fetchNotificationAction, removeNotificationAction } from './async-actions';
 
 const initialState: NotificationsState = {
   notifications: [],
@@ -24,6 +24,15 @@ export const notificationsSlice = createSlice({
         state.notifications = payload.data;
         state.page = payload.page;
         state.total = payload.total;
-      });
+      })
+
+      .addCase(removeNotificationAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(removeNotificationAction.fulfilled, (state, {payload}) => {
+        const index = state.notifications.findIndex((item) => item.id === payload);
+        state.notifications.splice(index, 1);
+        state.loadStatus = LoadStatus.Loaded;
+      })
   },
 });

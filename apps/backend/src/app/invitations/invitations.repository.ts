@@ -21,6 +21,16 @@ export class InvitationsRepository implements IInvitationsRepository {
     return invitation ? InvitationEntity.create(invitation) : null;
   }
 
+  async findForUserId(id: string): Promise<InvitationEntity[]> {
+    const invitations = await this.repository.find({
+      where: [
+        {toUserId: id},
+        {initiatorId: id},
+      ]
+    });
+    return invitations.map((item) => InvitationEntity.create(item));
+  }
+
   async update(entity: InvitationEntity): Promise<void> {
     const { id, ...toUpdate } = entity;
     await this.repository.update({ id }, toUpdate);

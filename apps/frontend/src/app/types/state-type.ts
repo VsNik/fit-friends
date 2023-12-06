@@ -108,3 +108,8 @@ export type InviteState = {
   invitation: IInvitation;
   loadStatus: LoadStatus;
 }
+
+export type InvitesState = {
+  invitations: IInvitation[];
+  loadStatus: LoadStatus;
+}
