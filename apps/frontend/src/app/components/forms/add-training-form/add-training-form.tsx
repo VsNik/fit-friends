@@ -3,29 +3,27 @@ import { Gender } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
-import { LoadStatus, durationsList, levelsList, trainingsList } from '../../../constants/common';
+import { durationsList, levelsList, trainingsList } from '../../../constants/common';
 import { Button } from '../../ui/button/button';
 import { InputRadio } from '../../ui/form/input-radio/input-radio';
 import { Textarea } from '../../ui/form/textarea/textarea';
 import { InputFile } from '../../ui/form/input-file/input-file';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { trainingSchema } from '../../../utils/validate-schemas';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch } from '../../../store/hooks';
 import { createTrainingAction } from '../../../store/training/async-actions';
 import { Loader } from '../../loader/loader';
 import { AddTrainingType } from '../../../types/forms-type';
-import * as trainingSelector from '../../../store/training/training-select';
 
 export const AddTrainingForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const loadStatus = useAppSelector(trainingSelector.loadStatus);
+  const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState('');
   const [duration, setDuration] = useState('');
   const [level, setLevel] = useState('');
-  const isLoading = loadStatus === LoadStatus.Loading;
 
   const methods = useForm<AddTrainingType>({
-    defaultValues: { gender: Gender.AnyGender },
+    defaultValues: { gender: Gender.AnyGender, isSpecial: false },
     resolver: yupResolver(trainingSchema),
   });
 
@@ -39,21 +37,28 @@ export const AddTrainingForm: React.FC = () => {
   }
 
   const onSubmit = (data: AddTrainingType) => {
+    setIsLoading(true);
     const video = data.video as FileList;
 
     const formData = new FormData();
     formData.append('video', video[0]);
-    formData.append('name', data.title);
-    formData.append('trainingType', data.trainingType);
-    formData.append('loseCalory', String(data.loseCalory));
-    formData.append('trainingDuration', data.trainingType);
+    formData.append('title', data.title);
+    formData.append('type', data.trainingType);
+    formData.append('calories', String(data.loseCalory));
+    formData.append('duration', data.trainingDuration);
     formData.append('price', String(data.price));
-    formData.append('trainingLevel', data.trainingLevel);
+    formData.append('level', data.trainingLevel);
     formData.append('gender', data.gender);
     formData.append('description', data.description);
+    formData.append('isSpecial', `${data.isSpecial}`);
 
     dispatch(createTrainingAction(formData))
-        .then(resetForm);
+      .unwrap()
+      .then(() => {
+        resetForm();
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   };
 
   return (

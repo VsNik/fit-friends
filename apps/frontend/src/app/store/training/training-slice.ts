@@ -28,6 +28,7 @@ export const trainingSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
+        state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       });
   },

@@ -141,6 +141,7 @@ export const trainingSchema = Yup.object({
   gender: Yup.string().required(UserError.GenderRequired),
   description: trainingDescriptionValidator,
   video: trainingVideoValidator,
+  isSpecial: Yup.boolean().required(),
 });
 
 export const videoSchema = Yup.object({
@@ -157,4 +158,3 @@ export const updateCertificateSchema = Yup.object({
       return value instanceof FileList && value[0] ? CERTIFICATE_TYPE.includes(value[0].type) : true;
     })
 })
-

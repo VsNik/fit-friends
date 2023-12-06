@@ -1,5 +1,7 @@
 import { ITraining, ITrainingCollection } from '@fit-friends/shared';
 import { fakeForYouTrainings, fakeOrderTrainings, fakePopularTrainings, fakeSpecialTrainings, getFakeTrainings } from '../fake-data/fake-training';
+import { AxiosResponse } from 'axios';
+import api from './api';
 
 const TIMEOUT = 500;
 
@@ -52,9 +54,7 @@ export const trainingApi = {
     });
   },
 
-  createTraining: (formData: FormData): Promise<FormData> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(formData), TIMEOUT);
-    });
+  createTraining: (formData: FormData): Promise<AxiosResponse<ITraining>> => {
+    return api.post<ITraining>('/trainings', formData);
   },
 };
