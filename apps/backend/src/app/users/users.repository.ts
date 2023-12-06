@@ -5,6 +5,7 @@ import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { IUsersRepository } from './entities/users-repository.interface';
 import { User } from './models/user.model';
 import { UserEntity } from './entities/user.entity';
+import { UserSorting } from '@fit-friends/shared';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -34,7 +35,11 @@ export class UsersRepository implements IUsersRepository {
     }
     
     qb.orderBy(`user.${sorting}`, direction);
-    qb.addOrderBy('user.createdAt', 'DESC');
+
+    if (sorting === UserSorting.Role) {
+      qb.addOrderBy('user.createdAt', 'DESC');
+    }
+    
     qb.limit(limit);
     qb.offset(limit * (page - 1));
 
