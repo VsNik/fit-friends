@@ -1,4 +1,4 @@
-import { Location, SortDirection, TrainingType } from '@fit-friends/shared';
+import { Location, TrainingType, UserSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
@@ -11,8 +11,8 @@ const initialState: UsersState = {
     types: [],
     level: '',
   },
-  sorting: null,
-  direction: SortDirection.Desc,
+  sorting: UserSorting.Created,
+  direction: null,
   page: 1,
   total: 50,
   loadStatus: LoadStatus.Never,

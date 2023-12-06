@@ -48,10 +48,8 @@ export const trainingApi = {
     });
   },
 
-  fetchMyTrainings: (): Promise<ITrainingCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(getFakeTrainings(6)), TIMEOUT);
-    });
+  fetchMyTrainings: (queryString: string): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>(`/trainings/list-coach${queryString}`);
   },
 
   createTraining: (formData: FormData): Promise<AxiosResponse<ITraining>> => {

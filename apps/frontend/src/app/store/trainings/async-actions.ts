@@ -32,9 +32,11 @@ export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>
   return data;
 });
 
-export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-my-trainings', async (queryString) => {
-  const data = await trainingApi.fetchMyTrainings();
-  return data;
+export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/fetch-my-trainings', 
+  async (queryString) => {
+    const {data} = await trainingApi.fetchMyTrainings(queryString);
+    return data;
 });
 
 export const fetchPurchasesAction = createAsyncThunk<ITrainingCollection>('trainings/purchases', async () => {

@@ -81,6 +81,6 @@ export enum CaloryRange {
 }
 
 export enum RatingRange {
-  Min = 1,
+  Min = 0,
   Max = 5,
 }

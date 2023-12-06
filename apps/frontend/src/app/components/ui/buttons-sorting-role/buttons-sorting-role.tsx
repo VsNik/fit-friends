@@ -1,25 +1,25 @@
-import { Role } from '@fit-friends/shared';
+import { SortDirection } from '@fit-friends/shared';
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 
 interface ButtonsSortingRoleProps {
-  sorting: Role | null;
+  direction: SortDirection | null;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
 }
 
 export const ButtonsSortingRole: React.FC<ButtonsSortingRoleProps> = (props) => {
-  const { sorting, onChange, disabled, className } = props;
+  const { onChange, disabled, className, direction } = props;
 
   return (
     <div className={clsx('btn-radio-sort', className)}>
       <label>
-        <input type="radio" name="sort" value={Role.Coach} onChange={onChange} checked={sorting === Role.Coach} disabled={disabled} />
+        <input type="radio" name="direction" value={SortDirection.Desc} onChange={onChange} checked={direction === SortDirection.Desc} disabled={disabled} />
         <span className="btn-radio-sort__label">Тренеры</span>
       </label>
       <label>
-        <input type="radio" name="sort" value={Role.User} onChange={onChange} checked={sorting === Role.User} disabled={disabled} />
+        <input type="radio" name="direction" value={SortDirection.Asc} onChange={onChange} checked={direction === SortDirection.Asc} disabled={disabled} />
         <span className="btn-radio-sort__label">Пользователи</span>
       </label>
     </div>

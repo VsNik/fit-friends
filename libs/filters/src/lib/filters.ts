@@ -22,7 +22,7 @@ export class UsersFilter extends Pagination {
   @IsEnum(UserSorting)
   sorting: UserSorting = UserSorting.Created;
 
-  @IsEnum(Location)
+  @IsEnum(Location, { each: true })
   @IsOptional()
   location: Location;
 
@@ -56,7 +56,12 @@ export class TrainingFilter extends Pagination {
   @Type(() => Number)
   @IsNumber()
   @IsOptional()
-  rating: number;
+  ratingTo: number;
+
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  ratingFrom: number;
 
   @IsEnum(TrainingDuration, { each: true })
   @IsOptional()

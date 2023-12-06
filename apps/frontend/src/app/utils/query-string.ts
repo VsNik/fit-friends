@@ -1,4 +1,4 @@
-import { TrainingSortDirection, Role, SortDirection, TrainingSorting, StatisticSorting } from '@fit-friends/shared';
+import { TrainingSortDirection, SortDirection, TrainingSorting, StatisticSorting, UserSorting } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
 
 const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
@@ -31,7 +31,7 @@ const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
   return query;
 };
 
-export const getUsersQuery = (filters: UsersFilters, sorting: Role | null, direction: SortDirection, page: number = 1, offset?: number): string => {
+export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direction: SortDirection | null, page: number = 1, offset?: number): string => {
   let query = `?page=${page}`;
   let location = '';
   let type = '';
@@ -59,7 +59,7 @@ export const getUsersQuery = (filters: UsersFilters, sorting: Role | null, direc
   }
 
   if (sorting) {
-    query = `${query}&sort=${sorting}`;
+    query = `${query}&sorting=${sorting}`;
   }
 
   if (direction) {

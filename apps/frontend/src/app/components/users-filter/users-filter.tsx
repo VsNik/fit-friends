@@ -1,9 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { Role } from '@fit-friends/shared';
+import { SortDirection, UserSorting } from '@fit-friends/shared';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setAllLocationsAction,
   setAllTypesAction,
+  setDirectionAction,
   setLevelAction,
   setLocationAction,
   setSortingAction,
@@ -20,11 +21,12 @@ import * as usersSelector from '../../store/users/users-select';
 
 interface UsersFilterProps {
   filter: UsersFilters;
-  sorting: Role | null;
+  sorting?: UserSorting;
+  direction: SortDirection | null;
 }
 
 export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
-  const { filter, sorting } = props;
+  const { filter, direction } = props;
 
   const dispatch = useAppDispatch();
   const loadStatus = useAppSelector(usersSelector.loadStatus);
@@ -33,9 +35,14 @@ export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
   const setLocations = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setLocationAction(evt.target.value));
   const setTypes = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setTypeAction(evt.target.value));
   const setLevel = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setLevelAction(evt.target.value));
-  const setSorting = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setSortingAction(evt.target.value));
+  const setDirection = (evt: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDirectionAction(evt.target.value));
+    dispatch(setSortingAction(UserSorting.Role));
+  };
   const setllLocations = () => dispatch(setAllLocationsAction());
   const setAllTypes = () => dispatch(setAllTypesAction());
+
+
 
   return (
     <form className="user-catalog-form__form">
@@ -83,7 +90,7 @@ export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
 
       <div className="user-catalog-form__block">
         <h3 className="user-catalog-form__title user-catalog-form__title--sort">Сортировка</h3>
-        <ButtonsSortingRole sorting={sorting} onChange={setSorting} disabled={isLoading} />
+        <ButtonsSortingRole direction={direction} onChange={setDirection} disabled={isLoading} />
       </div>
     </form>
   );

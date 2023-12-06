@@ -19,7 +19,7 @@ export const UsersPage: React.FC = () => {
   const direction = useAppSelector(usersSelector.direction);
 
   useEffect(() => {
-    const queryString = getUsersQuery(filters, sorting, direction)
+    const queryString = getUsersQuery(filters, sorting, direction);
     dispatch(fetchUsersAction(queryString));
   }, [dispatch, filters, sorting, direction]);
 
@@ -42,7 +42,7 @@ export const UsersPage: React.FC = () => {
                 />
 
                 <h3 className="user-catalog-form__title">Фильтры</h3>
-                <UsersFilter filter={filters} sorting={sorting} />
+                <UsersFilter filter={filters} sorting={sorting} direction={direction} />
               </div>
             </div>
 

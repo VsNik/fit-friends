@@ -14,6 +14,7 @@ import {
   TrainingDuration,
   IErrorResponse,
   IInvitation,
+  UserSorting,
 } from '@fit-friends/shared';
 import { CreatedOrderType } from './common';
 import { LoadStatus } from '../constants/common';
@@ -53,8 +54,8 @@ export type UserState = {
 export type UsersState = {
   users: IUser[];
   filter: UsersFilters;
-  sorting: Role | null;
-  direction: SortDirection;
+  sorting: UserSorting;
+  direction: SortDirection | null;
   page: number;
   total: number;
   loadStatus: LoadStatus;

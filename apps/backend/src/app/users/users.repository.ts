@@ -32,8 +32,9 @@ export class UsersRepository implements IUsersRepository {
       const metro = Array.isArray(location) ? location : [location];
       qb.andWhere('user.location IN (:...metro)', { metro });
     }
-
+    
     qb.orderBy(`user.${sorting}`, direction);
+    qb.addOrderBy('user.createdAt', 'DESC');
     qb.limit(limit);
     qb.offset(limit * (page - 1));
 
