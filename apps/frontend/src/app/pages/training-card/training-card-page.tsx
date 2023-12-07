@@ -53,7 +53,7 @@ export const TrainingCardPage: React.FC = () => {
 
             <div className={clsx('training-card', { 'training-card--edit': isEditable })}>
               <TrainingInfo training={training} isLoading={isTrainingLoading} role={role} isEditable={isEditable} onChangeMode={onChangeMode} onOpenBuyPopup={handleOpenBuyPopup} />
-              <TrainingVideo trainingId={trainingId} role={role} video={training.video} isEditable={isEditable} />
+              <TrainingVideo trainingId={trainingId} role={role} video={training.video} isEditable={isEditable} setIsEditable={setIsEditable} />
             </div>
           </div>
         </div>

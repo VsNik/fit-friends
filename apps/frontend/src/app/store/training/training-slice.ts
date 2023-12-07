@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TrainingState } from '../../types/state-type';
 import { ITraining } from '@fit-friends/shared';
 import { LoadStatus, SliceName } from '../../constants/common';
-import { createTrainingAction, fetchTrainingAction, removeVideoAction, updateTrainingAction } from './async-actions';
+import { createTrainingAction, fetchTrainingAction, removeVideoAction, saveVideoAction, updateTrainingAction } from './async-actions';
 
 const initialState: TrainingState = {
   training: {} as ITraining,
@@ -44,6 +44,14 @@ export const trainingSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(removeVideoAction.fulfilled, (state, {payload}) => {
+        state.training = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(saveVideoAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(saveVideoAction.fulfilled, (state, {payload}) => {
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })

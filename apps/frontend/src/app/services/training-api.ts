@@ -54,6 +54,10 @@ export const trainingApi = {
   },
 
   removeVideo: (id: string, src: string): Promise<AxiosResponse<ITraining>> => {
-    return api.patch(`/trainings/${id}/video`, src);
+    return api.patch<ITraining>(`/trainings/${id}/remove/video`, src);
+  },
+
+  saveVideo: (id: string, formData: FormData): Promise<AxiosResponse<ITraining>> => {
+    return api.patch<ITraining>(`/trainings/${id}/upload/video`, formData);
   }
 };

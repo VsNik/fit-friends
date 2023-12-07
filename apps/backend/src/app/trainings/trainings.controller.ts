@@ -157,7 +157,7 @@ export class TrainingsController {
   }
 
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Редактирование тренировки' })
+  @ApiOperation({ summary: 'Редактирование тренировки'})
   @ApiOkResponse({ type: TrainingRdo })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Roles(Role.Coach)
@@ -183,11 +183,22 @@ export class TrainingsController {
     return this.mapTraining(training);
   }
 
+  @ApiOperation({ summary: 'Загрузка видео тренировки'})
+  @ApiOkResponse({ type: TrainingRdo })
+  @UseInterceptors(FileInterceptor('video'))
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Patch(':id/upload/video')
+  async uploadVideo(@Param('id', new ParseUUIDPipe()) id: string, @UploadedFile(new VideoValidatePipe(true)) video: ExpressFile) {
+    const training = await this.trainingsService.saveVideo(id, video);
+    return this.mapTraining(training);
+  }
+
   @ApiOperation({ summary: 'Удаление видео тренировки' })
   @ApiOkResponse({ type: TrainingRdo })
   @Roles(Role.Coach)
   @UseGuards(RoleGuard)
-  @Patch(':id/video')
+  @Patch(':id/remove/video')
   async removeVideo(@Param('id', new ParseUUIDPipe()) id: string, @Body() {src}: VideoDto) {
     const training = await this.trainingsService.removeVideo(id, src);
     return this.mapTraining(training);

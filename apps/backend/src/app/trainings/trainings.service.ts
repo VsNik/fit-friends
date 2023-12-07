@@ -110,6 +110,15 @@ export class TrainingsService {
   async removeVideo(id: string, src: string): Promise<ITraining> {
     const existTraining = await this.trainingsRepository.get(id);
     existTraining.video = '';
+    await this.filesService.delete(src);
+    await this.trainingsRepository.update(existTraining);
+    return existTraining.toObject();
+  }
+
+  async saveVideo(id: string, videoFile: ExpressFile): Promise<ITraining> {
+    const existTraining = await this.trainingsRepository.get(id);
+    const video = await this.filesService.upload(videoFile, UploadType.Video);
+    existTraining.video = video;
     await this.trainingsRepository.update(existTraining);
     return existTraining.toObject();
   }

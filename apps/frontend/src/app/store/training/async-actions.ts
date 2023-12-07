@@ -44,3 +44,11 @@ export const removeVideoAction = createAsyncThunk<ITraining, {id: string, src: s
   }
 )
 
+export const saveVideoAction = createAsyncThunk<ITraining, {id: string, formData: FormData}>(
+  'training/save-video',
+  async ({id, formData}) => {
+    const {data} = await trainingApi.saveVideo(id, formData);
+    return data;
+  }
+)
+

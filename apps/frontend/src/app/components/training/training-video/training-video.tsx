@@ -10,16 +10,17 @@ import { videoSchema } from '../../../utils/validate-schemas';
 import { VIDEO_POSTER } from '../../../constants/common';
 import { clsx } from 'clsx';
 import { useAppDispatch } from '../../../store/hooks';
-import { removeVideoAction } from '../../../store/training/async-actions';
+import { removeVideoAction, saveVideoAction } from '../../../store/training/async-actions';
 
 interface TrainingVideoProps {
   trainingId: string;
   role: Role;
   video: string;
   isEditable: boolean;
+  setIsEditable: (value: boolean) => void;
 }
 
-export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable }) => {
+export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable, setIsEditable }) => {
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -47,48 +48,61 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, 
   };
 
   const handleDeleteVideo = () => {
-    dispatch(removeVideoAction({id: trainingId, src: video}));
+    dispatch(removeVideoAction({ id: trainingId, src: video }));
     setVideoLoadMode(true);
   };
 
   const handleSaveVideo = (data: VideoType) => {
-    setVideoLoadMode(false);
-    resetField('video');
-    reset();
+    const video = data.video as FileList;
+    const formData = new FormData();
+    formData.append('video', video[0]);
+    dispatch(saveVideoAction({ id: trainingId, formData }))
+      .unwrap()
+      .then(() => {
+        setVideoLoadMode(false);
+        setIsEditable(false);
+        resetField('video');
+        reset();
+      });
   };
 
   return (
     <div
       className={clsx('training-video', {
         'training-video--stop': isReady,
-        'training-video--load': videoLoadMode,
+        'training-video--load': videoLoadMode || !video,
       })}
     >
-      <h2 className="training-video__title">Видео</h2>
-      <VideoPlayer
-        isReady={isReady}
-        src={video}
-        poster={VIDEO_POSTER}
-        onPlay={handlePlay}
-        onEnded={handleStopTraining}
-        videoRef={videoRef}
-        setPlaying={setPlaying}
-        isPlaying={playing}
-      />
+      <h2 className="training-video__title">{video ? 'Видео' : 'Видео не загружено'}</h2>
+
+      {video && 
+        <VideoPlayer
+          isReady={isReady}
+          src={video}
+          poster={VIDEO_POSTER}
+          onPlay={handlePlay}
+          onEnded={handleStopTraining}
+          videoRef={videoRef}
+          setPlaying={setPlaying}
+          isPlaying={playing}
+        />
+      }
 
       <FormProvider {...methods}>
         <div className="training-video__drop-files">
           <div className="training-video__form-wrapper">
-            <InputFile name="video" />
+            {isEditable && <InputFile name="video" />}
           </div>
         </div>
 
         <div className="training-video__buttons-wrapper">
-          <Button text="Приступить" type="button" className="training-video__button training-video__button--start" onClick={handleStartTraining} />
+          {!!video && (
+            <Button text="Приступить" type="button" className="training-video__button training-video__button--start" onClick={handleStartTraining} />
+          )}
           <Button text="Закончить" type="button" className="training-video__button training-video__button--stop" onClick={handleStopTraining} />
           <div className="training-video__edit-buttons">
-            <Button text="Сохранить" onClick={handleSubmit(handleSaveVideo)} disabled={!videoLoadMode} />
-            <Button text="Удалить" onClick={handleDeleteVideo} outlined disabled={videoLoadMode} />
+            <Button text="Сохранить" onClick={handleSubmit(handleSaveVideo)} disabled={!videoLoadMode && !!video} />
+            <Button text="Удалить" onClick={handleDeleteVideo} outlined disabled={videoLoadMode || !video} />
           </div>
         </div>
       </FormProvider>
