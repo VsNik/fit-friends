@@ -16,6 +16,7 @@ import {
   IInvitation,
   UserSorting,
   IOrder,
+  IBalance,
 } from '@fit-friends/shared';
 import { LoadStatus } from '../constants/common';
 
@@ -102,6 +103,13 @@ export type NotificationsState = {
 
 export type OrderState = {
   order: IOrder;
+  loadStatus: LoadStatus;
+};
+
+export type BalancesState = {
+  balances: IBalance[];
+  page: number;
+  total: number;
   loadStatus: LoadStatus;
 };
 

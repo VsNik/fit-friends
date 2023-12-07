@@ -14,7 +14,7 @@ export enum SliceName {
   Reviews = 'REVIEWS',
   Notifications = 'NOTIFICATIONS',
   Order = 'ORDER',
-  Orders = 'ORDERS',
+  Balances = 'BALANCES',
   Invites = 'INVITES',
 }
 

@@ -49,7 +49,4 @@ export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, {aut
     return data;
 });
 
-export const fetchPurchasesAction = createAsyncThunk<ITrainingCollection>('trainings/purchases', async () => {
-  const {data} = await trainingApi.fetchTrainings('');
-  return data;
-});
+
