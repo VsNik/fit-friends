@@ -1,6 +1,6 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Max, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   UserError,
   TrainingError,
@@ -107,7 +107,7 @@ export class CreateTrainingDto {
     description: 'Признак специального предложения',
     example: true,
   })
-  @Type(() => Boolean)
+  @Transform(({value}) => value && value === 'true' || value === true || value === 1 || value === '1')
   @IsBoolean({ message: TrainingError.SpecialBoolean })
   @IsNotEmpty({ message: TrainingError.SpecialRequired })
   readonly isSpecial: boolean;

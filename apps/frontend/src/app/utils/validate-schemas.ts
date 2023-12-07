@@ -15,6 +15,8 @@ import {
   LOSE_CALORY_MAX,
   BURN_CALORY_MIN,
   BURN_CALORY_MAX,
+  TrainingValidate,
+  TRAINING_DESCRIPTION_LENGTH,
 } from '@fit-friends/libs/validation';
 import { Gender, Location, Role, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import * as Yup from 'yup';
@@ -44,7 +46,10 @@ const trainingTypesValidator = Yup.array(Yup.mixed<TrainingType>().oneOf(Object.
   .test('is-valid-max--length', TRAININGTYPE_MAX_SIZE, (value) => value.length <= UserValidate.TrainingTypeMaxCount);
 
 const trainingTitileValidator = Yup.string().required(TrainingError.TitleRequired);
-const trainingDescriptionValidator = Yup.string().required(TrainingError.DescRequired);
+const trainingDescriptionValidator = Yup.string()
+  .required(TrainingError.DescRequired)
+  .min(TrainingValidate.DescriptionMinLength, TRAINING_DESCRIPTION_LENGTH)
+  .max(TrainingValidate.DescriptionMaxLength, TRAINING_DESCRIPTION_LENGTH);
 
 const trainingVideoValidator = Yup.mixed()
   .required()
@@ -128,6 +133,7 @@ export const updateTrainingSchema = Yup.object({
   description: trainingDescriptionValidator,
   price: trainingPriceValidator,
   rating: Yup.number(),
+  isSpecial: Yup.boolean(),
 });
 
 export const trainingSchema = Yup.object({

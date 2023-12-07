@@ -2,6 +2,7 @@ import { ITraining, ITrainingCollection } from '@fit-friends/shared';
 import { fakeForYouTrainings, fakeOrderTrainings, getFakeTrainings } from '../fake-data/fake-training';
 import { AxiosResponse } from 'axios';
 import api from './api';
+import { UpdateTrainingType } from '../types/forms-type';
 
 const TIMEOUT = 500;
 
@@ -47,4 +48,12 @@ export const trainingApi = {
   createTraining: (formData: FormData): Promise<AxiosResponse<ITraining>> => {
     return api.post<ITraining>('/trainings', formData);
   },
+
+  updateTraining: (id: string, data: UpdateTrainingType): Promise<AxiosResponse<ITraining>> => {
+    return api.patch<ITraining>(`/trainings/${id}`, data);
+  },
+
+  removeVideo: (id: string, src: string): Promise<AxiosResponse<ITraining>> => {
+    return api.patch(`/trainings/${id}/video`, src);
+  }
 };

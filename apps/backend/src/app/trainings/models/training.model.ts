@@ -36,7 +36,7 @@ export class Training implements ITraining {
   @Column({ type: 'enum', enum: Gender })
   gender: Gender;
 
-  @Column()
+  @Column({default: ''})
   video: string;
 
   @Column({default: 0})

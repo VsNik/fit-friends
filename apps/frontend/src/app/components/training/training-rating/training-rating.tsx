@@ -18,7 +18,7 @@ export const TrainingRating: React.FC<TrainingRatingProps> = ({ value, disabled 
             <use xlinkHref="/assets/img/sprite.svg#icon-star" />
           </svg>
         </span>
-        <input {...register('rating')} type="number" name="rating" value={value} disabled={disabled} />
+        <input {...register('rating')} type="number" name="rating" value={value} disabled={disabled} readOnly />
       </label>
     </div>
   );

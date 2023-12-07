@@ -34,6 +34,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { VideoDto } from './dto/video.dto';
 
 @ApiTags('Trainings')
 @ApiBearerAuth()
@@ -179,6 +180,16 @@ export class TrainingsController {
   @Get(':id')
   async show(@Param('id', new ParseUUIDPipe()) trainingId: string): Promise<TrainingRdo> {
     const training = await this.trainingsService.getTraining(trainingId);
+    return this.mapTraining(training);
+  }
+
+  @ApiOperation({ summary: 'Удаление видео тренировки' })
+  @ApiOkResponse({ type: TrainingRdo })
+  @Roles(Role.Coach)
+  @UseGuards(RoleGuard)
+  @Patch(':id/video')
+  async removeVideo(@Param('id', new ParseUUIDPipe()) id: string, @Body() {src}: VideoDto) {
+    const training = await this.trainingsService.removeVideo(id, src);
     return this.mapTraining(training);
   }
 

@@ -101,4 +101,16 @@ export class TrainingsService {
     const [data, count] = await this.trainingsRepository.getSpecial()
     return [data.map((item) => item.toObject()), count];
   }
+
+  async getForYou(currentUserId: string) {
+    const currentUser = await this.usersService.getUser(currentUserId);
+    const trainingTypes = currentUser.trainingType;
+  }
+
+  async removeVideo(id: string, src: string): Promise<ITraining> {
+    const existTraining = await this.trainingsRepository.get(id);
+    existTraining.video = '';
+    await this.trainingsRepository.update(existTraining);
+    return existTraining.toObject();
+  }
 }

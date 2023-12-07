@@ -4073,6 +4073,11 @@ input:active + .custom-textarea__text {
   opacity: 1;
 }
 
+.training-info__input.is-invalid.training-info__input--price .training-info__error {
+  opacity: 1;
+  bottom: -32px!important;
+}
+
 .training-info__input.is-disabled input:disabled {
   border: 1px solid rgba(149, 149, 149, 0.1);
   background-color: rgba(247, 247, 247, 0.02);
@@ -4138,7 +4143,7 @@ input:active + .custom-textarea__text {
 
 .training-info__error {
   position: absolute;
-  bottom: -22px;
+  bottom: -18px;
   left: 0;
   font-weight: 400;
   font-size: 14px;

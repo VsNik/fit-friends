@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ITraining, Role } from '@fit-friends/shared';
 import { ButtonFloat } from '../../ui/button-float/button-float';
@@ -12,6 +12,8 @@ import { Button } from '../../ui/button/button';
 import { updateTrainingSchema } from '../../../utils/validate-schemas';
 import { UpdateTrainingType } from '../../../types/forms-type';
 import { Loader } from '../../loader/loader';
+import { useAppDispatch } from '../../../store/hooks';
+import { updateTrainingAction } from '../../../store/training/async-actions';
 
 interface TrainingInfoProps {
   training: ITraining;
@@ -24,27 +26,53 @@ interface TrainingInfoProps {
 
 export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
   const { training, isLoading, role, isEditable, onChangeMode, onOpenBuyPopup } = props;
+  const dispatch = useAppDispatch();
+  const [tempPrice, setNewPrice] = useState<number>();
 
   const methods = useForm<UpdateTrainingType>({
     resolver: yupResolver(updateTrainingSchema),
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, watch } = methods;
+
+  const isSpecial = watch('isSpecial');
 
   useEffect(() => {
     setValue('title', training.title);
     setValue('description', training.description);
     setValue('price', training.price);
-    setValue('rating', training.rating)
+    setValue('rating', training.rating);
+    setValue('isSpecial', training.isSpecial);
+    setNewPrice(training.price);
   }, [isLoading, setValue, training]);
 
-  const onSubmit = (data: UpdateTrainingType) => {
+  useEffect(() => {
+    setValue('price', tempPrice!);
+  }, [tempPrice, setValue]);
+
+  const handleRemoveDiscond = () => {
+    if (tempPrice) {
+      setValue('isSpecial', false);
+      setNewPrice(tempPrice + training.price * 0.1);
+    }
+  };
+
+  const handleCreateDiscond = () => {
+    if (tempPrice) {
+      setValue('isSpecial', true);
+      setNewPrice(tempPrice - training.price * 0.1);
+    }
+  };
+
+  const onSubmit = (updateData: UpdateTrainingType) => {
+    console.log(updateData);
+    dispatch(updateTrainingAction({id: training.id, updateData}))
     onChangeMode(false);
   };
 
   return (
     <div className="training-info">
-      { isLoading && <Loader /> }
+      {isLoading && <Loader />}
       <h2 className="visually-hidden">Информация о тренировке</h2>
       <div className="training-info__header">
         <TrainingUserInfo coach={training.coach} />
@@ -101,9 +129,27 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
               <div className="training-info__price-wrapper">
                 <TrainingInput name="price" label="Стоимость" className="training-info__input--price" disabled={!isEditable} />
                 {role === Role.User ? (
-                  <Button text="Купить" className="training-info__buy" type='button' onClick={onOpenBuyPopup} />
+                  <Button text="Купить" className="training-info__buy" type="button" onClick={onOpenBuyPopup} />
+                ) : isSpecial ? (
+                  <ButtonFloat
+                    text="Отменить скидку"
+                    icon="icon-discount"
+                    type="button"
+                    className="training-info__discount"
+                    light
+                    underline
+                    onClick={handleRemoveDiscond}
+                  />
                 ) : (
-                  <ButtonFloat text="Сделать скидку 10%" icon="icon-discount" type='button' className="training-info__discount" light underline />
+                  <ButtonFloat
+                    text="Сделать скидку 10%"
+                    icon="icon-discount"
+                    type="button"
+                    className="training-info__discount"
+                    light
+                    underline
+                    onClick={handleCreateDiscond}
+                  />
                 )}
               </div>
             </div>

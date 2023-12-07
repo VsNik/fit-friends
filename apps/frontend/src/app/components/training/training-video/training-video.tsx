@@ -9,14 +9,18 @@ import { VideoType } from '../../../types/forms-type';
 import { videoSchema } from '../../../utils/validate-schemas';
 import { VIDEO_POSTER } from '../../../constants/common';
 import { clsx } from 'clsx';
+import { useAppDispatch } from '../../../store/hooks';
+import { removeVideoAction } from '../../../store/training/async-actions';
 
 interface TrainingVideoProps {
+  trainingId: string;
   role: Role;
   video: string;
   isEditable: boolean;
 }
 
-export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEditable }) => {
+export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable }) => {
+  const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [playing, setPlaying] = useState(false);
@@ -43,6 +47,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEdi
   };
 
   const handleDeleteVideo = () => {
+    dispatch(removeVideoAction({id: trainingId, src: video}));
     setVideoLoadMode(true);
   };
 

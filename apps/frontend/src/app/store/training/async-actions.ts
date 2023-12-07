@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import { AppDispatch } from '..';
 import { redirectToRoute } from '../action';
 import { RouteName } from '../../constants/route';
+import { UpdateTrainingType } from '../../types/forms-type';
 
 export const fetchTrainingAction = createAsyncThunk<ITraining, string>(
   'training/fetch-training', 
@@ -26,3 +27,20 @@ export const createTrainingAction = createAsyncThunk<ITraining, FormData, {dispa
     }
   }
 );
+
+export const updateTrainingAction = createAsyncThunk<ITraining, {id: string, updateData: UpdateTrainingType}>(
+  'training/update',
+  async ({id, updateData}) => {
+    const {data} = await trainingApi.updateTraining(id, updateData);
+    return data;
+  }
+)
+
+export const removeVideoAction = createAsyncThunk<ITraining, {id: string, src: string}>(
+  'training/remove-video',
+  async ({id, src}) => {
+    const {data} = await trainingApi.removeVideo(id, src);
+    return data;
+  }
+)
+
