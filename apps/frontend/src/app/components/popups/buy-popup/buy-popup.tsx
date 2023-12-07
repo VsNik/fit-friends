@@ -43,7 +43,9 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
       count,
       paymentType,
     };
-    dispatch(createOrderAction(order)).then(closePopup);
+    dispatch(createOrderAction({id: training.id, order}))
+      .unwrap()
+      .then(closePopup);
   };
 
   const handleInputCount = (evt: ChangeEvent<HTMLInputElement>) => {

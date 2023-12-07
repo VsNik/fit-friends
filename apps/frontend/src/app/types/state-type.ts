@@ -15,8 +15,8 @@ import {
   IErrorResponse,
   IInvitation,
   UserSorting,
+  IOrder,
 } from '@fit-friends/shared';
-import { CreatedOrderType } from './common';
 import { LoadStatus } from '../constants/common';
 
 export interface TrainingFilter {
@@ -101,7 +101,7 @@ export type NotificationsState = {
 };
 
 export type OrderState = {
-  order: CreatedOrderType;
+  order: IOrder;
   loadStatus: LoadStatus;
 };
 

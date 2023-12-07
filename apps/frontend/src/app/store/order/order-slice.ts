@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { OrderState } from '../../types/state-type';
-import { CreatedOrderType } from '../../types/common';
 import { LoadStatus, SliceName } from '../../constants/common';
 import { createOrderAction } from './async-action';
+import { IOrder } from '@fit-friends/shared';
 
 const initialState: OrderState = {
-  order: {} as CreatedOrderType,
+  order: {} as IOrder,
   loadStatus: LoadStatus.Never,
 };
 

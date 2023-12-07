@@ -1,11 +1,10 @@
+import { AxiosResponse } from 'axios';
 import { CreatedOrderType } from '../types/common';
-
-const TIMEOUT = 500;
+import { IOrder } from '@fit-friends/shared';
+import api from './api';
 
 export const orderApi = {
-  createOrder: (order: CreatedOrderType): Promise<CreatedOrderType> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(order), TIMEOUT);
-    });
+  createOrder: (id: string, order: CreatedOrderType): Promise<AxiosResponse<IOrder>> => {
+    return api.post<IOrder>(`/orders/${id}`, order);
   },
 };
