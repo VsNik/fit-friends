@@ -1,5 +1,5 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
-import { testUser } from '../fake-data/fake-user';
+// import { testUser } from '../fake-data/fake-user';
 import api from './api';
 import { AxiosResponse } from 'axios';
 
