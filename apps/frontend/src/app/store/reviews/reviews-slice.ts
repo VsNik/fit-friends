@@ -5,6 +5,8 @@ import { LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: ReviewsState = {
   reviews: [],
+  page: 1,
+  total: 0,
   loadStatus: LoadStatus.Never,
 };
 
@@ -18,7 +20,9 @@ export const reviewsSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
-        state.reviews = payload;
+        state.reviews = payload.data;
+        state.page = payload.page;
+        state.total = payload.total;
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -26,6 +30,7 @@ export const reviewsSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(addReviewAction.fulfilled, (state, { payload }) => {
+        state.reviews.push(payload)
         state.loadStatus = LoadStatus.Loaded;
       });
   },

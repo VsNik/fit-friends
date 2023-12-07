@@ -81,8 +81,8 @@ export enum TrainingSortDirection {
 }
 
 export enum StatisticSorting {
-  OrderCount = 'count',
-  OrderSumm = 'summ',
+  OrderCount = 'ordersCount',
+  OrderSumm = 'ordersSumm',
 }
 
 export enum UserSorting {

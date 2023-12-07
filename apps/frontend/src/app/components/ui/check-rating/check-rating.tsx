@@ -1,11 +1,14 @@
 import React, { ChangeEvent } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 interface CheckRatingProps {
-  onChange: (value: ChangeEvent<HTMLInputElement>) => void;
-  value: number;
+  onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
+  value?: number;
 }
 
 export const CheckRating: React.FC<CheckRatingProps> = (props) => {
+  const {register} = useFormContext()
+
   const { value, onChange } = props;
   return (
     <ul className="popup__rate-list">
@@ -16,6 +19,7 @@ export const CheckRating: React.FC<CheckRatingProps> = (props) => {
             <div className="popup__rate-item-wrap">
               <label>
                 <input 
+                  {...register('rating')}
                   type="radio" 
                   name="rating" 
                   value={index + 1} 

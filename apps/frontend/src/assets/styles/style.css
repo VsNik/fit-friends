@@ -7963,6 +7963,15 @@ input:active + .custom-textarea__text {
   min-height: 160px;
 }
 
+.popup__feedback-textarea-error {
+  position: absolute;
+  margin-top: 6px;
+  font-size: 14px;
+  color: #e4001b;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
 .input-quantity {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;

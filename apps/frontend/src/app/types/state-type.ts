@@ -91,6 +91,8 @@ export type TrainingsState = {
 
 export type ReviewsState = {
   reviews: IReview[];
+  page: number;
+  total: number;
   loadStatus: LoadStatus;
 };
 

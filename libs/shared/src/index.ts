@@ -14,3 +14,4 @@ export * from './lib/training-collection.interface';
 export * from './lib/order-collection.interface';
 export * from './lib/alert-collection.interface';
 export * from './lib/balance-collection';
+export * from './lib/review-collection.interface';

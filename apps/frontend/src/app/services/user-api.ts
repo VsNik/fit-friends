@@ -3,14 +3,14 @@ import { testUser } from '../fake-data/fake-user';
 import api from './api';
 import { AxiosResponse } from 'axios';
 
-const TIMEOUT = 500;
+// const TIMEOUT = 500;
 
 export const userApi = {
-  fetchAuth: (): Promise<IUser> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(testUser), TIMEOUT);
-    });
-  },
+  // fetchAuth: (): Promise<IUser> => {
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => resolve(testUser), TIMEOUT);
+  //   });
+  // },
 
   fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {
     return api.get<IUser>(`/users/${id}/show`);

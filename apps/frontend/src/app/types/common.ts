@@ -6,9 +6,3 @@ export type CreatedOrderType = {
   count: number;
   paymentType: PaymentType;
 };
-
-export type CreateReviewType = {
-  trainingId: string;
-  rating: number;
-  text: string;
-}

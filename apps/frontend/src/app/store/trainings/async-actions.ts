@@ -38,7 +38,7 @@ export const fetchForCoachAction = createAsyncThunk<ITrainingCollection, string>
 export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>(
   'trainings/fetch-order-trainings', 
   async (queryString) => {
-    const data = await trainingApi.fetchOrderTraining();
+    const {data} = await trainingApi.fetchOrderTraining(queryString);
     return data;
 });
 

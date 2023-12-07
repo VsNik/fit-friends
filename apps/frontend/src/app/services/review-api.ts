@@ -1,19 +1,14 @@
-import { IReview } from '@fit-friends/shared';
-import { fakeReviews } from '../fake-data/fake-review';
-import { CreateReviewType } from '../types/common';
-
-const TIMEOUT = 500;
+import { IReview, IReviewCollection } from '@fit-friends/shared';
+import { AxiosResponse } from 'axios';
+import api from './api';
+import { CreateReviewType } from '../types/forms-type';
 
 export const reviewApi = {
-  fetchReviews: (): Promise<IReview[]> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeReviews), TIMEOUT);
-    });
+  fetchReviews: (id: string): Promise<AxiosResponse<IReviewCollection>> => {
+    return api.get<IReviewCollection>(`/reviews/${id}`)
   },
 
-  addReview: (review: CreateReviewType): Promise<CreateReviewType> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(review), TIMEOUT);
-    });
+  addReview: (id: string, review: CreateReviewType): Promise<AxiosResponse<IReview>> => {
+    return api.post<IReview>(`/reviews/${id}`, review);
   },
 };

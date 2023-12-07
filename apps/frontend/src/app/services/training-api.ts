@@ -1,5 +1,5 @@
 import { ITraining, ITrainingCollection } from '@fit-friends/shared';
-import { fakeForYouTrainings, fakeOrderTrainings, getFakeTrainings } from '../fake-data/fake-training';
+import { fakeForYouTrainings } from '../fake-data/fake-training';
 import { AxiosResponse } from 'axios';
 import api from './api';
 import { UpdateTrainingType } from '../types/forms-type';
@@ -29,16 +29,14 @@ export const trainingApi = {
     return api.get<ITrainingCollection>('/trainings/popular');
   },
 
-  fetchForCoach: (): Promise<ITrainingCollection> => {
-    return new Promise((resolce) => {
-      setTimeout(() => resolce(getFakeTrainings(8)), TIMEOUT);
-    });
-  },
+  // fetchForCoach: (): Promise<ITrainingCollection> => {
+  //   return new Promise((resolce) => {
+  //     setTimeout(() => resolce(getFakeTrainings(8)), TIMEOUT);
+  //   });
+  // },
 
-  fetchOrderTraining: (): Promise<ITrainingCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeOrderTrainings), TIMEOUT);
-    });
+  fetchOrderTraining: (queryString: string): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>(`/trainings/orders${queryString}`);
   },
 
   fetchMyTrainings: (authId: string, queryString = ''): Promise<AxiosResponse<ITrainingCollection>> => {

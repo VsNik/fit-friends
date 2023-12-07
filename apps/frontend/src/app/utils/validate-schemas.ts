@@ -17,6 +17,8 @@ import {
   BURN_CALORY_MAX,
   TrainingValidate,
   TRAINING_DESCRIPTION_LENGTH,
+  ReviewValidate,
+  REVIEW_IS_STRING,
 } from '@fit-friends/libs/validation';
 import { Gender, Location, Role, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import * as Yup from 'yup';
@@ -128,14 +130,6 @@ export const userInfoSchema = Yup.object({
   avatar: avatarValidator,
 });
 
-export const updateTrainingSchema = Yup.object({
-  title: trainingTitileValidator,
-  description: trainingDescriptionValidator,
-  price: trainingPriceValidator,
-  rating: Yup.number(),
-  isSpecial: Yup.boolean(),
-});
-
 export const trainingSchema = Yup.object({
   title: trainingTitileValidator,
   trainingType: Yup.string().required(TrainingError.TypeRequired),
@@ -149,6 +143,14 @@ export const trainingSchema = Yup.object({
   description: trainingDescriptionValidator,
   video: trainingVideoValidator,
   isSpecial: Yup.boolean().required(),
+});
+
+export const updateTrainingSchema = Yup.object({
+  title: trainingTitileValidator,
+  description: trainingDescriptionValidator,
+  price: trainingPriceValidator,
+  rating: Yup.number(),
+  isSpecial: Yup.boolean(),
 });
 
 export const videoSchema = Yup.object({
@@ -165,3 +167,10 @@ export const updateCertificateSchema = Yup.object({
       return value instanceof FileList && value[0] ? CERTIFICATE_TYPE.includes(value[0].type) : true;
     })
 })
+
+export const reviewSchema = Yup.object({
+  rating: Yup.number().required(),
+  text: Yup.string().required(OtherError.ReviewRequired)
+  .min(ReviewValidate.TextMinLength, REVIEW_IS_STRING)
+  .max(ReviewValidate.TextMaxLength, REVIEW_IS_STRING),
+});

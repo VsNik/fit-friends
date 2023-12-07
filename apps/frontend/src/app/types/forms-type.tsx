@@ -4,6 +4,7 @@ import {
   loginSchema,
   questionCoachSchema,
   questionUserSchema,
+  reviewSchema,
   signupSchema,
   trainingSchema,
   updateCertificateSchema,
@@ -22,3 +23,4 @@ export type UpdateTrainingType = InferType<typeof updateTrainingSchema>;
 export type VideoType = InferType<typeof videoSchema>;
 export type AddCertificateType = InferType<typeof addCertificateSchema>;
 export type UpdateCertificateType = InferType<typeof updateCertificateSchema>;
+export type CreateReviewType = InferType<typeof reviewSchema>;

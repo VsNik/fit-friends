@@ -28,9 +28,11 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = (props) => {
 
       <h2 className="reviews-side-bar__title">Отзывы</h2>
       <ul className="reviews-side-bar__list">
-        {reviews?.map((review) => (
+        {reviews.length > 0 ? reviews.map((review) => (
           <ThumbnailReview key={review.id} review={review} />
-        ))}
+        )) : (
+          <h3>Отзывов пока нет</h3>
+        )}
       </ul>
       
       <Button 
