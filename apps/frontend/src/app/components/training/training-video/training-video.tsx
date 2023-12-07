@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { InputFile } from '../../ui/form/input-file/input-file';
 import { VideoType } from '../../../types/forms-type';
 import { videoSchema } from '../../../utils/validate-schemas';
+import { VIDEO_POSTER } from '../../../constants/common';
 import { clsx } from 'clsx';
 
 interface TrainingVideoProps {
@@ -61,8 +62,8 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ role, video, isEdi
       <h2 className="training-video__title">Видео</h2>
       <VideoPlayer
         isReady={isReady}
-        src="/assets/img/test.mp4"
-        poster="/assets/img/content/training-video/video-thumbnail.png"
+        src={video}
+        poster={VIDEO_POSTER}
         onPlay={handlePlay}
         onEnded={handleStopTraining}
         videoRef={videoRef}

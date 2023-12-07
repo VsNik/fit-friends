@@ -22,20 +22,24 @@ export const fetchPopularAction = createAsyncThunk<ITrainingCollection>('popular
   return data;
 });
 
-export const fetchForCoachAction = createAsyncThunk<ITrainingCollection>('trainings/fetch-for-coach', async () => {
-  const data = await trainingApi.fetchForCoach();
-  return data;
+export const fetchForCoachAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/fetch-for-coach', 
+  async (id) => {
+    const {data} = await trainingApi.fetchMyTrainings(id);
+    return data;
 });
 
-export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-order-trainings', async (queryString) => {
-  const data = await trainingApi.fetchOrderTraining();
-  return data;
-});
-
-export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, string>(
-  'trainings/fetch-my-trainings', 
+export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/fetch-order-trainings', 
   async (queryString) => {
-    const {data} = await trainingApi.fetchMyTrainings(queryString);
+    const data = await trainingApi.fetchOrderTraining();
+    return data;
+});
+
+export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, {authId: string, queryString?: string}>(
+  'trainings/fetch-my-trainings', 
+  async ({authId, queryString}) => {
+    const {data} = await trainingApi.fetchMyTrainings(authId, queryString);
     return data;
 });
 

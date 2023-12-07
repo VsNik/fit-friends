@@ -11,12 +11,22 @@ interface ToggleProps {
 
 export const Toggle: React.FC<ToggleProps> = (props) => {
   const { name, label, className, disabled } = props;
-  const {register} = useFormContext()
+  const methods = useFormContext()
+
+  const options = {
+    type: "checkbox",
+    name,
+    disabled,
+  }
 
   return (
     <div className={clsx('custom-toggle custom-toggle--switch', className)}>
       <label>
-        <input {...register(name)} type="checkbox" name={name} defaultChecked disabled={disabled} />
+        {methods 
+          ? <input {...methods.register(name)} {...options} defaultChecked />
+          : <input {...options} defaultChecked />
+        }
+        
         <span className="custom-toggle__icon">
           <svg width="9" height="6" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#arrow-check" />

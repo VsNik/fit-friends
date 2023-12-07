@@ -127,6 +127,7 @@ export const updateTrainingSchema = Yup.object({
   title: trainingTitileValidator,
   description: trainingDescriptionValidator,
   price: trainingPriceValidator,
+  rating: Yup.number(),
 });
 
 export const trainingSchema = Yup.object({

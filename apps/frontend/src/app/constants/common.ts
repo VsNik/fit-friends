@@ -1,5 +1,7 @@
 import { Gender, Location, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 
+export const VIDEO_POSTER = '/assets/img/content/training-video/video-thumbnail.png';
+
 export enum SliceName {
   Auth = 'AUTH',
   User = 'USER',
@@ -29,7 +31,7 @@ export const CountSlide = {
   Certificate: 3,
   PopupCertificate: 1,
   CoachCard: 4,
-} as const
+} as const;
 
 export const locationsList = [
   { value: Location.Pionerskaya, label: 'Пионерская' },
@@ -51,21 +53,21 @@ export const levelsList = [
 ];
 
 export const trainingsList = [
-  {value: TrainingType.Yoga, label: 'Йога'},
-  {value: TrainingType.Power, label: 'Силовые'},
-  {value: TrainingType.Crossfit, label: 'Кроссфит'},
-  {value: TrainingType.Boxing, label: 'Бокс'},
-  {value: TrainingType.Beg, label: 'Бег'},
-  {value: TrainingType.Aerobic, label: 'Аэробика'},
-  {value: TrainingType.Pilates, label: 'Пилатес'},
-  {value: TrainingType.Stretching, label: 'Стрейчинг'},
-]
+  { value: TrainingType.Yoga, label: 'Йога' },
+  { value: TrainingType.Power, label: 'Силовые' },
+  { value: TrainingType.Crossfit, label: 'Кроссфит' },
+  { value: TrainingType.Boxing, label: 'Бокс' },
+  { value: TrainingType.Beg, label: 'Бег' },
+  { value: TrainingType.Aerobic, label: 'Аэробика' },
+  { value: TrainingType.Pilates, label: 'Пилатес' },
+  { value: TrainingType.Stretching, label: 'Стрейчинг' },
+];
 
 export const durationsList = [
-  {value: TrainingDuration.Low, label: '10 мин - 30 мин'},
-  {value: TrainingDuration.Normal, label: '30 мин - 50 мин'},
-  {value: TrainingDuration.Hi, label: '50 мин - 80 мин'},
-  {value: TrainingDuration.Extra, label: '80 мин - 100 мин'},
+  { value: TrainingDuration.Low, label: '10 мин - 30 мин' },
+  { value: TrainingDuration.Normal, label: '30 мин - 50 мин' },
+  { value: TrainingDuration.Hi, label: '50 мин - 80 мин' },
+  { value: TrainingDuration.Extra, label: '80 мин - 100 мин' },
 ];
 
 export enum PriceRange {
@@ -83,4 +85,11 @@ export enum CaloryRange {
 export enum RatingRange {
   Min = 0,
   Max = 5,
+}
+
+export enum ReadyTrainingText {
+  UserReady = 'Готов к тренировке',
+  UserNotReady = 'Не готов к тренировке',
+  CoachReady = 'Готов тренировать',
+  CoachNotReady = 'Не готов тренировать',
 }

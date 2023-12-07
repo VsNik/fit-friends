@@ -36,7 +36,6 @@ export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, 
     const certificate = data.certificate as FileList;
     const formData = new FormData();
     formData.append('certificate', certificate[0]);
-    console.log(certificate[0]);
     dispatch(addCertificateAction(formData));
   };
 

@@ -7,11 +7,12 @@ import { Hashtag } from '../../ui/hashtag/hashtag';
 import { UserCardGallary } from '../user-card-gallary/user-card-gallary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchForCoachAction } from '../../../store/trainings/async-actions';
-import { UserCardCertificateSlider } from '../user-card-certificate-slider/user-card-certificate-slider';
+import { UserCardTrainingSlider } from '../user-card-training-slider/user-card-training-slider';
 import { UserCardForm } from '../user-card-form/user-card-form';
+import { FriendsButton } from '../friends-button/friends-button';
+import { ReadyTrainingText } from '../../../constants/common';
 import * as trainingsSelector from '../../../store/trainings/trainings-select';
 import clsx from 'clsx';
-import { FriendsButton } from '../friends-button/friends-button';
 
 interface UserCardCoachProps {
   user: IUser;
@@ -26,19 +27,19 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
   const trainings = useAppSelector(trainingsSelector.trainings);
 
   useEffect(() => {
-    dispatch(fetchForCoachAction());
-  }, [dispatch]);
+    dispatch(fetchForCoachAction(user.id));
+  }, [dispatch, user.id]);
 
   const checkTraing = user.role === Role.User ? user.ready : user.personalTraining;
 
   const readyText =
     user.role === Role.User
       ? checkTraing
-        ? 'Готов к тренировке'
-        : 'Не готов к тренировке'
+        ? ReadyTrainingText.UserReady
+        : ReadyTrainingText.UserNotReady
       : checkTraing
-        ? 'Готов тренировать'
-        : 'Не готов тренировать';
+        ? ReadyTrainingText.CoachReady
+        : ReadyTrainingText.CoachNotReady;
 
   return (
     <section className="user-card-coach">
@@ -98,7 +99,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
         </div>
 
         <div className="user-card-coach__training">
-          <UserCardCertificateSlider trainings={trainings} />
+          <UserCardTrainingSlider trainings={trainings} />
           <UserCardForm user={user} />
         </div>
       </div>

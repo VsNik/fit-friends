@@ -10,7 +10,7 @@ interface UserCardCertificateSliderProps {
   trainings: ITraining[];
 }
 
-export const UserCardCertificateSlider: React.FC<UserCardCertificateSliderProps> = (props) => {
+export const UserCardTrainingSlider: React.FC<UserCardCertificateSliderProps> = (props) => {
   const { trainings } = props;
   const sliderRef = useRef<SwiperRef | null>(null);
 
@@ -19,7 +19,9 @@ export const UserCardCertificateSlider: React.FC<UserCardCertificateSliderProps>
   return (
     <Fragment>
       <div className="user-card-coach__training-head">
-        <h2 className="user-card-coach__training-title">Тренировки</h2>
+        <h2 className="user-card-coach__training-title">
+          {trainings.length > 0 ? 'Тренировки' : 'Тренировок пока нет'}
+        </h2>
         <div className="user-card-coach__training-bts">
           <ButtonIcon icon="arrow-left" className="user-card-coach__training-btn" onClick={handlePrev} disabled={isFirstSlide} />
           <ButtonIcon icon="arrow-right" className="user-card-coach__training-btn" onClick={handleNext} disabled={isLastSlide} />

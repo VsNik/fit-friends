@@ -70,10 +70,9 @@ export class TrainingsController {
   @ApiQuery({ name: 'duration', required: false, enum: TrainingDuration })
   @ApiOkResponse({ type: TrainingCollectionRdo })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  @Roles(Role.Coach)
-  @UseGuards(RoleGuard)
-  @Get('list-coach')
-  async listCoach(@UserId() coachId: string, @Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
+  @UseGuards(AuthGuard)
+  @Get(':coachId/coach')
+  async listCoach(@Param('coachId', new ParseUUIDPipe()) coachId: string, @Query() query: TrainingFilter): Promise<TrainingCollectionRdo> {
     const filter = plainToInstance(TrainingFilter, query);
     const [data, total] = await this.trainingsService.listCoach(coachId, filter);
     return fillObject(TrainingCollectionRdo, {

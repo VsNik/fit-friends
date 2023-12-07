@@ -6,10 +6,8 @@ import api from './api';
 const TIMEOUT = 500;
 
 export const trainingApi = {
-  fetchTraining: (): Promise<ITraining> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(getFakeTrainings(1).data[0]), TIMEOUT);
-    });
+  fetchTraining: (id: string): Promise<AxiosResponse<ITraining>> => {
+    return api.get<ITraining>(`/trainings/${id}`);
   },
 
   fetchTrainings: (count: number): Promise<ITrainingCollection> => {
@@ -48,8 +46,8 @@ export const trainingApi = {
     });
   },
 
-  fetchMyTrainings: (queryString: string): Promise<AxiosResponse<ITrainingCollection>> => {
-    return api.get<ITrainingCollection>(`/trainings/list-coach${queryString}`);
+  fetchMyTrainings: (authId: string, queryString = ''): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>(`/trainings/${authId}/coach${queryString}`);
   },
 
   createTraining: (formData: FormData): Promise<AxiosResponse<ITraining>> => {

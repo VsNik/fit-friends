@@ -35,10 +35,10 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
     setValue('title', training.title);
     setValue('description', training.description);
     setValue('price', training.price);
+    setValue('rating', training.rating)
   }, [isLoading, setValue, training]);
 
   const onSubmit = (data: UpdateTrainingType) => {
-    console.log(data);
     onChangeMode(false);
   };
 

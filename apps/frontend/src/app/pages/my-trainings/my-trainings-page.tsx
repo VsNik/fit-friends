@@ -11,11 +11,13 @@ import { Loader } from '../../components/loader/loader';
 import { getMyTrainingsQuery } from '../../utils/query-string';
 import { LoadStatus } from '../../constants/common';
 import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
+import * as authSelector from '../../store/auth/auth-select';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const MyTrainingsPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
+  const authId = useAppSelector(authSelector.authId);
   const trainings = useAppSelector(trainingsSelector.trainings);
   const filters = useAppSelector(trainingsSelector.filter);
   const page = useAppSelector(trainingsSelector.page);
@@ -24,8 +26,8 @@ export const MyTrainingsPage: React.FC = () => {
 
   useEffect(() => {
     const queryString = getMyTrainingsQuery(filters, page)
-    dispatch(fetchMyTrainingsAction(queryString));
-  }, [dispatch, filters, page]);
+    dispatch(fetchMyTrainingsAction({authId, queryString}));
+  }, [dispatch, filters, page, authId]);
 
   return (
     <AppLayout>
