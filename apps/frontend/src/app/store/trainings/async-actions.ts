@@ -2,8 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ITrainingCollection } from '@fit-friends/shared';
 import { trainingApi } from '../../services/training-api';
 
-export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string>('trainings/fetch-trainings', async (queryString) => {
-  const data = await trainingApi.fetchTrainings(12);
+export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/fetch-trainings', 
+  async (queryString) => {
+  const {data} = await trainingApi.fetchTrainings(queryString);
   return data;
 });
 
@@ -12,14 +14,18 @@ export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('for-tou/
   return data;
 });
 
-export const fetchSpecialAction = createAsyncThunk<ITrainingCollection>('special/fetch-special', async () => {
-  const data = await trainingApi.fetchSpecial();
-  return data;
+export const fetchSpecialAction = createAsyncThunk<ITrainingCollection>(
+  'special/fetch-special', 
+  async () => {
+    const {data} = await trainingApi.fetchSpecial();
+    return data;
 });
 
-export const fetchPopularAction = createAsyncThunk<ITrainingCollection>('popular/fetch-popular', async () => {
-  const data = await trainingApi.fetchPopular();
-  return data;
+export const fetchPopularAction = createAsyncThunk<ITrainingCollection>(
+  'popular/fetch-popular', 
+  async () => {
+    const {data} = await trainingApi.fetchPopular();
+    return data;
 });
 
 export const fetchForCoachAction = createAsyncThunk<ITrainingCollection, string>(
@@ -44,6 +50,6 @@ export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, {aut
 });
 
 export const fetchPurchasesAction = createAsyncThunk<ITrainingCollection>('trainings/purchases', async () => {
-  const data = await trainingApi.fetchTrainings(4);
+  const {data} = await trainingApi.fetchTrainings('');
   return data;
 });

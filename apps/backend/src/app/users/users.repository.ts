@@ -5,7 +5,9 @@ import { Pagination, UsersFilter } from '@fit-friends/filters';
 import { IUsersRepository } from './entities/users-repository.interface';
 import { User } from './models/user.model';
 import { UserEntity } from './entities/user.entity';
-import { UserSorting } from '@fit-friends/shared';
+import { Role, UserSorting } from '@fit-friends/shared';
+
+const COMPANY_USERS_MAX_COUNT = 9;
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -96,6 +98,18 @@ export class UsersRepository implements IUsersRepository {
       order: { createdAt: pagination.direction },
       take: pagination.limit,
       skip: pagination.limit * (pagination.page - 1),
+    });
+    return [data.map((item) => UserEntity.create(item)), count];
+  }
+
+  async forCompany(): Promise<[UserEntity[], number]> {
+    const [data, count] = await this.repository.findAndCount({
+      where: {
+        role: Role.User,
+        ready: true,
+      },
+      order: {createdAt: 'DESC'},
+      take: COMPANY_USERS_MAX_COUNT,
     });
     return [data.map((item) => UserEntity.create(item)), count];
   }

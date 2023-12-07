@@ -2,7 +2,16 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Upload
 import { plainToInstance } from 'class-transformer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ExpressFile } from '@fit-friends/libs/types';
-import { ITraining, Role, SortDirection, StatisticSorting, TrainingDuration, TrainingSorting, TrainingType } from '@fit-friends/shared';
+import {
+  ITraining,
+  Role,
+  SortDirection,
+  StatisticSorting,
+  TrainingDuration,
+  TrainingSortDirection,
+  TrainingSorting,
+  TrainingType,
+} from '@fit-friends/shared';
 import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
 import { TrainingCollectionRdo, TrainingRdo, TrainingStatisticCollectionRdo, TrainingStatisticRdo, UserRdo } from '@fit-friends/libs/rdo';
@@ -37,7 +46,7 @@ export class TrainingsController {
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'sorting', required: false, enum: TrainingSorting })
-  @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
+  @ApiQuery({ name: 'direction', required: false, enum: TrainingSortDirection })
   @ApiQuery({ name: 'priceTo', required: false, type: Number })
   @ApiQuery({ name: 'priceFrom', required: false, type: Number })
   @ApiQuery({ name: 'caloriesTo', required: false, type: Number })
@@ -54,6 +63,32 @@ export class TrainingsController {
     return fillObject(TrainingCollectionRdo, {
       data: data.map((training) => this.mapTraining(training)),
       page: filter.page,
+      total,
+    });
+  }
+
+  @ApiOperation({ summary: 'Список популярных тренировок' })
+  @ApiOkResponse({ type: TrainingCollectionRdo })
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
+  @Get('popular')
+  async popular(): Promise<TrainingCollectionRdo> {
+    const [data, total] = await this.trainingsService.getPopular();
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => this.mapTraining(training)),
+      total,
+    });
+  }
+
+  @ApiOperation({ summary: 'Список специальных предложений' })
+  @ApiOkResponse({ type: TrainingCollectionRdo })
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
+  @Get('special')
+  async special(): Promise<TrainingCollectionRdo> {
+    const [data, total] = await this.trainingsService.getSpecial();
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => this.mapTraining(training)),
       total,
     });
   }

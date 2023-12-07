@@ -5,6 +5,7 @@ import { ButtonLink } from '../../ui/button-link/button-link';
 import { getTrainingRoute } from '../../../utils/route';
 import { Image } from '../../ui/image/image';
 import { ThumbnailTotalInfo } from '../thumbnail-total-info/thumbnail-total-info';
+import { getPriceView, getTrainingName } from '../../../utils/helpers';
 
 interface ThumbnailTrainingProps {
   training: ITraining;
@@ -18,12 +19,12 @@ export const ThumbnailTraining: React.FC<ThumbnailTrainingProps> = (props) => {
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
         <Image src={training.bgImage} className='thumbnail-training__image' width={330} height={190} />
-        <p className="thumbnail-training__price">{training.price}</p>
+        <p className="thumbnail-training__price">{getPriceView(training.price)}</p>
         <h3 className="thumbnail-training__title">{training.title}</h3>
         <div className="thumbnail-training__info">
           <ul className="thumbnail-training__hashtags-list">
             <li className="thumbnail-training__hashtags-item">
-              <Hashtag title={training.type} className="thumbnail-training__hashtag" />
+              <Hashtag title={getTrainingName(training.type)} className="thumbnail-training__hashtag" />
             </li>
             <li className="thumbnail-training__hashtags-item">
               <Hashtag title={`${training.calories} кал`} className="thumbnail-training__hashtag" />

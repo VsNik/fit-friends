@@ -10,4 +10,6 @@ export interface ITrainingsRepository {
   update(entity: TrainingEntity): Promise<TrainingEntity>;
   getManyByCoachId(filters: TrainingFilter, coachId?: string): Promise<[TrainingEntity[], number]>;
   getManyByCoachIdFromOrders(coachId: string, filter: TrainingOrderFilter): Promise<[TrainingEntity[], number]>;
+  getPopular(): Promise<[TrainingEntity[], number]>;
+  getSpecial(): Promise<[TrainingEntity[], number]>;
 }

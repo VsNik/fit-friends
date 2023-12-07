@@ -27,6 +27,8 @@ export enum TrainingValidate {
   CaloryMax = 5000,
   DescriptionMinLength = 10,
   DescriptionMaxLength = 140,
+  PriceMin = 0,
+  PriceMax = 10000,
 }
 
 export enum ReviewValidate {

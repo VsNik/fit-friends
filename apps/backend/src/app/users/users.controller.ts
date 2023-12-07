@@ -93,6 +93,7 @@ export class UsersController {
     @UserId() userId: string,
     @UploadedFiles(new UserFilesValidatePipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile },
   ): Promise<UpdateUserRdo> {
+    console.log(dto)
     const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
     return fillObject(UpdateUserRdo, user);
   }
@@ -200,7 +201,17 @@ export class UsersController {
     return fillObject(UserProfileRdo, user);
   }
 
-  private mapUserCollection(users: IUser[], total: number, page: number) {
+  @ApiOperation({ summary: 'Пользователи готовые к совместным тренировкам' })
+  @ApiOkResponse({type: UserCollectionRdo})
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
+  @Get('company')
+  async forCompany() {
+    const [data, total] = await this.usersService.getCompany(); 
+    return this.mapUserCollection(data, total);
+  }
+
+  private mapUserCollection(users: IUser[], total: number, page = 1) {
     return fillObject(UserCollectionRdo, {
       data: users.map((user) => fillObject(UserRdo, user)),
       page,

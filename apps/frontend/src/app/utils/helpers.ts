@@ -48,3 +48,7 @@ export const getLevelName = (level: TrainingLevel) => {
   }
   return levelName[level];
 }
+
+export const getPriceView = (price: number): string => {
+  return price === 0 ? 'Бесплатно' : `${price}`;
+}

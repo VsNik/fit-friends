@@ -91,4 +91,14 @@ export class TrainingsService {
   async updateTraining(training: TrainingEntity) {
     await this.trainingsRepository.update(training);
   }
+
+  async getPopular(): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getPopular()
+    return [data.map((item) => item.toObject()), count];
+  }
+
+  async getSpecial(): Promise<[ITraining[], number]> {
+    const [data, count] = await this.trainingsRepository.getSpecial()
+    return [data.map((item) => item.toObject()), count];
+  }
 }

@@ -1,5 +1,5 @@
 import { Gender, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
-import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
   UserError,
@@ -59,7 +59,8 @@ export class CreateTrainingDto {
   })
   @Type(() => Number)
   @IsNumber({ allowInfinity: true, allowNaN: true }, { message: TrainingError.PriceNumber })
-  @IsPositive({ message: TrainingError.PriceNumber })
+  @Min(TrainingValidate.PriceMin, {message: TrainingError.PriceNumber})
+  @Max(TrainingValidate.PriceMax, {message: TrainingError.PriceNumber})
   @IsNotEmpty({ message: TrainingError.PriceRequired })
   readonly price: number;
 

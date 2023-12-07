@@ -1,5 +1,5 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
-import { fakeCompanyUser, testUser } from '../fake-data/fake-user';
+import { testUser } from '../fake-data/fake-user';
 import api from './api';
 import { AxiosResponse } from 'axios';
 
@@ -16,10 +16,8 @@ export const userApi = {
     return api.get<IUser>(`/users/${id}/show`);
   },
 
-  fetchCompany: (): Promise<IUserCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeCompanyUser), TIMEOUT);
-    });
+  fetchCompany: (): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>('/users/company');
   },
 
   fetchUsers: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {

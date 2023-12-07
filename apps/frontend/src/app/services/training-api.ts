@@ -1,5 +1,5 @@
 import { ITraining, ITrainingCollection } from '@fit-friends/shared';
-import { fakeForYouTrainings, fakeOrderTrainings, fakePopularTrainings, fakeSpecialTrainings, getFakeTrainings } from '../fake-data/fake-training';
+import { fakeForYouTrainings, fakeOrderTrainings, getFakeTrainings } from '../fake-data/fake-training';
 import { AxiosResponse } from 'axios';
 import api from './api';
 
@@ -10,10 +10,8 @@ export const trainingApi = {
     return api.get<ITraining>(`/trainings/${id}`);
   },
 
-  fetchTrainings: (count: number): Promise<ITrainingCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(getFakeTrainings(count)), TIMEOUT);
-    });
+  fetchTrainings: (queryString: string): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>(`/trainings${queryString}`);
   },
 
   fetchForYou: (): Promise<ITrainingCollection> => {
@@ -22,16 +20,12 @@ export const trainingApi = {
     });
   },
 
-  fetchSpecial: (): Promise<ITrainingCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakeSpecialTrainings), TIMEOUT);
-    });
+  fetchSpecial: (): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>('/trainings/special');
   },
 
-  fetchPopular: (): Promise<ITrainingCollection> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(fakePopularTrainings), TIMEOUT);
-    });
+  fetchPopular: (): Promise<AxiosResponse<ITrainingCollection>> => {
+    return api.get<ITrainingCollection>('/trainings/popular');
   },
 
   fetchForCoach: (): Promise<ITrainingCollection> => {

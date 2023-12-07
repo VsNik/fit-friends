@@ -91,7 +91,7 @@ export class UpdateDto {
   readonly burnCalories?: number;
 
   @ApiProperty({ type: 'boolean', description: 'Готовность к тренировке', example: true, required: false })
-  @Type(() => Boolean)
+  @Transform(({ value }) => (value && value === 'true') || value === true || value === 1 || value === '1')
   @IsBoolean({ message: UserError.ReadyBoolean })
   @IsOptional()
   readonly ready?: boolean;

@@ -4519,6 +4519,7 @@ input:active + .custom-textarea__text {
   border-radius: 8px;
   background-color: #3c3c3c;
   color: #ffffff;
+  height: 247px;
 }
 
 .thumbnail-user--dark .thumbnail-user__hashtag {
@@ -4526,7 +4527,7 @@ input:active + .custom-textarea__text {
 }
 
 .thumbnail-user--dark .thumbnail-user__button {
-  margin-top: 16px;
+  margin-top: 0;
 }
 
 .thumbnail-user__image {

@@ -47,9 +47,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
             </button>
           </div>
         )}
-      </div>
-
-      
+      </div>      
 
       <UserInfoForm user={user} isEditable={isEditable} setEditable={setIsEditable} avatar={avatar} setAvatarError={setAvatarError} />
     </section>

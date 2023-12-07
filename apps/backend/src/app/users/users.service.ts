@@ -253,4 +253,9 @@ export class UsersService {
       return { ...existUser, isFollow };
     }
   }
+
+  async getCompany(): Promise<[IUser[], number]> {
+    const [data, count] = await this.usersRepository.forCompany();
+    return [data.map((item) => item.toObject()), count];
+  }
 }

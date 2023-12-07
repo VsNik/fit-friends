@@ -1,6 +1,16 @@
 import { IsEnum, IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Location, SortDirection, StatisticSorting, TrainingDuration, TrainingLevel, TrainingSorting, TrainingType, UserSorting } from '@fit-friends/shared';
+import {
+  Location,
+  SortDirection,
+  StatisticSorting,
+  TrainingDuration,
+  TrainingLevel,
+  TrainingSortDirection,
+  TrainingSorting,
+  TrainingType,
+  UserSorting,
+} from '@fit-friends/shared';
 import { DEFAULT_PAGE, MAX_LIMIT } from '@fit-friends/libs/validation';
 
 export class Pagination {
@@ -35,7 +45,17 @@ export class UsersFilter extends Pagination {
   level: TrainingLevel;
 }
 
-export class TrainingFilter extends Pagination {
+export class TrainingFilter {
+  @Type(() => Number)
+  @IsNumber({ allowInfinity: false, allowNaN: false })
+  @IsPositive()
+  limit = MAX_LIMIT;
+
+  @Type(() => Number)
+  @IsNumber({ allowInfinity: false, allowNaN: false })
+  @IsPositive()
+  page = DEFAULT_PAGE;
+
   @Type(() => Number)
   @IsNumber()
   priceTo = 0;
@@ -73,6 +93,9 @@ export class TrainingFilter extends Pagination {
 
   @IsEnum(TrainingSorting)
   sorting: TrainingSorting = TrainingSorting.Created;
+
+  @IsEnum(TrainingSortDirection)
+  direction: TrainingSortDirection = TrainingSortDirection.Desc;
 }
 
 export class TrainingOrderFilter extends Pagination {

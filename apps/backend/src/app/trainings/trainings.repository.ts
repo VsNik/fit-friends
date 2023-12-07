@@ -4,9 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { ITraining } from '@fit-friends/shared';
+import { ITraining, TrainingSortDirection } from '@fit-friends/shared';
 import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { AppError } from '@fit-friends/libs/validation';
+
+const TrainingMaxCount = {
+  Popular: 9,
+  Special: 3, 
+} as const;
 
 @Injectable()
 export class TrainingsRepository implements ITrainingsRepository {
@@ -47,12 +52,16 @@ export class TrainingsRepository implements ITrainingsRepository {
       qb.andWhere('user.id = :coachId', { coachId });
     }
 
-    if (priceTo) {
+    if (priceTo && direction !== TrainingSortDirection.Free) {
       qb.andWhere('training.price >= :priceTo', { priceTo });
     }
 
-    if (priceFrom) {
+    if (priceFrom && direction !== TrainingSortDirection.Free) {
       qb.andWhere('training.price <= :priceFrom', { priceFrom });
+    }
+
+    if (direction === TrainingSortDirection.Free) {
+      qb.andWhere('training.price = :price', { price: 0 });
     }
 
     if (caloriesTo) {
@@ -81,7 +90,10 @@ export class TrainingsRepository implements ITrainingsRepository {
       qb.andWhere('training.type IN (:...types)', { types });
     }
 
-    qb.orderBy(`training.${sorting}`, direction);
+    if (direction !== TrainingSortDirection.Free) {
+      qb.orderBy(`training.${sorting}`, direction);
+    }
+
     qb.limit(limit);
     qb.offset(limit * (page - 1));
 
@@ -101,7 +113,28 @@ export class TrainingsRepository implements ITrainingsRepository {
     return [data.map((training) => TrainingEntity.create(training)), count];
   }
 
+  async getPopular(): Promise<[TrainingEntity[], number]> {
+    const [data, count] = await this.repository.findAndCount({
+      order: {
+        rating: 'DESC',
+      },
+      take: TrainingMaxCount.Popular,
+    });
+    return [data.map((training) => TrainingEntity.create(training)), count];
+  }
+
+  async getSpecial(): Promise<[TrainingEntity[], number]> {
+    const [data, count] = await this.repository.findAndCount({
+      where: {
+        isSpecial: true,
+      },
+      take: TrainingMaxCount.Special,
+    });
+    return [data.map((training) => TrainingEntity.create(training)), count];
+  }
+
   private getQueryBuilder(): SelectQueryBuilder<ITraining> {
-    return this.repository.createQueryBuilder('training').leftJoinAndSelect('training.coach', 'user');
+    return this.repository.createQueryBuilder('training')
+      .leftJoinAndSelect('training.coach', 'user');
   }
 }
