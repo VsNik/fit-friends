@@ -1,17 +1,8 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
-// import { testUser } from '../fake-data/fake-user';
-import api from './api';
 import { AxiosResponse } from 'axios';
-
-// const TIMEOUT = 500;
+import api from './api';
 
 export const userApi = {
-  // fetchAuth: (): Promise<IUser> => {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => resolve(testUser), TIMEOUT);
-  //   });
-  // },
-
   fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {
     return api.get<IUser>(`/users/${id}/show`);
   },
