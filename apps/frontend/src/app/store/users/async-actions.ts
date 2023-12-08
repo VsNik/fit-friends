@@ -15,12 +15,26 @@ export const fetchUsersAction = createAsyncThunk<IUserCollection, string>('users
   return data;
 });
 
-export const fetchUserFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-user-friends', async (id) => {
-  const {data} = await userApi.fetchUserFriends();
+export const fetchUserFriendsAction = createAsyncThunk<IUserCollection, string>(
+  'users/more-user-friends', 
+  async (id) => {
+    const {data} = await userApi.fetchUserFriends();
+    return data;
+});
+
+// export const loadMoreUserFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-user-friends', async (id) => {
+//   const {data} = await userApi.fetchUserFriends();
+//   return data;
+// });
+
+export const fetchCoachFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-coach-friends', async (queryString) => {
+  const {data} = await userApi.fetchCoachFriends(queryString);
   return data;
 });
 
-export const fetchCoachFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-coach-friends', async (id) => {
-  const {data} = await userApi.fetchCoachFriends();
-  return data;
+export const loadMoreCoachFriendsAction = createAsyncThunk<IUserCollection, string>(
+  'users/more-coach-friends', 
+  async (queryString) => {
+    const {data} = await userApi.fetchCoachFriends(queryString);
+    return data;
 });

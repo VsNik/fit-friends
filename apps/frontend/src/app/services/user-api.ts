@@ -19,8 +19,8 @@ export const userApi = {
     return api.get<IUserCollection>('/users/friends-user');
   },
 
-  fetchCoachFriends: (): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>('/users/friends-coach');
+  fetchCoachFriends: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>(`/users/friends-coach${queryString}`);
   },
 
   updateUser: (formData: FormData): Promise<AxiosResponse<IUser>> => {
