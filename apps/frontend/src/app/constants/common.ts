@@ -93,3 +93,7 @@ export enum ReadyTrainingText {
   CoachReady = 'Готов тренировать',
   CoachNotReady = 'Не готов тренировать',
 }
+
+export const CardsOnPage = {
+  MyTraining: 6,
+} as const;

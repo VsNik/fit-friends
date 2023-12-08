@@ -1,5 +1,6 @@
 import { TrainingSortDirection, SortDirection, TrainingSorting, StatisticSorting, UserSorting } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
+import { CardsOnPage } from '../constants/common';
 
 const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
   const { priceTo, priceFrom, caloriesTo, caloriesFrom, ratingTo, ratingFrom } = filters;
@@ -89,8 +90,8 @@ export const getMyOrdersQuery = (sorting: StatisticSorting, direction: TrainingS
   return `?page=${page}&sorting=${sorting}&direction=${direction}`;
 };
 
-export const getMyTrainingsQuery = (filters: TrainingFilter, page = 1) => {
-  let query = `?page=${page}`;
+export const getMyTrainingsQuery = (filters: TrainingFilter, page = 1, perPage = CardsOnPage.MyTraining) => {
+  let query = `?page=${page}&limit=${perPage}&direction=${SortDirection.Asc}`;
   let duration = '';
 
   query = createTrainingRangeQuery(filters, query);

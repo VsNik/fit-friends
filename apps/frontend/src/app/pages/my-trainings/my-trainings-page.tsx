@@ -6,10 +6,10 @@ import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
 import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-training/thumbnail-training';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchMyTrainingsAction } from '../../store/trainings/async-actions';
+import { fetchMyTrainingsAction, loadMoreAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyTrainingsQuery } from '../../utils/query-string';
-import { LoadStatus } from '../../constants/common';
+import { CardsOnPage, LoadStatus } from '../../constants/common';
 import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
 import * as authSelector from '../../store/auth/auth-select';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
@@ -21,13 +21,23 @@ export const MyTrainingsPage: React.FC = () => {
   const trainings = useAppSelector(trainingsSelector.trainings);
   const filters = useAppSelector(trainingsSelector.filter);
   const page = useAppSelector(trainingsSelector.page);
+  const total = useAppSelector(trainingsSelector.total);
   const loadStatus = useAppSelector(trainingsSelector.loadStatus);
   const isLoading = loadStatus === LoadStatus.Loading;
 
+  const pages = Math.ceil(total / CardsOnPage.MyTraining);
+  const queryString = getMyTrainingsQuery(filters)
+
   useEffect(() => {
-    const queryString = getMyTrainingsQuery(filters, page)
     dispatch(fetchMyTrainingsAction({authId, queryString}));
-  }, [dispatch, filters, page, authId]);
+  }, [dispatch, authId, queryString]);
+
+  const handleShowMoreCkick = () => {
+    dispatch(loadMoreAction({
+      authId,
+      queryString: getMyTrainingsQuery(filters, page + 1)
+    }));
+  }
 
   return (
     <AppLayout>
@@ -62,7 +72,7 @@ export const MyTrainingsPage: React.FC = () => {
                   ))}
                 </ul>
 
-                <ButtonShowMore className='my-trainings__show-more' />
+                {(page < pages) && <ButtonShowMore className='my-trainings__show-more' onClick={handleShowMoreCkick} />}
               </div>
             </div>
           </div>
