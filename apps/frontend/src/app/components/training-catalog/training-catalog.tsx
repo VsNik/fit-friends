@@ -17,7 +17,7 @@ export const TrainingCatalog: React.FC<TrainingCatalogProps> = ({page, onShowMor
   const loadStatus = useAppSelector(trainingsSelector.loadStatus);
 
   const isLoading = loadStatus === LoadStatus.Loading;  
-  const pages = Math.ceil(total / CardsOnPage.Training);
+  const pages = Math.ceil(total / CardsOnPage.Trainings);
 
   return (
     <div className="training-catalog">

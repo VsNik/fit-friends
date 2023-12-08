@@ -33,7 +33,7 @@ const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
 };
 
 export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direction: SortDirection | null, page: number = 1): string => {
-  let query = `?page=${page}&limit=${CardsOnPage.User}`;
+  let query = `?page=${page}&limit=${CardsOnPage.Users}`;
   let location = '';
   let type = '';
 
@@ -67,7 +67,7 @@ export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direc
 };
 
 export const getTrainingsQuery = (filters: TrainingFilter, sorting: TrainingSorting, direction: TrainingSortDirection, page: number = 1): string => {
-  let query = `?page=${page}&limit=${CardsOnPage.Training}`;
+  let query = `?page=${page}&limit=${CardsOnPage.Trainings}`;
   let type = '';
 
   query = createTrainingRangeQuery(filters, query);

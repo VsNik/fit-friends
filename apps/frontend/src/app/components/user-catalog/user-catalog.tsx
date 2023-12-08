@@ -17,7 +17,7 @@ export const UserCatalog: React.FC<UserCatalogProps> = ({page, onShowMore}) => {
   const loadStatus = useAppSelector(usersSelector.loadStatus);
   
   const isLoading = loadStatus === LoadStatus.Loading;
-  const pages = Math.ceil(total / CardsOnPage.User);
+  const pages = Math.ceil(total / CardsOnPage.Users);
 
   return (
     <div className="users-catalog">
