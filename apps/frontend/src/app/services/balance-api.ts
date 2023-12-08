@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import api from './api';
 
 export const balanceApi = {
-  fetchPurchases: (): Promise<AxiosResponse<IBalanceCollection>> => {
-    return api.get<IBalanceCollection>('/balance');
+  fetchPurchases: (queryString: string): Promise<AxiosResponse<IBalanceCollection>> => {
+    return api.get<IBalanceCollection>(`/balance${queryString}`);
   },
 };

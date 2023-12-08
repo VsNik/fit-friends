@@ -106,6 +106,10 @@ export const getMyTrainingsQuery = (filters: TrainingFilter, page = 1, perPage =
   return query;
 };
 
-export const getFriendsQuery = (page = 1, perPage = CardsOnPage.Friends) => {
-  return `?page=${page}&limit=${perPage}`;
+export const getFriendsQuery = (page = 1) => {
+  return `?page=${page}&limit=${CardsOnPage.Friends}`;
+}
+
+export const getPurchasesQuery = (page = 1) => {
+  return `?page=${page}&limit=${CardsOnPage.Purchases}`;
 }
