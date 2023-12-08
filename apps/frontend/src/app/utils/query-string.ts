@@ -32,14 +32,10 @@ const createTrainingRangeQuery = (filters: TrainingFilter, query: string) => {
   return query;
 };
 
-export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direction: SortDirection | null, page: number = 1, offset?: number): string => {
-  let query = `?page=${page}`;
+export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direction: SortDirection | null, page: number = 1): string => {
+  let query = `?page=${page}&limit=${CardsOnPage.User}`;
   let location = '';
   let type = '';
-
-  if (offset) {
-    query = `${query}&offset=${offset}`;
-  }
 
   if (filters.location) {
     for (const locationItem of filters.location) {

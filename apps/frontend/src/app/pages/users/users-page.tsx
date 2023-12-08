@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { UsersFilter } from '../../components/users-filter/users-filter';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchUsersAction } from '../../store/users/async-actions';
+import { fetchUsersAction, loadMoreUsersAction } from '../../store/users/async-actions';
 import { UserCatalog } from '../../components/user-catalog/user-catalog';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { getUsersQuery } from '../../utils/query-string';
@@ -17,11 +17,17 @@ export const UsersPage: React.FC = () => {
   const filters = useAppSelector(usersSelector.filter);
   const sorting = useAppSelector(usersSelector.sorting);
   const direction = useAppSelector(usersSelector.direction);
+  const page = useAppSelector(usersSelector.page);
 
   useEffect(() => {
     const queryString = getUsersQuery(filters, sorting, direction);
     dispatch(fetchUsersAction(queryString));
   }, [dispatch, filters, sorting, direction]);
+
+  const handleShowMoreClick = () => {
+    const queryString = getUsersQuery(filters, sorting, direction, page + 1);
+    dispatch(loadMoreUsersAction(queryString))
+  }
 
   return (
     <AppLayout>
@@ -47,7 +53,7 @@ export const UsersPage: React.FC = () => {
             </div>
 
             <div className="inner-page__content">
-              <UserCatalog />
+              <UserCatalog page={page} onShowMore={handleShowMoreClick} />
             </div>
           </div>
         </div>

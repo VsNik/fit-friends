@@ -93,7 +93,6 @@ export class UsersController {
     @UserId() userId: string,
     @UploadedFiles(new UserFilesValidatePipe(true)) files: { avatar: ExpressFile; certificate: ExpressFile },
   ): Promise<UpdateUserRdo> {
-    console.log(dto)
     const user = await this.usersService.update(userId, dto, files.avatar, files.certificate);
     return fillObject(UpdateUserRdo, user);
   }

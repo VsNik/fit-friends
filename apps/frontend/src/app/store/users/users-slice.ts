@@ -1,6 +1,14 @@
 import { Location, TrainingType, UserSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction, loadMoreCoachFriendsAction, loadMoreUserFriendsAction } from './async-actions';
+import {
+  fetchCoachFriendsAction,
+  fetchCompanyAction,
+  fetchUserFriendsAction,
+  fetchUsersAction,
+  loadMoreCoachFriendsAction,
+  loadMoreUserFriendsAction,
+  loadMoreUsersAction,
+} from './async-actions';
 import { UsersState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -14,7 +22,7 @@ const initialState: UsersState = {
   sorting: UserSorting.Created,
   direction: null,
   page: 1,
-  total: 50,
+  total: 0,
   loadStatus: LoadStatus.Never,
   error: '',
 };
@@ -30,7 +38,7 @@ export const usersSlice = createSlice({
         state.filter.location?.push(payload);
       }
     },
-    setTypeAction: (state, {payload}) => {
+    setTypeAction: (state, { payload }) => {
       if (state.filter.types?.includes(payload)) {
         state.filter.types = state.filter.types.filter((item) => item !== payload);
       } else {
@@ -39,21 +47,21 @@ export const usersSlice = createSlice({
     },
     setAllLocationsAction: (state) => {
       const locations = Object.values(Location).map((item) => item);
-      state.filter.location = state.filter.location.length !== locations.length ? locations : [];         
+      state.filter.location = state.filter.location.length !== locations.length ? locations : [];
     },
     setAllTypesAction: (state) => {
       const types = Object.values(TrainingType).map((item) => item);
       state.filter.types = state.filter.types.length !== types.length ? types : [];
-    }, 
+    },
     setLevelAction: (state, { payload }) => {
       state.filter.level = payload;
     },
     setSortingAction: (state, { payload }) => {
       state.sorting = payload;
     },
-    setDirectionAction: (state, {payload}) => {
+    setDirectionAction: (state, { payload }) => {
       state.direction = payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -65,6 +73,15 @@ export const usersSlice = createSlice({
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(loadMoreUsersAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(loadMoreUsersAction.fulfilled, (state, { payload }) => {
+        state.users = [...state.users, ...payload.data];
+        state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -84,7 +101,7 @@ export const usersSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
         state.users = [];
       })
-      .addCase(fetchUserFriendsAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchUserFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
@@ -94,8 +111,8 @@ export const usersSlice = createSlice({
       .addCase(loadMoreUserFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(loadMoreUserFriendsAction.fulfilled, (state, {payload}) => {
-        state.users = [...state.users, ...payload.data]
+      .addCase(loadMoreUserFriendsAction.fulfilled, (state, { payload }) => {
+        state.users = [...state.users, ...payload.data];
         state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
@@ -104,7 +121,7 @@ export const usersSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
         state.users = [];
       })
-      .addCase(fetchCoachFriendsAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchCoachFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
@@ -114,20 +131,13 @@ export const usersSlice = createSlice({
       .addCase(loadMoreCoachFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(loadMoreCoachFriendsAction.fulfilled, (state, {payload}) => {
-        state.users = [...state.users, ...payload.data]
+      .addCase(loadMoreCoachFriendsAction.fulfilled, (state, { payload }) => {
+        state.users = [...state.users, ...payload.data];
         state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
-      })
+      });
   },
 });
 
-export const {
-  setLocationAction, 
-  setTypeAction, 
-  setLevelAction, 
-  setSortingAction, 
-  setDirectionAction, 
-  setAllLocationsAction, 
-  setAllTypesAction
-} = usersSlice.actions;
+export const { setLocationAction, setTypeAction, setLevelAction, setSortingAction, setDirectionAction, setAllLocationsAction, setAllTypesAction } =
+  usersSlice.actions;

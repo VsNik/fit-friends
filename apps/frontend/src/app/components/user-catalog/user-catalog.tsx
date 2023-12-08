@@ -3,13 +3,21 @@ import { useAppSelector } from '../../store/hooks';
 import { ThumbnailUserCard } from '../thumbnails/thumbnail-user-card/thumbnail-user-card';
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { Loader } from '../loader/loader';
-import { LoadStatus } from '../../constants/common';
+import { CardsOnPage, LoadStatus } from '../../constants/common';
 import * as usersSelector from '../../store/users/users-select';
 
-export const UserCatalog: React.FC = () => {
+interface UserCatalogProps {
+  page: number;
+  onShowMore: () => void;
+}
+
+export const UserCatalog: React.FC<UserCatalogProps> = ({page, onShowMore}) => {
   const users = useAppSelector(usersSelector.users);
+  const total = useAppSelector(usersSelector.total);
   const loadStatus = useAppSelector(usersSelector.loadStatus);
+  
   const isLoading = loadStatus === LoadStatus.Loading;
+  const pages = Math.ceil(total / CardsOnPage.User);
 
   return (
     <div className="users-catalog">
@@ -23,7 +31,9 @@ export const UserCatalog: React.FC = () => {
         ))}
       </ul>
 
-      <ButtonShowMore className='users-catalog__show-more' />
+      {page < pages &&
+        <ButtonShowMore className='users-catalog__show-more' onClick={onShowMore} />
+      }      
     </div>
   );
 };
