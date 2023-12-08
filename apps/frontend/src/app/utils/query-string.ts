@@ -87,7 +87,7 @@ export const getTrainingsQuery = (filters: TrainingFilter, sorting: TrainingSort
 };
 
 export const getMyOrdersQuery = (sorting: StatisticSorting, direction: TrainingSortDirection, page = 1) => {
-  return `?page=${page}&sorting=${sorting}&direction=${direction}`;
+  return `?page=${page}&limit=${CardsOnPage.MyOrders}&sorting=${sorting}&direction=${direction}`;
 };
 
 export const getMyTrainingsQuery = (filters: TrainingFilter, page = 1, perPage = CardsOnPage.MyTraining) => {

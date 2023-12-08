@@ -6,11 +6,11 @@ import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-trainin
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchMyOrdersAction } from '../../store/trainings/async-actions';
+import { fetchMyOrdersAction, loadMoreMyOrdersAction } from '../../store/trainings/async-actions';
 import { Loader } from '../../components/loader/loader';
 import { getMyOrdersQuery } from '../../utils/query-string';
 import { ButtonShowMore } from '../../components/ui/button-show-more/button-show-more';
-import { LoadStatus } from '../../constants/common';
+import { CardsOnPage, LoadStatus } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
 export const OrdersPage: React.FC = () => {
@@ -21,12 +21,22 @@ export const OrdersPage: React.FC = () => {
   const sorting = useAppSelector(trainingsSelector.sortStatistic);
   const direction = useAppSelector(trainingsSelector.direction);  
   const page = useAppSelector(trainingsSelector.page);
+  const total = useAppSelector(trainingsSelector.total);
   const isLoading = loadStatus === LoadStatus.Loading;
 
-  useEffect(() => {
-    const queryString = getMyOrdersQuery(sorting, direction, page);
-    dispatch(fetchMyOrdersAction(queryString));
-  }, [dispatch, sorting, direction, page]);
+  const pages = Math.ceil(total / CardsOnPage.MyOrders);
+
+  useEffect(() => {    
+    dispatch(
+      fetchMyOrdersAction(getMyOrdersQuery(sorting, direction)
+    ));
+  }, [dispatch, sorting, direction]);
+
+  const handleLoadMoreClick = () => {
+    dispatch(
+      loadMoreMyOrdersAction(getMyOrdersQuery(sorting, direction, page + 1)
+    ));
+  }
 
   return (
     <AppLayout>
@@ -49,7 +59,9 @@ export const OrdersPage: React.FC = () => {
               ))}
             </ul>
 
-            <ButtonShowMore className="my-orders__show-more" />
+            {page < pages && 
+              <ButtonShowMore className="my-orders__show-more" onClick={handleLoadMoreClick} />
+            }
           </div>
         </div>
       </section>

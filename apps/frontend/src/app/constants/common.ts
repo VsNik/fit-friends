@@ -96,4 +96,5 @@ export enum ReadyTrainingText {
 
 export const CardsOnPage = {
   MyTraining: 6,
+  MyOrders: 4,
 } as const;

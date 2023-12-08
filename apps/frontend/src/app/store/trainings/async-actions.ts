@@ -36,7 +36,14 @@ export const fetchForCoachAction = createAsyncThunk<ITrainingCollection, string>
 });
 
 export const fetchMyOrdersAction = createAsyncThunk<ITrainingCollection, string>(
-  'trainings/fetch-order-trainings', 
+  'trainings/fetch-order', 
+  async (queryString) => {
+    const {data} = await trainingApi.fetchOrderTraining(queryString);
+    return data;
+});
+
+export const loadMoreMyOrdersAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/load-more-orders', 
   async (queryString) => {
     const {data} = await trainingApi.fetchOrderTraining(queryString);
     return data;

@@ -1,6 +1,6 @@
 import { TrainingSortDirection, StatisticSorting, TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchForCoachAction, fetchMyTrainingsAction, fetchMyOrdersAction, fetchTrainingsAction, loadMoreAction } from './async-actions';
+import { fetchForCoachAction, fetchMyTrainingsAction, fetchMyOrdersAction, fetchTrainingsAction, loadMoreAction, loadMoreMyOrdersAction } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -96,6 +96,15 @@ export const trainingsSlice = createSlice({
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(loadMoreMyOrdersAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(loadMoreMyOrdersAction.fulfilled, (state, {payload}) => {
+        state.page  ++;
+        state.trainings = [...state.trainings, ...payload.data];
         state.loadStatus = LoadStatus.Loaded;
       })
 
