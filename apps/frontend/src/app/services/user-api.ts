@@ -15,8 +15,8 @@ export const userApi = {
     return api.get<IUserCollection>(`/users${queryString}`);
   },
 
-  fetchUserFriends: (): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>('/users/friends-user');
+  fetchUserFriends: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
+    return api.get<IUserCollection>(`/users/friends-user${queryString}`);
   },
 
   fetchCoachFriends: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {

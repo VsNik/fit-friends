@@ -1,6 +1,6 @@
 import { Location, TrainingType, UserSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction, loadMoreCoachFriendsAction } from './async-actions';
+import { fetchCoachFriendsAction, fetchCompanyAction, fetchUserFriendsAction, fetchUsersAction, loadMoreCoachFriendsAction, loadMoreUserFriendsAction } from './async-actions';
 import { UsersState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -88,6 +88,15 @@ export const usersSlice = createSlice({
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(loadMoreUserFriendsAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(loadMoreUserFriendsAction.fulfilled, (state, {payload}) => {
+        state.users = [...state.users, ...payload.data]
+        state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
 

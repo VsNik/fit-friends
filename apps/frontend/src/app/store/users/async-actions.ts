@@ -17,15 +17,15 @@ export const fetchUsersAction = createAsyncThunk<IUserCollection, string>('users
 
 export const fetchUserFriendsAction = createAsyncThunk<IUserCollection, string>(
   'users/more-user-friends', 
-  async (id) => {
-    const {data} = await userApi.fetchUserFriends();
+  async (queryString) => {
+    const {data} = await userApi.fetchUserFriends(queryString);
     return data;
 });
 
-// export const loadMoreUserFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-user-friends', async (id) => {
-//   const {data} = await userApi.fetchUserFriends();
-//   return data;
-// });
+export const loadMoreUserFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-user-friends', async (queryString) => {
+  const {data} = await userApi.fetchUserFriends(queryString);
+  return data;
+});
 
 export const fetchCoachFriendsAction = createAsyncThunk<IUserCollection, string>('users/fetch-coach-friends', async (queryString) => {
   const {data} = await userApi.fetchCoachFriends(queryString);
