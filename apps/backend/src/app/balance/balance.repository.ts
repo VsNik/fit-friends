@@ -24,9 +24,10 @@ export class BalanceRepository implements IBalanceRepository {
     return [data.map((item) => BalanceEntity.create(item)), count];
   }
 
-  async findByTrainingId(trainingId: string): Promise<BalanceEntity | null> {
+  async findByTrainingId(trainingId: string, userId: string): Promise<BalanceEntity | null> {
     const balance = await this.repository.findOne({
       where: {
+        userId,
         training: { id: trainingId },
       },
       relations: { training: true },

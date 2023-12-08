@@ -43,7 +43,7 @@ export class BalanceController {
   @Get(':trainingId')
   async show(@UserId() currentUserId: string, @Param('trainingId', new ParseUUIDPipe()) trainingId: string): Promise<BalanceRdo> {
     const balance = await this.balanceService.getByTriningId(trainingId, currentUserId);
-    return this.mapBalance(balance);
+    return balance ? this.mapBalance(balance) : null;
   }
 
   @ApiOperation({ summary: 'Пополнение баланса тренировок' })

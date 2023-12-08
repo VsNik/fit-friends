@@ -13,6 +13,7 @@ import { notificationsSlice } from "./notifications/notifications-slice";
 import { orderSlice } from "./order/order-slice";
 import { invitationsSlice } from "./invitations/invitations.slice";
 import { balancesSlice } from "./balances/balances-slice";
+import { balanceSlice } from "./balance/balance-slice";
 
 export const rootReducer = combineReducers({
     [SliceName.Auth]: authSlice.reducer,
@@ -26,6 +27,7 @@ export const rootReducer = combineReducers({
     [SliceName.Reviews]: reviewsSlice.reducer,
     [SliceName.Notifications]: notificationsSlice.reducer,
     [SliceName.Order]: orderSlice.reducer,
+    [SliceName.Balance]: balanceSlice.reducer,
     [SliceName.Balances]: balancesSlice.reducer,
     [SliceName.Invites]: invitationsSlice.reducer,
 })

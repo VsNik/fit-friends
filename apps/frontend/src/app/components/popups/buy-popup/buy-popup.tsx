@@ -7,12 +7,12 @@ import { Button } from '../../ui/button/button';
 import { CreatedOrderType } from '../../../types/common';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createOrderAction } from '../../../store/order/async-action';
-import * as orderSelector from '../../../store/order/order-select';
 import { Loader } from '../../loader/loader';
 import { CheckPayment } from '../../ui/check-payment/check-payment';
 import { CheckCount } from '../../ui/check-count/check-count';
 import { toNumberInputTextValue } from '../../../utils/helpers';
 import { LoadStatus } from '../../../constants/common';
+import * as orderSelector from '../../../store/order/order-select';
 
 const MAX_COUNT = 99;
 
@@ -43,9 +43,8 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
       count,
       paymentType,
     };
-    dispatch(createOrderAction({id: training.id, order}))
-      .unwrap()
-      .then(closePopup);
+
+    dispatch(createOrderAction({ id: training.id, order })).unwrap().then(closePopup);
   };
 
   const handleInputCount = (evt: ChangeEvent<HTMLInputElement>) => {

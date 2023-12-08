@@ -108,6 +108,11 @@ export type OrderState = {
   loadStatus: LoadStatus;
 };
 
+export type BalancState = {
+  balanc: IBalance | null;
+  loadStatus: LoadStatus;
+};
+
 export type BalancesState = {
   balances: IBalance[];
   page: number;

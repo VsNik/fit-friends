@@ -30,7 +30,7 @@ export const reviewsSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(addReviewAction.fulfilled, (state, { payload }) => {
-        state.reviews.push(payload)
+        state.reviews.unshift(payload)
         state.loadStatus = LoadStatus.Loaded;
       });
   },

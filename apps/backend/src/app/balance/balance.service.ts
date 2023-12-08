@@ -1,9 +1,9 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
 import { IBalance, ITraining } from '@fit-friends/shared';
 import { Pagination } from '@fit-friends/filters';
-import { OtherError, AppError } from '@fit-friends/libs/validation';
+import { OtherError } from '@fit-friends/libs/validation';
 
 @Injectable()
 export class BalanceService {
@@ -18,7 +18,7 @@ export class BalanceService {
   }
 
   async add(userId: string, training: ITraining, count: number) {
-    const existTBalance = await this.balanceRepository.findByTrainingId(training.id);
+    const existTBalance = await this.balanceRepository.findByTrainingId(training.id, userId);
 
     if (existTBalance && existTBalance.userId === userId) {
       existTBalance.admission(count);
@@ -50,11 +50,13 @@ export class BalanceService {
     return existTBalance;
   }
 
-  async getByTriningId(trainingId: string, currentUserId: string): Promise<BalanceEntity> {
-    const balance = await this.balanceRepository.findByTrainingId(trainingId);
-    if (!balance || balance.userId !== currentUserId) {
-      throw new NotFoundException(AppError.TrainingNotFound);
-    }
-    return balance;
+  async getByTriningId(trainingId: string, currentUserId: string): Promise<BalanceEntity | null> {
+    const balance = await this.balanceRepository.findByTrainingId(trainingId, currentUserId);
+
+    // if (!balance || balance.userId !== currentUserId) {
+    //   throw new NotFoundException(AppError.TrainingNotFound);
+    // }
+
+    return balance ?? null;
   }
 }
