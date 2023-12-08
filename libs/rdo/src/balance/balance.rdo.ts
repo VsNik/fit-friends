@@ -22,4 +22,11 @@ export class BalanceRdo {
   })
   @Expose()
   count: number;
+
+  @ApiProperty({
+    description: 'Флаг активной тренировки',
+    example: true,
+  })
+  @Expose()
+  isActive: boolean;
 }

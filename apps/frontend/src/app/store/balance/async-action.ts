@@ -18,4 +18,20 @@ export const dismissionAction = createAsyncThunk<IBalance, string>(
         const {data} = await balanceApi.dismissionBalance(id, DISMIN_COUNT);
         return data;
     }
+);
+
+export const setActiveAction = createAsyncThunk<IBalance, string>(
+    'balance/set-active',
+    async (id) => {
+        const {data} = await balanceApi.setActive(id);
+        return data;
+    }
+)
+
+export const setNoActiveAction = createAsyncThunk<IBalance, string>(
+    'balance/set-no-active',
+    async (id) => {
+        const {data} = await balanceApi.setNoActive(id);
+        return data;
+    }
 )

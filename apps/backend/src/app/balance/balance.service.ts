@@ -19,7 +19,7 @@ export class BalanceService {
 
   async add(userId: string, training: ITraining, count: number) {
     const existTBalance = await this.balanceRepository.findByTrainingId(training.id, userId);
-
+    
     if (existTBalance && existTBalance.userId === userId) {
       existTBalance.admission(count);
       await this.balanceRepository.update(existTBalance);
@@ -31,32 +31,55 @@ export class BalanceService {
     return savedBalance;
   }
 
-  async admission(userId: string, trainingId: string, count: number) {
+  async admission(userId: string, trainingId: string, count: number): Promise<IBalance> {
     const existTBalance = await this.getByTriningId(trainingId, userId);
     existTBalance.admission(count);
-    await this.balanceRepository.update(existTBalance);
-    return existTBalance;
+    return this.update(existTBalance);
   }
 
-  async dismission(userId: string, trainingId: string, count: number) {
+  async dismission(userId: string, trainingId: string, count: number): Promise<IBalance> {
     const existTBalance = await this.getByTriningId(trainingId, userId);
 
     if (existTBalance.count < count) {
       throw new BadRequestException(OtherError.TrainingCount);
     }
 
+    const activeBalance = await this.balanceRepository.findActive(userId);
+    if (activeBalance) {
+      activeBalance.setNoActive();
+      await this.update(activeBalance);
+    }
+
+    existTBalance.setIsActive();
     existTBalance.dismission(count);
-    await this.balanceRepository.update(existTBalance);
-    return existTBalance;
+    return this.update(existTBalance);
+  }
+
+  async setActive(userId: string, trainingId: string): Promise<IBalance> {
+    const existTBalance = await this.getByTriningId(trainingId, userId);
+    const activeBalance = await this.balanceRepository.findActive(userId);
+
+    if (activeBalance) {
+      activeBalance.setNoActive();
+    }
+
+    existTBalance.setIsActive();
+    return this.update(existTBalance);
+  }
+
+  async setNoActive(userId: string, trainingId: string): Promise<IBalance> {
+    const existTBalance = await this.getByTriningId(trainingId, userId);
+    existTBalance.setNoActive();
+    return this.update(existTBalance);
   }
 
   async getByTriningId(trainingId: string, currentUserId: string): Promise<BalanceEntity | null> {
     const balance = await this.balanceRepository.findByTrainingId(trainingId, currentUserId);
-
-    // if (!balance || balance.userId !== currentUserId) {
-    //   throw new NotFoundException(AppError.TrainingNotFound);
-    // }
-
     return balance ?? null;
+  }
+
+  private async update(balance: BalanceEntity): Promise<IBalance> {
+    await this.balanceRepository.update(balance);
+    return balance.toObject();
   }
 }

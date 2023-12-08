@@ -11,11 +11,15 @@ export const balanceApi = {
     return api.get<IBalance>(`/balance/${id}`);
   },
 
-  admissionBalance: (id: string, count: number): Promise<AxiosResponse<IBalance>> => {
-    return api.patch<IBalance>(`/balance/${id}/admission`, {count});
-  },
-
   dismissionBalance: (id: string, count: number): Promise<AxiosResponse<IBalance>> => {
     return api.patch<IBalance>(`/balance/${id}/dismission`, {count});
   },
+
+  setActive: (id: string): Promise<AxiosResponse<IBalance>> => {
+    return api.patch<IBalance>(`/balance/${id}/active`);
+  },
+
+  setNoActive: (id: string): Promise<AxiosResponse<IBalance>> => {
+    return api.patch<IBalance>(`/balance/${id}/no-active`);
+  }
 };

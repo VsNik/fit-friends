@@ -6,4 +6,5 @@ export interface IBalance {
   training: ITraining;
   count: number;
   createdAt?: string;
+  isActive?: boolean;
 }

@@ -6,6 +6,7 @@ export class BalanceEntity implements IBalance {
   userId: string;
   training: ITraining;
   count: number;
+  isActive: boolean;
   createdAt: string = new Date().toISOString();
 
   public static create(item: IBalance): BalanceEntity {
@@ -20,6 +21,7 @@ export class BalanceEntity implements IBalance {
       userId: this.userId,
       training: this.training,
       count: this.count,
+      isActive: this.isActive,
       createdAt: this.createdAt,
     }
   }
@@ -30,5 +32,13 @@ export class BalanceEntity implements IBalance {
 
   public dismission(count: number): void {
     this.count -= count;
+  }
+
+  public setIsActive() {
+    this.isActive = true;
+  }
+
+  public setNoActive() {
+    this.isActive = false;
   }
 }

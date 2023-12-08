@@ -40,8 +40,8 @@ export const TrainingCardPage: React.FC = () => {
 
   const isPositivaBalance = 
     role === Role.User && 
-    !!balance && 
-    balance.count > 0;
+    !!balance && balance.count > 0 || 
+    !!balance?.isActive
 
   useEffect(() => {
     dispatch(fetchTrainingAction(trainingId));

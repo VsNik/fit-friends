@@ -10,7 +10,7 @@ import { videoSchema } from '../../../utils/validate-schemas';
 import { VIDEO_POSTER } from '../../../constants/common';
 import { useAppDispatch } from '../../../store/hooks';
 import { removeVideoAction, saveVideoAction } from '../../../store/training/async-actions';
-import { dismissionAction } from '../../../store/balance/async-action';
+import { dismissionAction, setNoActiveAction } from '../../../store/balance/async-action';
 import { clsx } from 'clsx';
 
 interface TrainingVideoProps {
@@ -22,14 +22,15 @@ interface TrainingVideoProps {
   isPositiveBalance: boolean;
 }
 
-export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable, setIsEditable, isPositiveBalance }) => {
+export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
+  const { trainingId, role, video, isEditable, setIsEditable, isPositiveBalance } = props;
+
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   
-  const [isReady, setIsReady] = useState<boolean>(false);
+  const [isReady, setIsReady] = useState(false);
   const [playing, setPlaying] = useState(false);
-
-  const [videoLoadMode, setVideoLoadMode] = useState<boolean>(false);
+  const [videoLoadMode, setVideoLoadMode] = useState(false);
 
   const methods = useForm<VideoType>({
     resolver: yupResolver(videoSchema),
@@ -42,15 +43,16 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, 
   };
 
   const handleStopTraining = () => {
-    if (role === Role.User) {
-      dispatch(dismissionAction(trainingId));
-    }
+    dispatch(setNoActiveAction(trainingId));
     videoRef.current?.load();
     setIsReady(false);
     setPlaying(false);
   };
 
   const handleStartTraining = () => {
+    if (role === Role.User) {      
+      dispatch(dismissionAction(trainingId)); 
+    }
     setIsReady(true);
   };
 
@@ -63,6 +65,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, 
     const video = data.video as FileList;
     const formData = new FormData();
     formData.append('video', video[0]);
+    
     dispatch(saveVideoAction({ id: trainingId, formData }))
       .unwrap()
       .then(() => {
@@ -98,7 +101,9 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, 
       <FormProvider {...methods}>
         <div className="training-video__drop-files">
           <div className="training-video__form-wrapper">
-            {isEditable && <InputFile name="video" />}
+            {isEditable && 
+              <InputFile name="video" />
+            }
           </div>
         </div>
 

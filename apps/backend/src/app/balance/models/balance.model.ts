@@ -16,6 +16,9 @@ export class Balance {
   @Column({ default: 0 })
   count: number;
 
+  @Column({default: false})
+  isActive: boolean;
+
   @Column()
   createdAt: string;
 }

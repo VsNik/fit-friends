@@ -46,6 +46,22 @@ export class BalanceController {
     return balance ? this.mapBalance(balance) : null;
   }
 
+  @ApiOperation({ summary: 'Сделать активной' })
+  @ApiOkResponse({ type: BalanceRdo })
+  @Patch(':trainingId/active')
+  async setActive(@UserId() currentUserId: string, @Param('trainingId', new ParseUUIDPipe()) trainingId: string) {
+    const balance = await this.balanceService.setActive(currentUserId, trainingId);
+    return this.mapBalance(balance);
+  }
+
+  @ApiOperation({ summary: 'Сделать не активной' })
+  @ApiOkResponse({ type: BalanceRdo })
+  @Patch(':trainingId/no-active')
+  async setNoActive(@UserId() currentUserId: string, @Param('trainingId', new ParseUUIDPipe()) trainingId: string) {
+    const balance = await this.balanceService.setNoActive(currentUserId, trainingId);
+    return this.mapBalance(balance);
+  }
+
   @ApiOperation({ summary: 'Пополнение баланса тренировок' })
   @ApiOkResponse({ type: BalanceRdo })
   @Patch(':trainingId/admission')

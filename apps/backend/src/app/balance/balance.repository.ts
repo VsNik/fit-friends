@@ -43,4 +43,14 @@ export class BalanceRepository implements IBalanceRepository {
     const { id, ...toUpdate } = entity;
     await this.repository.update({ id }, toUpdate);
   }
+
+  async findActive(userId: string): Promise<BalanceEntity | null> {
+    const balance = await this.repository.findOne({
+      where: {
+        userId,
+        isActive: true,
+      }
+    })
+    return balance ? BalanceEntity.create(balance) : null;
+  }
 }
