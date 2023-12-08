@@ -3,13 +3,21 @@ import { useAppSelector } from '../../store/hooks';
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 import { Loader } from '../loader/loader';
-import { LoadStatus } from '../../constants/common';
+import { CardsOnPage, LoadStatus } from '../../constants/common';
 import * as trainingsSelector from '../../store/trainings/trainings-select';
 
-export const TrainingCatalog: React.FC = () => {
+interface TrainingCatalogProps {
+  page: number;
+  onShowMore: () => void;
+}
+
+export const TrainingCatalog: React.FC<TrainingCatalogProps> = ({page, onShowMore}) => {
   const trainings = useAppSelector(trainingsSelector.trainings);
+  const total = useAppSelector(trainingsSelector.total);
   const loadStatus = useAppSelector(trainingsSelector.loadStatus);
-  const isLoading = loadStatus === LoadStatus.Loading;
+
+  const isLoading = loadStatus === LoadStatus.Loading;  
+  const pages = Math.ceil(total / CardsOnPage.Training);
 
   return (
     <div className="training-catalog">
@@ -22,7 +30,9 @@ export const TrainingCatalog: React.FC = () => {
         ))}
       </ul>
 
-      <ButtonShowMore className='training-catalog__show-more' />
+      {page < pages &&
+        <ButtonShowMore className='training-catalog__show-more' onClick={onShowMore} />
+      }      
     </div>
   );
 };

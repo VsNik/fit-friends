@@ -9,6 +9,13 @@ export const fetchTrainingsAction = createAsyncThunk<ITrainingCollection, string
   return data;
 });
 
+export const loadMoreTrainingsAction = createAsyncThunk<ITrainingCollection, string>(
+  'trainings/more-trainings', 
+  async (queryString) => {
+  const {data} = await trainingApi.fetchTrainings(queryString);
+  return data;
+});
+
 export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('for-tou/fetch-for-you', async () => {
   const data = await trainingApi.fetchForYou();
   return data;

@@ -4,7 +4,7 @@ import { AppLayout } from '../../components/layouts/app-layout';
 import { TrainingsFilter } from '../../components/trainings-filter/trainings-filter';
 import { TrainingCatalog } from '../../components/training-catalog/training-catalog';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchTrainingsAction } from '../../store/trainings/async-actions';
+import { fetchTrainingsAction, loadMoreTrainingsAction } from '../../store/trainings/async-actions';
 import { getTrainingsQuery } from '../../utils/query-string';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
@@ -19,9 +19,15 @@ export const TrainingsPage: React.FC = () => {
   const page = useAppSelector(trainingsSelector.page);
 
   useEffect(() => {
-    const queryString = getTrainingsQuery(filters, sorting, direction, page);
+    const queryString = getTrainingsQuery(filters, sorting, direction);
     dispatch(fetchTrainingsAction(queryString));
-  }, [dispatch, filters, sorting, direction, page]);
+  }, [dispatch, filters, sorting, direction]);
+
+  const handleShowMoreClick = () => {
+    dispatch(
+      loadMoreTrainingsAction(getTrainingsQuery(filters, sorting, direction, page + 1)
+    ))
+  }
 
   return (
     <AppLayout>
@@ -46,7 +52,7 @@ export const TrainingsPage: React.FC = () => {
               </div>
             </div>
 
-            <TrainingCatalog />
+            <TrainingCatalog page={page} onShowMore={handleShowMoreClick} />
           </div>
         </div>
       </section>

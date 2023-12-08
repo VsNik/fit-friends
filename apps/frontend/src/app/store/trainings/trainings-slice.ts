@@ -1,6 +1,14 @@
 import { TrainingSortDirection, StatisticSorting, TrainingSorting } from '@fit-friends/shared';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchForCoachAction, fetchMyTrainingsAction, fetchMyOrdersAction, fetchTrainingsAction, loadMoreAction, loadMoreMyOrdersAction } from './async-actions';
+import {
+  fetchForCoachAction,
+  fetchMyTrainingsAction,
+  fetchMyOrdersAction,
+  fetchTrainingsAction,
+  loadMoreAction,
+  loadMoreMyOrdersAction,
+  loadMoreTrainingsAction,
+} from './async-actions';
 import { TrainingListState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 
@@ -29,9 +37,6 @@ export const trainingsSlice = createSlice({
   name: SliceName.Trainings,
   initialState,
   reducers: {
-    nextPageAction: (state) => {
-      state.page ++;
-    },
     setPriceAction: (state, { payload }) => {
       state.filter.priceTo = payload[0];
       state.filter.priceFrom = payload[1];
@@ -55,7 +60,7 @@ export const trainingsSlice = createSlice({
         state.filter.types = state.filter.types.filter((item) => item !== payload);
       }
     },
-    setDurationAction: (state, {payload}) => {
+    setDurationAction: (state, { payload }) => {
       if (!state.filter.durations?.includes(payload)) {
         state.filter.durations?.push(payload);
       } else {
@@ -76,6 +81,15 @@ export const trainingsSlice = createSlice({
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(loadMoreTrainingsAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(loadMoreTrainingsAction.fulfilled, (state, { payload }) => {
+        state.trainings = [...state.trainings, ...payload.data];
+        state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -102,8 +116,8 @@ export const trainingsSlice = createSlice({
       .addCase(loadMoreMyOrdersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(loadMoreMyOrdersAction.fulfilled, (state, {payload}) => {
-        state.page  ++;
+      .addCase(loadMoreMyOrdersAction.fulfilled, (state, { payload }) => {
+        state.page++;
         state.trainings = [...state.trainings, ...payload.data];
         state.loadStatus = LoadStatus.Loaded;
       })
@@ -111,7 +125,7 @@ export const trainingsSlice = createSlice({
       .addCase(fetchMyTrainingsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(fetchMyTrainingsAction.fulfilled, (state, {payload}) => {
+      .addCase(fetchMyTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
@@ -121,21 +135,13 @@ export const trainingsSlice = createSlice({
       .addCase(loadMoreAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(loadMoreAction.fulfilled, (state, {payload}) => {
-        state.page  ++;
+      .addCase(loadMoreAction.fulfilled, (state, { payload }) => {
+        state.page++;
         state.trainings = [...state.trainings, ...payload.data];
         state.loadStatus = LoadStatus.Loaded;
-      })
+      });
   },
 });
 
-export const { 
-  nextPageAction,
-  setPriceAction, 
-  setCaloriesAction, 
-  setRatingAction, 
-  setDirectionAction, 
-  setTypeAction, 
-  setDurationAction,
-  setSortStatisticAction, 
-} = trainingsSlice.actions;
+export const { setPriceAction, setCaloriesAction, setRatingAction, setDirectionAction, setTypeAction, setDurationAction, setSortStatisticAction } =
+  trainingsSlice.actions;

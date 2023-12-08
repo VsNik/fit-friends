@@ -71,7 +71,7 @@ export const getUsersQuery = (filters: UsersFilters, sorting: UserSorting, direc
 };
 
 export const getTrainingsQuery = (filters: TrainingFilter, sorting: TrainingSorting, direction: TrainingSortDirection, page: number = 1): string => {
-  let query = `?page=${page}`;
+  let query = `?page=${page}&limit=${CardsOnPage.Training}`;
   let type = '';
 
   query = createTrainingRangeQuery(filters, query);
