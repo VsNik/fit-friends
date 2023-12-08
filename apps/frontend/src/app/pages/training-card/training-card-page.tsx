@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Role } from '@fit-friends/shared';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { ReviewsBar } from '../../components/reviews-bar/reviews-bar';
 import { TrainingInfo } from '../../components/training/training-info/training-info';
@@ -14,7 +15,11 @@ import { LoadStatus } from '../../constants/common';
 import * as authSelectors from '../../store/auth/auth-select';
 import * as trainingSelector from '../../store/training/training-select';
 import * as reviewsSelector from '../../store/reviews/reviews-select';
+import * as balanceSelector from '../../store/balance/balance-select';
+import * as orderSelector from '../../store/order/order-select';
 import clsx from 'clsx';
+
+import { fetchBalanceAction } from '../../store/balance/async-action';
 
 export const TrainingCardPage: React.FC = () => {
   const params = useParams();
@@ -23,16 +28,31 @@ export const TrainingCardPage: React.FC = () => {
   const reviews = useAppSelector(reviewsSelector.reviews);
   const trainingLoadStatus = useAppSelector(trainingSelector.loadStatus);
   const role = useAppSelector(authSelectors.authRole)!;
+  const balance = useAppSelector(balanceSelector.balance);
+  const order = useAppSelector(orderSelector.order);
+  
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [openBuyPopup, setOpenBuyPopup] = useState<boolean>(false);
   const [openReviewPopup, setOpenReviewPopup] = useState<boolean>(false);
+
   const isTrainingLoading = trainingLoadStatus === LoadStatus.Loading;
   const trainingId = params.id!;
+
+  const isPositivaBalance = 
+    role === Role.User && 
+    !!balance && 
+    balance.count > 0;
 
   useEffect(() => {
     dispatch(fetchTrainingAction(trainingId));
     dispatch(fetchReviewsAction(trainingId));
   }, [dispatch, trainingId]);
+
+  useEffect(() => {
+    if (role === Role.User) {
+      dispatch(fetchBalanceAction(trainingId));
+    }
+  }, [order, dispatch, trainingId, role]);
 
   const onChangeMode = (value: boolean) => {
     setIsEditable(value);
@@ -52,8 +72,24 @@ export const TrainingCardPage: React.FC = () => {
             <ReviewsBar reviews={reviews} role={role} onOpenPopup={handleOpenReviewPopup} />
 
             <div className={clsx('training-card', { 'training-card--edit': isEditable })}>
-              <TrainingInfo training={training} isLoading={isTrainingLoading} role={role} isEditable={isEditable} onChangeMode={onChangeMode} onOpenBuyPopup={handleOpenBuyPopup} />
-              <TrainingVideo trainingId={trainingId} role={role} video={training.video} isEditable={isEditable} setIsEditable={setIsEditable} />
+              <TrainingInfo 
+                training={training} 
+                isLoading={isTrainingLoading} 
+                role={role} 
+                isEditable={isEditable} 
+                onChangeMode={onChangeMode} 
+                onOpenBuyPopup={handleOpenBuyPopup} 
+                isPositiveBalance={isPositivaBalance}
+              />
+
+              <TrainingVideo 
+                trainingId={trainingId} 
+                role={role} 
+                video={training.video} 
+                isEditable={isEditable} 
+                setIsEditable={setIsEditable}
+                isPositiveBalance={isPositivaBalance}
+              />
             </div>
           </div>
         </div>

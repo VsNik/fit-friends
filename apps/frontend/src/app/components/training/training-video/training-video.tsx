@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Role } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,11 +8,9 @@ import { InputFile } from '../../ui/form/input-file/input-file';
 import { VideoType } from '../../../types/forms-type';
 import { videoSchema } from '../../../utils/validate-schemas';
 import { VIDEO_POSTER } from '../../../constants/common';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch } from '../../../store/hooks';
 import { removeVideoAction, saveVideoAction } from '../../../store/training/async-actions';
-import { dismissionAction, fetchBalanceAction } from '../../../store/balance/async-action';
-import * as balanceSelector from '../../../store/balance/balance-select';
-import * as orderSelector from '../../../store/order/order-select';
+import { dismissionAction } from '../../../store/balance/async-action';
 import { clsx } from 'clsx';
 
 interface TrainingVideoProps {
@@ -21,32 +19,23 @@ interface TrainingVideoProps {
   video: string;
   isEditable: boolean;
   setIsEditable: (value: boolean) => void;
+  isPositiveBalance: boolean;
 }
 
-export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable, setIsEditable }) => {
+export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, video, isEditable, setIsEditable, isPositiveBalance }) => {
   const dispatch = useAppDispatch();
-  const balance = useAppSelector(balanceSelector.balance);
-  const order = useAppSelector(orderSelector.order);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   
   const [isReady, setIsReady] = useState<boolean>(false);
   const [playing, setPlaying] = useState(false);
 
   const [videoLoadMode, setVideoLoadMode] = useState<boolean>(false);
-  const isDisabledStartButton = role === Role.User && 
-    (!balance || balance?.count === 0);
 
   const methods = useForm<VideoType>({
     resolver: yupResolver(videoSchema),
   });
 
   const { handleSubmit, reset, resetField } = methods;
-
-  useEffect(() => {
-    if (role === Role.User) {
-      dispatch(fetchBalanceAction(trainingId));
-    }
-  }, [order, dispatch, trainingId, role]);
 
   const handlePlay = () => {
     videoRef.current?.play();
@@ -120,7 +109,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = ({ trainingId, role, 
               type="button" 
               className="training-video__button training-video__button--start" 
               onClick={handleStartTraining} 
-              disabled={isDisabledStartButton} 
+              disabled={!isPositiveBalance} 
             />
           )}
           <Button 

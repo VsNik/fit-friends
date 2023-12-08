@@ -22,10 +22,11 @@ interface TrainingInfoProps {
   isEditable: boolean;
   onChangeMode: (value: boolean) => void;
   onOpenBuyPopup: () => void;
+  isPositiveBalance: boolean;
 }
 
 export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
-  const { training, isLoading, role, isEditable, onChangeMode, onOpenBuyPopup } = props;
+  const { training, isLoading, role, isEditable, onChangeMode, onOpenBuyPopup, isPositiveBalance } = props;
   const dispatch = useAppDispatch();
   const [tempPrice, setNewPrice] = useState<number>();
 
@@ -34,7 +35,6 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
   });
 
   const { handleSubmit, setValue, watch } = methods;
-
   const isSpecial = watch('isSpecial');
 
   useEffect(() => {
@@ -129,7 +129,7 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
               <div className="training-info__price-wrapper">
                 <TrainingInput name="price" label="Стоимость" className="training-info__input--price" disabled={!isEditable} />
                 {role === Role.User ? (
-                  <Button text="Купить" className="training-info__buy" type="button" onClick={onOpenBuyPopup} />
+                  <Button text="Купить" className="training-info__buy" type="button" onClick={onOpenBuyPopup} disabled={isPositiveBalance} />
                 ) : isSpecial ? (
                   <ButtonFloat
                     text="Отменить скидку"
