@@ -1,10 +1,11 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from '@fit-friends/filters';
+import { BalanceQuery } from '@fit-friends/filters';
 import { Balance } from './models/balance.model';
 import { IBalanceRepository } from './entities/balance-repository.interface';
 import { BalanceEntity } from './entities/balance.entity';
+import { BalanceFiter } from '@fit-friends/shared';
 
 @Injectable()
 export class BalanceRepository implements IBalanceRepository {
@@ -13,14 +14,20 @@ export class BalanceRepository implements IBalanceRepository {
     private readonly repository: Repository<Balance>,
   ) {}
 
-  async getManyByUserId(userId: string, pagination: Pagination): Promise<[BalanceEntity[], number]> {
-    const [data, count] = await this.repository.findAndCount({
-      where: { userId },
-      relations: { training: true },
-      order: {createdAt: pagination.direction},
-      take: pagination.limit,
-      skip: pagination.limit * (pagination.page - 1),
-    });
+  async getManyByUserId(userId: string, query: BalanceQuery): Promise<[BalanceEntity[], number]> {
+    const qb = this.repository.createQueryBuilder('balance')
+    .leftJoinAndSelect('balance.training', 'training')
+    .andWhere('balance.userId = :userId', {userId});
+
+    if(query.filter === BalanceFiter.Active) {
+      qb.andWhere('balance.count > 0');
+    }
+
+    qb.limit(query.limit);
+    qb.offset(query.limit * (query.page - 1));
+    qb.orderBy('balance.createdAt', query.direction);
+
+    const [data, count] = await qb.getManyAndCount();
     return [data.map((item) => BalanceEntity.create(item)), count];
   }
 

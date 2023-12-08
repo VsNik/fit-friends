@@ -1,6 +1,7 @@
 import { IsEnum, IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
+  BalanceFiter,
   Location,
   SortDirection,
   StatisticSorting,
@@ -101,4 +102,8 @@ export class TrainingFilter {
 export class TrainingOrderFilter extends Pagination {
   @IsEnum(StatisticSorting)
   sorting: StatisticSorting = StatisticSorting.OrderCount;
+}
+
+export class BalanceQuery extends Pagination {
+  filter: BalanceFiter;
 }

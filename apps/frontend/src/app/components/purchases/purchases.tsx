@@ -1,32 +1,30 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { ButtonFloat } from '../ui/button-float/button-float';
 import { ThumbnailTraining } from '../thumbnails/thumbnail-training/thumbnail-training';
 import { ButtonShowMore } from '../ui/button-show-more/button-show-more';
 import { Toggle } from '../ui/form/toggle/toggle';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import * as balancesSelector from '../../store/balances/balances-select';
+import { useAppSelector } from '../../store/hooks';
 import { Loader } from '../loader/loader';
-import { CardsOnPage, LoadStatus } from '../../constants/common';
+import { LoadStatus } from '../../constants/common';
 import { useNavigate } from 'react-router-dom';
 import { RouteName } from '../../constants/route';
-import { loadMorePurchasesAction } from '../../store/balances/async-actions';
-import { getPurchasesQuery } from '../../utils/query-string';
+import * as balancesSelector from '../../store/balances/balances-select';
+import { BalanceFiter } from '@fit-friends/shared';
 
-export const Purchases: React.FC = () => {
-  const dispatch = useAppDispatch();
+interface PurchasesProps {
+  onShowMore: () => void;
+  showButton: boolean;
+  filter: BalanceFiter;
+  onSetFilter: (evt: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const Purchases: React.FC<PurchasesProps> = ({showButton, onShowMore, filter, onSetFilter}) => {
   const navigation = useNavigate();
   const balances = useAppSelector(balancesSelector.balances);
-  const page = useAppSelector(balancesSelector.page);
-  const total = useAppSelector(balancesSelector.total);
   const loadStatus = useAppSelector(balancesSelector.loadStatus);
 
   const isLoading = loadStatus === LoadStatus.Loading;
   const trainings = balances.map((balance) => balance.training);
-  const pages = Math.ceil(total / CardsOnPage.Purchases);
-
-  const handleLoadMoreClick = () => {
-    dispatch(loadMorePurchasesAction(getPurchasesQuery(page + 1)));
-  }
 
   return (
     <div className="my-purchases__wrapper">
@@ -37,7 +35,14 @@ export const Purchases: React.FC = () => {
       <div className="my-purchases__title-wrapper">
         <h1 className="my-purchases__title">Мои покупки</h1>
         <div className="my-purchases__controls">
-          <Toggle name="user-agreement" label="Только активные" className="custom-toggle--switch-right my-purchases__switch" />
+          <Toggle 
+            name="user-agreement" 
+            label="Только активные" 
+            className="custom-toggle--switch-right my-purchases__switch" 
+            value={BalanceFiter.Active}
+            checked={filter === BalanceFiter.Active}
+            onChange={onSetFilter}
+          />
         </div>
       </div>
 
@@ -49,8 +54,8 @@ export const Purchases: React.FC = () => {
         ))}
       </ul>
 
-      {page < pages &&
-        <ButtonShowMore className="my-purchases__show-more" onClick={handleLoadMoreClick} />
+      {showButton &&
+        <ButtonShowMore className="my-purchases__show-more" onClick={onShowMore} />
       }      
     </div>
   );

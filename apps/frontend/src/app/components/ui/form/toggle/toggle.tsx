@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 
@@ -7,18 +7,22 @@ interface ToggleProps {
   label?: string;
   className?: string;
   disabled?: boolean;
-  defaultChecked?: boolean;
+  checked?: boolean;
+  value?: string;
+  onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Toggle: React.FC<ToggleProps> = (props) => {
-  const { name, label, className, disabled, defaultChecked } = props;
+  const { name, label, className, disabled, checked, value, onChange } = props;
   const methods = useFormContext()
 
   const options = {
     type: "checkbox",
     name,
     disabled,
-    defaultChecked,
+    checked,
+    value,
+    onChange
   }
 
   return (

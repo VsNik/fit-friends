@@ -17,6 +17,7 @@ import {
   UserSorting,
   IOrder,
   IBalance,
+  BalanceFiter,
 } from '@fit-friends/shared';
 import { LoadStatus } from '../constants/common';
 
@@ -115,6 +116,7 @@ export type BalancState = {
 
 export type BalancesState = {
   balances: IBalance[];
+  filter: BalanceFiter;
   page: number;
   total: number;
   loadStatus: LoadStatus;

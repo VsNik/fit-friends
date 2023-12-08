@@ -99,7 +99,7 @@ export const CardsOnPage = {
   MyTraining: 6,
   MyOrders: 4,
   Friends: 6,
-  Purchases: 6,
+  Purchases: 4,
   Trainings: 6,
   Users: 6,
 } as const;

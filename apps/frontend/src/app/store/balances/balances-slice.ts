@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { BalancesState } from '../../types/state-type';
 import { LoadStatus, SliceName } from '../../constants/common';
 import { fetchPurchasesAction, loadMorePurchasesAction } from './async-actions';
+import { BalanceFiter } from '@fit-friends/shared';
 
 const initialState: BalancesState = {
   balances: [],
+  filter: BalanceFiter.All,
   page: 1,
   total: 0,
   loadStatus: LoadStatus.Never,
@@ -13,7 +15,11 @@ const initialState: BalancesState = {
 export const balancesSlice = createSlice({
   name: SliceName.Balances,
   initialState,
-  reducers: {},
+  reducers: {
+    setBalanceFilterAction: (state, action) => {
+      state.filter = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPurchasesAction.pending, (state) => {
@@ -36,3 +42,5 @@ export const balancesSlice = createSlice({
       });
   },
 });
+
+export const {setBalanceFilterAction} = balancesSlice.actions;

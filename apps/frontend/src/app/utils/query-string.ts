@@ -1,4 +1,4 @@
-import { TrainingSortDirection, SortDirection, TrainingSorting, StatisticSorting, UserSorting } from '@fit-friends/shared';
+import { TrainingSortDirection, SortDirection, TrainingSorting, StatisticSorting, UserSorting, BalanceFiter } from '@fit-friends/shared';
 import { TrainingFilter, UsersFilters } from '../types/state-type';
 import { CardsOnPage } from '../constants/common';
 
@@ -106,6 +106,6 @@ export const getFriendsQuery = (page = 1) => {
   return `?page=${page}&limit=${CardsOnPage.Friends}`;
 }
 
-export const getPurchasesQuery = (page = 1) => {
-  return `?page=${page}&limit=${CardsOnPage.Purchases}`;
+export const getPurchasesQuery = (filter: BalanceFiter, page = 1) => {
+  return `?page=${page}&limit=${CardsOnPage.Purchases}&filter=${filter}`;
 }

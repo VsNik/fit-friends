@@ -90,6 +90,11 @@ export enum UserSorting {
   Role = 'role',
 }
 
+export enum BalanceFiter {
+  All = 'all',
+  Active = 'active',
+}
+
 export type ValidateError = {
   field: string;
   error: string;

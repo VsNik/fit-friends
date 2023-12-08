@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { BalanceEntity } from './entities/balance.entity';
 import { BALANCE_REPO, IBalanceRepository } from './entities/balance-repository.interface';
 import { IBalance, ITraining } from '@fit-friends/shared';
-import { Pagination } from '@fit-friends/filters';
+import { BalanceQuery } from '@fit-friends/filters';
 import { OtherError } from '@fit-friends/libs/validation';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class BalanceService {
     private readonly balanceRepository: IBalanceRepository,
   ) {}
 
-  async getManyByUserId(userId: string, pagination: Pagination): Promise<[IBalance[], number]> {
-    const [data, count] = await this.balanceRepository.getManyByUserId(userId, pagination);
+  async getManyByUserId(userId: string, query: BalanceQuery): Promise<[IBalance[], number]> {
+    const [data, count] = await this.balanceRepository.getManyByUserId(userId, query);
     return [data.map((item) => item.toObject()), count];
   }
 

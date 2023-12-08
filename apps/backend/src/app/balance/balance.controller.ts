@@ -4,7 +4,7 @@ import { UserId } from '../auth/decorators/user-id.decorator';
 import { BalanceDto } from './dto/balance.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { IBalance, Role, SortDirection } from '@fit-friends/shared';
-import { Pagination } from '@fit-friends/filters';
+import { BalanceQuery } from '@fit-friends/filters';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { plainToInstance } from 'class-transformer';
 import { fillObject, getLimit } from '@fit-friends/libs/utils';
@@ -27,9 +27,9 @@ export class BalanceController {
   @ApiQuery({ name: 'direction', required: false, enum: SortDirection })
   @ApiOkResponse({ type: BalanceCollectionRdo })
   @Get()
-  async all(@UserId() currentUserId: string, @Query() query: Pagination): Promise<BalanceCollectionRdo> {
+  async all(@UserId() currentUserId: string, @Query() query: BalanceQuery): Promise<BalanceCollectionRdo> {
     const limit = getLimit(query.limit);
-    const pagination = plainToInstance(Pagination, { ...query, limit });
+    const pagination = plainToInstance(BalanceQuery, { ...query, limit });
     const [data, total] = await this.balanceService.getManyByUserId(currentUserId, pagination);
     return fillObject(BalanceCollectionRdo, {
       data: data.map((balance) => this.mapBalance(balance)),
