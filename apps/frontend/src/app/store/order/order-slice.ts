@@ -21,7 +21,9 @@ export const orderSlice = createSlice({
       .addCase(createOrderAction.fulfilled, (state, { payload }) => {
         state.order = payload;
         state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(createOrderAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
       });
   },
 });
-

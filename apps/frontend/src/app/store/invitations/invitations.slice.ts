@@ -19,7 +19,10 @@ export const invitationsSlice = createSlice({
       })
       .addCase(createInvitationAction.fulfilled, (state, {payload}) => {
         state.invitations.push(payload);
-        state.loadStatus = LoadStatus.Loading;        
+        state.loadStatus = LoadStatus.Loaded;        
+      })
+      .addCase(createInvitationAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(fetchFromInvitesAction.pending, (state) => {
@@ -27,7 +30,10 @@ export const invitationsSlice = createSlice({
       })
       .addCase(fetchFromInvitesAction.fulfilled, (state, { payload }) => {
         state.invitations = payload;
-        state.loadStatus = LoadStatus.Loading;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchFromInvitesAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
       })
 
       .addCase(changeInviteStatusAction.pending, (state) => {
@@ -36,7 +42,10 @@ export const invitationsSlice = createSlice({
       .addCase(changeInviteStatusAction.fulfilled, (state, {payload}) => {
         const index = state.invitations.findIndex((item) => item.id === payload.id);
         state.invitations[index] = payload;
-        state.loadStatus = LoadStatus.Loading;        
+        state.loadStatus = LoadStatus.Loaded;        
       })
+      .addCase(changeInviteStatusAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      });
   },
 });

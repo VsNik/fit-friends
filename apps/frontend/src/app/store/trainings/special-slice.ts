@@ -19,12 +19,14 @@ export const specialSlice = createSlice({
     builder
       .addCase(fetchSpecialAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.error = '';
       })
       .addCase(fetchSpecialAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchSpecialAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       });
   },

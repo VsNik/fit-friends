@@ -23,12 +23,18 @@ export const trainingSlice = createSlice({
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(fetchTrainingAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(createTrainingAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
         state.training = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(createTrainingAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -39,12 +45,18 @@ export const trainingSlice = createSlice({
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(updateTrainingAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(removeVideoAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(removeVideoAction.fulfilled, (state, {payload}) => {
         state.training = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(removeVideoAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -55,6 +67,9 @@ export const trainingSlice = createSlice({
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(saveVideoAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      });
   },
 });
 

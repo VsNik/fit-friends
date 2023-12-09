@@ -87,14 +87,16 @@ export const createCoachAction = createAsyncThunk<
   }
 });
 
-export const checkAuthAction = createAsyncThunk<IUser>('auth/check-auth', async (_arg, { rejectWithValue }) => {
-  try {
-    const { data } = await authApi.checkAuth();
-    return data;
-  } catch (err) {
-    const error = err as AxiosError;
-    return rejectWithValue(error.response?.data);
-  }
+export const checkAuthAction = createAsyncThunk<IUser>(
+  'auth/check-auth', 
+  async (_arg, { rejectWithValue }) => {
+    try {
+      const { data } = await authApi.checkAuth();
+      return data;
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.response?.data);
+    }
 });
 
 export const logoutAction = createAsyncThunk<
@@ -103,11 +105,13 @@ export const logoutAction = createAsyncThunk<
   {
     dispatch: AppDispatch;
   }
->('auth/logout', async (_arg, { dispatch }) => {
+>(
+  'auth/logout', 
+  async (_arg, { dispatch }) => {
   const token = getRefreshToken();
-  if (token) {
-    await authApi.logout(token);
-  }
-  dropToken();
-  dispatch(redirectToRoute(RouteName.Intro));
+    if (token) {
+      await authApi.logout(token);
+    }
+    dropToken();
+    dispatch(redirectToRoute(RouteName.Intro));
 });

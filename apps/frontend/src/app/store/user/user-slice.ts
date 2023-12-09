@@ -33,12 +33,18 @@ export const userSlice = createSlice({
         state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(fetchAuthAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(fetchUserAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchUserAction.fulfilled, (state, { payload }) => {
         state.user = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchUserAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -62,12 +68,18 @@ export const userSlice = createSlice({
         state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(addCertificateAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(updateCertificateAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(updateCertificateAction.fulfilled, (state, { payload }) => {
         state.user = payload;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(updateCertificateAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -78,12 +90,18 @@ export const userSlice = createSlice({
         state.user = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(deleteCertificateAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(toFriendAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(toFriendAction.fulfilled, (state) => {
         state.user.isFollow = !state.user.isFollow;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(toFriendAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -94,12 +112,18 @@ export const userSlice = createSlice({
         state.user.isFollow = false;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(removeFriendAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(subscribeAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(subscribeAction.fulfilled, (state) => {
         state.user.isSubscribe = !state.user.isSubscribe;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(subscribeAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
   },

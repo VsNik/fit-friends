@@ -19,13 +19,15 @@ export const popularSlice = createSlice({
     builder
       .addCase(fetchPopularAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.error = '';
       })
       .addCase(fetchPopularAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
         state.loadStatus = LoadStatus.Loaded;
-      });
+      })
+      .addCase(fetchPopularAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
   },
 });

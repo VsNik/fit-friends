@@ -67,12 +67,14 @@ export const usersSlice = createSlice({
     builder
       .addCase(fetchUsersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.users = [];
       })
       .addCase(fetchUsersAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchUsersAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -84,11 +86,12 @@ export const usersSlice = createSlice({
         state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(loadMoreUsersAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(fetchCompanyAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.users = [];
-        state.error = '';
       })
       .addCase(fetchCompanyAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -96,15 +99,20 @@ export const usersSlice = createSlice({
         state.total = payload.total;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(fetchCompanyAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(fetchUserFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.users = [];
       })
       .addCase(fetchUserFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchUserFriendsAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -116,15 +124,20 @@ export const usersSlice = createSlice({
         state.page = payload.page;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(loadMoreUserFriendsAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(fetchCoachFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.users = [];
       })
       .addCase(fetchCoachFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchCoachFriendsAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -134,6 +147,9 @@ export const usersSlice = createSlice({
       .addCase(loadMoreCoachFriendsAction.fulfilled, (state, { payload }) => {
         state.users = [...state.users, ...payload.data];
         state.page = payload.page;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(loadMoreCoachFriendsAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       });
   },

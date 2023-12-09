@@ -75,5 +75,8 @@ export const authSlice = createSlice({
         state.authId = '';
         state.authRole = undefined;
       })
+      .addCase(logoutAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      });
   },
 });

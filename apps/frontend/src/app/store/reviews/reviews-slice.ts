@@ -25,6 +25,9 @@ export const reviewsSlice = createSlice({
         state.total = payload.total;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(addReviewAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
@@ -32,6 +35,9 @@ export const reviewsSlice = createSlice({
       .addCase(addReviewAction.fulfilled, (state, { payload }) => {
         state.reviews.unshift(payload)
         state.loadStatus = LoadStatus.Loaded;
-      });
+      })
+      .addCase(addReviewAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
   },
 });

@@ -31,6 +31,9 @@ export const balancesSlice = createSlice({
         state.total = payload.total;
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(fetchPurchasesAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(loadMorePurchasesAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
@@ -38,6 +41,9 @@ export const balancesSlice = createSlice({
       .addCase(loadMorePurchasesAction.fulfilled, (state, {payload}) => {
         state.balances = [...state.balances, ...payload.data];
         state.page = payload.page;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(loadMorePurchasesAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       });
   },

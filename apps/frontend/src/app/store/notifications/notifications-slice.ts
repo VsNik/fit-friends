@@ -25,14 +25,20 @@ export const notificationsSlice = createSlice({
         state.page = payload.page;
         state.total = payload.total;
       })
+      .addCase(fetchNotificationAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
 
       .addCase(removeNotificationAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
       })
-      .addCase(removeNotificationAction.fulfilled, (state, {payload}) => {
+      .addCase(removeNotificationAction.fulfilled, (state, { payload }) => {
         const index = state.notifications.findIndex((item) => item.id === payload);
         state.notifications.splice(index, 1);
         state.loadStatus = LoadStatus.Loaded;
       })
+      .addCase(removeNotificationAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      });
   },
 });
