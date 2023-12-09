@@ -2,15 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ITrainingsRepository } from './entities/trainings-repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { ITraining, TrainingSortDirection } from '@fit-friends/shared';
+import { ITraining, TrainingDuration, TrainingLevel, TrainingSortDirection, TrainingType } from '@fit-friends/shared';
 import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { AppError } from '@fit-friends/libs/validation';
 
 const TrainingMaxCount = {
   Popular: 9,
   Special: 3, 
+  ForUser: 9,
 } as const;
 
 @Injectable()
@@ -131,6 +132,18 @@ export class TrainingsRepository implements ITrainingsRepository {
       take: TrainingMaxCount.Special,
     });
     return [data.map((training) => TrainingEntity.create(training)), count];
+  }
+
+  async getForUser(types: TrainingType[], level: TrainingLevel, duration: TrainingDuration): Promise<TrainingEntity[]> {
+    const data = await this.repository.find({
+      where: [
+        {type: In(types)},
+        {level: level},
+        {duration}
+      ],
+      take: TrainingMaxCount.ForUser,
+    });
+    return data.map((training) => TrainingEntity.create(training));
   }
 
   private getQueryBuilder(): SelectQueryBuilder<ITraining> {

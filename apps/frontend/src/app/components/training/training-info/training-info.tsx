@@ -14,6 +14,7 @@ import { UpdateTrainingType } from '../../../types/forms-type';
 import { Loader } from '../../loader/loader';
 import { useAppDispatch } from '../../../store/hooks';
 import { updateTrainingAction } from '../../../store/training/async-actions';
+import { getDurationName, getGenderName, getTrainingName } from '../../../utils/helpers';
 
 interface TrainingInfoProps {
   training: ITraining;
@@ -113,16 +114,16 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
 
                 <ul className="training-info__list">
                   <li className="training-info__item">
-                    <Hashtag title={training.type} white />
+                    <Hashtag title={getTrainingName(training.type)} white />
                   </li>
                   <li className="training-info__item">
-                    <Hashtag title={training.gender} white />
+                    <Hashtag title={getGenderName(training.gender)} white />
                   </li>
                   <li className="training-info__item">
                     <Hashtag title={`${training.calories} кал`} white />
                   </li>
                   <li className="training-info__item">
-                    <Hashtag title={training.duration} white />
+                    <Hashtag title={getDurationName(training.duration)} white />
                   </li>
                 </ul>
               </div>

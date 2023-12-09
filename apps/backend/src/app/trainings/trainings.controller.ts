@@ -94,6 +94,20 @@ export class TrainingsController {
     });
   }
 
+  @ApiOperation({ summary: 'Список подходящих тренировок' })
+  @ApiOkResponse({ type: TrainingCollectionRdo })
+  @Roles(Role.User)
+  @UseGuards(RoleGuard)
+  @Get('for-user')
+  async forUser(@UserId() currentUserId: string) {
+    const [data, total] = await this.trainingsService.getForUser(currentUserId);
+    console.log(data)
+    return fillObject(TrainingCollectionRdo, {
+      data: data.map((training) => this.mapTraining(training)),
+      total,
+    });
+  }
+
   @ApiOperation({ summary: 'Список тренировок тренера' })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })

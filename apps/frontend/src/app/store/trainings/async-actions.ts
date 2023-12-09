@@ -16,9 +16,11 @@ export const loadMoreTrainingsAction = createAsyncThunk<ITrainingCollection, str
   return data;
 });
 
-export const fetchForYouAction = createAsyncThunk<ITrainingCollection>('for-tou/fetch-for-you', async () => {
-  const data = await trainingApi.fetchForYou();
-  return data;
+export const fetchForYouAction = createAsyncThunk<ITrainingCollection>(
+  'for-tou/fetch-for-you', 
+  async () => {
+    const {data} = await trainingApi.fetchForYou();
+    return data;
 });
 
 export const fetchSpecialAction = createAsyncThunk<ITrainingCollection>(

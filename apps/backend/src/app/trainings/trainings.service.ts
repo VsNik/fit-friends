@@ -102,9 +102,32 @@ export class TrainingsService {
     return [data.map((item) => item.toObject()), count];
   }
 
-  async getForYou(currentUserId: string) {
+  async getForUser(currentUserId: string): Promise<[ITraining[], number]>  {
     const currentUser = await this.usersService.getUser(currentUserId);
-    const trainingTypes = currentUser.trainingType;
+    const {trainingType, trainingLevel, trainingDuration} = currentUser;
+    const data = await this.trainingsRepository.getForUser(trainingType, trainingLevel, trainingDuration);
+
+    const trainings = data.map((training) => {
+      let priority = 0;
+
+      if (trainingType.includes(training.type)) {
+        priority ++;
+      }
+
+      if (training.level === trainingLevel) {
+        priority ++;
+      }
+
+      if (training.duration === trainingDuration) {
+        priority ++;
+      }
+
+      return {...training, priority};
+    })
+
+    const sorted = trainings.sort((a, b) => a.priority < b.priority ? 1 : -1);
+
+    return [sorted, sorted.length];
   }
 
   async removeVideo(id: string, src: string): Promise<ITraining> {

@@ -1,4 +1,4 @@
-import { Location, TrainingType, TrainingDuration, TrainingLevel } from '@fit-friends/shared';
+import { Location, TrainingType, TrainingDuration, TrainingLevel, Gender } from '@fit-friends/shared';
 
 export const isNotEmptyObject = (item: object): boolean => {
   return Object.keys(item).length !== 0;
@@ -47,6 +47,15 @@ export const getLevelName = (level: TrainingLevel) => {
     [TrainingLevel.Professional]: 'Профессионал',
   }
   return levelName[level];
+}
+
+export const getGenderName = (gender: Gender) => {
+  const genderName = {
+    [Gender.Male]: 'для_мужчин',
+    [Gender.Female]: 'для_женщин',
+    [Gender.AnyGender]: 'для_всех',
+  }
+  return genderName[gender];
 }
 
 export const getPriceView = (price: number): string => {

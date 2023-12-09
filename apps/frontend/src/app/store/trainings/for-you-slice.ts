@@ -6,7 +6,7 @@ import { LoadStatus, SliceName } from '../../constants/common';
 const initialState: TrainingsState = {
   trainings: [],
   page: 1,
-  total: 50,
+  total: 0,
   loadStatus: LoadStatus.Never,
   error: '',
 };
@@ -25,6 +25,9 @@ export const forYouSlice = createSlice({
         state.trainings = payload.data;
         state.page = payload.page;
         state.total = payload.total;
+        state.loadStatus = LoadStatus.Loaded;
+      })
+      .addCase(fetchForYouAction.rejected, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       });
   },
