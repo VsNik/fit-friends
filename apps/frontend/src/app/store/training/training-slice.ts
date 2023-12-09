@@ -7,7 +7,7 @@ import { createTrainingAction, fetchTrainingAction, removeVideoAction, saveVideo
 const initialState: TrainingState = {
   training: {} as ITraining,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const trainingSlice = createSlice({

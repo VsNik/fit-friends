@@ -13,7 +13,7 @@ import { UserEntity } from './entities/user.entity';
 import { FilesService } from '../files/files.service';
 import { UserAddedToFriendsEvent } from './events/user-added-to-friends.event';
 import { UpdateDto } from './dto/update.dto';
-import { OtherError, AppError } from '@fit-friends/libs/validation';
+import { OtherError, AppError, EMAIL_EXIST } from '@fit-friends/libs/validation';
 import { SignupDto } from '../auth/dto/signup.dto';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class UsersService {
   async create(dto: SignupDto, fileAvatar: ExpressFile): Promise<IUser> {
     const existUser = await this.findByEmail(dto.email);
     if (existUser) {
-      throw new BadRequestException(OtherError.UserExist);
+      throw new BadRequestException(EMAIL_EXIST);
     }
 
     const avatar = await this.fileService.upload(fileAvatar, UploadType.Avatar);

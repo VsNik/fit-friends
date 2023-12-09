@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, FormProvider, FieldPath } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { InputFile } from '../../ui/form/input-file/input-file';
@@ -11,9 +11,8 @@ import { LevelGroup } from '../../ui/level-group/level-group';
 import { Button } from '../../ui/button/button';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createCoachAction } from '../../../store/auth/async-actions';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
 import * as authSelector from '../../../store/auth/auth-select';
-
-type QuestionCoachFieldError = FieldPath<QuestionCoachType>;
 
 export const QuestionCoachForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,15 +27,9 @@ export const QuestionCoachForm: React.FC = () => {
     resolver: yupResolver(questionCoachSchema),
     mode: 'all',
   });
+  
   const { handleSubmit, reset, setError } = methods;
-
-  useEffect(() => {
-    if (authError && authError.message instanceof Array) {
-      authError.message.forEach((err) => {
-        setError(err.field as QuestionCoachFieldError, {message: err.error});
-      });
-    }    
-  }, [authError, setError]);
+  const {formError} = useServerFormError<QuestionCoachType>(setError, authError);
 
   const onSubmit = (data: QuestionCoachType) => {
     setIsLoading(true);
@@ -61,6 +54,7 @@ export const QuestionCoachForm: React.FC = () => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="questionnaire-coach">
+          {formError && <i className='form-message-error'>{formError}</i>}
           <h1 className="visually-hidden">Опросник</h1>
           <div className="questionnaire-coach__wrapper">
             <div className="questionnaire-coach__block">

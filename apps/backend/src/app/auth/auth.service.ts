@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { OtherError, AppError } from '@fit-friends/libs/validation';
 import { ExpressFile, RequestExpress } from '@fit-friends/libs/types';
 import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/shared';
@@ -49,11 +49,11 @@ export class AuthService {
 
     const existUser = await this.usersService.findByEmail(email);
     if (!existUser) {
-      throw new BadRequestException(OtherError.Credentials);
+      throw new UnprocessableEntityException(OtherError.Credentials);
     }
     const isValidPswd = await compare(password, existUser.password);
     if (!isValidPswd) {
-      throw new BadRequestException(OtherError.Credentials);
+      throw new UnprocessableEntityException(OtherError.Credentials);
     }
     return this.createAuthToken(existUser.toObject(), randomUUID());
   }

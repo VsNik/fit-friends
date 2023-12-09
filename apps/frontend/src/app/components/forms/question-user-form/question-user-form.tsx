@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, FormProvider, FieldPath } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import { Input } from '../../ui/form/input/input';
@@ -12,9 +12,8 @@ import { Button } from '../../ui/button/button';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createUserAction } from '../../../store/auth/async-actions';
 import { Loader } from '../../loader/loader';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
 import * as authSelector from '../../../store/auth/auth-select';
-
-type QuestionUserFieldError = FieldPath<QuestionUserType>;
 
 export const QuestionUserForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -36,13 +35,7 @@ export const QuestionUserForm: React.FC = () => {
     setError
   } = methods;
 
-  useEffect(() => {
-    if (authError && authError.message instanceof Array) {
-      authError.message.forEach((err) => {
-        setError(err.field as QuestionUserFieldError, {message: err.error});
-      });
-    }    
-  }, [authError, setError]);
+  const {formError} = useServerFormError<QuestionUserType>(setError, authError);
 
   const onSubmit = (data: QuestionUserType) => {
     setIsLoading(true);
@@ -60,6 +53,7 @@ export const QuestionUserForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading && <Loader />}
         <div className="questionnaire-user">
+          {formError && <i className='form-message-error'>{formError}</i>}
           <h1 className="visually-hidden">Опросник</h1>
           <div className="questionnaire-user__wrapper">
             <div className="questionnaire-user__block">

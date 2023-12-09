@@ -10,13 +10,16 @@ import { Textarea } from '../../ui/form/textarea/textarea';
 import { InputFile } from '../../ui/form/input-file/input-file';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { trainingSchema } from '../../../utils/validate-schemas';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createTrainingAction } from '../../../store/training/async-actions';
 import { Loader } from '../../loader/loader';
 import { AddTrainingType } from '../../../types/forms-type';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
+import * as trainingSelector from '../../../store/training/training-select';
 
 export const AddTrainingForm: React.FC = () => {
   const dispatch = useAppDispatch();
+  const trainingErrors = useAppSelector(trainingSelector.error)
   const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState('');
   const [duration, setDuration] = useState('');
@@ -27,7 +30,8 @@ export const AddTrainingForm: React.FC = () => {
     resolver: yupResolver(trainingSchema),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setError } = methods;
+  const {formError} = useServerFormError<AddTrainingType>(setError, trainingErrors);
 
   const resetForm = () => {
     setType('');
@@ -43,11 +47,11 @@ export const AddTrainingForm: React.FC = () => {
     const formData = new FormData();
     formData.append('video', video[0]);
     formData.append('title', data.title);
-    formData.append('type', data.trainingType);
-    formData.append('calories', String(data.loseCalory));
-    formData.append('duration', data.trainingDuration);
+    formData.append('type', data.type);
+    formData.append('calories', String(data.calories));
+    formData.append('duration', data.duration);
     formData.append('price', String(data.price));
-    formData.append('level', data.trainingLevel);
+    formData.append('level', data.level);
     formData.append('gender', data.gender);
     formData.append('description', data.description);
     formData.append('isSpecial', `${data.isSpecial}`);
@@ -66,6 +70,7 @@ export const AddTrainingForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading && <Loader />}
         <div className="create-training">
+          {formError && <i className='form-message-error'>{formError}</i>}
           <div className="create-training__wrapper">
             <div className="create-training__block">
               <h2 className="create-training__legend">Название тренировки</h2>
@@ -74,10 +79,10 @@ export const AddTrainingForm: React.FC = () => {
             <div className="create-training__block">
               <h2 className="create-training__legend">Характеристики тренировки</h2>
               <div className="create-training__info">
-                <Select name="trainingType" options={trainingsList} label="Выберите тип тренировки" selected={type} setSelected={setType}/>
-                <Input name="loseCalory" className="custom-input--with-text-right" text="ккал" label="Сколько калорий потратим" type="number"/>
+                <Select name="type" options={trainingsList} label="Выберите тип тренировки" selected={type} setSelected={setType}/>
+                <Input name="calories" className="custom-input--with-text-right" text="ккал" label="Сколько калорий потратим" type="number"/>
                 <Select
-                  name="trainingDuration"
+                  name="duration"
                   options={durationsList}
                   label="Сколько времени потратим"
                   selected={duration}
@@ -85,7 +90,7 @@ export const AddTrainingForm: React.FC = () => {
                   disabled={isLoading}
                 />
                 <Input name="price" className="custom-input--with-text-right" text="₽" label="Стоимость тренировки" type="number"/>
-                <Select name="trainingLevel" options={levelsList} label="Выберите уровень тренировки" selected={level} setSelected={setLevel}/>
+                <Select name="level" options={levelsList} label="Выберите уровень тренировки" selected={level} setSelected={setLevel}/>
 
                 <div className="create-training__radio-wrapper">
                   <span className="create-training__label">Кому подойдет тренировка</span>

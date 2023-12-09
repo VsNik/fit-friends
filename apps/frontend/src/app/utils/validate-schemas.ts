@@ -132,13 +132,13 @@ export const userInfoSchema = Yup.object({
 
 export const trainingSchema = Yup.object({
   title: trainingTitileValidator,
-  trainingType: Yup.string().required(TrainingError.TypeRequired),
-  loseCalory: Yup.number()
+  type: Yup.string().required(TrainingError.TypeRequired),
+  calories: Yup.number()
     .transform((value) => (isNaN(value) || value === undefined ? null : value))
     .required(UserError.LoseCaloryRequired),
-  trainingDuration: Yup.string().required(UserError.DurationRequired),
+  duration: Yup.string().required(UserError.DurationRequired),
   price: trainingPriceValidator,
-  trainingLevel: Yup.string().required(UserError.LevelRequired),
+  level: Yup.string().required(UserError.LevelRequired),
   gender: Yup.string().required(UserError.GenderRequired),
   description: trainingDescriptionValidator,
   video: trainingVideoValidator,

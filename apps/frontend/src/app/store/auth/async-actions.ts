@@ -1,4 +1,4 @@
-import { IAccessTokenPayload, IUser } from '@fit-friends/shared';
+import { IAccessTokenPayload, IUser, ICreatedProfile } from '@fit-friends/shared';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
 import { authApi } from '../../services/auth-api';
@@ -44,25 +44,28 @@ export const signupAction = createAsyncThunk<IUser, FormData, { dispatch: AppDis
 );
 
 export const createUserAction = createAsyncThunk<
-  void,
+  ICreatedProfile,
   QuestionUserType,
   {
     dispatch: AppDispatch;
     state: RootState;
   }
->('auth/create-user', async (userData, { dispatch, getState, rejectWithValue }) => {
-  try {
-    const state = getState();
-    const userId = state[SliceName.Auth].authId;
-    const { data } = await authApi.createUser(userId, userData);
-    if (data.token) {
-      saveToken(data.token);
+>(
+  'auth/create-user', 
+  async (userData, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const userId = state[SliceName.Auth].authId;
+      const { data } = await authApi.createUser(userId, userData);
+      if (data.token) {
+        saveToken(data.token);
+      }
+      dispatch(redirectToRoute(RouteName.Home));
+      return data
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.response?.data);
     }
-    dispatch(redirectToRoute(RouteName.Home));
-  } catch (err) {
-    const error = err as AxiosError;
-    return rejectWithValue(error.response?.data);
-  }
 });
 
 export const createCoachAction = createAsyncThunk<

@@ -1,6 +1,16 @@
 import { Gender, Location, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 
+export const API_URL = '/api';
+
 export const VIDEO_POSTER = '/assets/img/content/training-video/video-thumbnail.png';
+
+export enum ErrorCode {
+  unauthorized = 401,
+  BadRequest = 400,
+  NotFound = 404,
+  UnprocsableEntity = 422,
+  ServerError = 500,
+}
 
 export enum SliceName {
   Auth = 'AUTH',

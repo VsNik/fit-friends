@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Gender, Role } from '@fit-friends/shared';
-import { FieldPath, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../ui/form/input/input';
 import { Select } from '../../ui/form/select/select';
@@ -15,9 +15,8 @@ import { signupAction } from '../../../store/auth/async-actions';
 import { Button } from '../../ui/button/button';
 import { SignupType } from '../../../types/forms-type';
 import { Loader } from '../../loader/loader';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
 import * as authSelector from '../../../store/auth/auth-select';
-
-type SignupFieldError = FieldPath<SignupType>;
 
 export const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,18 +30,11 @@ export const SignupForm: React.FC = () => {
     resolver: yupResolver(signupSchema),
   });
 
-  const {setError, reset} = methods;
+  const { setError, reset } = methods;
 
   const fileImage = methods.watch('avatar');
   const { previewImage, resetImage } = useImagePreview(fileImage as FileList);
-
-  useEffect(() => {
-    if (authError && authError.message instanceof Array) {
-      authError.message.forEach((err) => {
-        setError(err.field as SignupFieldError, {message: err.error});
-      });
-    }    
-  }, [authError, setError]);
+  const { formError } = useServerFormError<SignupType>(setError, authError);
 
   const onSubmit = (data: SignupType) => {
     setIsLoading(true);
@@ -62,22 +54,23 @@ export const SignupForm: React.FC = () => {
     }
 
     dispatch(signupAction(formData))
-    .unwrap()
-    .then(() =>{
-      reset();
-      setLocation('');
-      resetImage();
-      setIsLoading(false);
-    })
-    .catch(() => setIsLoading(false));
+      .unwrap()
+      .then(() => {
+        reset();
+        setLocation('');
+        resetImage();
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         {isLoading && <Loader />}
-        
+
         <div className="sign-up">
+          {formError && <i className="form-message-error">{formError}</i>}
           <div className="sign-up__load-photo">
             <InputAvatar name="avatar" previewImage={previewImage} accept="image/png, image/jpeg" />
             <div className="sign-up__description">
@@ -87,7 +80,7 @@ export const SignupForm: React.FC = () => {
           </div>
           <div className="sign-up__data">
             <Input label="Имя" name="name" type="text" />
-            <Input label="E-mail" name="email" type="email" />
+            <Input label="E-mail" name="email" type="text" />
             <Input label="Дата рождения" name="birthday" type="date" />
             <Select
               options={locationsList}

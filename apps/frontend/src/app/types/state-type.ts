@@ -50,7 +50,7 @@ export type AuthState = {
 export type UserState = {
   user: IUser;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type UsersState = {
@@ -67,7 +67,7 @@ export type UsersState = {
 export type TrainingState = {
   training: ITraining;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type TrainingListState = {

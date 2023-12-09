@@ -26,7 +26,10 @@ export const ORDER_COUNT_IS_NUMBER = `Количество приобретае�
 export const PAYMENT_TYPE_VALUE = `Доступные спозобы оплаты: ${PaymentType.Visa}, ${PaymentType.Mir}, ${PaymentType.Umoney}`;
 export const INVITE_STATUS_VALUE = `Статус заявки может быть: ${InviteStatus.Waiting}, ${InviteStatus.Accepted}, ${InviteStatus.Rejected}`;
 
+export const EMAIL_EXIST = {message: [{field: 'email', error: 'Пользователь с таким Email уже существует.'}]};
+
 export enum AppError {
+  ServerError = 'Internal server error',
   Unauthorized = 'Unauthorized',
   UserNotFound = 'User not found',
   CoachNotFound = 'Coach not found.',

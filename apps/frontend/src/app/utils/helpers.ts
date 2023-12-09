@@ -2,7 +2,7 @@ import { Location, TrainingType, TrainingDuration, TrainingLevel, Gender } from 
 
 export const isNotEmptyObject = (item: object): boolean => {
   return Object.keys(item).length !== 0;
-}
+};
 
 export const toNumberInputTextValue = (value: string) => Number(value.replace(/\D/g, ''));
 
@@ -26,9 +26,9 @@ export const getTrainingName = (type: TrainingType) => {
     [TrainingType.Crossfit]: 'Кроссфит',
     [TrainingType.Aerobic]: 'Аэробика',
     [TrainingType.Pilates]: 'Пилатес',
-  }
+  };
   return traininName[type];
-}
+};
 
 export const getDurationName = (duration: TrainingDuration) => {
   const durationName = {
@@ -36,28 +36,28 @@ export const getDurationName = (duration: TrainingDuration) => {
     [TrainingDuration.Normal]: '30 мин - 50 мин',
     [TrainingDuration.Hi]: '50 мин - 80 мин',
     [TrainingDuration.Extra]: '80 мин - 100 мин',
-  }
+  };
   return durationName[duration];
-}
+};
 
 export const getLevelName = (level: TrainingLevel) => {
   const levelName = {
     [TrainingLevel.Novice]: 'Новичок',
     [TrainingLevel.Amateur]: 'Любитель',
     [TrainingLevel.Professional]: 'Профессионал',
-  }
+  };
   return levelName[level];
-}
+};
 
 export const getGenderName = (gender: Gender) => {
   const genderName = {
     [Gender.Male]: 'для_мужчин',
     [Gender.Female]: 'для_женщин',
     [Gender.AnyGender]: 'для_всех',
-  }
+  };
   return genderName[gender];
-}
+};
 
 export const getPriceView = (price: number): string => {
   return price === 0 ? 'Бесплатно' : `${price}`;
-}
+};

@@ -33,12 +33,15 @@ export const authSlice = createSlice({
         state.authRole = payload.role;
         state.isReady = true;
       })
+      .addCase(signupAction.rejected, (state, action: AnyAction) => {
+        state.isAuth = false;
+        state.error = action.payload;
+      })
 
-      .addCase(createUserAction.fulfilled, (state) => {
+      .addCase(createUserAction.fulfilled, (state, { payload }) => {
         state.isReady = false;
       })
       .addCase(createUserAction.rejected, (state, action: AnyAction) => {
-        state.isAuth = false;
         state.error = action.payload;
       })
 
@@ -46,7 +49,6 @@ export const authSlice = createSlice({
         state.isReady = false;
       })
       .addCase(createCoachAction.rejected, (state, action: AnyAction) => {
-        state.isAuth = false;
         state.error = action.payload;
       })
 

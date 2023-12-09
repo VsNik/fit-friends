@@ -62,6 +62,7 @@ export const fetchMyTrainingsAction = createAsyncThunk<ITrainingCollection, {aut
   'trainings/fetch-my-trainings', 
   async ({authId, queryString}) => {
     const {data} = await trainingApi.fetchMyTrainings(authId, queryString);
+    // console.log(data)
     return data;
 });
 

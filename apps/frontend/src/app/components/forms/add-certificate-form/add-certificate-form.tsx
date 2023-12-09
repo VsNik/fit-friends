@@ -3,8 +3,10 @@ import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addCertificateSchema } from '../../../utils/validate-schemas';
 import { AddCertificateType } from '../../../types/forms-type';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { addCertificateAction } from '../../../store/user/async-actions';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
+import * as userSelector from '../../../store/user/user-select';
 
 interface addCertificateFormProps {
   userId: string;
@@ -13,17 +15,20 @@ interface addCertificateFormProps {
 
 export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, disabled }) => {
   const dispatch = useAppDispatch();
+  const userError = useAppSelector(userSelector.error);
 
   const {
     handleSubmit,
     register,
     control,
+    setError,
     formState: { errors },
   } = useForm<AddCertificateType>({
     resolver: yupResolver(addCertificateSchema),
   });
 
   const certificateData = useWatch({ control, name: 'certificate' });
+  useServerFormError<AddCertificateType>(setError, userError);
 
   useEffect(() => {
     if (certificateData) {

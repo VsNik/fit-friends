@@ -32,7 +32,7 @@ export enum TrainingValidate {
 }
 
 export enum ReviewValidate {
-  RatingMin = 1,
+  RatingMin = 0,
   RatingMax = 5,
   TextMinLength = 100,
   TextMaxLength = 1024,

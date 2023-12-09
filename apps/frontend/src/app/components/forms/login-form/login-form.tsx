@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FieldPath, FormProvider, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../../ui/form/input/input';
 import { loginSchema } from '../../../utils/validate-schemas';
@@ -8,9 +8,8 @@ import { Button } from '../../ui/button/button';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { loginAction } from '../../../store/auth/async-actions';
 import { Loader } from '../../loader/loader';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
 import * as authSelector from '../../../store/auth/auth-select';
-
-type LoginFieldError = FieldPath<LoginType>;
 
 export const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,14 +21,7 @@ export const LoginForm: React.FC = () => {
   });
 
   const { handleSubmit, reset, setError } = methods;
-
-  useEffect(() => {
-    if (authError && authError.message instanceof Array) {
-      authError.message.forEach((err) => {
-        setError(err.field as LoginFieldError, {message: err.error});
-      });
-    }    
-  }, [authError, setError]);
+  const {formError} = useServerFormError<LoginType>(setError, authError);
 
   const onSubmit = (data: LoginType) => {
     setIsLoading(true);
@@ -47,9 +39,9 @@ export const LoginForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading && <Loader />}
         <div className="sign-in">
-          <Input className="sign-in__input" label="E-mail" name="email" type="email" />
+          {formError && <i className='form-message-error'>{formError}</i>}
+          <Input className="sign-in__input" label="E-mail" name="email" />
           <Input className="sign-in__input" label="Пароль" name="password" type="password" />
-
           <Button text="Продолжить" className="sign-in__button" type="submit" disabled={isLoading} />
         </div>
       </form>

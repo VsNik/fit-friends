@@ -1,10 +1,11 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
+import { IAuthToken, IErrorResponse } from '@fit-friends/shared';
 import { dropToken, getAccessToken, getRefreshToken, saveToken } from './token';
-import { IAuthToken } from '@fit-friends/shared';
 import { history } from '../utils/history';
 import { RouteName } from '../constants/route';
-
-const API_URL = '/api';
+import { API_URL, ErrorCode } from '../constants/common';
+import { AppError } from '@fit-friends/libs/validation';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -40,13 +41,24 @@ api.interceptors.response.use(
       }
     }
 
-    if (error.response.status === 404) {
+    if (
+      error.response &&
+      error.response.status >= ErrorCode.BadRequest &&
+      error.response.status !== ErrorCode.unauthorized &&
+      error.response.status !== ErrorCode.NotFound &&
+      error.response.status !== ErrorCode.UnprocsableEntity
+    ) {
+      const message = (error.response.data as IErrorResponse).message;
+      toast.error(!Array.isArray(message) && message, { toastId: message as string });
+    }
+
+    if (error.response.status === ErrorCode.NotFound) {
       history.navigate(RouteName.NotFound);
       return;
     }
 
-    if (error.response.status >= 500) {
-      console.log('SERVER ERROR');
+    if (error.response.status >= ErrorCode.ServerError) {
+      toast.error(AppError.ServerError);
       return;
     }
 

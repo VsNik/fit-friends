@@ -17,7 +17,7 @@ import { LoadStatus, SliceName } from '../../constants/common';
 const initialState: UserState = {
   user: {} as IUser,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const userSlice = createSlice({
@@ -50,7 +50,6 @@ export const userSlice = createSlice({
 
       .addCase(updateUserAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.error = '';
       })
       .addCase(updateUserAction.fulfilled, (state, { payload }) => {
         state.user = payload;
