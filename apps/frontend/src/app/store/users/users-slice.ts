@@ -10,7 +10,7 @@ import {
   loadMoreUsersAction,
 } from './async-actions';
 import { UsersState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: UsersState = {
   users: [],
@@ -21,10 +21,10 @@ const initialState: UsersState = {
   },
   sorting: UserSorting.Created,
   direction: null,
-  page: 1,
-  total: 0,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const usersSlice = createSlice({

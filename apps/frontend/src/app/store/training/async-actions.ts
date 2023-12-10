@@ -30,9 +30,14 @@ export const createTrainingAction = createAsyncThunk<ITraining, FormData, {dispa
 
 export const updateTrainingAction = createAsyncThunk<ITraining, {id: string, updateData: UpdateTrainingType}>(
   'training/update',
-  async ({id, updateData}) => {
-    const {data} = await trainingApi.updateTraining(id, updateData);
-    return data;
+  async ({id, updateData}, {rejectWithValue}) => {
+    try {
+      const {data} = await trainingApi.updateTraining(id, updateData);
+      return data;
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.response?.data);
+    }
   }
 )
 

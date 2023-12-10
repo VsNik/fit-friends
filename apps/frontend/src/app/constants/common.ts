@@ -1,8 +1,12 @@
 import { Gender, Location, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 
 export const API_URL = '/api';
-
 export const VIDEO_POSTER = '/assets/img/content/training-video/video-thumbnail.png';
+
+export enum DefaultPaginate {
+  Page = 1,
+  Total = 0,
+}
 
 export enum ErrorCode {
   unauthorized = 401,

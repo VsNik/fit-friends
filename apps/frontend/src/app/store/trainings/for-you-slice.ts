@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchForYouAction } from './async-actions';
 import { TrainingsState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: TrainingsState = {
   trainings: [],
-  page: 1,
-  total: 0,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const forYouSlice = createSlice({
@@ -19,7 +19,6 @@ export const forYouSlice = createSlice({
     builder
       .addCase(fetchForYouAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
-        state.error = '';
       })
       .addCase(fetchForYouAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;

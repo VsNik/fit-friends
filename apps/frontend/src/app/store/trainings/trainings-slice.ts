@@ -10,13 +10,13 @@ import {
   loadMoreTrainingsAction,
 } from './async-actions';
 import { TrainingListState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 import { ReviewValidate, TrainingValidate } from '@fit-friends/libs/validation';
 
 const initialState: TrainingListState = {
   trainings: [],
-  page: 1,
-  total: 0,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   filter: {
     priceTo: TrainingValidate.PriceMin,
     priceFrom: TrainingValidate.PriceMax,
@@ -31,7 +31,7 @@ const initialState: TrainingListState = {
   sortStatistic: StatisticSorting.OrderCount,
   direction: TrainingSortDirection.Desc,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const trainingsSlice = createSlice({
@@ -129,7 +129,7 @@ export const trainingsSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(loadMoreMyOrdersAction.fulfilled, (state, { payload }) => {
-        state.page++;
+        state.page = payload.page;
         state.trainings = [...state.trainings, ...payload.data];
         state.loadStatus = LoadStatus.Loaded;
       })
@@ -154,7 +154,7 @@ export const trainingsSlice = createSlice({
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(loadMoreAction.fulfilled, (state, { payload }) => {
-        state.page++;
+        state.page = payload.page;
         state.trainings = [...state.trainings, ...payload.data];
         state.loadStatus = LoadStatus.Loaded;
       })

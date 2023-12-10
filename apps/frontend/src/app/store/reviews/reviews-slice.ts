@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addReviewAction, fetchReviewsAction } from './async-actions';
 import { ReviewsState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: ReviewsState = {
   reviews: [],
-  page: 1,
-  total: 0,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
 };
 

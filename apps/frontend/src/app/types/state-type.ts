@@ -61,7 +61,7 @@ export type UsersState = {
   page: number;
   total: number;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type TrainingState = {
@@ -79,7 +79,7 @@ export type TrainingListState = {
   sortStatistic: StatisticSorting;
   direction: TrainingSortDirection;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type TrainingsState = {
@@ -87,7 +87,7 @@ export type TrainingsState = {
   page: number;
   total: number;
   loadStatus: LoadStatus;
-  error: string;
+  error: IErrorResponse | null;
 };
 
 export type ReviewsState = {

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { TrainingState } from '../../types/state-type';
 import { ITraining } from '@fit-friends/shared';
 import { LoadStatus, SliceName } from '../../constants/common';
@@ -34,7 +34,8 @@ export const trainingSlice = createSlice({
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
-      .addCase(createTrainingAction.rejected, (state) => {
+      .addCase(createTrainingAction.rejected, (state, action: AnyAction) => {
+        state.error = action.payload;
         state.loadStatus = LoadStatus.Loaded;
       })
 
@@ -45,7 +46,8 @@ export const trainingSlice = createSlice({
         state.training = payload;
         state.loadStatus = LoadStatus.Loaded;
       })
-      .addCase(updateTrainingAction.rejected, (state) => {
+      .addCase(updateTrainingAction.rejected, (state, action: AnyAction) => {
+        state.error = action.payload;
         state.loadStatus = LoadStatus.Loaded;
       })
 

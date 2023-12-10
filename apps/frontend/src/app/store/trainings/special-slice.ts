@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchSpecialAction } from './async-actions';
 import { TrainingsState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 
 const initialState: TrainingsState = {
   trainings: [],
-  page: 1,
-  total: 50,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
-  error: '',
+  error: null,
 };
 
 export const specialSlice = createSlice({

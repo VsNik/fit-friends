@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { BalancesState } from '../../types/state-type';
-import { LoadStatus, SliceName } from '../../constants/common';
+import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
 import { fetchPurchasesAction, loadMorePurchasesAction } from './async-actions';
 import { BalanceFiter } from '@fit-friends/shared';
 
 const initialState: BalancesState = {
   balances: [],
   filter: BalanceFiter.All,
-  page: 1,
-  total: 0,
+  page: DefaultPaginate.Page,
+  total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
 };
 

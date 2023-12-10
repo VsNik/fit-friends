@@ -4,6 +4,8 @@ clear: docker-clear
 restart: down up
 ps: docker-ps
 
+test: frontend-test
+
 start: frontend-backend-start
 backend: backend-start
 frontend: frontend-start
@@ -34,3 +36,6 @@ backend-lint:
 
 frontend-lint:
 	nx run frontend:lint
+
+frontend-test:
+	nx run frontend:test
