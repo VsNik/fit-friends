@@ -54,6 +54,7 @@ api.interceptors.response.use(
 
     if (error.response.status === ErrorCode.NotFound) {
       history.navigate(RouteName.NotFound);
+      dropToken();
       return;
     }
 

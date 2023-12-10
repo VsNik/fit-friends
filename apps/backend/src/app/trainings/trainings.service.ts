@@ -41,7 +41,7 @@ export class TrainingsService {
 
   async create(dto: CreateTrainingDto, coachId: string, fileVideo: ExpressFile): Promise<ITraining> {
     const coach = await this.usersService.getUser(coachId);
-    const bgImage = await getRandomBg(UploadType.BgTraining);
+    const bgImage = getRandomBg(UploadType.BgTraining);
     const video = await this.filesService.upload(fileVideo, UploadType.Video);
     const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage, video });
     const savedTraining = await this.trainingsRepository.save(trainingEntity);

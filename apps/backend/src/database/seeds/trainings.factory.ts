@@ -8,11 +8,11 @@ export const TrainingsFactory = setSeederFactory(Training, (faker: Faker) => {
   const training = new Training();
   training.id = faker.string.uuid();
   training.title = faker.string.alpha({ length: { min: 1, max: 15 } });
-  training.bgImage = faker.image.urlLoremFlickr({ width: 240, height: 320, category: 'nature' });
+  training.bgImage = getRandomBg(UploadType.BgTraining);
   training.level = faker.helpers.enumValue(TrainingLevel);
   training.type = faker.helpers.enumValue(TrainingType);
   training.duration = faker.helpers.enumValue(TrainingDuration);
-  training.price = faker.number.int({ min: 0, max: 50000 });
+  training.price = faker.number.int({ min: 0, max: 10000 });
   training.calories = faker.number.int({ min: 1000, max: 5000 });
   training.description = faker.lorem.sentence(15);
   training.gender = faker.helpers.enumValue(Gender);

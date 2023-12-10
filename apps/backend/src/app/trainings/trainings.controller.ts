@@ -101,7 +101,6 @@ export class TrainingsController {
   @Get('for-user')
   async forUser(@UserId() currentUserId: string) {
     const [data, total] = await this.trainingsService.getForUser(currentUserId);
-    console.log(data)
     return fillObject(TrainingCollectionRdo, {
       data: data.map((training) => this.mapTraining(training)),
       total,
