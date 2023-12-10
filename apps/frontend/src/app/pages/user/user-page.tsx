@@ -46,13 +46,15 @@ export const UserPage: React.FC = () => {
         <div className="container">
           <div className="inner-page__wrapper">
             <ButtonFloat text="Назад" icon="arrow-left" className="inner-page__back" onClick={() => navigation(RouteName.Home)} />
-
             <div className="inner-page__content">
-              {user?.role === Role.User ? (
+
+              {user.role === Role.User &&
                 <UserCardUser user={user} onOpenMap={handleOpenMap} isLoading={isLoading} />
-              ) : (
+              }
+              {user.role === Role.Coach &&
                 <UserCardCoach user={user} onOpenMap={handleOpenMap} onOpenCertificatePopup={handleOpenCertificates} />
-              )}
+              }
+              
             </div>
           </div>
         </div>
@@ -68,4 +70,3 @@ export const UserPage: React.FC = () => {
     </AppLayout>
   );
 };
-

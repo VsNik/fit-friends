@@ -75,7 +75,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
         reset();
       });
   };
-
+console.log(isPositiveBalance)
   return (
     <div
       className={clsx('training-video', {
@@ -114,7 +114,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
               type="button" 
               className="training-video__button training-video__button--start" 
               onClick={handleStartTraining} 
-              disabled={!isPositiveBalance} 
+              disabled={role === Role.User && !isPositiveBalance} 
             />
           )}
           <Button 
