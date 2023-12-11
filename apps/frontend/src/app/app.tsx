@@ -26,6 +26,7 @@ import * as authSelector from './store/auth/auth-select';
 import { LoadStatus } from './constants/common';
 import { QuestionPage } from './pages/question/question-page';
 import { Account } from './pages/account/account';
+import { getAccessToken } from './services/token';
 
 export function App() {
   const dispatch = useAppDispatch()
@@ -36,7 +37,7 @@ export function App() {
   const isAuth = useAppSelector(authSelector.isAuth);
 
   useEffect(() => {
-    if (isAuth) {
+    if (isAuth && getAccessToken()) {
       dispatch(fetchNotificationAction());
     }
   }, [dispatch, isAuth]);

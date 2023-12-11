@@ -1,7 +1,7 @@
 import { Role } from '@fit-friends/shared';
 import { LoadStatus } from '../../constants/common';
 import { AuthState } from '../../types/state-type';
-import { UNKNOWN_ACTION, MOCK_ID, fakeError } from '../../utils/mock-data';
+import { UNKNOWN_ACTION, fakeError, MockData } from '../../utils/mock-data';
 import { checkAuthAction, createCoachAction, createUserAction, loginAction, logoutAction, signupAction } from './async-actions';
 import {authSlice} from "./auth-slice";
 
@@ -25,8 +25,8 @@ describe('Slice: auth', () => {
 
   describe('loginAction test', () => {
     it('should set authId, authRole and update isAuth to "true" if loginAction fulfilled', function () {
-      expect(authSlice.reducer(state, {type: loginAction.fulfilled.type, payload: {id: MOCK_ID, role: Role.User}}))
-        .toEqual({authId: MOCK_ID, authRole: Role.User, isAuth: true, isReady: false, error: null, loadStatus: LoadStatus.Never})
+      expect(authSlice.reducer(state, {type: loginAction.fulfilled.type, payload: {id: MockData.Id, role: Role.User}}))
+        .toEqual({authId: MockData.Id, authRole: Role.User, isAuth: true, isReady: false, error: null, loadStatus: LoadStatus.Never})
     });
 
     it('should be not update isAuth and error should be error object if loginAction rejected', () => {
@@ -37,8 +37,8 @@ describe('Slice: auth', () => {
 
   describe('signupAction test', () => {
     it('should be set authId, authRole, update isReady to true and isAuth to true if signupAction fulfilled', () => {
-      expect(authSlice.reducer(state, {type: signupAction.fulfilled.type, payload: {id: MOCK_ID, role: Role.User}}))
-        .toEqual({authId: MOCK_ID, authRole: Role.User, isAuth: true, isReady: true, error: null, loadStatus: LoadStatus.Never})
+      expect(authSlice.reducer(state, {type: signupAction.fulfilled.type, payload: {id: MockData.Id, role: Role.User}}))
+        .toEqual({authId: MockData.Id, authRole: Role.User, isAuth: true, isReady: true, error: null, loadStatus: LoadStatus.Never})
     });
 
     it('should be not update isAuth and error should be error object', () => {
@@ -54,8 +54,8 @@ describe('Slice: auth', () => {
     });
 
     it('should be set authId, authRole , isAuth and update loadingStatus to Loaded if checkAuthAction fulfilled', () => {
-      expect(authSlice.reducer(state, {type: checkAuthAction.fulfilled.type, payload: {id: MOCK_ID, role: Role.User}}))
-        .toEqual({authId: MOCK_ID, authRole: Role.User, isAuth: true, isReady: false, error: null, loadStatus: LoadStatus.Loaded})
+      expect(authSlice.reducer(state, {type: checkAuthAction.fulfilled.type, payload: {id: MockData.Id, role: Role.User}}))
+        .toEqual({authId: MockData.Id, authRole: Role.User, isAuth: true, isReady: false, error: null, loadStatus: LoadStatus.Loaded})
     });
 
     it('should be not update isAuth and error should be error object if checkAuthAction rejected', () => {

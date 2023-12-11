@@ -8,9 +8,15 @@ export enum DefaultPaginate {
   Total = 0,
 }
 
+export enum StatusCode {
+  Ok = 200,
+  Created = 201,
+  NoContent = 204,
+}
+
 export enum ErrorCode {
-  unauthorized = 401,
   BadRequest = 400,
+  unauthorized = 401,  
   NotFound = 404,
   UnprocsableEntity = 422,
   ServerError = 500,
