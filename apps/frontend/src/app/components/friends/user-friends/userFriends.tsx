@@ -41,7 +41,7 @@ export const UserFriends: React.FC<UserFriendsProps> = ({ userId }) => {
 
   return (
     <Fragment>
-      <ul className="friends-list__list">
+      <ul className="friends-list__list" data-testid='user-friends'>
         {friends?.map((friend) => (
           <ThumbnailFriend key={friend.id} authId={userId} user={friend} invitations={invitations} authRole={Role.User} />
         ))}

@@ -120,7 +120,7 @@ export const questionCoachSchema = Yup.object({
 
 export const userInfoSchema = Yup.object({
   name: userNameValidator,
-  bio: Yup.string().required(),
+  bio: Yup.string(),
   personalTraining: Yup.boolean(),
   ready: Yup.boolean(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), UserError.LocationRequired).required(),

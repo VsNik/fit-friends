@@ -12,7 +12,7 @@ export const CoachNavigation: React.FC = () => {
   const isLoading = loadStatus === LoadStatus.Loading;
 
   return (
-    <div className="personal-account-coach__navigation">
+    <div className="personal-account-coach__navigation" data-testid='coach-navigation-block'>
       {isLoading && <Loader />}
 
       <ThumbnailLink text='Мои тренировки' icon='icon-flash' to={RouteName.MyTrainings} />

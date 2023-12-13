@@ -2,7 +2,7 @@ import React from 'react';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { AddTrainingForm } from '../../components/forms/add-training-form/add-training-form';
 
-export const AddTraining: React.FC = () => {
+export const AddTrainingPage: React.FC = () => {
   return (
     <AppLayout>
       <div className="popup-form popup-form--create-training">

@@ -8,10 +8,11 @@ interface TextareaProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  dataTestId?: string;
 }
 
 export const Textarea: React.FC<TextareaProps> = (props) => {
-  const { name, label, placeholder, className, disabled } = props;
+  const { name, label, placeholder, className, disabled, dataTestId } = props;
 
   const {
     register,
@@ -26,7 +27,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
     >
       <label>
         <span className="custom-textarea__label">{label}</span>
-        <textarea {...register(name)} name={name} placeholder={placeholder} disabled={disabled} />
+        <textarea {...register(name)} name={name} placeholder={placeholder} data-testid={dataTestId} disabled={disabled} />
         {errors[name] && <i className="custom-textarea__error">{errors[name]?.message as string}</i>}
       </label>
     </div>

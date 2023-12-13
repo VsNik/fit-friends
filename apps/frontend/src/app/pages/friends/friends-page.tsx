@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
-import * as authSelector from '../../store/auth/auth-select';
 import { useAppSelector } from '../../store/hooks';
 import { AppLayout } from '../../components/layouts/app-layout';
 import { CoachFriends } from '../../components/friends/coach-friends/coach-friends';
 import { UserFriends } from '../../components/friends/user-friends/userFriends';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';
+import * as authSelector from '../../store/auth/auth-select';
 
 export const FriendsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -30,10 +30,14 @@ export const FriendsPage: React.FC = () => {
               <h1 className="friends-list__title">Мои друзья</h1>
             </div>
             
-            {authRole === Role.User 
-              ? <UserFriends userId={authId} /> 
-              : <CoachFriends userId={authId}/>
-            }
+            {authRole === Role.User && (
+              <UserFriends userId={authId} /> 
+            )}
+
+            {authRole === Role.Coach && (
+              <CoachFriends userId={authId}/>
+            )}
+
           </div>
         </div>
       </section>

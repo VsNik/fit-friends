@@ -13,20 +13,20 @@ export const UserCalories: React.FC<UserCaloriesProps> = ({calories}) => {
   const isLoading = loadStatus === LoadStatus.Loading;
 
   return (
-    <div className="personal-account-user__schedule">
+    <div className="personal-account-user__schedule" data-testid='user-calories-block'>
       {isLoading && <Loader />}
       <form>
         <div className="personal-account-user__form">
           <div className="personal-account-user__input">
             <label>
               <span className="personal-account-user__label">План на день, ккал</span>
-              <input type="text" name="schedule-for-the-day" defaultValue={calories} readOnly disabled={isLoading}/>
+              <input type="text" name="schedule-for-the-day" data-testid='calory-input-element' defaultValue={calories} readOnly disabled={isLoading}/>
             </label>
           </div>
           <div className="personal-account-user__input">
             <label>
               <span className="personal-account-user__label">План на неделю, ккал</span>
-              <input type="text" name="schedule-for-the-week" defaultValue={calories && calories * 7} readOnly disabled={isLoading}/>
+              <input type="text" name="schedule-for-the-week" data-testid='summ-calory-input-element' defaultValue={calories && calories * 7} readOnly disabled={isLoading}/>
             </label>
           </div>
         </div>

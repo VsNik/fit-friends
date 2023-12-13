@@ -17,10 +17,11 @@ interface SelectProps {
   setSelected: (value: string) => void;
   disabled?: boolean;
   className?: string; 
+  dataTestId?: string;
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { options, name, label, selected, setSelected, placeholder, disabled, className } = props;
+  const { options, name, label, selected, setSelected, placeholder, disabled, className, dataTestId } = props;
 
   const [isOpen, setOpen] = useState(false);
   const selectRef = useRef(null);
@@ -68,6 +69,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         aria-label="Выберите одну из опций" 
         ref={selectRef}
         disabled={disabled}
+        data-testid={dataTestId}
       >
         <span className="custom-select__text" />
         <span className="custom-select__icon">

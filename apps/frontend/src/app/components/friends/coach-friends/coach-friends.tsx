@@ -38,7 +38,7 @@ export const CoachFriends: React.FC<CoachFriendsProps> = ({ userId }) => {
   return (
     <Fragment>
       {isLoading && <Loader />}
-      <ul className="friends-list__list">
+      <ul className="friends-list__list" data-testid='coach-friends'>
         {friends?.map((friend) => (
           <ThumbnailFriend key={friend.id} authId={userId} user={friend} invitations={invitations} authRole={Role.Coach} />
         ))}

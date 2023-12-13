@@ -24,11 +24,6 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
   const location = getUserLocation(user.location);
   const navigation = useNavigate();
 
-  const authInvite = invitations?.find((item) => 
-    item.initiatorId === authId && 
-    item.toUserId === user.id
-  );
-
   const invite = invitations?.find((item) => 
     item.initiatorId === user.id && 
     item.toUserId === authId && 
@@ -57,30 +52,31 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
   };
 
   return (
-    <li className="friends-list__item">
+    <li className="friends-list__item" data-testid="friend-card">
       <div className="thumbnail-friend" onClick={() => navigation(getUserRoute(user.id))}>
         <div
           className={clsx('thumbnail-friend__info', {
             'thumbnail-friend__info--theme-light': user.role === Role.User,
             'thumbnail-friend__info--theme-dark': user.role === Role.Coach,
           })}
+          data-testid='thumbnail-friend-wrapper'
         >
           <div className="thumbnail-friend__image-status">
-            <Avatar src={user.avatar} width={78} height={78} className="thumbnail-friend__image" />
+            <Avatar src={user.avatar} width={78} height={78} className="thumbnail-friend__image" dataTestId='thumbnail-friend-avatar' />
           </div>
           <div className="thumbnail-friend__header">
-            <h2 className="thumbnail-friend__name">{user.name}</h2>
+            <h2 className="thumbnail-friend__name" data-testid='thumbnail-friend-name'>{user.name}</h2>
             <div className="thumbnail-friend__location">
               <svg width="14" height="16" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#icon-location" />
               </svg>
-              <address className="thumbnail-friend__location-address">{location.title}</address>
+              <address className="thumbnail-friend__location-address" data-testid='thumbnail-friend-location'>{location.title}</address>
             </div>
           </div>
           <ul className="thumbnail-friend__training-types-list">
             {user.trainingType?.map((type) => (
               <li key={type}>
-                <Hashtag title={type} className="thumbnail-friend__hashtag" />
+                <Hashtag title={type} className="thumbnail-friend__hashtag" dataTestId='thumbnail-friend-hashtag' />
               </li>
             ))}
           </ul>
@@ -98,7 +94,7 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
         </div>
 
         {invite && (
-          <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user">
+          <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" data-testid='thumbnail-friend-control'>
             <p className="thumbnail-friend__request-text">Запрос на&nbsp;персональную тренировку</p>
             <div className="thumbnail-friend__button-wrapper">
               <Button text="Принять" className="thumbnail-friend__button" onClick={handleAccept} darckBg medium />

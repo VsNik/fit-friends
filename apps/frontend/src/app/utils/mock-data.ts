@@ -166,14 +166,14 @@ export const makeFakeTrainingCollection = (length = 2): ITrainingCollection => (
   total: 0,
 });
 
-export const makeFakeUser = (): IUser => ({
+export const makeFakeUser = (role?: Role): IUser => ({
   id: faker.string.uuid(),
   name: faker.internet.userName(),
   email: faker.internet.email(),
   avatar: faker.internet.avatar(),
   gender: faker.helpers.enumValue(Gender),
   birthDay: faker.date.anytime().toISOString(),
-  role: faker.helpers.enumValue(Role),
+  role: role ?? faker.helpers.enumValue(Role),
   bio: faker.lorem.words(),
   location: faker.helpers.enumValue(Location),
   bgImage: [],

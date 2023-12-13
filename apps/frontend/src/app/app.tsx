@@ -19,14 +19,14 @@ import { Loader } from './components/loader/loader';
 import { PurchasesPage } from './pages/purchases/purchases-page';
 import { OrdersPage } from './pages/orders/orders-page';
 import { MyTrainingsPage } from './pages/my-trainings/my-trainings-page';
-import { AddTraining } from './pages/add-training/add-training-page';
+import { AddTrainingPage } from './pages/add-training/add-training-page';
 import { fetchNotificationAction } from './store/notifications/async-actions';
 import { AnonimousRoute } from './components/routes/anonimous-route/anonimous-route';
-import * as authSelector from './store/auth/auth-select';
 import { LoadStatus } from './constants/common';
 import { QuestionPage } from './pages/question/question-page';
-import { Account } from './pages/account/account';
+import { AccountPage } from './pages/account/account-page';
 import { getAccessToken } from './services/token';
+import * as authSelector from './store/auth/auth-select';
 
 export function App() {
   const dispatch = useAppDispatch()
@@ -69,11 +69,11 @@ export function App() {
       <Route element={<ProtectedRoute accessRole={Role.Coach} />}>
         <Route path={RouteName.Orders} element={<OrdersPage />} />
         <Route path={RouteName.MyTrainings} element={<MyTrainingsPage />} />
-        <Route path={RouteName.AddTraining} element={<AddTraining />} />
+        <Route path={RouteName.AddTraining} element={<AddTrainingPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path={RouteName.Account} element={<Account />} />
+        <Route path={RouteName.Account} element={<AccountPage />} />
         <Route path={RouteName.TrainingCard} element={<TrainingCardPage />} />
         <Route path={RouteName.UserCard} element={<UserPage />} />
         <Route path={RouteName.Friends} element={<FriendsPage />} />

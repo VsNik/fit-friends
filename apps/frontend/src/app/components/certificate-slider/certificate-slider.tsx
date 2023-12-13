@@ -34,7 +34,7 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
   const { handlePrev, handleNext, isFirstSlide, isLastSlide, handleChangeSlide } = useSliderControl(sliderRef, certificates, CountSlide.Certificate);
 
   return (
-    <div className="personal-account-coach__additional-info">
+    <div className="personal-account-coach__additional-info" data-testid='coach-certificate-block'>
       <div className="personal-account-coach__label-wrapper">
         <h2 className="personal-account-coach__label">Дипломы и сертификаты</h2>
 

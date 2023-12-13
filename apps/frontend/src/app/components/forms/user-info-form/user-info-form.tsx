@@ -88,7 +88,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
     const fileAvatar = avatar?.[0];
     const formData = new FormData();
     formData.append('name', data.name);
-    formData.append('bio', data.bio);
+    formData.append('bio', data.bio ?? '');
     formData.append('trainingType', data.trainingType.join(','));
     formData.append('location', data.location);
     formData.append('gender', data.gender);
@@ -110,14 +110,14 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
     <FormProvider {...methods}>
       <form className={clsx(isEditable ? 'user-info-edit__form' : 'user-info__form')} onSubmit={handleSubmit(onSubmit)}>
         {isEditable || Object.keys(errors).length !== 0 || isLoading ? (
-          <button className="btn-flat btn-flat--underlined user-info-edit__save-button" type="submit" aria-label="Сохранить" disabled={isLoading}>
+          <button className="btn-flat btn-flat--underlined user-info-edit__save-button" data-testid='user-edit-btn' type="submit" aria-label="Сохранить" disabled={isLoading}>
             <svg width="12" height="12" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-edit" />
             </svg>
             <span>Сохранить</span>
           </button>
         ) : (
-          <span className="btn-flat btn-flat--underlined user-info__edit-button" aria-label="Редактировать" onClick={toggleEditMode}>
+          <span className="btn-flat btn-flat--underlined user-info__edit-button" data-testid='set-edit-btn' aria-label="Редактировать" onClick={toggleEditMode}>
             <svg width="12" height="12" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-edit" />
             </svg>
@@ -127,8 +127,8 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
 
         <div className="user-info-edit__section">
           <h2 className="user-info-edit__title">Обо мне</h2>
-          <Input name="name" className="user-info-edit__input" disabled={!isEditable} />
-          <Textarea label="Описание" name="bio" className="user-info-edit__textarea" disabled={!isEditable} />
+          <Input name="name" className="user-info-edit__input" dataTestId='input-name-element' disabled={!isEditable} />
+          <Textarea label="Описание" name="bio" className="user-info-edit__textarea" dataTestId='textarea-desc-element' disabled={!isEditable} />
         </div>
 
         <div className="user-info-edit__section user-info-edit__section--status">
@@ -138,12 +138,13 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
             label={`${user?.role === Role.User ? 'Готов к тренировке' : 'Готов тренировать'}`}
             className="user-info-edit__toggle"
             disabled={!isEditable}
+            dataTestId='toggler-ready-checkbox'
           />
         </div>
 
         <div className="user-info-edit__section">
           <h2 className="user-info-edit__title user-info-edit__title--specialization">Специализация</h2>
-          <SpecializationGroup className="user-info-edit__specialization" disabled={!isEditable} />
+          <SpecializationGroup className="user-info-edit__specialization" dataTestId='btn-checkbox-element' disabled={!isEditable} />
         </div>
 
         <Select
@@ -154,6 +155,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
           setSelected={setLocation}
           className="user-info-edit__select"
           disabled={!isEditable}
+          dataTestId='select-element'
         />
 
         <Select
@@ -164,6 +166,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
           setSelected={setGender}
           className="user-info-edit__select"
           disabled={!isEditable}
+          dataTestId='select-element'
         />
 
         <Select
@@ -174,6 +177,7 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
           setSelected={setLevel}
           className="user-info-edit__select"
           disabled={!isEditable}
+          dataTestId='select-element'
         />
       </form>
     </FormProvider>

@@ -24,17 +24,17 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const handleClickDelete = () => {
     resetImage();
     setAvatar(null);
-    inputRef.current!.value = '';  
+    inputRef.current!.value = '';
   };
 
   return (
-    <section className={clsx(isEditable ? 'user-info-edit' : 'user-info')}>
+    <section className={clsx(isEditable ? 'user-info-edit' : 'user-info')} data-testid="user-info-bar">
       <div className="user-info-edit__header">
         <UserInfoAvatar user={user} setAvatar={setAvatar} preview={previewImage} inputRef={inputRef} disabled={!isEditable} />
-        {avatarError && <i className='custom-textarea__error'>{avatarError}</i>}
+        {avatarError && <i className="custom-textarea__error">{avatarError}</i>}
 
         {isEditable && (
-          <div className="user-info-edit__controls">
+          <div className="user-info-edit__controls" data-testid='user-edit-controls'>
             <button className="user-info-edit__control-btn" aria-label="обновить" onClick={handleClickUpdate}>
               <svg width="16" height="16" aria-hidden="true">
                 <use xlinkHref="/assets/img/sprite.svg#icon-change" />
@@ -47,7 +47,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
             </button>
           </div>
         )}
-      </div>      
+      </div>
 
       <UserInfoForm user={user} isEditable={isEditable} setEditable={setIsEditable} avatar={avatar} setAvatarError={setAvatarError} />
     </section>

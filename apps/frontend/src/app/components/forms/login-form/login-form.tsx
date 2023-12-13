@@ -36,13 +36,13 @@ export const LoginForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid='login-form'>
         {isLoading && <Loader />}
         <div className="sign-in">
           {formError && <i className='form-message-error'>{formError}</i>}
-          <Input className="sign-in__input" label="E-mail" name="email" />
-          <Input className="sign-in__input" label="Пароль" name="password" type="password" />
-          <Button text="Продолжить" className="sign-in__button" type="submit" disabled={isLoading} />
+          <Input className="sign-in__input" label="E-mail" name="email" dataTestId='input-email-element' />
+          <Input className="sign-in__input" label="Пароль" name="password" type="password" dataTestId='input-password-element' />
+          <Button text="Продолжить" className="sign-in__button" type="submit" disabled={isLoading} dataTestId='button-submit-element' />
         </div>
       </form>
     </FormProvider>

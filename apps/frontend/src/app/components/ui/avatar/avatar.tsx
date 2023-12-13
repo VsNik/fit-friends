@@ -6,14 +6,15 @@ interface AvatarProps {
     width: number;
     height: number;
     className?: string;
+    dataTestId?: string;
 }
 
 export const Avatar: React.FC<AvatarProps> = (props) => {
-    const {src, width, height, className} = props;
+    const {src, width, height, className, dataTestId} = props;
 
     const avatar = src || '/assets/img/default_avatar.png';
 
     return (
-        <Image src={avatar} width={width} height={height} className={className} />
+        <Image src={avatar} width={width} height={height} className={className} dataTestid={dataTestId} />
     )
 }

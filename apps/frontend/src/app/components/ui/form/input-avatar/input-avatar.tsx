@@ -5,9 +5,10 @@ interface InputAvatarProps {
   name: string;
   accept: string;
   previewImage?: string;
+  dataTestId?: string;
 }
 
-export const InputAvatar: React.FC<InputAvatarProps> = ({name, accept, previewImage}) => {
+export const InputAvatar: React.FC<InputAvatarProps> = ({name, accept, previewImage, dataTestId}) => {
   const {register, formState: {errors}} = useFormContext();  
 
   return (
@@ -19,6 +20,7 @@ export const InputAvatar: React.FC<InputAvatarProps> = ({name, accept, previewIm
           className="visually-hidden"
           type="file"
           accept={accept}
+          data-testid={dataTestId}
         />
         <span className="input-load-avatar__btn">
           {previewImage ? (

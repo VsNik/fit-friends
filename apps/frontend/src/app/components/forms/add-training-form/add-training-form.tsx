@@ -19,7 +19,7 @@ import * as trainingSelector from '../../../store/training/training-select';
 
 export const AddTrainingForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const trainingErrors = useAppSelector(trainingSelector.error)
+  const trainingErrors = useAppSelector(trainingSelector.error);
   const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState('');
   const [duration, setDuration] = useState('');
@@ -31,14 +31,14 @@ export const AddTrainingForm: React.FC = () => {
   });
 
   const { handleSubmit, reset, setError } = methods;
-  const {formError} = useServerFormError<AddTrainingType>(setError, trainingErrors);
+  const { formError } = useServerFormError<AddTrainingType>(setError, trainingErrors);
 
   const resetForm = () => {
     setType('');
     setDuration('');
     setLevel('');
     reset();
-  }
+  };
 
   const onSubmit = (data: AddTrainingType) => {
     setIsLoading(true);
@@ -67,20 +67,34 @@ export const AddTrainingForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid='add-training-form'>
         {isLoading && <Loader />}
         <div className="create-training">
-          {formError && <i className='form-message-error'>{formError}</i>}
+          {formError && <i className="form-message-error">{formError}</i>}
           <div className="create-training__wrapper">
             <div className="create-training__block">
               <h2 className="create-training__legend">Название тренировки</h2>
-              <Input name="title" className="create-training__input" />
+              <Input name="title" className="create-training__input" dataTestId="input-title-element" />
             </div>
             <div className="create-training__block">
               <h2 className="create-training__legend">Характеристики тренировки</h2>
               <div className="create-training__info">
-                <Select name="type" options={trainingsList} label="Выберите тип тренировки" selected={type} setSelected={setType}/>
-                <Input name="calories" className="custom-input--with-text-right" text="ккал" label="Сколько калорий потратим" type="number"/>
+                <Select
+                  name="type"
+                  options={trainingsList}
+                  label="Выберите тип тренировки"
+                  selected={type}
+                  setSelected={setType}
+                  dataTestId="select-type-element"
+                />
+                <Input
+                  name="calories"
+                  className="custom-input--with-text-right"
+                  text="ккал"
+                  label="Сколько калорий потратим"
+                  type="number"
+                  dataTestId="input-calory-element"
+                />
                 <Select
                   name="duration"
                   options={durationsList}
@@ -88,17 +102,32 @@ export const AddTrainingForm: React.FC = () => {
                   selected={duration}
                   setSelected={setDuration}
                   disabled={isLoading}
+                  dataTestId="select-duration-element"
                 />
-                <Input name="price" className="custom-input--with-text-right" text="₽" label="Стоимость тренировки" type="number"/>
-                <Select name="level" options={levelsList} label="Выберите уровень тренировки" selected={level} setSelected={setLevel}/>
+                <Input
+                  name="price"
+                  className="custom-input--with-text-right"
+                  text="₽"
+                  label="Стоимость тренировки"
+                  type="number"
+                  dataTestId="input-price-element"
+                />
+                <Select
+                  name="level"
+                  options={levelsList}
+                  label="Выберите уровень тренировки"
+                  selected={level}
+                  setSelected={setLevel}
+                  dataTestId="select-level-element"
+                />
 
                 <div className="create-training__radio-wrapper">
                   <span className="create-training__label">Кому подойдет тренировка</span>
                   <br />
                   <div className="custom-toggle-radio create-training__radio">
-                    <InputRadio name="gender" value={Gender.Male} label="Мужской"/>
-                    <InputRadio name="gender" value={Gender.Female} label="Женский"/>
-                    <InputRadio name="gender" value={Gender.AnyGender} label="Неважно"/>
+                    <InputRadio name="gender" value={Gender.Male} dataTestId='radio-gender-male' label="Мужской" />
+                    <InputRadio name="gender" value={Gender.Female} dataTestId='radio-gender-female' label="Женский" />
+                    <InputRadio name="gender" value={Gender.AnyGender} dataTestId='radio-gender-any' label="Неважно" />
                   </div>
                 </div>
               </div>
@@ -106,16 +135,16 @@ export const AddTrainingForm: React.FC = () => {
 
             <div className="create-training__block">
               <h2 className="create-training__legend">Описание тренировки</h2>
-              <Textarea name="description"/>
+              <Textarea name="description" dataTestId='textarea-desc-element' />
             </div>
 
             <div className="create-training__block">
               <h2 className="create-training__legend">Загрузите видео-тренировку</h2>
-              <InputFile name="video" accept=".mov, .avi, .mp4"/>
+              <InputFile name="video" accept=".mov, .avi, .mp4" dataTestId='input-video-element' />
             </div>
           </div>
 
-          <Button text="Опубликовать" className="create-training__button" type="submit" disabled={isLoading} />
+          <Button text="Опубликовать" className="create-training__button" type="submit" disabled={isLoading} dataTestId='button-submit-element' />
         </div>
       </form>
     </FormProvider>

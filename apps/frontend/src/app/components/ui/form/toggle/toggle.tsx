@@ -10,10 +10,11 @@ interface ToggleProps {
   checked?: boolean;
   value?: string;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
+  dataTestId?: string;
 }
 
 export const Toggle: React.FC<ToggleProps> = (props) => {
-  const { name, label, className, disabled, checked, value, onChange } = props;
+  const { name, label, className, disabled, checked, value, onChange, dataTestId } = props;
   const methods = useFormContext()
 
   const options = {
@@ -22,7 +23,8 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
     disabled,
     checked,
     value,
-    onChange
+    onChange,
+    'data-testid': dataTestId
   }
 
   return (

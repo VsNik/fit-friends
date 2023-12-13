@@ -11,9 +11,11 @@ interface ButtonProps {
   darckBg?: boolean;
   disabled?: boolean;
   type?: "button" | "submit";
+  dataTestId?: string
 }
 
-export const Button: React.FC<ButtonProps> = ({ text, onClick, className, medium, small, outlined, type, darckBg, disabled }) => {
+export const Button: React.FC<ButtonProps> = (props) => {
+  const { text, onClick, className, medium, small, outlined, type, darckBg, disabled, dataTestId } = props;
   return (
     <button
       className={clsx('btn', className, {
@@ -25,6 +27,7 @@ export const Button: React.FC<ButtonProps> = ({ text, onClick, className, medium
       onClick={onClick}
       type={type}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       {text}
     </button>

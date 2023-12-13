@@ -5,9 +5,10 @@ import { Role } from '@fit-friends/shared';
 interface RoleBtnRadioProps {
   role: Role;
   isChecked?: boolean;
+  dataTestId?: string;
 }
 
-export const RoleBtnRadio: React.FC<RoleBtnRadioProps> = ({ role, isChecked }) => {
+export const RoleBtnRadio: React.FC<RoleBtnRadioProps> = ({ role, isChecked, dataTestId }) => {
   const {register} = useFormContext();
 
   return (
@@ -20,6 +21,7 @@ export const RoleBtnRadio: React.FC<RoleBtnRadioProps> = ({ role, isChecked }) =
           name="role"
           value={role}
           defaultChecked={isChecked}
+          data-testid={dataTestId}
         />
         <span className="role-btn__icon">
           <svg width="12" height="13" aria-hidden="true">

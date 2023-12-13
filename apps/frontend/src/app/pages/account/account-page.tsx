@@ -11,7 +11,7 @@ import { UserNavigation } from '../../components/accounts/user-vavigation/user-v
 import { CoachNavigation } from '../../components/accounts/coach-navigation/coach-navigation';
 import { CertificateSlider } from '../../components/certificate-slider/certificate-slider';
 
-export const Account: React.FC = () => {
+export const AccountPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const authRole = useAppSelector(authSelectors.authRole);
   const authUser = useAppSelector(userSelectors.user);
@@ -28,12 +28,13 @@ export const Account: React.FC = () => {
             <h1 className="visually-hidden">Личный кабинет</h1>
             <UserInfo user={authUser} />
             <div className="inner-page__content">
-              {authRole === Role.User ? (
+              {authRole === Role.User && (
                 <div className="personal-account-user">
                   <UserCalories calories={authUser.loseCalories!} />
                   <UserNavigation />
                 </div>
-              ) : (
+              )}
+              {authRole === Role.Coach && (
                 <div className="personal-account-coach">
                   <CoachNavigation />
                   <CertificateSlider user={authUser} />

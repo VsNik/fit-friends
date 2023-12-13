@@ -6,9 +6,10 @@ interface BtnCheckboxProps {
   value: string;
   label: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 export const BtnCheckbox: React.FC<BtnCheckboxProps> = (props) => {
-  const { name, value, label, disabled } = props;
+  const { name, value, label, disabled, dataTestId } = props;
   const { register } = useFormContext();
   return (
     <div className="btn-checkbox">
@@ -20,6 +21,7 @@ export const BtnCheckbox: React.FC<BtnCheckboxProps> = (props) => {
           name={name} 
           value={value} 
           disabled={disabled} 
+          data-testid={dataTestId}
         />
         <span className="btn-checkbox__btn">{label}</span>
       </label>

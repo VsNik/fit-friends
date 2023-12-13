@@ -17,6 +17,7 @@ export const ThumbnailInviteButton: React.FC<ThumbnailInviteButtonProps> = ({ us
       type="button"
       onClick={onClick}
       disabled={!user.ready || disabled}
+      data-testid='friend-invite-button'
     >
       <svg width="43" height="46" aria-hidden="true" focusable="false">
         <use xlinkHref="/assets/img/sprite.svg#icon-invite"></use>

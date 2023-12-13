@@ -6,10 +6,11 @@ interface InputFileProps {
   accept?: string;
   disabled?: boolean;
   placeholder?: string;
+  dataTestId?: string;
 }
 
 export const InputFile: React.FC<InputFileProps> = (props) => {
-  const { name, accept, disabled, placeholder } = props
+  const { name, accept, disabled, placeholder, dataTestId } = props
 
   const {
     register,
@@ -34,7 +35,7 @@ export const InputFile: React.FC<InputFileProps> = (props) => {
             <use xlinkHref="/assets/img/sprite.svg#icon-import" />
           </svg>
         </span>
-        <input {...register(name)} type="file" name={name} tabIndex={-1} accept={accept} disabled={disabled}/>
+        <input {...register(name)} type="file" name={name} tabIndex={-1} accept={accept} disabled={disabled} data-testid={dataTestId} />
         {errors[name] && <i className="custom-input__error">{errors[name]?.message as string}</i>}
       </label>
     </div>

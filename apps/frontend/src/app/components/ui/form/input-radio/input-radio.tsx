@@ -9,10 +9,11 @@ interface InputRadioProps {
   isChecked?: boolean;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const InputRadio: React.FC<InputRadioProps> = (props) => {
-  const { label, name, value, checked, isChecked, onChange, disabled } = props;
+  const { label, name, value, checked, isChecked, onChange, disabled, dataTestId } = props;
   const formContext = useFormContext();
 
   const options = {
@@ -23,6 +24,7 @@ export const InputRadio: React.FC<InputRadioProps> = (props) => {
     checked,
     defaultChecked: isChecked,
     disabled,
+    'data-testid': dataTestId
   };
 
   return (

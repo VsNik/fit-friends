@@ -5,7 +5,7 @@ import { ThumbnailBanner } from '../../thumbnails/thumbnail-banner/thumbnail-ban
 
 export const UserNavigation: React.FC = () => {
   return (
-    <div className="personal-account-user__additional-info">
+    <div className="personal-account-user__additional-info" data-testid='user-navigation-block'>
       <ThumbnailLink text="Мои друзья" icon="icon-friends" to={RouteName.Friends} />
       <ThumbnailLink text="Мои покупки" icon="icon-shopping-cart" to={RouteName.Purchases} />
 
