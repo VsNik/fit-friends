@@ -77,6 +77,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = ({ src })
             onClick={() => setIsEdit(true)}
             underline
             disabled={isLoading}
+            dataTestId='update-button-element'            
           />
 
           <ButtonFloat
@@ -86,6 +87,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = ({ src })
             type="submit"
             underline
             disabled={isLoading}
+            dataTestId='save-button-element'
           />
 
           <div className="certificate-card__controls">
@@ -96,7 +98,13 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = ({ src })
               <input {...register('certificate')} className="visually-hidden" type="file" accept=".pdf" />
             </label>
 
-            <ButtonIcon icon="icon-trash" className="certificate-card__control" onClick={onDelete} disabled={isLoading} />
+            <ButtonIcon 
+              icon="icon-trash" 
+              className="certificate-card__control" 
+              onClick={onDelete} 
+              disabled={isLoading} 
+              dataTestId='delete-button' 
+            />
           </div>
         </form>
       </div>

@@ -32,7 +32,6 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
 
   const handleAccept = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
-    console.log('ACCEPTED');
     if (invite) {
       dispatch(changeInviteStatusAction({ invitationId: invite.id!, status: InviteStatus.Accepted }));
     }
@@ -40,7 +39,6 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
 
   const handleReject = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
-    console.log('rejected');
     if (invite) {
       dispatch(changeInviteStatusAction({ invitationId: invite.id!, status: InviteStatus.Rejected }));
     }
@@ -95,7 +93,9 @@ export const ThumbnailFriend: React.FC<ThumbnailFriendProps> = ({ user, invitati
 
         {invite && (
           <div className="thumbnail-friend__request-status thumbnail-friend__request-status--role-user" data-testid='thumbnail-friend-control'>
-            <p className="thumbnail-friend__request-text">Запрос на&nbsp;персональную тренировку</p>
+            <p className="thumbnail-friend__request-text">
+              {authRole === Role.User ? 'Запрос на совместную тренировку' : 'Запрос на персональную тренировку'}
+            </p>
             <div className="thumbnail-friend__button-wrapper">
               <Button text="Принять" className="thumbnail-friend__button" onClick={handleAccept} darckBg medium />
               <Button text="Отклонить" className="thumbnail-friend__button" onClick={handleReject} darckBg outlined medium />

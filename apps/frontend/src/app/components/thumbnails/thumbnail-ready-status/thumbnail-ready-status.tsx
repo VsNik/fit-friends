@@ -12,7 +12,7 @@ export const ThumbnailReadyStatus: React.FC<ThumbnailReadyStatusProps> = ({ user
     </div>
   ) : (
     <div className={`thumbnail-friend__ready-status thumbnail-friend__ready-status--${user.personalTraining ? 'is-ready' : 'is-not-ready'}`}>
-      <span>{user.personalTraining ? 'Готов тренировать' : 'Не отов тренировать'}</span>
+      <span>{user.personalTraining ? 'Готов тренировать' : 'Не готов тренировать'}</span>
     </div>
   );
 };

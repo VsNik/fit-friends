@@ -46,15 +46,15 @@ export const RangeCalory: React.FC<RangeCaloryProps> = (props) => {
     const handleChange = (newValues: number[]) => setCaloryValue(newValues);
 
   return (
-    <div className="gym-catalog-form__block gym-catalog-form__block--calories">
+    <div className="gym-catalog-form__block gym-catalog-form__block--calories" data-testid='calory-range-slider'>
       <h4 className="gym-catalog-form__block-title">Калории</h4>
       <div className="filter-calories">
         <div className="filter-calories__input-text filter-calories__input-text--min">
-          <input type="text" id="text-min-cal" name="text-min-cal" value={caloryValue[0] ?? []} onChange={handleChangeMin} disabled={disabled}/>
+          <input type="text" id="text-min-cal" name="text-min-cal" value={caloryValue[0] ?? []} onChange={handleChangeMin} disabled={disabled} data-testid='input-min-calory'/>
           <label htmlFor="text-min-cal">от</label>
         </div>
         <div className="filter-calories__input-text filter-calories__input-text--max">
-          <input type="text" id="text-max-cal" name="text-max-cal" value={caloryValue[1] ?? []} onChange={handleChangeMax} disabled={disabled} />
+          <input type="text" id="text-max-cal" name="text-max-cal" value={caloryValue[1] ?? []} onChange={handleChangeMax} disabled={disabled} data-testid='input-max-calory' />
           <label htmlFor="text-max-cal">до</label>
         </div>
       </div>

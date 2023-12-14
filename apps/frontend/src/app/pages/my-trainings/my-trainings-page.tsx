@@ -72,7 +72,9 @@ export const MyTrainingsPage: React.FC = () => {
                   ))}
                 </ul>
 
-                {(page < pages) && <ButtonShowMore className='my-trainings__show-more' onClick={handleShowMoreCkick} />}
+                {(page < pages) && 
+                  <ButtonShowMore className='my-trainings__show-more' onClick={handleShowMoreCkick} dataTestId='show-more-button' />
+                }
               </div>
             </div>
           </div>

@@ -60,7 +60,7 @@ export const OrdersPage: React.FC = () => {
             </ul>
 
             {page < pages && 
-              <ButtonShowMore className="my-orders__show-more" onClick={handleLoadMoreClick} />
+              <ButtonShowMore className="my-orders__show-more" onClick={handleLoadMoreClick} dataTestId='show-more-button' />
             }
           </div>
         </div>

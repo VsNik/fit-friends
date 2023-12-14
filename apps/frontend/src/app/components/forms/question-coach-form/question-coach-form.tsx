@@ -52,33 +52,33 @@ export const QuestionCoachForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid='coach-question-form' >
         <div className="questionnaire-coach">
           {formError && <i className='form-message-error'>{formError}</i>}
           <h1 className="visually-hidden">Опросник</h1>
           <div className="questionnaire-coach__wrapper">
             <div className="questionnaire-coach__block">
               <span className="questionnaire-coach__legend">Ваша специализация (тип) тренировок</span>
-              <SpecializationGroup className="questionnaire-coach__specializations" />
+              <SpecializationGroup className="questionnaire-coach__specializations" dataTestId='checkbox-specialization' />
             </div>
 
             <div className="questionnaire-coach__block">
               <span className="questionnaire-coach__legend">Ваш уровень</span>
-              <LevelGroup className="custom-toggle-radio--big questionnaire-coach__radio" />
+              <LevelGroup className="custom-toggle-radio--big questionnaire-coach__radio" dataTestId='radio-level-group'/>
             </div>
 
             <div className="questionnaire-coach__block">
               <span className="questionnaire-coach__legend">Ваши дипломы и сертификаты</span>
-              <InputFile name="certificate" accept=".pdf" placeholder='Загрузите сюда файлы формата PDF' />
+              <InputFile name="certificate" accept=".pdf" placeholder='Загрузите сюда файлы формата PDF' dataTestId='input-certificate-element' />
             </div>
 
             <div className="questionnaire-coach__block">
               <span className="questionnaire-coach__legend">Расскажите о своём опыте, который мы сможем проверить</span>
-              <Textarea name="merits" className="questionnaire-coach__textarea" />
+              <Textarea name="merits" className="questionnaire-coach__textarea" dataTestId='textarea-desc-element' />
 
               <div className="questionnaire-coach__checkbox">
                 <label>
-                  <input {...methods.register('personalTraining')} type="checkbox" />
+                  <input {...methods.register('personalTraining')} type="checkbox" data-testid='checkbox-ready-element'/>
                   <span className="questionnaire-coach__checkbox-icon">
                     <svg width="9" height="6" aria-hidden="true">
                       <use xlinkHref="/assets/img/sprite.svg#arrow-check" />
@@ -90,7 +90,7 @@ export const QuestionCoachForm: React.FC = () => {
             </div>
           </div>
 
-          <Button text='Продолжить' className='questionnaire-coach__button' type="submit" disabled={isLoading} />
+          <Button text='Продолжить' className='questionnaire-coach__button' dataTestId='button-submit-element' type="submit" disabled={isLoading} />
         </div>
       </form>
     </FormProvider>

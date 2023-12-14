@@ -9,10 +9,11 @@ interface CheckTypesProps {
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const CheckTypes: React.FC<CheckTypesProps> = (props) => {
-  const { name, types, onChange, className, disabled } = props;
+  const { name, types, onChange, className, disabled, dataTestId } = props;
   const hasTrainingType = (trainingType: TrainingType) => types?.includes(trainingType);
 
   return (
@@ -26,6 +27,7 @@ export const CheckTypes: React.FC<CheckTypesProps> = (props) => {
           onChange={onChange} 
           checked={hasTrainingType(type)} 
           disabled={disabled} 
+          dataTestId={dataTestId}
         />
       </li>
     ))}

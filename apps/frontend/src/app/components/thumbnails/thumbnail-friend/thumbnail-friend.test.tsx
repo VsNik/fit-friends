@@ -110,7 +110,7 @@ describe('Component: ThumbnailFriend', () => {
 
     render(<MockThumbnailFriend store={store} user={coachReady} authRole={Role.User} />);
 
-    expect(screen.getByText('Не отов тренировать')).toBeInTheDocument();
+    expect(screen.getByText('Не готов тренировать')).toBeInTheDocument();
     expect(screen.getByTestId('thumbnail-friend-wrapper')).toHaveClass('thumbnail-friend__info--theme-dark')
   })
 
@@ -130,7 +130,7 @@ describe('Component: ThumbnailFriend', () => {
     expect(screen.getByTestId('thumbnail-friend-avatar')).toHaveAttribute('src', DEFAULT_AVATAR);
   })
 
-  it('Show invite control, if invite to training', () => {
+  it('Show invite control, if invite to training, role user', () => {
     const fakeUser = makeFakeUser(Role.User);
     const mockInvite = makeFakeInvitation;
     const fakeInvite = {...mockInvite, initiatorId: fakeUser.id, toUserId: MockData.Id, status: InviteStatus.Waiting}
@@ -145,5 +145,29 @@ describe('Component: ThumbnailFriend', () => {
     render(<MockThumbnailFriend store={store} user={fakeUser} authRole={Role.User} invitations={[fakeInvite]} />);
 
     expect(screen.getByTestId('thumbnail-friend-control')).toBeInTheDocument();
+    expect(screen.getByText('Запрос на совместную тренировку')).toBeInTheDocument();
+
+    expect(screen.getByText('Принять')).toBeInTheDocument();
+    expect(screen.getByText('Отклонить')).toBeInTheDocument();
+  })
+
+  it('Show invite control, if invite to training, role coach', () => {
+    const fakeUser = makeFakeUser(Role.Coach);
+    const mockInvite = makeFakeInvitation;
+    const fakeInvite = {...mockInvite, initiatorId: fakeUser.id, toUserId: MockData.Id, status: InviteStatus.Waiting}
+
+    const store = mockStore({
+      [SliceName.Auth]: { authRole: Role.Coach, authId: MockData.Id },
+      [SliceName.User]: { user: fakeUser },
+      [SliceName.Notifications]: {},
+      [SliceName.Invites]: {invitations: [fakeInvite]}
+    });
+
+    render(<MockThumbnailFriend store={store} user={fakeUser} authRole={Role.Coach} invitations={[fakeInvite]} />);
+
+    expect(screen.getByTestId('thumbnail-friend-control')).toBeInTheDocument();
+    expect(screen.getByText('Запрос на персональную тренировку')).toBeInTheDocument();
+    expect(screen.getByText('Принять')).toBeInTheDocument();
+    expect(screen.getByText('Отклонить')).toBeInTheDocument();
   })
 });

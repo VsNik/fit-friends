@@ -37,7 +37,7 @@ export const SpecialSlider: React.FC = () => {
             >
               {trainings.map((training) => (
                 <SwiperSlide key={training.id}>
-                  <ThumbnailSpecial title={training.title} src={training.bgImage} price={training.price} />
+                  <ThumbnailSpecial training={training} />
                 </SwiperSlide>
               ))}
 

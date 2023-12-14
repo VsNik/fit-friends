@@ -114,6 +114,7 @@
     "nx": "17.1.1",
     "prettier": "^2.6.2",
     "react-refresh": "^0.10.0",
+    "resize-observer-polyfill": "^1.5.1",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "tsconfig-paths": "^4.2.0",

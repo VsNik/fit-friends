@@ -12,10 +12,11 @@ interface ButtonFloatProps {
   type?: "button" | "submit";
   form?: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
-  const {text, icon, onClick, className, type = 'button', light, underline, iconLeft, form, disabled } = props;
+  const {text, icon, onClick, className, type = 'button', light, underline, iconLeft, form, disabled, dataTestId } = props;
 
   return (
     <button
@@ -27,6 +28,7 @@ export const ButtonFloat: React.FC<ButtonFloatProps> = (props) => {
       form={form}
       onClick={onClick}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       {iconLeft && <span>{text}</span>}
       <svg width="12" height="12" aria-hidden="true">

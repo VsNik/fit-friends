@@ -10,10 +10,11 @@ interface RangeSliderProps {
   max?: number;
   step?: number;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const RangeSlider: React.FC<RangeSliderProps> = (props) => {
-  const { value, onChange, onChanged, min, max, step, disabled } = props;
+  const { value, onChange, onChanged, min, max, step, disabled, dataTestId } = props;
 
   return (
     <ReactSlider
@@ -27,6 +28,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = (props) => {
       max={max}
       step={step}
       disabled={disabled}
+      data-testid={dataTestId}
     />
   );
 };

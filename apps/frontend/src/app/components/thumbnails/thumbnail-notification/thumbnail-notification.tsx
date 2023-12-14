@@ -16,8 +16,8 @@ export const ThumbnailNotification: React.FC<ThumbnailNotificationProps> = ({not
 
   return (
     <span className="notification is-active" onClick={handleRemoveNotify}>
-      <p className="notification__text">{notification.text}</p>
-      <time className="notification__time" dateTime="2023-12-23 12:35">
+      <p className="notification__text" data-testid='totification-text'>{notification.text}</p>
+      <time className="notification__time" dateTime="2023-12-23 12:35" data-testid='notification-date'>
         {notification.createdAt}
       </time>
     </span>

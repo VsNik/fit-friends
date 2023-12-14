@@ -8,10 +8,11 @@ interface CheckDurationProps {
   durations: TrainingDuration[];
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
-  const { name, durations, onChange, disabled } = props;
+  const { name, durations, onChange, disabled, dataTestId } = props;
   const hasDuration = (duration: TrainingDuration) => durations.includes(duration);
 
   return (
@@ -24,6 +25,7 @@ export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
           onChange={onChange}
           checked={hasDuration(TrainingDuration.Low)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="my-training-form__check-list-item">
@@ -34,6 +36,7 @@ export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
           onChange={onChange}
           checked={hasDuration(TrainingDuration.Normal)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="my-training-form__check-list-item">
@@ -44,6 +47,7 @@ export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
           onChange={onChange}
           checked={hasDuration(TrainingDuration.Hi)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="my-training-form__check-list-item">
@@ -54,6 +58,7 @@ export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
           onChange={onChange}
           checked={hasDuration(TrainingDuration.Extra)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
     </ul>

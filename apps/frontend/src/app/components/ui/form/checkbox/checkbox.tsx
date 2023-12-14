@@ -10,10 +10,11 @@ interface CheckboxProps {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = (props) => {
-  const { name, value, label, onChange, className, checked, defaultChecked, disabled } = props;
+  const { name, value, label, onChange, className, checked, defaultChecked, disabled, dataTestId } = props;
 
   return (
     <div className={clsx('custom-toggle', 'custom-toggle--checkbox', className)}>
@@ -25,7 +26,8 @@ export const Checkbox: React.FC<CheckboxProps> = (props) => {
             onChange={onChange} 
             checked={checked} 
             defaultChecked={defaultChecked} 
-            disabled={disabled} 
+            disabled={disabled}
+            data-testid={dataTestId}
         />
         <span className="custom-toggle__icon">
           <svg width="9" height="6" aria-hidden="true">

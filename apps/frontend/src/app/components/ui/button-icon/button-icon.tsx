@@ -10,10 +10,11 @@ interface ButtonIconProps {
   className?: string;
   outline?: boolean;
   big?: boolean;
+  dataTestId?: string;
 }
 
 export const ButtonIcon: React.FC<ButtonIconProps> = (props) => {
-  const { icon, width, height, onClick, disabled, className, outline, big } = props;
+  const { icon, width, height, onClick, disabled, className, outline, big, dataTestId } = props;
 
   return (
     <button
@@ -25,6 +26,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = (props) => {
       aria-label="previous"
       onClick={onClick}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       <svg width={width ?? 16} height={height ?? 14} aria-hidden="true">
         <use xlinkHref={`/assets/img/sprite.svg#${icon}`} />

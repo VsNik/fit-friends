@@ -50,7 +50,7 @@ export const QuestionUserForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid='user-question-form'>
         {isLoading && <Loader />}
         <div className="questionnaire-user">
           {formError && <i className='form-message-error'>{formError}</i>}
@@ -58,17 +58,17 @@ export const QuestionUserForm: React.FC = () => {
           <div className="questionnaire-user__wrapper">
             <div className="questionnaire-user__block">
               <span className="questionnaire-user__legend">Ваша специализация (тип) тренировок</span>
-              <SpecializationGroup className="questionnaire-user__specializations" />
+              <SpecializationGroup className="questionnaire-user__specializations" dataTestId='checkbox-specialization' />
             </div>
 
             <div className="questionnaire-user__block">
               <span className="questionnaire-user__legend">Сколько времени вы готовы уделять на тренировку в день</span>
-              <DurationGroup className="custom-toggle-radio--big questionnaire-user__radio" />
+              <DurationGroup className="custom-toggle-radio--big questionnaire-user__radio" dataTestId='radio-duration-group' />
             </div>
 
             <div className="questionnaire-user__block">
               <span className="questionnaire-user__legend">Ваш уровень</span>
-              <LevelGroup className="custom-toggle-radio--big questionnaire-user__radio" />
+              <LevelGroup className="custom-toggle-radio--big questionnaire-user__radio" dataTestId='radio-level-group' />
             </div>
 
             <div className="questionnaire-user__block">
@@ -80,6 +80,7 @@ export const QuestionUserForm: React.FC = () => {
                   className="custom-input--with-text-right questionnaire-user__input"
                   text="ккал"
                   isErrorMessage={false}
+                  dataTestId='input-lose-calory'
                 />
                 {errors['loseCalories'] && (
                   <i className="custom-input__error" style={{ bottom: '-5px' }}>
@@ -95,6 +96,7 @@ export const QuestionUserForm: React.FC = () => {
                   className="custom-input--with-text-right questionnaire-user__input"
                   text="ккал"
                   isErrorMessage={false}
+                  dataTestId='input-burn-calory'
                 />
                 {errors['burnCalories'] && (
                   <i className="custom-input__error" style={{ bottom: '-5px' }}>
@@ -105,7 +107,7 @@ export const QuestionUserForm: React.FC = () => {
             </div>
           </div>
 
-          <Button text='Продолжить' className='questionnaire-user__button'  type="submit" disabled={isLoading} />
+          <Button text='Продолжить' className='questionnaire-user__button' dataTestId='button-submit-element' type="submit" disabled={isLoading} />
         </div>
       </form>
     </FormProvider>

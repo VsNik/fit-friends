@@ -49,15 +49,15 @@ export const RangePrice: React.FC<PangePriceProps> = (props) => {
   }
 
   return (
-    <div className="gym-catalog-form__block gym-catalog-form__block--price">
+    <div className="gym-catalog-form__block gym-catalog-form__block--price" data-testid='price-range-slider'>
       <h4 className="gym-catalog-form__block-title">Цена, ₽</h4>
       <div className="filter-price">
         <div className="filter-price__input-text filter-price__input-text--min">
-          <input type="text" id="text-min" name="text-min" value={priceValue[0] ?? []} onChange={handleChangeMin}  disabled={disabled} />
+          <input type="text" id="text-min" name="text-min" value={priceValue[0] ?? []} onChange={handleChangeMin} disabled={disabled} data-testid='input-min-element' />
           <label htmlFor="text-min">от</label>
         </div>
         <div className="filter-price__input-text filter-price__input-text--max">
-          <input type="text" id="text-max" name="text-max" value={priceValue[1] ?? []} onChange={handleChangeMax}  disabled={disabled} />
+          <input type="text" id="text-max" name="text-max" value={priceValue[1] ?? []} onChange={handleChangeMax} disabled={disabled} data-testid='input-max-element'  />
           <label htmlFor="text-max">до</label>
         </div>
       </div>
@@ -70,6 +70,7 @@ export const RangePrice: React.FC<PangePriceProps> = (props) => {
         max={PriceRange.Max} 
         step={PriceRange.Step}
         disabled={disabled}
+        dataTestId='gange-slider'
       />
     </div>
   );

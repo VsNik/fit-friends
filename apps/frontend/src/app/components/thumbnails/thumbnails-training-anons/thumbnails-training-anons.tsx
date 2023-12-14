@@ -14,10 +14,10 @@ export const ThumbnailTrainingAnons: React.FC<ThumbnailTrainingAnonsProps> = (pr
   return (
     <div className="special-for-you__item">
       <div className="thumbnail-preview">
-        <Image src={training.bgImage} width={452} height={191} className="thumbnail-preview__image" />
+        <Image src={training.bgImage} width={452} height={191} className="thumbnail-preview__image" dataTestid='training-bg' />
         
         <div className="thumbnail-preview__inner">
-          <h3 className="thumbnail-preview__title">{training.type}</h3>
+          <h3 className="thumbnail-preview__title" data-testid='training-type'>{training.type}</h3>
           <div className="thumbnail-preview__button-wrapper">
             <ButtonLink text="Подробнее" to={getTrainingRoute(training.id)} className="thumbnail-preview__button" small />
           </div>

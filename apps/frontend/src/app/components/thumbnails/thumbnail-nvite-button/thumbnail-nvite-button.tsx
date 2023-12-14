@@ -12,7 +12,7 @@ export const ThumbnailInviteButton: React.FC<ThumbnailInviteButtonProps> = ({ us
   return (
     <button
       className={clsx('thumbnail-friend__invite-button', {
-        'is-disabled': !user.ready,
+        'is-disabled': !user.ready || disabled,
       })}
       type="button"
       onClick={onClick}

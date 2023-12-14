@@ -11,16 +11,16 @@ export const ThumbnailReview: React.FC<ThumbnailReviewProps> = ({ review }) => {
     <li className="reviews-side-bar__item">
       <div className="review">
         <div className="review__user-info">
-          <Avatar src={review.user.avatar} width={64} height={64} className='review__user-photo' />
-          <span className="review__user-name">{review.user.name}</span>
+          <Avatar src={review.user.avatar} width={64} height={64} className='review__user-photo' dataTestId='review-author-avatar' />
+          <span className="review__user-name" data-testid='review-author-name'>{review.user.name}</span>
           <div className="review__rating">
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#icon-star" />
             </svg>
-            <span>{review.rating}</span>
+            <span data-testid='review-rating'>{review.rating}</span>
           </div>
         </div>
-        <p className="review__comment">{review.text}</p>
+        <p className="review__comment" data-testid='review-text'>{review.text}</p>
       </div>
     </li>
   );

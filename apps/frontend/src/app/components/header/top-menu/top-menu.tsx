@@ -20,22 +20,22 @@ export const TopMenu: React.FC = () => {
   }
 
   return (
-    <nav className="main-nav">
+    <nav className="main-nav" data-testid='top-menu-component'>
       <ul className="main-nav__list">
         <li className="main-nav__item">
-          <TopMenuLink icon="icon-home" to={RouteName.Home} isActive={matchPath(RouteName.Home)} title="На главную" />
+          <TopMenuLink icon="icon-home" to={RouteName.Home} isActive={matchPath(RouteName.Home)} title="На главную" dataTestId='top-menu-link' />
         </li>
         <li className="main-nav__item">
-          <TopMenuLink icon="icon-user" to={RouteName.Account} isActive={matchPath(RouteName.Account)} title="Личный кабинет" />
+          <TopMenuLink icon="icon-user" to={RouteName.Account} isActive={matchPath(RouteName.Account)} title="Личный кабинет" dataTestId='top-menu-link' />
         </li>
         <li className="main-nav__item">
-          <TopMenuLink icon="icon-friends" to={RouteName.Friends} isActive={matchPath(RouteName.Friends)} title="Друзья" />
+          <TopMenuLink icon="icon-friends" to={RouteName.Friends} isActive={matchPath(RouteName.Friends)} title="Друзья" dataTestId='top-menu-link' />
         </li>
         <li className="main-nav__item main-nav__item--notifications">
           <Notifications />
         </li>
         <li className="main-nav__item">
-          <TopMenuLink icon="arrow-right" to='#' title="Выход" onClick={handleLogout} />
+          <TopMenuLink icon="arrow-right" to='#' title="Выход" onClick={handleLogout} dataTestId='logout-link' />
         </li>
       </ul>
     </nav>

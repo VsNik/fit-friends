@@ -27,7 +27,7 @@ export const Purchases: React.FC<PurchasesProps> = ({showButton, onShowMore, fil
   const trainings = balances.map((balance) => balance.training);
 
   return (
-    <div className="my-purchases__wrapper">
+    <div className="my-purchases__wrapper" data-testid='purchases-component'>
       {isLoading && <Loader />}
       
       <ButtonFloat text="Назад" icon="arrow-left" className="my-purchases__back" onClick={() => navigation(RouteName.Home)} />
@@ -42,6 +42,7 @@ export const Purchases: React.FC<PurchasesProps> = ({showButton, onShowMore, fil
             value={BalanceFiter.Active}
             checked={filter === BalanceFiter.Active}
             onChange={onSetFilter}
+            dataTestId='swich-active'
           />
         </div>
       </div>
@@ -55,7 +56,7 @@ export const Purchases: React.FC<PurchasesProps> = ({showButton, onShowMore, fil
       </ul>
 
       {showButton &&
-        <ButtonShowMore className="my-purchases__show-more" onClick={onShowMore} />
+        <ButtonShowMore className="my-purchases__show-more" onClick={onShowMore} dataTestId='show-more-button' />
       }      
     </div>
   );

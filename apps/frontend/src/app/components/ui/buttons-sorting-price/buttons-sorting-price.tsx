@@ -5,10 +5,11 @@ interface ButtonsSortingPriceProps {
   sorting: TrainingSortDirection;
   onChecked: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) => {
-  const { sorting, disabled, onChecked } = props;
+  const { sorting, disabled, onChecked, dataTestId } = props;
   return (
     <div className="btn-radio-sort gym-catalog-form__radio">
       <label>
@@ -19,6 +20,7 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           checked={sorting === TrainingSortDirection.Asc}
           onChange={onChecked}
           disabled={disabled}
+          data-testid={dataTestId}
         />
         <span className="btn-radio-sort__label">Дешевле</span>
       </label>
@@ -30,6 +32,7 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           checked={sorting === TrainingSortDirection.Desc}
           onChange={onChecked}
           disabled={disabled}
+          data-testid={dataTestId}
         />
         <span className="btn-radio-sort__label">Дороже</span>
       </label>
@@ -40,7 +43,8 @@ export const ButtonsSortingPrice: React.FC<ButtonsSortingPriceProps> = (props) =
           value="free" 
           checked={sorting === TrainingSortDirection.Free} 
           onChange={onChecked} 
-          disabled={disabled} 
+          disabled={disabled}
+          data-testid={dataTestId}
         />
         <span className="btn-radio-sort__label">Бесплатные</span>
       </label>

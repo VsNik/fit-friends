@@ -21,14 +21,14 @@ export const MyTrainingsFilter: React.FC = () => {
   const onChangeDuration = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setDurationAction(evt.target.value));
 
   return (
-    <form className="my-training-form__form">
+    <form className="my-training-form__form" data-testid='my-training-filter'>
       <RangePrice trainings={trainings} onChangedPrice={onChangedPrice} disabled={isLoading} />
       <RangeCalory trainings={trainings} onChangedCalory={onChangeCalory} disabled={isLoading} />
       <RangeRating onChangedRating={onChangeRating} min={RatingRange.Min} max={RatingRange.Max} disabled={isLoading} />
 
       <div className="my-training-form__block my-training-form__block--duration">
         <h4 className="my-training-form__block-title">Длительность</h4>
-        <CheckDuration name="trainingDuration" durations={filter.durations} onChange={onChangeDuration} disabled={isLoading} />
+        <CheckDuration name="trainingDuration" durations={filter.durations} onChange={onChangeDuration} disabled={isLoading} dataTestId='checkbox-duration-group' />
       </div>
     </form>
   );

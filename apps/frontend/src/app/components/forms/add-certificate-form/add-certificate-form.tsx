@@ -47,7 +47,7 @@ export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label className="btn-flat btn-flat--underlined personal-account-coach__button">
-        <input {...register('certificate')} type="file" className="visually-hidden" disabled={disabled} />
+        <input {...register('certificate')} type="file" className="visually-hidden" disabled={disabled} data-testid='upload-button' />
         <svg width="14" height="14" aria-hidden="true">
           <use xlinkHref="/assets/img/sprite.svg#icon-import"></use>
         </svg>

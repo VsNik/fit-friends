@@ -15,10 +15,15 @@ export const QuestionPage: React.FC = () => {
         <div className="popup-form__wrapper">
           <div className="popup-form__content">
             <div className="popup-form__form">
-                {authRole === Role.User
-                    ? <QuestionUserForm />
-                    : <QuestionCoachForm />
-                }              
+
+              {authRole === Role.User && 
+                <QuestionUserForm />
+              }
+              
+              {authRole === Role.Coach && 
+                <QuestionCoachForm />
+              }
+
             </div>
           </div>
         </div>

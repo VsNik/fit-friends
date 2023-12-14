@@ -20,7 +20,7 @@ export const TrainingCatalog: React.FC<TrainingCatalogProps> = ({page, onShowMor
   const pages = Math.ceil(total / CardsOnPage.Trainings);
 
   return (
-    <div className="training-catalog">
+    <div className="training-catalog" data-testid='training-catalog'>
       {isLoading && <Loader />}
       <ul className="training-catalog__list">
         {trainings?.map((training) => (
@@ -31,7 +31,7 @@ export const TrainingCatalog: React.FC<TrainingCatalogProps> = ({page, onShowMor
       </ul>
 
       {page < pages &&
-        <ButtonShowMore className='training-catalog__show-more' onClick={onShowMore} />
+        <ButtonShowMore className='training-catalog__show-more' dataTestId='show-more-button' onClick={onShowMore} />
       }      
     </div>
   );

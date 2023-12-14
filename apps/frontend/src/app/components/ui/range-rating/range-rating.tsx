@@ -15,7 +15,7 @@ export const RangeRating: React.FC<RangeRatingProps> = (props) => {
   const handleChanged = () => onChangedRating(ratingValue);
 
   return (
-    <div className="gym-catalog-form__block gym-catalog-form__block--rating">
+    <div className="gym-catalog-form__block gym-catalog-form__block--rating" data-testid='rating-range-slider'>
       <h4 className="gym-catalog-form__block-title">Рейтинг</h4>
 
       <RangeSlider 

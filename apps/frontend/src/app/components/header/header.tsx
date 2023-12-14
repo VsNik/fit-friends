@@ -6,7 +6,7 @@ export const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="container">
-        <span className="header__logo">
+        <span className="header__logo" data-testid='header-logo'>
           <svg width="187" height="70" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#logo" />
           </svg>

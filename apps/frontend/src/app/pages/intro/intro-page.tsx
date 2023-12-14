@@ -7,7 +7,7 @@ export const IntroPage: React.FC = () => {
   const navigation = useNavigate();
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" data-testid='intro-page'>
       <main>
         <div className="intro">
           <div className="intro__background">

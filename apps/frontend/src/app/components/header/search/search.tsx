@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 export const Search: React.FC = () => {
   return (
-    <div className="search">
+    <div className="search" data-testid='search-component'>
       <form action="#" method="get">
         <label>
           <span className="search__label">Поиск</span>
@@ -12,73 +11,7 @@ export const Search: React.FC = () => {
             <use xlinkHref="/assets/img/sprite.svg#icon-search" />
           </svg>
         </label>
-        <ul className="search__list">
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Бокс
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link is-active" to="#">
-              Бег
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Аэробика
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-          <li className="search__item">
-            <Link className="search__link" to="#">
-              Text
-            </Link>
-          </li>
-        </ul>
+        <ul className="search__list"></ul>
       </form>
     </div>
   );

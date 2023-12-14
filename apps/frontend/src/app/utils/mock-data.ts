@@ -75,7 +75,7 @@ export const mockUsersFilter: UsersFilters = {
 export const makeFakeBalance = (): IBalance => ({
   id: faker.string.uuid(),
   userId: faker.string.uuid(),
-  training: {} as ITraining,
+  training: makeFakeTraining(),
   count: faker.number.int(),
   createdAt: faker.date.anytime().toISOString(),
   isActive: faker.datatype.boolean(),
@@ -127,9 +127,9 @@ export const makeFakeOrder = (): IOrder => ({
 
 export const makeFakeReview = (): IReview => ({
   id: faker.string.uuid(),
-  user: {} as IUser,
+  user: makeFakeUser(Role.User),
   training: {} as ITraining,
-  rating: faker.number.int(),
+  rating: faker.number.int({min: 0, max: 4}),
   text: faker.lorem.words(),
   createdAt: faker.date.anytime().toISOString(),
 });

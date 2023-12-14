@@ -24,19 +24,19 @@ export const TrainingsFilter: React.FC = () => {
   const handleChangeSorting = (evt: ChangeEvent<HTMLInputElement>) => dispatch(setDirectionAction(evt.target.value));
 
   return (
-    <form className="gym-catalog-form__form">
+    <form className="gym-catalog-form__form" data-testid='trainings-filter'>
       <RangePrice trainings={trainings} onChangedPrice={onChangedPrice} disabled={isLoading} />
       <RangeCalory trainings={trainings} onChangedCalory={onChangeCalory} disabled={isLoading} />
       <RangeRating onChangedRating={onChangeRating} min={RatingRange.Min} max={RatingRange.Max} disabled={isLoading} />
 
       <div className="gym-catalog-form__block gym-catalog-form__block--type">
         <h4 className="gym-catalog-form__block-title">Тип</h4>
-        <CheckTypes types={filter.types} name="trainingType" className="gym-catalog-form__check-list" onChange={handleChangeTypes} />
+        <CheckTypes types={filter.types} name="trainingType" className="gym-catalog-form__check-list" onChange={handleChangeTypes} dataTestId='checkbox-filter-type' />
       </div>
 
       <div className="gym-catalog-form__block gym-catalog-form__block--sort">
         <h4 className="gym-catalog-form__title gym-catalog-form__title--sort">Сортировка</h4>
-        <ButtonsSortingPrice sorting={sorting} onChecked={handleChangeSorting} disabled={isLoading} />
+        <ButtonsSortingPrice sorting={sorting} onChecked={handleChangeSorting} disabled={isLoading} dataTestId='radio-sorting-price' />
       </div>
     </form>
   );

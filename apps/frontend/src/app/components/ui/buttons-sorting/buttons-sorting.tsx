@@ -63,14 +63,16 @@ export const ButtonsSorting: React.FC<ButtonsSortingProps> = (props) => {
           direction={summSorting.direct} 
           active={sorting === StatisticSorting.OrderSumm} 
           onClick={handleSortingSumm} 
-          disabled={isLoading} 
+          disabled={isLoading}
+          dataTestId='sorting-summ'
         />
         <ButtonSortDirection 
           text='Количеству' 
           direction={countSorting.direct} 
           active={sorting === StatisticSorting.OrderCount} 
           onClick={handleSortingCount} 
-          disabled={isLoading} 
+          disabled={isLoading}
+          dataTestId='sorting-count'
         />
       </div>
     </div>
