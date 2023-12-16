@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { ThumbnailNotification } from '../../thumbnails/thumbnail-notification/thumbnail-notification';
-import * as notificationSelector from '../../../store/notifications/notifications-select';
 import { useAppSelector } from '../../../store/hooks';
 import { TopMenuLink } from '../top-menu-link/top-menu-link';
+import * as notificationSelector from '../../../store/notifications/notifications-select';
 
 export const Notifications: React.FC = () => {
   const notifications = useAppSelector(notificationSelector.notifications);
