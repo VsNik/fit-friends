@@ -42,7 +42,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
         : ReadyTrainingText.CoachNotReady;
 
   return (
-    <section className="user-card-coach">
+    <section className="user-card-coach" data-testid='coach-card-component'>
       <h1 className="visually-hidden">Карточка пользователя роль тренер</h1>
       <div className="user-card-coach__wrapper">
         <div className="user-card-coach__card">
@@ -73,7 +73,7 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
               </div>
             </div>
 
-            <div className="user-card-coach__text">
+            <div className="user-card-coach__text" data-testid='user-description'>
               <p>{user?.bio}</p>
             </div>
 
@@ -87,12 +87,12 @@ export const UserCardCoach: React.FC<UserCardCoachProps> = ({ user, onOpenMap, o
             <ul className="user-card-coach__hashtag-list">
               {user?.trainingType?.map((type) => (
                 <li key={type} className="user-card-coach__hashtag-item">
-                  <Hashtag title={getTrainingName(type)} />
+                  <Hashtag title={getTrainingName(type)} dataTestId='training-type' />
                 </li>
               ))}
             </ul>
 
-            <FriendsButton user={user} disabled={isLoading} />
+            <FriendsButton user={user} disabled={isLoading} dataTestId='friend-button-element' />
           </div>
 
           <UserCardGallary images={user?.bgImage} className="user-card-coach__gallary" />

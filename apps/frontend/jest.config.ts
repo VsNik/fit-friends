@@ -2,7 +2,14 @@
 export default {
   displayName: 'frontend',
   preset: '../../jest.preset.js',
-  transformIgnorePatterns: ["node_modules/(?!swiper|ssr-window|dom7).*/"],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+    },
+  },
+  transformIgnorePatterns: [
+    "node_modules/(?!swiper|ssr-window|dom7|@react-leaflet|react-leaflet|leaflet).*/",
+],
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/react/babel'] }],

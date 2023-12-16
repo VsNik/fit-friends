@@ -66,7 +66,7 @@ export const ThumbnailCertificat: React.FC<ThumbnailCertificatProps> = ({ src })
       )}
       <div className={clsx('certificate-card', { 'certificate-card--edit': isEdit })}>
         <div className="certificate-card__image">
-          <iframe src={`${previewImage || src}#toolbar=0`} width={294} height={360} title="certificate" style={{ border: 0 }} />
+          <iframe src={`${previewImage || src}#toolbar=0`} width={294} height={360} title="certificate" style={{ border: 0 }} data-testid='certificate-frame'/>
         </div>
 
         <form className="certificate-card__buttons" onSubmit={handleSubmit(onSave)}>

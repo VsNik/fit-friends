@@ -25,11 +25,11 @@ export const ForCompanySlider: React.FC = () => {
         <div className="look-for-company__wrapper">
           <div className="look-for-company__title-wrapper">
             <h2 className="look-for-company__title">Ищут компанию для тренировки</h2>
-            <ButtonFloat text="Смотреть все" icon="arrow-right" onClick={() => navigate(RouteName.Users)} light iconLeft />
+            <ButtonFloat text="Смотреть все" icon="arrow-right" onClick={() => navigate(RouteName.Users)} light iconLeft dataTestId='to-home-buttom' />
 
             <div className="look-for-company__controls">
-              <ButtonIcon icon="arrow-left" onClick={handlePrev} className="look-for-company__control" outline disabled={isFirstSlide} />
-              <ButtonIcon icon="arrow-right" onClick={handleNext} className="look-for-company__control" outline disabled={isLastSlide} />
+              <ButtonIcon icon="arrow-left" onClick={handlePrev} className="look-for-company__control" outline disabled={isFirstSlide} dataTestId='prev-slide' />
+              <ButtonIcon icon="arrow-right" onClick={handleNext} className="look-for-company__control" outline disabled={isLastSlide} dataTestId='next-slide' />
             </div>
           </div>
 
@@ -49,7 +49,7 @@ export const ForCompanySlider: React.FC = () => {
             ) : (
               <SwiperSlide>
                 <ThumbnailBanner 
-                  image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+                  image="/assets/img/content/nearest-gym-01.jpg" 
                   text="Скоро здесь появится что - то полезное" 
                 />
               </SwiperSlide>

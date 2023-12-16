@@ -11,9 +11,10 @@ import * as userSelector from '../../../store/user/user-select';
 interface addCertificateFormProps {
   userId: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
-export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, disabled }) => {
+export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, disabled, dataTestId }) => {
   const dispatch = useAppDispatch();
   const userError = useAppSelector(userSelector.error);
 
@@ -45,7 +46,7 @@ export const AddCertificateForm: React.FC<addCertificateFormProps> = ({ userId, 
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} data-testid={dataTestId}>
       <label className="btn-flat btn-flat--underlined personal-account-coach__button">
         <input {...register('certificate')} type="file" className="visually-hidden" disabled={disabled} data-testid='upload-button' />
         <svg width="14" height="14" aria-hidden="true">

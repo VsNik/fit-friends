@@ -27,6 +27,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = (props) => {
         onPlaying={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         ref={videoRef}
+        data-testid='training-video-element'
       />
       
       {!isPlaying && (
@@ -35,6 +36,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = (props) => {
             'is-disabled': !isReady,
           })}
           onClick={onPlay}
+          data-testid='play-video-button'
         >
           <svg width="18" height="30" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#icon-arrow" />

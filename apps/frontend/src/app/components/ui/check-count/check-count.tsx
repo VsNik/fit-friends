@@ -21,12 +21,13 @@ export const CheckCount: React.FC<CheckCountProps> = (props) => {
           icon="icon-minus" 
           className="btn-icon--quantity" 
           onClick={onDecriment} 
-          disabled={count === 0 || disabled} 
+          disabled={count === 0 || disabled}
+          dataTestId='check-count-decrement'
         />
 
         <div className="input-quantity__input">
           <label>
-            <input type="text" name="count" value={count} size={2} onChange={onChange} />
+            <input type="text" name="count" value={count} size={2} onChange={onChange} data-testid='check-count-input' />
           </label>
         </div>
         
@@ -34,7 +35,8 @@ export const CheckCount: React.FC<CheckCountProps> = (props) => {
           icon="icon-plus" 
           className="btn-icon--quantity" 
           onClick={onIncriment} 
-          disabled={count >= maxCount || disabled} 
+          disabled={count >= maxCount || disabled}
+          dataTestId='check-count-increment'
         />
       </div>
     </div>

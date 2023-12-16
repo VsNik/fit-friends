@@ -29,8 +29,8 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
 
         <div className="popup__content popup__content--certificates">
           <div className="popup__slider-buttons">
-            <ButtonIcon icon="arrow-left" className="popup__slider-btn popup__slider-btn--prev" onClick={handlePrev} disabled={isFirstSlide} />
-            <ButtonIcon icon="arrow-right" className="popup__slider-btn popup__slider-btn--prev" onClick={handleNext} disabled={isLastSlide} />
+            <ButtonIcon icon="arrow-left" className="popup__slider-btn popup__slider-btn--prev" onClick={handlePrev} disabled={isFirstSlide} dataTestId='prev-slide' />
+            <ButtonIcon icon="arrow-right" className="popup__slider-btn popup__slider-btn--prev" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
           </div>
 
           <Swiper
@@ -41,9 +41,9 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
           >
             {certificates?.map((certificate) => (
               <SwiperSlide key={certificate}>
-                <li className="popup__slide popup__slide--current">
+                <li className="popup__slide popup__slide--current" >
                   <div className="popup__slide-img">
-                    <iframe src={`${certificate}#toolbar=0`} width={294} height={360} title="certificate" style={{ border: 0 }} />
+                    <iframe src={`${certificate}#toolbar=0`} width={294} height={360} title="certificate" style={{ border: 0 }} data-testid='certificate-popup-frame' />
                   </div>
                 </li>
               </SwiperSlide>

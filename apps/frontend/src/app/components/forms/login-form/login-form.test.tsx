@@ -50,6 +50,7 @@ describe('Component: Login form', () => {
     expect(screen.getByDisplayValue('some-password')).toBeInTheDocument();
   });
 
+
   it('show errors', async () => {
     render(<MockLoginForm />);
 

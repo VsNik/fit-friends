@@ -17,9 +17,8 @@ import * as trainingSelector from '../../store/training/training-select';
 import * as reviewsSelector from '../../store/reviews/reviews-select';
 import * as balanceSelector from '../../store/balance/balance-select';
 import * as orderSelector from '../../store/order/order-select';
-import clsx from 'clsx';
-
 import { fetchBalanceAction } from '../../store/balance/async-action';
+import clsx from 'clsx';
 
 export const TrainingCardPage: React.FC = () => {
   const params = useParams();
@@ -30,7 +29,7 @@ export const TrainingCardPage: React.FC = () => {
   const role = useAppSelector(authSelectors.authRole)!;
   const balance = useAppSelector(balanceSelector.balance);
   const order = useAppSelector(orderSelector.order);
-  
+
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [openBuyPopup, setOpenBuyPopup] = useState<boolean>(false);
   const [openReviewPopup, setOpenReviewPopup] = useState<boolean>(false);
@@ -38,9 +37,7 @@ export const TrainingCardPage: React.FC = () => {
   const isTrainingLoading = trainingLoadStatus === LoadStatus.Loading;
   const trainingId = params.id!;
 
-  const isPositivaBalance = 
-    !!balance && balance.count > 0 || 
-    !!balance?.isActive
+  const isPositivaBalance = (!!balance && balance.count > 0) || !!balance?.isActive;
 
   useEffect(() => {
     dispatch(fetchTrainingAction(trainingId));
@@ -70,22 +67,22 @@ export const TrainingCardPage: React.FC = () => {
             <h1 className="visually-hidden">Карточка тренировки</h1>
             <ReviewsBar reviews={reviews} role={role} onOpenPopup={handleOpenReviewPopup} />
 
-            <div className={clsx('training-card', { 'training-card--edit': isEditable })}>
-              <TrainingInfo 
-                training={training} 
-                isLoading={isTrainingLoading} 
-                role={role} 
-                isEditable={isEditable} 
-                onChangeMode={onChangeMode} 
-                onOpenBuyPopup={handleOpenBuyPopup} 
+            <div className={clsx('training-card', { 'training-card--edit': isEditable })} data-testid='training-card-content'>
+              <TrainingInfo
+                training={training}
+                isLoading={isTrainingLoading}
+                role={role}
+                isEditable={isEditable}
+                onChangeMode={onChangeMode}
+                onOpenBuyPopup={handleOpenBuyPopup}
                 isPositiveBalance={isPositivaBalance}
               />
 
-              <TrainingVideo 
-                trainingId={trainingId} 
-                role={role} 
-                video={training.video} 
-                isEditable={isEditable} 
+              <TrainingVideo
+                trainingId={trainingId}
+                role={role}
+                video={training.video}
+                isEditable={isEditable}
                 setIsEditable={setIsEditable}
                 isPositiveBalance={isPositivaBalance}
               />
@@ -94,13 +91,16 @@ export const TrainingCardPage: React.FC = () => {
         </div>
       </section>
 
-      <Modal isOpen={openBuyPopup} onClose={handleCloseBuyPopup}>
-        <BuyPopup onClose={handleCloseBuyPopup} title="Купить тренировку" training={training} />
-      </Modal>
-
-      <Modal isOpen={openReviewPopup} onClose={handleCloseReviewPopup}>
-        <ReviewPopup onClose={handleCloseReviewPopup} title='Оставить отзыв' trainingId={training.id} />
-      </Modal>
+      {role === Role.User && (
+        <>
+          <Modal isOpen={openBuyPopup} onClose={handleCloseBuyPopup}>
+            <BuyPopup onClose={handleCloseBuyPopup} title="Купить тренировку" training={training} />
+          </Modal>
+          <Modal isOpen={openReviewPopup} onClose={handleCloseReviewPopup}>
+            <ReviewPopup onClose={handleCloseReviewPopup} title="Оставить отзыв" trainingId={training.id} />
+          </Modal>
+        </>
+      )}
     </AppLayout>
   );
 };

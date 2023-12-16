@@ -10,10 +10,11 @@ interface CheckLevelProps {
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
-  const { name, level, onChange, className, disabled } = props;
+  const { name, level, onChange, className, disabled, dataTestId } = props;
 
   return (
     <div className={clsx('custom-toggle-radio', className)}>
@@ -24,6 +25,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
         onChange={onChange}
         checked={level === TrainingLevel.Novice}
         disabled={disabled}
+        dataTestId={dataTestId}
       />
       <InputRadio
         name={name}
@@ -32,6 +34,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
         onChange={onChange}
         checked={level === TrainingLevel.Amateur}
         disabled={disabled}
+        dataTestId={dataTestId}
       />
       <InputRadio
         name={name}
@@ -40,6 +43,7 @@ export const CheckLevel: React.FC<CheckLevelProps> = (props) => {
         onChange={onChange}
         checked={level === TrainingLevel.Professional}
         disabled={disabled}
+        dataTestId={dataTestId}
       />
     </div>
   );

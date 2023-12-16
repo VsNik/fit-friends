@@ -24,7 +24,7 @@ export const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
         </p>
       )}
 
-      <ButtonIcon icon='icon-cross' onClick={onClose} outline big />
+      <ButtonIcon icon='icon-cross' onClick={onClose} outline big  dataTestId='close-popup-button'/>
     </div>
   );
 };

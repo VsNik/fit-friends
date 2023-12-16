@@ -44,7 +44,8 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
       paymentType,
     };
 
-    dispatch(createOrderAction({ id: training.id, order })).unwrap().then(closePopup);
+    dispatch(createOrderAction({ id: training.id, order }))?.unwrap()
+      .then(closePopup).catch(closePopup);
   };
 
   const handleInputCount = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +69,7 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
         <div className="popup__content popup__content--purchases">
           {isLoading && <Loader />}
           <div className="popup__product">
-            <Image src={training.bgImage} className="popup__product-image" width={98} height={80} />
+            <Image src={training.bgImage} className="popup__product-image" width={98} height={80} dataTestid='training-image' />
             <div className="popup__product-info">
               <h3 className="popup__product-title">{training.title}</h3>
               <p className="popup__product-price">{training.price} ₽</p>
@@ -94,11 +95,11 @@ export const BuyPopup: React.FC<ByTrainingPopupProps> = (props) => {
             <svg className="popup__total-dash" width="310" height="2" aria-hidden="true">
               <use xlinkHref="/assets/img/sprite.svg#dash-line" />
             </svg>
-            <p className="popup__total-price">{totalPrice}&nbsp;₽</p>
+            <p className="popup__total-price" data-testid='total-price-element'>{totalPrice} ₽</p>
           </div>
 
           <div className="popup__button">
-            <Button text="Купить" onClick={() => handleSubmit()} disabled={count === 0 || isLoading} />
+            <Button text="Купить" onClick={() => handleSubmit()} disabled={count === 0 || isLoading} dataTestId='buy-cutton-element'/>
           </div>
         </div>
       </div>

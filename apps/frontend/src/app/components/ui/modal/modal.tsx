@@ -5,10 +5,11 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  dataTestId?: string;
 }
 
 export const Modal: React.FC<ModalProps> = (props) => {
-  const { isOpen, onClose, children } = props;
+  const { isOpen, onClose, dataTestId, children } = props;
 
   useEffect(() => {
     const closeModal = (evt: KeyboardEvent) => {
@@ -30,7 +31,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
   }, [isOpen]);
 
   return (
-    <div className={clsx('modal', { 'is-active': isOpen })}>
+    <div className={clsx('modal', { 'is-active': isOpen })} data-testid={dataTestId}>
       <section className="popup">
         <div className="modal__overlay" onClick={onClose} />
         {isOpen && children}
@@ -38,3 +39,4 @@ export const Modal: React.FC<ModalProps> = (props) => {
     </div>
   );
 };
+

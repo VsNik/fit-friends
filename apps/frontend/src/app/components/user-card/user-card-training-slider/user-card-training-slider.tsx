@@ -18,13 +18,13 @@ export const UserCardTrainingSlider: React.FC<UserCardCertificateSliderProps> = 
 
   return (
     <Fragment>
-      <div className="user-card-coach__training-head">
+      <div className="user-card-coach__training-head" data-testid='coach-card-trainings-slider'>
         <h2 className="user-card-coach__training-title">
           {trainings.length > 0 ? 'Тренировки' : 'Тренировок пока нет'}
         </h2>
         <div className="user-card-coach__training-bts">
-          <ButtonIcon icon="arrow-left" className="user-card-coach__training-btn" onClick={handlePrev} disabled={isFirstSlide} />
-          <ButtonIcon icon="arrow-right" className="user-card-coach__training-btn" onClick={handleNext} disabled={isLastSlide} />
+          <ButtonIcon icon="arrow-left" className="user-card-coach__training-btn" onClick={handlePrev} disabled={isFirstSlide} dataTestId='prev-slide' />
+          <ButtonIcon icon="arrow-right" className="user-card-coach__training-btn" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
         </div>
       </div>
 

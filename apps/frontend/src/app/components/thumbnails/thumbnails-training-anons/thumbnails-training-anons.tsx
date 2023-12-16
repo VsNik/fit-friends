@@ -12,7 +12,7 @@ export const ThumbnailTrainingAnons: React.FC<ThumbnailTrainingAnonsProps> = (pr
   const { training } = props;
 
   return (
-    <div className="special-for-you__item">
+    <div className="special-for-you__item" data-testid='thumbnail-training-anons'>
       <div className="thumbnail-preview">
         <Image src={training.bgImage} width={452} height={191} className="thumbnail-preview__image" dataTestid='training-bg' />
         

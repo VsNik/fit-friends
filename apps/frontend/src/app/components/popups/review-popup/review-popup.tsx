@@ -39,12 +39,11 @@ export const ReviewPopup: React.FC<ReviewPopupProps> = (props) => {
   };
 
   const onSubmit = (data: CreateReviewType) => {
-    dispatch(addReviewAction({ id: trainingId, review: data }))
-      .unwrap()
+    dispatch(addReviewAction({ id: trainingId, review: data })).unwrap()
       .then(() => {
         reset();
         onClose();
-      });
+      })
   };
 
   return (
@@ -62,14 +61,14 @@ export const ReviewPopup: React.FC<ReviewPopupProps> = (props) => {
                 <div className="popup__feedback-textarea">
                   <div className="custom-textarea">
                     <label>
-                      <textarea {...register('text')} name="text" placeholder=" " />
+                      <textarea {...register('text')} name="text" placeholder=" " data-testid='review-textarea' />
                     </label>                    
                   </div>
                   {errors.text && <i className='popup__feedback-textarea-error'>{errors.text?.message}</i>}
                 </div>
               </div>
               <div className="popup__button">
-                <Button text="Продолжить" type='submit' />
+                <Button text="Продолжить" type='submit' dataTestId='submit-button-element' />
               </div>
             </form>
           </FormProvider>

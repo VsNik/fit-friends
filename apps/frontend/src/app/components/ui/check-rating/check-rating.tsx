@@ -11,7 +11,7 @@ export const CheckRating: React.FC<CheckRatingProps> = (props) => {
 
   const { value, onChange } = props;
   return (
-    <ul className="popup__rate-list">
+    <ul className="popup__rate-list" data-testid='check-rating-component'>
       {Array(5)
         .fill(null)
         .map((_, index) => (
@@ -24,7 +24,8 @@ export const CheckRating: React.FC<CheckRatingProps> = (props) => {
                   name="rating" 
                   value={index + 1} 
                   onChange={onChange} 
-                  checked={value === index + 1} 
+                  checked={value === index + 1}
+                  data-testid='checkbox-rating' 
                 />
                 <span className="popup__rate-number">{index + 1}</span>
               </label>

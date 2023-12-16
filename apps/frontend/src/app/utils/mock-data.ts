@@ -35,6 +35,11 @@ export const makeMockToken = (): IAuthToken => ({
   refreshToken: 'refresh-token',
 })
 
+export const galeryImages = [
+  '/assets/img/user-img/user-card-photo1.jpg',
+  '/assets/img/user-img/user-card-photo2.jpg',
+]
+
 export enum TokenName {
   Access = 'access_token',
   Refresh = 'refresh_token',
@@ -147,13 +152,13 @@ export const makeFakeTraining = (): ITraining => ({
   level: faker.helpers.enumValue(TrainingLevel),
   type: faker.helpers.enumValue(TrainingType),
   duration: faker.helpers.enumValue(TrainingDuration),
-  price: faker.number.int(),
-  calories: faker.number.int(),
+  price: faker.number.int({min: 0, max: 10000}),
+  calories: faker.number.int({min: 1000, max: 5000}),
   description: faker.lorem.words(),
   gender: faker.helpers.enumValue(Gender),
-  video: 'video.mp4',
+  video: '/assets/img/test.mp4',
   rating: faker.number.int({ min: 0, max: 5 }),
-  coach: {} as IUser,
+  coach: makeFakeUser(Role.Coach),
   isSpecial: faker.datatype.boolean(),
   ordersCount: faker.number.int(),
   ordersSumm: faker.number.int(),
@@ -176,7 +181,7 @@ export const makeFakeUser = (role?: Role): IUser => ({
   role: role ?? faker.helpers.enumValue(Role),
   bio: faker.lorem.words(),
   location: faker.helpers.enumValue(Location),
-  bgImage: [],
+  bgImage: galeryImages,
   trainingLevel: faker.helpers.enumValue(TrainingLevel),
   trainingType: [faker.helpers.enumValue(TrainingType)],
   createdAt: faker.date.anytime().toISOString(),

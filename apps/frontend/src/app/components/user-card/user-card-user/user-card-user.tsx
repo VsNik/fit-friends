@@ -17,7 +17,7 @@ export const UserCardUser: React.FC<UserCardUserProps> = ({ user, onOpenMap, isL
   const position = getUserLocation(user.location);
 
   return (
-    <section className="user-card">
+    <section className="user-card" data-testid='user-card-component'>
       <h1 className="visually-hidden">Карточка пользователя</h1>
       <div className="user-card__wrapper">
         <div className="user-card__content">
@@ -32,21 +32,21 @@ export const UserCardUser: React.FC<UserCardUserProps> = ({ user, onOpenMap, isL
             <span>{user.ready ? 'Готов к тренировке' : 'Не готов к тренировке'}</span>
           </div>
 
-          <div className="user-card__text">{user.bio}</div>
+          <div className="user-card__text" data-testid='user-description'>{user.bio}</div>
 
           <ul className="user-card__hashtag-list">
             {user.trainingType?.map((type) => (
               <li key={type} className="user-card__hashtag-item">
-                <Hashtag title={getTrainingName(type)} />
+                <Hashtag title={getTrainingName(type)} dataTestId='training-type' />
               </li>
             ))}
 
             <li className="user-card__hashtag-item">
-              <Hashtag title={getLevelName(user.trainingLevel!)} />
+              <Hashtag title={getLevelName(user.trainingLevel!)} dataTestId='training-level'/>
             </li>
           </ul>
 
-          <FriendsButton user={user} disabled={isLoading} />
+          <FriendsButton user={user} disabled={isLoading} dataTestId='friend-button-element' />
         </div>
 
         <UserCardGallary images={user.bgImage} className="user-card__gallary"/>

@@ -42,25 +42,25 @@ export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
   const setllLocations = () => dispatch(setAllLocationsAction());
   const setAllTypes = () => dispatch(setAllTypesAction());
 
-
-
   return (
-    <form className="user-catalog-form__form">
+    <form className="user-catalog-form__form" data-testid='users-filter-component'>
       <div className="user-catalog-form__block user-catalog-form__block--location">
         <h4 className="user-catalog-form__block-title">Локация, станция метро</h4>
-        <CheckLocations 
-          name="location" 
-          locations={filter.location} 
-          onChange={setLocations} 
-          disabled={isLoading} 
+        <CheckLocations
+          name="location"
+          locations={filter.location}
+          onChange={setLocations}
+          disabled={isLoading}
+          dataTestId="checkbox-location-group"
         />
-        
-        <ButtonFloat 
-          text='Посмотреть все' 
-          icon='arrow-down' 
-          className='btn-show-more user-catalog-form__btn-show' 
-          onClick={setllLocations} 
-          iconLeft 
+
+        <ButtonFloat
+          text="Посмотреть все"
+          icon="arrow-down"
+          className="btn-show-more user-catalog-form__btn-show"
+          onClick={setllLocations}
+          iconLeft
+          dataTestId="all-location-button"
         />
       </div>
 
@@ -72,25 +72,27 @@ export const UsersFilter: React.FC<UsersFilterProps> = (props) => {
           className="user-catalog-form__check-list"
           onChange={setTypes}
           disabled={isLoading}
+          dataTestId="checkbox-type-group"
         />
 
-        <ButtonFloat 
-          text='Посмотреть все' 
-          icon='arrow-down' 
-          className='btn-show-more user-catalog-form__btn-show' 
-          onClick={setAllTypes} 
-          iconLeft 
+        <ButtonFloat
+          text="Посмотреть все"
+          icon="arrow-down"
+          className="btn-show-more user-catalog-form__btn-show"
+          onClick={setAllTypes}
+          iconLeft
+          dataTestId="all-type-button"
         />
       </div>
 
       <div className="user-catalog-form__block user-catalog-form__block--level">
         <h4 className="user-catalog-form__block-title">Ваш уровень</h4>
-        <CheckLevel name="trainingLevel" level={filter.level} onChange={setLevel} disabled={isLoading} />
+        <CheckLevel name="trainingLevel" level={filter.level} onChange={setLevel} disabled={isLoading} dataTestId="radio-level-group" />
       </div>
 
       <div className="user-catalog-form__block">
         <h3 className="user-catalog-form__title user-catalog-form__title--sort">Сортировка</h3>
-        <ButtonsSortingRole direction={direction} onChange={setDirection} disabled={isLoading} />
+        <ButtonsSortingRole direction={direction} onChange={setDirection} disabled={isLoading} dataTestId="sorting-role-group" />
       </div>
     </form>
   );

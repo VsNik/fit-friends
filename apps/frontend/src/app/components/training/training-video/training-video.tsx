@@ -27,7 +27,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
 
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  
+
   const [isReady, setIsReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [videoLoadMode, setVideoLoadMode] = useState(false);
@@ -43,15 +43,17 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
   };
 
   const handleStopTraining = () => {
-    dispatch(setNoActiveAction(trainingId));
+    if (role === Role.User) {
+      dispatch(setNoActiveAction(trainingId));
+    }
     videoRef.current?.load();
     setIsReady(false);
     setPlaying(false);
   };
 
   const handleStartTraining = () => {
-    if (role === Role.User) {      
-      dispatch(dismissionAction(trainingId)); 
+    if (role === Role.User) {
+      dispatch(dismissionAction(trainingId));
     }
     setIsReady(true);
   };
@@ -65,7 +67,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
     const video = data.video as FileList;
     const formData = new FormData();
     formData.append('video', video[0]);
-    
+
     dispatch(saveVideoAction({ id: trainingId, formData }))
       .unwrap()
       .then(() => {
@@ -75,17 +77,18 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
         reset();
       });
   };
-console.log(isPositiveBalance)
+
   return (
     <div
       className={clsx('training-video', {
         'training-video--stop': isReady,
         'training-video--load': videoLoadMode || !video,
       })}
+      data-testid="training-video-component"
     >
       <h2 className="training-video__title">{video ? 'Видео' : 'Видео не загружено'}</h2>
 
-      {video && 
+      {video && (
         <VideoPlayer
           isReady={isReady}
           src={video}
@@ -96,37 +99,39 @@ console.log(isPositiveBalance)
           setPlaying={setPlaying}
           isPlaying={playing}
         />
-      }
+      )}
 
       <FormProvider {...methods}>
         <div className="training-video__drop-files">
-          <div className="training-video__form-wrapper">
-            {isEditable && 
-              <InputFile name="video" />
-            }
+          <div className="training-video__form-wrapper" data-testid='input-video-file-block'>
+              {isEditable && <InputFile name="video" dataTestId="input-video-file" />}
           </div>
         </div>
 
         <div className="training-video__buttons-wrapper">
           {!!video && (
-            <Button 
-              text="Приступить" 
-              type="button" 
-              className="training-video__button training-video__button--start" 
-              onClick={handleStartTraining} 
-              disabled={role === Role.User && !isPositiveBalance} 
+            <Button
+              text="Приступить"
+              type="button"
+              className="training-video__button training-video__button--start"
+              onClick={handleStartTraining}
+              disabled={role === Role.User && !isPositiveBalance}
+              dataTestId="start-training-button"
             />
           )}
-          <Button 
-            text="Закончить" 
-            type="button" 
-            className="training-video__button training-video__button--stop" 
-            onClick={handleStopTraining} 
+          <Button
+            text="Закончить"
+            type="button"
+            className="training-video__button training-video__button--stop"
+            onClick={handleStopTraining}
+            dataTestId="end-training-button"
           />
-          <div className="training-video__edit-buttons">
-            <Button text="Сохранить" onClick={handleSubmit(handleSaveVideo)} disabled={!videoLoadMode && !!video} />
-            <Button text="Удалить" onClick={handleDeleteVideo} outlined disabled={videoLoadMode || !video} />
-          </div>
+          {role === Role.Coach && (
+            <div className="training-video__edit-buttons" data-testid="video-edit-buttons">
+              <Button text="Сохранить" onClick={handleSubmit(handleSaveVideo)} disabled={!videoLoadMode && !!video} dataTestId="save-video-button" />
+              <Button text="Удалить" onClick={handleDeleteVideo} outlined disabled={videoLoadMode || !video} dataTestId="remove-video-button" />
+            </div>
+          )}
         </div>
       </FormProvider>
     </div>

@@ -66,13 +66,12 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
   };
 
   const onSubmit = (updateData: UpdateTrainingType) => {
-    console.log(updateData);
-    dispatch(updateTrainingAction({id: training.id, updateData}))
+    dispatch(updateTrainingAction({ id: training.id, updateData }));
     onChangeMode(false);
   };
 
   return (
-    <div className="training-info">
+    <div className="training-info" data-testid="training-info-component">
       {isLoading && <Loader />}
       <h2 className="visually-hidden">Информация о тренировке</h2>
       <div className="training-info__header">
@@ -114,23 +113,30 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
 
                 <ul className="training-info__list">
                   <li className="training-info__item">
-                    <Hashtag title={getTrainingName(training.type)} white />
+                    <Hashtag title={getTrainingName(training.type)} white dataTestId="training-type" />
                   </li>
                   <li className="training-info__item">
-                    <Hashtag title={getGenderName(training.gender)} white />
+                    <Hashtag title={getGenderName(training.gender)} white dataTestId="training-gender" />
                   </li>
                   <li className="training-info__item">
-                    <Hashtag title={`${training.calories} кал`} white />
+                    <Hashtag title={`${training.calories} кал`} white dataTestId="training-calories" />
                   </li>
                   <li className="training-info__item">
-                    <Hashtag title={getDurationName(training.duration)} white />
+                    <Hashtag title={getDurationName(training.duration)} white dataTestId="training-duration" />
                   </li>
                 </ul>
               </div>
               <div className="training-info__price-wrapper">
                 <TrainingInput name="price" label="Стоимость" className="training-info__input--price" disabled={!isEditable} />
                 {role === Role.User ? (
-                  <Button text="Купить" className="training-info__buy" type="button" onClick={onOpenBuyPopup} disabled={isPositiveBalance} />
+                  <Button
+                    text="Купить"
+                    className="training-info__buy"
+                    type="button"
+                    onClick={onOpenBuyPopup}
+                    disabled={isPositiveBalance}
+                    dataTestId="buy-training-button"
+                  />
                 ) : isSpecial ? (
                   <ButtonFloat
                     text="Отменить скидку"

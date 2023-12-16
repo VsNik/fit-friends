@@ -38,11 +38,11 @@ export const CertificateSlider: React.FC<CertificateSliderProps> = ({ user }) =>
       <div className="personal-account-coach__label-wrapper">
         <h2 className="personal-account-coach__label">Дипломы и сертификаты</h2>
 
-        <AddCertificateForm userId={user.id} disabled={isLoading} />
+        <AddCertificateForm userId={user.id} disabled={isLoading} dataTestId='add-certificate-form' />
 
         <div className="personal-account-coach__controls">
-          <ButtonIcon icon="arrow-left" onClick={handlePrev} disabled={isFirstSlide} />
-          <ButtonIcon icon="arrow-right" onClick={handleNext} disabled={isLastSlide} />
+          <ButtonIcon icon="arrow-left" onClick={handlePrev} disabled={isFirstSlide} dataTestId='prev-slide' />
+          <ButtonIcon icon="arrow-right" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
         </div>
       </div>
 

@@ -46,7 +46,7 @@ export const SpecialSlider: React.FC = () => {
           )}
 
           <ThumbnailBanner 
-            image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+            image="/assets/img/content/nearest-gym-01.jpg" 
             text="Скоро здесь появится что - то полезное" 
           />
         </div>

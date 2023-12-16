@@ -9,9 +9,10 @@ import clsx from 'clsx';
 interface FriendsButtonProps {
   user: IUser;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
-export const FriendsButton: React.FC<FriendsButtonProps> = ({ user, disabled }) => {
+export const FriendsButton: React.FC<FriendsButtonProps> = ({ user, disabled, dataTestId }) => {
   const dispatch = useAppDispatch();
   const authRole = useAppSelector(authSelector.authRole);
 
@@ -32,6 +33,7 @@ export const FriendsButton: React.FC<FriendsButtonProps> = ({ user, disabled }) 
       onClick={toggleFriend}
       disabled={isDisabled}
       outlined={user.isFollow}
+      dataTestId={dataTestId}
     />
   );
 };

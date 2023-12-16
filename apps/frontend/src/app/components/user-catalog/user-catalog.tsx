@@ -20,7 +20,7 @@ export const UserCatalog: React.FC<UserCatalogProps> = ({page, onShowMore}) => {
   const pages = Math.ceil(total / CardsOnPage.Users);
 
   return (
-    <div className="users-catalog">
+    <div className="users-catalog" data-testid='users-catalog-component'>
       {isLoading && <Loader />}
 
       <ul className="users-catalog__list">
@@ -32,7 +32,7 @@ export const UserCatalog: React.FC<UserCatalogProps> = ({page, onShowMore}) => {
       </ul>
 
       {page < pages &&
-        <ButtonShowMore className='users-catalog__show-more' onClick={onShowMore} />
+        <ButtonShowMore className='users-catalog__show-more' onClick={onShowMore} dataTestId='show-more-button' />
       }      
     </div>
   );

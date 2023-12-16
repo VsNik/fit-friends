@@ -4,15 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Training } from './models/training.model';
 import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { TrainingEntity } from './entities/training.entity';
-import { ITraining, TrainingDuration, TrainingLevel, TrainingSortDirection, TrainingType } from '@fit-friends/shared';
+import { ITraining, TrainingDuration, TrainingLevel, TrainingSortDirection, TrainingType, SlidesMaxCount } from '@fit-friends/shared';
 import { TrainingFilter, TrainingOrderFilter } from '@fit-friends/filters';
 import { AppError } from '@fit-friends/libs/validation';
-
-const TrainingMaxCount = {
-  Popular: 9,
-  Special: 3, 
-  ForUser: 9,
-} as const;
 
 @Injectable()
 export class TrainingsRepository implements ITrainingsRepository {
@@ -119,7 +113,7 @@ export class TrainingsRepository implements ITrainingsRepository {
       order: {
         rating: 'DESC',
       },
-      take: TrainingMaxCount.Popular,
+      take: SlidesMaxCount.Popular,
     });
     return [data.map((training) => TrainingEntity.create(training)), count];
   }
@@ -129,7 +123,7 @@ export class TrainingsRepository implements ITrainingsRepository {
       where: {
         isSpecial: true,
       },
-      take: TrainingMaxCount.Special,
+      take: SlidesMaxCount.Special,
     });
     return [data.map((training) => TrainingEntity.create(training)), count];
   }
@@ -141,7 +135,7 @@ export class TrainingsRepository implements ITrainingsRepository {
         {level: level},
         {duration}
       ],
-      take: TrainingMaxCount.ForUser,
+      take: SlidesMaxCount.ForUser,
     });
     return data.map((training) => TrainingEntity.create(training));
   }

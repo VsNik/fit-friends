@@ -44,7 +44,8 @@ export const UsersPage: React.FC = () => {
                     icon='arrow-left'
                     onClick={() => navigate(RouteName.Home)}
                     className='user-catalog-form__btnback' 
-                    underline 
+                    underline
+                    dataTestId='to-home-button'
                 />
 
                 <h3 className="user-catalog-form__title">Фильтры</h3>

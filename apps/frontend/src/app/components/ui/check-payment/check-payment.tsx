@@ -21,6 +21,7 @@ export const CheckPayment: React.FC<CheckPaymentProps> = (props) => {
           onChange={onChange}
           checked={value === PaymentType.Visa}
           disabled={disabled}
+          dataTestId='checkbox-payment-type'
         />
       </li>
       <li className="payment-method__item">
@@ -31,6 +32,7 @@ export const CheckPayment: React.FC<CheckPaymentProps> = (props) => {
           onChange={onChange}
           checked={value === PaymentType.Mir}
           disabled={disabled}
+          dataTestId='checkbox-payment-type'
         />
       </li>
       <li className="payment-method__item">
@@ -41,8 +43,10 @@ export const CheckPayment: React.FC<CheckPaymentProps> = (props) => {
           onChange={onChange}
           checked={value === PaymentType.Umoney}
           disabled={disabled}
+          dataTestId='checkbox-payment-type'
         />
       </li>
     </ul>
   );
 };
+

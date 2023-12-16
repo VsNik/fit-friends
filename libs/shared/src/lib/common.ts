@@ -105,3 +105,10 @@ export interface IErrorResponse {
   message: string | ValidateError[];
   statusCode: number;
 }
+
+export const SlidesMaxCount = {
+  Popular: 8,
+  Special: 3, 
+  ForUser: 9,
+  Company: 8,
+} as const;

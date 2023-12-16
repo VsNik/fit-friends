@@ -23,7 +23,7 @@ export const MapPopup: React.FC<MapPopupProps> = (props) => {
         <PopupHeader onClose={onClose} title={title} address={position.title} className="popup-head--address" />
 
         <div className="popup__content-map">
-          <div className="popup__map">
+          <div className="popup__map" data-testid='map-container'>
             <MapContainer center={[position.lat, position.lon]} zoom={16} style={{ height: '621px', width: '100%' }}>
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

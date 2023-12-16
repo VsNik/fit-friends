@@ -17,7 +17,7 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = (props) => {
   const navigation = useNavigate();
 
   return (
-    <aside className="reviews-side-bar">
+    <aside className="reviews-side-bar" data-testid='review-bar-component'>
       <ButtonFloat 
         text='Назад' 
         icon='arrow-left' 
@@ -41,6 +41,7 @@ export const ReviewsBar: React.FC<ReviewsBarProps> = (props) => {
         className='reviews-side-bar__button' 
         medium
         disabled={role === Role.Coach}
+        dataTestId='open-popup-button'
       />
     </aside>
   );

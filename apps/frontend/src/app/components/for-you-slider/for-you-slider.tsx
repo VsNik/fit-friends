@@ -22,8 +22,8 @@ export const ForYouSlider: React.FC = () => {
           <div className="special-for-you__title-wrapper">
             <h2 className="special-for-you__title">Специально подобрано для вас</h2>
             <div className="special-for-you__controls">
-              <ButtonIcon icon="arrow-left" className="special-for-you__control" onClick={handlePrev} disabled={isFirstSlide} />
-              <ButtonIcon icon="arrow-right" className="special-for-you__control" onClick={handleNext} disabled={isLastSlide} />
+              <ButtonIcon icon="arrow-left" className="special-for-you__control" onClick={handlePrev} disabled={isFirstSlide} dataTestId='prev-slide' />
+              <ButtonIcon icon="arrow-right" className="special-for-you__control" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
             </div>
           </div>
 
@@ -43,7 +43,7 @@ export const ForYouSlider: React.FC = () => {
             ) : (
               <SwiperSlide>
                 <ThumbnailBanner 
-                  image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+                  image="/assets/img/content/nearest-gym-01.jpg" 
                   text="Скоро здесь появится что - то полезное" 
                 />
               </SwiperSlide>

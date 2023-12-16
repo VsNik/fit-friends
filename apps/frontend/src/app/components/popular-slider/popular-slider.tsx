@@ -29,11 +29,11 @@ export const PopularSlider: React.FC = () => {
         <div className="popular-trainings__wrapper">
           <div className="popular-trainings__title-wrapper">
             <h2 className="popular-trainings__title">Популярные тренировки</h2>
-            <ButtonFloat text="Смотреть все" icon="arrow-right" className="popular-trainings__button" iconLeft onClick={onGoTrainingList} />
+            <ButtonFloat text="Смотреть все" icon="arrow-right" className="popular-trainings__button" iconLeft onClick={onGoTrainingList} dataTestId='to-home-button' />
 
             <div className="popular-trainings__controls">
-              <ButtonIcon icon="arrow-left" className="popular-trainings__control" onClick={handlePrev} disabled={isFirstSlide} />
-              <ButtonIcon icon="arrow-right" className="popular-trainings__control" onClick={handleNext} disabled={isLastSlide} />
+              <ButtonIcon icon="arrow-left" className="popular-trainings__control" onClick={handlePrev} disabled={isFirstSlide} dataTestId='prev-slide' />
+              <ButtonIcon icon="arrow-right" className="popular-trainings__control" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
             </div>
           </div>
 
@@ -52,7 +52,10 @@ export const PopularSlider: React.FC = () => {
               ))
             ) : (
               <SwiperSlide>
-                <ThumbnailBanner image="/assets/img/content/thumbnails/nearest-gym-01.jpg" text="Скоро здесь появится что - то полезное" />
+                <ThumbnailBanner 
+                  image="/assets/img/content/nearest-gym-01.jpg" 
+                  text="Скоро здесь появится что - то полезное" 
+                />
               </SwiperSlide>
             )}
           </Swiper>

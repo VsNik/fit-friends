@@ -24,7 +24,7 @@ export const TrainingInput: React.FC<TrainingInputProps> = ({ name, label, value
         <span className="training-info__label">{label}</span>
         <span className="training-info__rating-icon">
         </span>
-        <input {...register(name)} type='text' name={name} value={value} disabled={disabled} />
+        <input {...register(name)} type='text' name={name} value={value} data-testid='training-info-input' disabled={disabled} />
       </label>
       {errors[name] && <div className="training-info__error">{errors[name]?.message as string}</div>}
     </div>

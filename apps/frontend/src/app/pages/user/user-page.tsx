@@ -60,13 +60,16 @@ export const UserPage: React.FC = () => {
         </div>
       </div>
 
-      <Modal isOpen={openMap} onClose={handleCloseMap}>
+      <Modal isOpen={openMap} onClose={handleCloseMap} dataTestId='modal-map-component'>
         <MapPopup onClose={handleCloseMap} title={user?.name} location={user?.location} />
       </Modal>
 
-      <Modal isOpen={openCertificates} onClose={handleCloseCertificates}>
-        <CertificatesPopup title="Сертификаты" onClose={handleCloseCertificates} certificates={user?.certificate} />
-      </Modal>
+      {user.role === Role.Coach && (
+        <Modal isOpen={openCertificates} onClose={handleCloseCertificates} dataTestId='certificate-modal-component'>
+          <CertificatesPopup title="Сертификаты" onClose={handleCloseCertificates} certificates={user?.certificate} />
+        </Modal>
+      )}
+
     </AppLayout>
   );
 };

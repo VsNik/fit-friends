@@ -8,10 +8,11 @@ interface CheckLocationsProps {
   locations: Location[];
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
-  const { name, locations, onChange, disabled } = props;
+  const { name, locations, onChange, disabled, dataTestId } = props;
   const hasLocation = (location: Location) => locations.includes(location);
 
   return (
@@ -24,6 +25,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
           onChange={onChange}
           checked={hasLocation(Location.Pionerskaya)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="user-catalog-form__check-list-item">
@@ -34,6 +36,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
           onChange={onChange}
           checked={hasLocation(Location.Udelnaya)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="user-catalog-form__check-list-item">
@@ -44,6 +47,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
           onChange={onChange}
           checked={hasLocation(Location.Zvezdnaya)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
       <li className="user-catalog-form__check-list-item">
@@ -54,6 +58,7 @@ export const CheckLocations: React.FC<CheckLocationsProps> = (props) => {
           onChange={onChange}
           checked={hasLocation(Location.Sportivnaya)}
           disabled={disabled}
+          dataTestId={dataTestId}
         />
       </li>
     </ul>

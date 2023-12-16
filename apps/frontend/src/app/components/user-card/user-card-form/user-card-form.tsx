@@ -22,9 +22,9 @@ export const UserCardForm: React.FC<UserCardFormProps> = ({user}) => {
   }
 
   return (
-    <div className="user-card-coach__training-form">
+    <div className="user-card-coach__training-form" data-testid='coach-card-form'>
       {(user.personalTraining && user.isFollow) &&
-        <Button text="Хочу персональную тренировку" className="user-card-coach__btn-training" onClick={handleCreateInvite}/>
+        <Button text="Хочу персональную тренировку" className="user-card-coach__btn-training" onClick={handleCreateInvite} dataTestId='personal-request'/>
       }      
 
       <div className="user-card-coach__training-check">
@@ -33,6 +33,7 @@ export const UserCardForm: React.FC<UserCardFormProps> = ({user}) => {
           name="subscribe" 
           checked={Boolean(user.isSubscribe)}
           onChange={handleSubscribe} 
+          dataTestId='notify-subscribe'
         />
       </div>
     </div>
