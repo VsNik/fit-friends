@@ -22,7 +22,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ accessRole, redi
     if (redirect) {
       return <Navigate to={redirect} replace />
     }
-    
+  
     return role === Role.User 
       ? <Navigate to={RouteName.Home} replace /> 
       : <Navigate to={RouteName.Account} replace />;

@@ -61,7 +61,7 @@ export const TrainingCardPage: React.FC = () => {
 
   return (
     <AppLayout>
-      <section className="inner-page">
+      <section className="inner-page" data-testid='training-card-page-component'>
         <div className="container">
           <div className="inner-page__wrapper">
             <h1 className="visually-hidden">Карточка тренировки</h1>

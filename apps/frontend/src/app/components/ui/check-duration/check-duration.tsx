@@ -13,7 +13,7 @@ interface CheckDurationProps {
 
 export const CheckDuration: React.FC<CheckDurationProps> = (props) => {
   const { name, durations, onChange, disabled, dataTestId } = props;
-  const hasDuration = (duration: TrainingDuration) => durations.includes(duration);
+  const hasDuration = (duration: TrainingDuration) => durations?.includes(duration);
 
   return (
     <ul className="my-training-form__check-list">

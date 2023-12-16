@@ -33,7 +33,7 @@ export const PurchasesPage: React.FC = () => {
 
   return (
     <AppLayout>
-      <section className="my-purchases">
+      <section className="my-purchases" data-testid='purchases-page-component'>
         <div className="container">
           <Purchases 
             showButton={showButton} 

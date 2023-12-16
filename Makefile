@@ -5,6 +5,7 @@ restart: down up
 ps: docker-ps
 
 test: frontend-test
+test-cover: frontend-test-coverage
 
 start: frontend-backend-start
 backend: backend-start
@@ -39,3 +40,6 @@ frontend-lint:
 
 frontend-test:
 	nx run frontend:test
+
+frontend-test-coverage:
+	nx run frontend:test --coverage

@@ -29,13 +29,13 @@ export const AccountPage: React.FC = () => {
             <UserInfo user={authUser} />
             <div className="inner-page__content">
               {authRole === Role.User && (
-                <div className="personal-account-user">
+                <div className="personal-account-user" data-testid='user-account-page'>
                   <UserCalories calories={authUser.loseCalories!} />
                   <UserNavigation />
                 </div>
               )}
               {authRole === Role.Coach && (
-                <div className="personal-account-coach">
+                <div className="personal-account-coach" data-testid='coach-account-page'>
                   <CoachNavigation />
                   <CertificateSlider user={authUser} />
                 </div>
