@@ -17,13 +17,14 @@ interface TrainingVideoProps {
   trainingId: string;
   role: Role;
   video: string;
+  isAuthor: boolean;
   isEditable: boolean;
   setIsEditable: (value: boolean) => void;
   isPositiveBalance: boolean;
 }
 
 export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
-  const { trainingId, role, video, isEditable, setIsEditable, isPositiveBalance } = props;
+  const { trainingId, role, video, isAuthor, isEditable, setIsEditable, isPositiveBalance } = props;
 
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -115,7 +116,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
               type="button"
               className="training-video__button training-video__button--start"
               onClick={handleStartTraining}
-              disabled={role === Role.User && !isPositiveBalance}
+              disabled={(role === Role.User && !isPositiveBalance) || (role === Role.Coach && !isAuthor)}
               dataTestId="start-training-button"
             />
           )}

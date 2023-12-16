@@ -21,13 +21,14 @@ interface TrainingInfoProps {
   isLoading: boolean;
   role: Role;
   isEditable: boolean;
+  isAuthor: boolean;
   onChangeMode: (value: boolean) => void;
   onOpenBuyPopup: () => void;
   isPositiveBalance: boolean;
 }
 
 export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
-  const { training, isLoading, role, isEditable, onChangeMode, onOpenBuyPopup, isPositiveBalance } = props;
+  const { training, isLoading, role, isEditable, isAuthor, onChangeMode, onOpenBuyPopup, isPositiveBalance } = props;
   const dispatch = useAppDispatch();
   const [tempPrice, setNewPrice] = useState<number>();
 
@@ -77,7 +78,7 @@ export const TrainingInfo: React.FC<TrainingInfoProps> = (props) => {
       <div className="training-info__header">
         <TrainingUserInfo coach={training.coach} />
 
-        {role === Role.Coach && (
+        {role === Role.Coach && isAuthor && (
           <>
             <ButtonFloat
               text="Редактировать"

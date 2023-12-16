@@ -17,6 +17,8 @@ export const trainingSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrainingAction.pending, (state) => {
+        state.training = {} as ITraining;
+        state.error = null;
         state.loadStatus = LoadStatus.Loading;
       })
       .addCase(fetchTrainingAction.fulfilled, (state, { payload }) => {

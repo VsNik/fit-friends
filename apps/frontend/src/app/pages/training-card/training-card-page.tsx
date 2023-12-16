@@ -27,6 +27,7 @@ export const TrainingCardPage: React.FC = () => {
   const reviews = useAppSelector(reviewsSelector.reviews);
   const trainingLoadStatus = useAppSelector(trainingSelector.loadStatus);
   const role = useAppSelector(authSelectors.authRole)!;
+  const authId = useAppSelector(authSelectors.authId);
   const balance = useAppSelector(balanceSelector.balance);
   const order = useAppSelector(orderSelector.order);
 
@@ -38,6 +39,7 @@ export const TrainingCardPage: React.FC = () => {
   const trainingId = params.id!;
 
   const isPositivaBalance = (!!balance && balance.count > 0) || !!balance?.isActive;
+  const isAuthor = training.coach?.id === authId;
 
   useEffect(() => {
     dispatch(fetchTrainingAction(trainingId));
@@ -61,16 +63,17 @@ export const TrainingCardPage: React.FC = () => {
 
   return (
     <AppLayout>
-      <section className="inner-page" data-testid='training-card-page-component'>
+      <section className="inner-page" data-testid="training-card-page-component">
         <div className="container">
           <div className="inner-page__wrapper">
             <h1 className="visually-hidden">Карточка тренировки</h1>
             <ReviewsBar reviews={reviews} role={role} onOpenPopup={handleOpenReviewPopup} />
 
-            <div className={clsx('training-card', { 'training-card--edit': isEditable })} data-testid='training-card-content'>
+            <div className={clsx('training-card', { 'training-card--edit': isEditable })} data-testid="training-card-content">
               <TrainingInfo
                 training={training}
                 isLoading={isTrainingLoading}
+                isAuthor={isAuthor}
                 role={role}
                 isEditable={isEditable}
                 onChangeMode={onChangeMode}
@@ -83,6 +86,7 @@ export const TrainingCardPage: React.FC = () => {
                 role={role}
                 video={training.video}
                 isEditable={isEditable}
+                isAuthor={isAuthor}
                 setIsEditable={setIsEditable}
                 isPositiveBalance={isPositivaBalance}
               />
