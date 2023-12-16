@@ -28,17 +28,19 @@ const store = mockStore({});
 interface MockTrainingInfoProps {
   training: ITraining;
   role: Role;
+  isAuthor: boolean;
   isEditable?: boolean;
   isPositiveBalance?: boolean;
 }
 
-const MockTrainingInfo: React.FC<MockTrainingInfoProps> = ({ training, role, isEditable = false, isPositiveBalance = false }) => {
+const MockTrainingInfo: React.FC<MockTrainingInfoProps> = ({ training, role, isAuthor, isEditable = false, isPositiveBalance = false }) => {
   return (
     <Router location={history.location} navigator={history}>
       <Provider store={store}>
         <TrainingInfo
           training={training}
           role={role}
+          isAuthor={isAuthor}
           isPositiveBalance={isPositiveBalance}
           isEditable={isEditable}
           isLoading={false}
@@ -53,7 +55,7 @@ const MockTrainingInfo: React.FC<MockTrainingInfoProps> = ({ training, role, isE
 describe('Component: Training info', () => {
   it('Correct render if role user', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.User} />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.User} isAuthor={false} />);
 
     expect(screen.queryByText('Редактировать')).not.toBeInTheDocument();
     expect(screen.queryByText('Сохранить')).not.toBeInTheDocument();
@@ -86,7 +88,7 @@ describe('Component: Training info', () => {
 
   it('Not editable fields if role user', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.User} />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.User} isAuthor={false} />);
 
     const inputs = screen.getAllByTestId('training-info-input');
     inputs.forEach((input) => {
@@ -99,7 +101,7 @@ describe('Component: Training info', () => {
 
   it('Disabled "Buy Training" button if is positive balance', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.User} isPositiveBalance />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.User} isAuthor={false} isPositiveBalance />);
 
     expect(screen.getByText('Купить')).toBeInTheDocument();
     expect(screen.getByTestId('buy-training-button')).toBeInTheDocument();
@@ -108,7 +110,7 @@ describe('Component: Training info', () => {
 
   it('Click to "Buy Training" button', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.User} />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.User} isAuthor={false} />);
 
     fireEvent.click(screen.getByTestId('buy-training-button'));
     expect(mockOnOpenByPopup).toHaveBeenCalledTimes(1);
@@ -117,7 +119,7 @@ describe('Component: Training info', () => {
 
   it('Correct render if role coach', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isAuthor={true} />);
 
     expect(screen.getByText('Редактировать')).toBeInTheDocument();
     expect(screen.getByText('Сохранить')).toBeInTheDocument();
@@ -150,7 +152,7 @@ describe('Component: Training info', () => {
 
   it('Not disabled fields, if passed "isEditable" parametr', () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isEditable />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isAuthor={true} isEditable />);
 
     const inputs = screen.getAllByTestId('training-info-input');
     inputs.forEach((input) => {
@@ -163,7 +165,7 @@ describe('Component: Training info', () => {
 
   it('Click to "Edit" button"', async () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isEditable />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isAuthor={true} isEditable />);
 
     await userEvent.click(screen.getByText('Редактировать'));
     expect(mockOnChangeMode).toHaveBeenCalledTimes(1);
@@ -172,10 +174,18 @@ describe('Component: Training info', () => {
 
   it('Dispatch if click to "Save button"', async () => {
     const fakeTraining = makeFakeTraining();
-    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isEditable />);
+    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isAuthor={true} isEditable />);
 
     await userEvent.click(screen.getByText('Сохранить'));
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     mockDispatch.mockReset();
+  })
+
+  it('Hidden "Edit" button if coach is not the author', async () => {
+    const fakeTraining = makeFakeTraining();
+    render(<MockTrainingInfo training={fakeTraining} role={Role.Coach} isAuthor={false} isEditable />);
+
+    expect(screen.queryByText('Редактировать')).not.toBeInTheDocument();
+    expect(screen.queryByText('Сохранить')).not.toBeInTheDocument();
   })
 });
