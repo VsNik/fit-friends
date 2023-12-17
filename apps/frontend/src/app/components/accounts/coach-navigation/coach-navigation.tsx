@@ -22,7 +22,7 @@ export const CoachNavigation: React.FC = () => {
       
       <div className="personal-account-coach__calendar">
         <ThumbnailBanner 
-          image='/assets/img/content/thumbnails/nearest-gym-01.jpg' 
+          image='/assets/img/content/nearest-gym-01.jpg' 
           text='Скоро тут будет интересно' 
         />
       </div>

@@ -16,6 +16,12 @@ type MockStore = ReturnType<typeof mockStore>;
 const history = createMemoryHistory();
 const onChangedPrice = jest.fn();
 
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockDispatch,
+}));
+
 const MockRangePrice = ({ store, trainings }: { store: MockStore; trainings: ITraining[] }) => {
   return (
     <Router location={history.location} navigator={history}>

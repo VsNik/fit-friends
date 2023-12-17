@@ -9,6 +9,8 @@
     "start": "nx run-many --target=serve --all --parallel=10",
     "lint:backend": "nx run backend:lint --fix",
     "lint:frontend": "nx run frontend:lint --fix",
+    "test": "nx run frontend:test",
+    "test:coverage": "nx run frontend:test --coverage",
     "typeorm:cli": "ts-node --project tsconfig.base.json -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./apps/backend/src/orm-migration.config.ts",
     "migration:gen": "cross-env npm run typeorm:cli migration:generate ./apps/backend/src/database/migration/$npm_config_name",
     "migration:run": "npm run typeorm:cli migration:run",
