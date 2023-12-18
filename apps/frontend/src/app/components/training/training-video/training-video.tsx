@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Role } from '@fit-friends/shared';
+import { IBalance, Role } from '@fit-friends/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '../../ui/button/button';
@@ -21,10 +21,11 @@ interface TrainingVideoProps {
   isEditable: boolean;
   setIsEditable: (value: boolean) => void;
   isPositiveBalance: boolean;
+  balance?: IBalance | null;
 }
 
 export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
-  const { trainingId, role, video, isAuthor, isEditable, setIsEditable, isPositiveBalance } = props;
+  const { trainingId, role, video, isAuthor, isEditable, setIsEditable, isPositiveBalance, balance } = props;
 
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -53,7 +54,7 @@ export const TrainingVideo: React.FC<TrainingVideoProps> = (props) => {
   };
 
   const handleStartTraining = () => {
-    if (role === Role.User) {
+    if (role === Role.User && !balance?.isActive) {
       dispatch(dismissionAction(trainingId));
     }
     setIsReady(true);

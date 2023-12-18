@@ -84,6 +84,7 @@ export const TrainingCardPage: React.FC = () => {
               <TrainingVideo
                 trainingId={trainingId}
                 role={role}
+                balance={balance}
                 video={training.video}
                 isEditable={isEditable}
                 isAuthor={isAuthor}
