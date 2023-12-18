@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { addReviewAction, fetchReviewsAction } from './async-actions';
 import { ReviewsState } from '../../types/state-type';
 import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
@@ -8,6 +8,7 @@ const initialState: ReviewsState = {
   page: DefaultPaginate.Page,
   total: DefaultPaginate.Total,
   loadStatus: LoadStatus.Never,
+  error: null,
 };
 
 export const reviewsSlice = createSlice({
@@ -18,6 +19,7 @@ export const reviewsSlice = createSlice({
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
         state.reviews = payload.data;
@@ -31,12 +33,14 @@ export const reviewsSlice = createSlice({
 
       .addCase(addReviewAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(addReviewAction.fulfilled, (state, { payload }) => {
         state.reviews.unshift(payload)
         state.loadStatus = LoadStatus.Loaded;
       })
-      .addCase(addReviewAction.rejected, (state) => {
+      .addCase(addReviewAction.rejected, (state, action: AnyAction) => {
+        state.error = action.payload;
         state.loadStatus = LoadStatus.Loaded;
       })
   },

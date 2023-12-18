@@ -76,6 +76,7 @@ export const trainingsSlice = createSlice({
     builder
       .addCase(fetchTrainingsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
@@ -89,6 +90,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(loadMoreTrainingsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = [...state.trainings, ...payload.data];
@@ -101,6 +103,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(fetchForCoachAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchForCoachAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
@@ -114,6 +117,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(fetchMyOrdersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchMyOrdersAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
@@ -127,6 +131,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(loadMoreMyOrdersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreMyOrdersAction.fulfilled, (state, { payload }) => {
         state.page = payload.page;
@@ -139,6 +144,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(fetchMyTrainingsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchMyTrainingsAction.fulfilled, (state, { payload }) => {
         state.trainings = payload.data;
@@ -152,6 +158,7 @@ export const trainingsSlice = createSlice({
 
       .addCase(loadMoreAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreAction.fulfilled, (state, { payload }) => {
         state.page = payload.page;

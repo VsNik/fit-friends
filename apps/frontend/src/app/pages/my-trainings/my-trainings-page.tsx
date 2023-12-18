@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { MyTrainingsFilter } from '../../components/my-trainings-filter/my-trainings-filter';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { RouteName } from '../../constants/route';

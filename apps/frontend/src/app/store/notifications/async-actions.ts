@@ -3,17 +3,24 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notificationApi } from '../../services/notification-api';
 
 export const fetchNotificationAction = createAsyncThunk<IAlertCollection>(
-  'notify/fetch-notifications', 
+  'notify/fetch-alerts', 
   async () => {
-    const {data} = await notificationApi.fetchNotification();
+    const {data} = await notificationApi.fetchAkert();
     return data;
   })
 ;
 
 export const removeNotificationAction = createAsyncThunk<string, string>(
-  'notify/remove-notify',
+  'notify/remove-alert',
   async (id) => {
-    await notificationApi.removeNorification(id);
+    await notificationApi.removeAlert(id);
     return id;
   }
-)
+);
+
+export const sendNotificationAction = createAsyncThunk<void>(
+  'notify/send-notify',
+  async () => {
+    await notificationApi.sendNotify();
+  }
+);

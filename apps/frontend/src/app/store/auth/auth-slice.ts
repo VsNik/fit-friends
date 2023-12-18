@@ -21,6 +21,7 @@ export const authSlice = createSlice({
         state.isAuth = true;
         state.authId = payload.id;
         state.authRole = payload.role;
+        state.error = null;
       })
       .addCase(loginAction.rejected, (state, action: AnyAction) => {
         state.isAuth = false;
@@ -32,6 +33,7 @@ export const authSlice = createSlice({
         state.authId = payload.id;
         state.authRole = payload.role;
         state.isReady = true;
+        state.error = null;
       })
       .addCase(signupAction.rejected, (state, action: AnyAction) => {
         state.isAuth = false;
@@ -40,6 +42,7 @@ export const authSlice = createSlice({
 
       .addCase(createUserAction.fulfilled, (state, { payload }) => {
         state.isReady = false;
+        state.error = null;
       })
       .addCase(createUserAction.rejected, (state, action: AnyAction) => {
         state.error = action.payload;
@@ -47,6 +50,7 @@ export const authSlice = createSlice({
 
       .addCase(createCoachAction.fulfilled, (state) => {
         state.isReady = false;
+        state.error = null;
       })
       .addCase(createCoachAction.rejected, (state, action: AnyAction) => {
         state.error = action.payload;
@@ -70,6 +74,7 @@ export const authSlice = createSlice({
 
       .addCase(logoutAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.loadStatus = LoadStatus.Loaded;

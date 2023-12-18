@@ -10,7 +10,7 @@ export const UserNavigation: React.FC = () => {
       <ThumbnailLink text="Мои покупки" icon="icon-shopping-cart" to={RouteName.Purchases} />
 
       <ThumbnailBanner 
-        image="/assets/img/content/thumbnails/nearest-gym-01.jpg" 
+        image="/assets/img/content/nearest-gym-01.jpg" 
         text="Скоро тут появится что-то полезное" 
       />
     </div>

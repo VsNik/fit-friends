@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { TrainingsFilter } from '../../components/trainings-filter/trainings-filter';
 import { TrainingCatalog } from '../../components/training-catalog/training-catalog';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

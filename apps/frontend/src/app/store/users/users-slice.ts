@@ -67,6 +67,7 @@ export const usersSlice = createSlice({
     builder
       .addCase(fetchUsersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchUsersAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -80,6 +81,7 @@ export const usersSlice = createSlice({
 
       .addCase(loadMoreUsersAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreUsersAction.fulfilled, (state, { payload }) => {
         state.users = [...state.users, ...payload.data];
@@ -92,6 +94,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchCompanyAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchCompanyAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -105,6 +108,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchUserFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchUserFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -118,6 +122,7 @@ export const usersSlice = createSlice({
 
       .addCase(loadMoreUserFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreUserFriendsAction.fulfilled, (state, { payload }) => {
         state.users = [...state.users, ...payload.data];
@@ -130,6 +135,7 @@ export const usersSlice = createSlice({
 
       .addCase(fetchCoachFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchCoachFriendsAction.fulfilled, (state, { payload }) => {
         state.users = payload.data;
@@ -143,6 +149,7 @@ export const usersSlice = createSlice({
 
       .addCase(loadMoreCoachFriendsAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(loadMoreCoachFriendsAction.fulfilled, (state, { payload }) => {
         state.users = [...state.users, ...payload.data];

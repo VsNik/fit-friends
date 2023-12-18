@@ -5,7 +5,7 @@ import {configureMockStore} from "@jedmao/redux-mock-store";
 import {RootState} from "../index";
 import {Action} from "redux";
 import {MockData, makeFakeUser, makeMockAddCertificateData, makeMockUpdateUserData} from "../../utils/mock-data";
-import {ApiAuthRoute, ApiUsers} from "../../constants/route";
+import {ApiAuthRoute, ApiUser} from "../../constants/route";
 import {
   addCertificateAction, deleteCertificateAction,
   fetchAuthAction,
@@ -38,7 +38,7 @@ describe('User Async actions', () => {
 
   it('fetchUserAction test', async () => {
     mockAPI
-      .onGet(generatePath(ApiUsers.Show, {id: MockData.Id}))
+      .onGet(generatePath(ApiUser.Show, {id: MockData.Id}))
       .reply(200, fakeUser);
 
     const store = mockStore();
@@ -55,7 +55,7 @@ describe('User Async actions', () => {
     const mockUpdateData = makeMockUpdateUserData();
 
     mockAPI
-      .onPatch(ApiUsers.All, mockUpdateData)
+      .onPatch(ApiUser.All, mockUpdateData)
       .reply(200, fakeUser);
 
     const store = mockStore();
@@ -72,7 +72,7 @@ describe('User Async actions', () => {
     const mockCertificateData = makeMockAddCertificateData();
 
     mockAPI
-      .onPost(ApiUsers.Certificate, mockCertificateData)
+      .onPost(ApiUser.Certificate, mockCertificateData)
       .reply(200, fakeUser);
 
     const store = mockStore();
@@ -89,7 +89,7 @@ describe('User Async actions', () => {
     const mockCertificateData = makeMockAddCertificateData();
 
     mockAPI
-      .onPatch(ApiUsers.Certificate, mockCertificateData)
+      .onPatch(ApiUser.Certificate, mockCertificateData)
       .reply(200, fakeUser);
 
     const store = mockStore();
@@ -104,7 +104,7 @@ describe('User Async actions', () => {
 
   it('deleteCertificateAction test', async () => {
     mockAPI
-      .onPost(ApiUsers.CertificateRemove, {src: MockData.Src})
+      .onPost(ApiUser.CertificateRemove, {src: MockData.Src})
       .reply(200, fakeUser);
 
     const store = mockStore();
@@ -119,7 +119,7 @@ describe('User Async actions', () => {
 
   it('toFriendAction test', async () => {
     mockAPI
-      .onPost(generatePath(ApiUsers.ToFriend, {id: MockData.Id}))
+      .onPost(generatePath(ApiUser.ToFriend, {id: MockData.Id}))
       .reply(200, []);
 
     const store = mockStore();
@@ -134,7 +134,7 @@ describe('User Async actions', () => {
 
   it('removeFriendAction test', async () => {
     mockAPI
-      .onPost(generatePath(ApiUsers.RemoveFriendForCoach, {id: MockData.Id}))
+      .onPost(generatePath(ApiUser.RemoveFriendForCoach, {id: MockData.Id}))
       .reply(200, []);
 
     const store = mockStore();
@@ -149,7 +149,7 @@ describe('User Async actions', () => {
 
   it('subscribeAction test', async () => {
     mockAPI
-      .onPost(generatePath(ApiUsers.Subscribe, {id: MockData.Id}))
+      .onPost(generatePath(ApiUser.Subscribe, {id: MockData.Id}))
       .reply(200, []);
 
     const store = mockStore();

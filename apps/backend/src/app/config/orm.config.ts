@@ -6,7 +6,11 @@ export const getORMConfig = (...entities): TypeOrmModuleAsyncOptions => ({
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        url: config.get('DATABASE_URL'),
+        host: config.get('POSTGRES_HOST'),
+        port: +config.get('POSTGRES_PORT'),
+        username: config.get('POSTGRES_USER'),
+        password: config.get('POSTGRES_PASSWORD'),
+        database: config.get('POSTGRES_DB'),
         entities: [...entities],
         synchronize: false,
         autoLoadEntities: false,

@@ -5,7 +5,7 @@ import {configureMockStore} from "@jedmao/redux-mock-store";
 import {RootState} from "../index";
 import {Action} from "redux";
 import {MockData, makeFakeUserCollection} from "../../utils/mock-data";
-import {ApiUsers} from "../../constants/route";
+import {ApiUser} from "../../constants/route";
 import {
   fetchCoachFriendsAction,
   fetchCompanyAction,
@@ -23,7 +23,7 @@ describe('Users Async actions', () => {
 
   it('fetchCompanyAction test', async () => {
     mockAPI
-      .onGet(ApiUsers.Company)
+      .onGet(ApiUser.Company)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -38,7 +38,7 @@ describe('Users Async actions', () => {
 
   it('fetchUsersAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.All}${MockData.QueryString}`)
+      .onGet(`${ApiUser.All}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -53,7 +53,7 @@ describe('Users Async actions', () => {
 
   it('loadMoreUsersAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.All}${MockData.QueryString}`)
+      .onGet(`${ApiUser.All}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -68,7 +68,7 @@ describe('Users Async actions', () => {
 
   it('fetchUserFriendsAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.FriendsUser}${MockData.QueryString}`)
+      .onGet(`${ApiUser.FriendsUser}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -83,7 +83,7 @@ describe('Users Async actions', () => {
 
   it('loadMoreUserFriendsAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.FriendsUser}${MockData.QueryString}`)
+      .onGet(`${ApiUser.FriendsUser}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -98,7 +98,7 @@ describe('Users Async actions', () => {
 
   it('fetchCoachFriendsAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.FriendsCoach}${MockData.QueryString}`)
+      .onGet(`${ApiUser.FriendsCoach}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();
@@ -113,7 +113,7 @@ describe('Users Async actions', () => {
 
   it('loadMoreCoachFriendsAction test', async () => {
     mockAPI
-      .onGet(`${ApiUsers.FriendsCoach}${MockData.QueryString}`)
+      .onGet(`${ApiUser.FriendsCoach}${MockData.QueryString}`)
       .reply(200, fakeUsers);
 
     const store = mockStore();

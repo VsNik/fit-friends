@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { AddTrainingForm } from '../../components/forms/add-training-form/add-training-form';
 
 export const AddTrainingPage: React.FC = () => {

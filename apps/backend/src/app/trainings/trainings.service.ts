@@ -46,16 +46,21 @@ export class TrainingsService {
     const trainingEntity = TrainingEntity.create({ ...dto, coach, bgImage, video });
     const savedTraining = await this.trainingsRepository.save(trainingEntity);
 
-    this.eventEmitter.emit(
-      AppEvent.TrainingCreated,
-      new TrainingCreatedEvent(
-        coach.subscribers.map((user) => user.email),
-        coach.id,
-        coach.name,
-        trainingEntity.title,
-        trainingEntity.bgImage,
-      ),
-    );
+    const subscriberList = coach.subscribers.map((user) => user.email);
+    console.log(subscriberList);
+
+    if (subscriberList.length) {
+      this.eventEmitter.emit(
+        AppEvent.TrainingCreated,
+        new TrainingCreatedEvent(
+          subscriberList,
+          coach.id,
+          coach.name,
+          trainingEntity.title,
+          trainingEntity.bgImage,
+        ),
+      );
+    }
 
     return savedTraining.toObject();
   }

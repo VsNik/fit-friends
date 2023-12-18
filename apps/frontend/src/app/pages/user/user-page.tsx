@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { UserCardUser } from '../../components/user-card/user-card-user/user-card-user';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';
 import { UserCardCoach } from '../../components/user-card/user-card-coach/user-card-coach';

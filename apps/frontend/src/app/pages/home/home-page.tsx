@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { ForYouSlider } from '../../components/for-you-slider/for-you-slider';
 import { SpecialSlider } from '../../components/special-slider/special-slider';
 import { PopularSlider } from '../../components/popular-slider/popular-slider';

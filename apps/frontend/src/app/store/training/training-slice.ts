@@ -31,6 +31,7 @@ export const trainingSlice = createSlice({
 
       .addCase(createTrainingAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
         state.training = payload;
@@ -43,6 +44,7 @@ export const trainingSlice = createSlice({
 
       .addCase(updateTrainingAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(updateTrainingAction.fulfilled, (state, {payload}) => {
         state.training = payload;
@@ -55,6 +57,7 @@ export const trainingSlice = createSlice({
 
       .addCase(removeVideoAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(removeVideoAction.fulfilled, (state, {payload}) => {
         state.training = payload;
@@ -66,6 +69,7 @@ export const trainingSlice = createSlice({
 
       .addCase(saveVideoAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(saveVideoAction.fulfilled, (state, {payload}) => {
         state.training = payload;

@@ -33,7 +33,7 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
             <ButtonIcon icon="arrow-right" className="popup__slider-btn popup__slider-btn--prev" onClick={handleNext} disabled={isLastSlide} dataTestId='next-slide' />
           </div>
 
-          <Swiper
+          {certificates?.length ? <Swiper
             slidesPerView={CountSlide.PopupCertificate}
             className="popup__slider-list"
             onSlideChange={(swipper) => handleChangeSlide(swipper.realIndex)}
@@ -48,7 +48,9 @@ export const CertificatesPopup: React.FC<CertificatesPopupProps> = (props) => {
                 </li>
               </SwiperSlide>
             ))}
-          </Swiper>
+          </Swiper> : (
+            <h3>Сертификатов нет</h3>
+          )}
         </div>
       </div>
     </FocusLock>

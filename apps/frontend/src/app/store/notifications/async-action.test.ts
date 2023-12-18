@@ -7,7 +7,7 @@ import {Action} from "redux";
 import {generatePath} from "react-router";
 import {ApiRoute} from "../../constants/route";
 import {MockData, makeFakeNotifications} from "../../utils/mock-data";
-import {fetchNotificationAction, removeNotificationAction} from "./async-actions";
+import {fetchNotificationAction, removeNotificationAction, sendNotificationAction} from "./async-actions";
 
 describe('Notification Async actions', () => {
   const mockAPI = new MockAdapter(api);
@@ -18,7 +18,7 @@ describe('Notification Async actions', () => {
     const mockNotify = makeFakeNotifications();
 
     mockAPI
-      .onGet(generatePath(ApiRoute.Notifications))
+      .onGet(generatePath(ApiRoute.Alerts))
       .reply(200, mockNotify);
 
     const store = mockStore();
@@ -33,7 +33,7 @@ describe('Notification Async actions', () => {
 
   it('removeNotificationAction test', async () => {
     mockAPI
-      .onDelete(generatePath(`${ApiRoute.Notifications}/${MockData.Id}`))
+      .onDelete(generatePath(ApiRoute.Alert, {id: MockData.Id}))
       .reply(204, []);
 
     const store = mockStore();
@@ -43,6 +43,21 @@ describe('Notification Async actions', () => {
     expect(actions).toEqual([
       removeNotificationAction.pending.type,
       removeNotificationAction.fulfilled.type,
+    ]);
+  });
+
+  it('sendNotificationAction test', async () => {
+    mockAPI
+      .onGet(generatePath(ApiRoute.Notify))
+      .reply(200, []);
+
+    const store = mockStore();
+    await store.dispatch(sendNotificationAction());
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toEqual([
+      sendNotificationAction.pending.type,
+      sendNotificationAction.fulfilled.type,
     ]);
   });
 })

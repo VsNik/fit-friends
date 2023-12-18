@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NotificationsState } from '../../types/state-type';
 import { DefaultPaginate, LoadStatus, SliceName } from '../../constants/common';
-import { fetchNotificationAction, removeNotificationAction } from './async-actions';
+import { fetchNotificationAction, removeNotificationAction, sendNotificationAction } from './async-actions';
 
 const initialState: NotificationsState = {
   notifications: [],
@@ -39,6 +39,13 @@ export const notificationsSlice = createSlice({
         state.loadStatus = LoadStatus.Loaded;
       })
       .addCase(removeNotificationAction.rejected, (state) => {
+        state.loadStatus = LoadStatus.Loaded;
+      })
+
+      .addCase(sendNotificationAction.pending, (state) => {
+        state.loadStatus = LoadStatus.Loading;
+      })
+      .addCase(sendNotificationAction.fulfilled, (state) => {
         state.loadStatus = LoadStatus.Loaded;
       });
   },

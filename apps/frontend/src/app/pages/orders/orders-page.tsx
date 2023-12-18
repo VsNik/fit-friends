@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { ButtonsSorting } from '../../components/ui/buttons-sorting/buttons-sorting';
 import { ThumbnailTraining } from '../../components/thumbnails/thumbnail-training/thumbnail-training';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';

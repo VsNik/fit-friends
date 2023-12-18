@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { compare } from 'bcrypt';
-import { Injectable, NotFoundException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { OtherError, AppError } from '@fit-friends/libs/validation';
 import { ExpressFile, RequestExpress } from '@fit-friends/libs/types';
 import { IAuthToken, IRefreshTokenPayload, IUser } from '@fit-friends/shared';
@@ -63,7 +63,7 @@ export class AuthService {
     await this.removeSession(sessionId);
     const user = await this.usersService.findById(userId);
     if (!user) {
-      throw new NotFoundException(AppError.UserNotFound);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
     return this.createAuthToken(user.toObject(), randomUUID());
   }
@@ -76,7 +76,7 @@ export class AuthService {
   async findUserById(id: string): Promise<IUser> {
     const existUser = await this.usersService.findById(id);
     if (!existUser) {
-      throw new NotFoundException(AppError.UserNotFound);
+      throw new UnauthorizedException(AppError.Unauthorized);
     }
     return existUser.toObject();
   }

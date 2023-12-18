@@ -8,7 +8,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({children}) => {
   return (
     <div className="wrapper">
       <main>
-        <div className="background-logo">
+        <div className="background-logo" data-testid='auth-layout-component'>
           <svg className="background-logo__logo" width="750" height="284" aria-hidden="true">
             <use xlinkHref="/assets/img/sprite.svg#logo-big" />
           </svg>

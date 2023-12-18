@@ -17,11 +17,12 @@ export enum RouteName {
   AddTraining = '/raining/add',
 }
 
-
 export enum ApiRoute {
-  Notifications = '/alerts',
+  Alerts = '/alerts',
+  Alert = '/alerts/:id',
   Orders = '/orders/:id',
   Reviews = '/reviews/:id',
+  Notify = '/notify',
 }
 
 export enum ApiAuthRoute {
@@ -37,6 +38,8 @@ export enum ApiBalanceRoute {
   All = '/balance',
   ShowBalance = '/balance/:id',
   Dismission = '/balance/:id/dismission',
+  SetActive = '/balance/:id/active',
+  SetNoActive = '/balance/:id/no-active',
 }
 
 export enum ApiInvite {
@@ -56,7 +59,7 @@ export enum ApiTrainings {
   Orders = '/trainings/orders',
 }
 
-export enum ApiUsers {
+export enum ApiUser {
   All = '/users',
   Show = '/users/:id/show',
   Certificate = '/users/certificate',

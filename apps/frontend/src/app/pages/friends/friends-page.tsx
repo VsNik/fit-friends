@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
 import { useAppSelector } from '../../store/hooks';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { CoachFriends } from '../../components/friends/coach-friends/coach-friends';
 import { UserFriends } from '../../components/friends/user-friends/userFriends';
 import { ButtonFloat } from '../../components/ui/button-float/button-float';

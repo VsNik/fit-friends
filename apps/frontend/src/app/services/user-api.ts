@@ -1,53 +1,55 @@
 import { IUser, IUserCollection } from '@fit-friends/shared';
 import { AxiosResponse } from 'axios';
 import api from './api';
+import { generatePath } from 'react-router-dom';
+import { ApiUser } from '../constants/route';
 
 export const userApi = {
   fetchUser: (id: string): Promise<AxiosResponse<IUser>> => {
-    return api.get<IUser>(`/users/${id}/show`);
+    return api.get<IUser>(generatePath(ApiUser.Show, {id}));
   },
 
   fetchCompany: (): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>('/users/company');
+    return api.get<IUserCollection>(ApiUser.Company);
   },
 
   fetchUsers: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>(`/users${queryString}`);
+    return api.get<IUserCollection>(`${ApiUser.All}${queryString}`);
   },
 
   fetchUserFriends: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>(`/users/friends-user${queryString}`);
+    return api.get<IUserCollection>(`${ApiUser.FriendsUser}${queryString}`);
   },
 
   fetchCoachFriends: (queryString: string): Promise<AxiosResponse<IUserCollection>> => {
-    return api.get<IUserCollection>(`/users/friends-coach${queryString}`);
+    return api.get<IUserCollection>(`${ApiUser.FriendsCoach}${queryString}`);
   },
 
   updateUser: (formData: FormData): Promise<AxiosResponse<IUser>> => {
-    return api.patch<IUser>('/users', formData);
+    return api.patch<IUser>(ApiUser.All, formData);
   },
 
   addCertificate: (formData: FormData): Promise<AxiosResponse<IUser>> => {
-    return api.post<IUser>('/users/certificate', formData);
+    return api.post<IUser>(ApiUser.Certificate, formData);
   },
 
   updateCertificate: (formData: FormData): Promise<AxiosResponse<IUser>> => {
-    return api.patch<IUser>('/users/certificate', formData);
+    return api.patch<IUser>(ApiUser.Certificate, formData);
   },
 
   deleteCertificate: (src: string): Promise<AxiosResponse<IUser>> => {
-    return api.post<IUser>('/users/certificate/remove', { src });
+    return api.post<IUser>(ApiUser.CertificateRemove, { src });
   },
 
   toFriend: (id: string): Promise<AxiosResponse<void>> => {
-    return api.post(`/users/${id}/follow`);
+    return api.post(generatePath(ApiUser.ToFriend, {id}));
   },
 
   removeFriend: (id: string): Promise<AxiosResponse<void>> => {
-    return api.post(`/users/${id}/coach-unfollow`);
+    return api.post(generatePath(ApiUser.RemoveFriendForCoach, {id}));
   },
 
   subscribe: (id: string): Promise<AxiosResponse<void>> => {
-    return api.post(`/users/${id}/subscribe`);
+    return api.post(generatePath(ApiUser.Subscribe, {id}));
   },
 };

@@ -28,6 +28,7 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchAuthAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchAuthAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -39,6 +40,7 @@ export const userSlice = createSlice({
 
       .addCase(fetchUserAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(fetchUserAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -50,6 +52,7 @@ export const userSlice = createSlice({
 
       .addCase(updateUserAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(updateUserAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -62,6 +65,7 @@ export const userSlice = createSlice({
 
       .addCase(addCertificateAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(addCertificateAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -73,6 +77,7 @@ export const userSlice = createSlice({
 
       .addCase(updateCertificateAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(updateCertificateAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -84,6 +89,7 @@ export const userSlice = createSlice({
 
       .addCase(deleteCertificateAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(deleteCertificateAction.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -95,6 +101,7 @@ export const userSlice = createSlice({
 
       .addCase(toFriendAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(toFriendAction.fulfilled, (state) => {
         state.user.isFollow = !state.user.isFollow;
@@ -106,6 +113,7 @@ export const userSlice = createSlice({
 
       .addCase(removeFriendAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(removeFriendAction.fulfilled, (state) => {
         state.user.isFollow = false;
@@ -117,6 +125,7 @@ export const userSlice = createSlice({
 
       .addCase(subscribeAction.pending, (state) => {
         state.loadStatus = LoadStatus.Loading;
+        state.error = null;
       })
       .addCase(subscribeAction.fulfilled, (state) => {
         state.user.isSubscribe = !state.user.isSubscribe;

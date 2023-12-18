@@ -95,6 +95,7 @@ export type ReviewsState = {
   page: number;
   total: number;
   loadStatus: LoadStatus;
+  error: IErrorResponse | null;
 };
 
 export type NotificationsState = {

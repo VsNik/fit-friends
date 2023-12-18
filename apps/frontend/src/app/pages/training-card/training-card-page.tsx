@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Role } from '@fit-friends/shared';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { ReviewsBar } from '../../components/reviews-bar/reviews-bar';
 import { TrainingInfo } from '../../components/training/training-info/training-info';
 import { TrainingVideo } from '../../components/training/training-video/training-video';

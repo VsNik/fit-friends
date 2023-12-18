@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { BalanceFiter } from '@fit-friends/shared';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { Purchases } from '../../components/purchases/purchases';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchPurchasesAction, loadMorePurchasesAction } from '../../store/balances/async-actions';

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppLayout } from '../../components/layouts/app-layout';
+import { AppLayout } from '../../components/layouts/app-layout/app-layout';
 import { UsersFilter } from '../../components/users-filter/users-filter';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUsersAction, loadMoreUsersAction } from '../../store/users/async-actions';

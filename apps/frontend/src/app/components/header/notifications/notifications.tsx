@@ -12,7 +12,7 @@ export const Notifications: React.FC = () => {
       <TopMenuLink icon="icon-notification" to='#' title="Уведомления" />
 
       <div className="main-nav__dropdown">
-        <p className="main-nav__label">Оповещения</p>
+        <p className="main-nav__label">{notifications.length ? 'Оповещения' : 'Оповещений нет'}</p>
         <ul className="main-nav__sublist">
           {notifications?.map((notification) => (
             <li key={notification.id} className="main-nav__subitem">

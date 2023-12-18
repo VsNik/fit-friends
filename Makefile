@@ -8,8 +8,10 @@ test: frontend-test
 test-cover: frontend-test-coverage
 
 start: frontend-backend-start
-backend: backend-start
-frontend: frontend-start
+
+build-up: docker-build-base up
+# backend: backend-start
+# frontend: frontend-start
 
 docker-up:
 	docker compose up -d
@@ -23,11 +25,11 @@ docker-clear:
 docker-ps:
 	docker compose ps
 
-backend-start:
-	nx run backend:serve
+# backend-start:
+# 	nx run backend:serve
 
-frontend-start:
-	nx run frontend:serve
+# frontend-start:
+# 	nx run frontend:serve
 
 frontend-backend-start:
 	nx run-many --target=serve --all --parallel=10
@@ -43,3 +45,6 @@ frontend-test:
 
 frontend-test-coverage:
 	nx run frontend:test --coverage
+
+docker-build-base:
+	docker build . -t friends-base:1.0

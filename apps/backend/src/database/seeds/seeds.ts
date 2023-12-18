@@ -16,7 +16,11 @@ config({ path: join(process.cwd(), '/apps/backend/.env') });
 
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  host: 'localhost',
+  port: +process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
   entities: [User, Training, Review, Order],
   factories: [UsersFactory, TrainingsFactory, ReviewsFactory, OrdersFactory],
   seeds: [DbSeeder],

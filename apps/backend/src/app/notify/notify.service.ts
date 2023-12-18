@@ -1,9 +1,8 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { INotifyRepository, NOTIFY_REPO } from './entities/notify-repository.interface';
 import { NotifyEntity } from './entities/notify.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TrainingCreatedEvent } from '../trainings/events/training-created.event';
-import { OtherError } from '@fit-friends/libs/validation';
 
 export enum MailNotify {
   Subject = 'Новые тренировки на FitFriends',
@@ -26,23 +25,20 @@ export class NotifyService {
   async send(coachId: string): Promise<void> {
     const notifys = await this.notifyRepository.findByCoachId(coachId);
 
-    if (!notifys) {
-      throw new BadRequestException(OtherError.NotifyEmpty);
-    }
-
-    for (const notify of notifys) {
-      await this.mailerService.sendMail({
-        to: notify.subscribeEmails,
-        subject: MailNotify.Subject,
-        template: MailNotify.Template,
-        context: {
-          coach: notify.coachName,
-          title: notify.trainingTitle,
-          image: notify.trainingImage,
-        },
-      });
-
-      await this.notifyRepository.delete(notify.id);
+    if (notifys) {
+      for (const notify of notifys) {
+        await this.mailerService.sendMail({
+          to: notify.subscribeEmails,
+          subject: MailNotify.Subject,
+          template: MailNotify.Template,
+          context: {
+            coach: notify.coachName,
+            title: notify.trainingTitle,
+            image: notify.trainingImage,
+          },
+        });
+        await this.notifyRepository.delete(notify.id);
+      }
     }
   }
 }

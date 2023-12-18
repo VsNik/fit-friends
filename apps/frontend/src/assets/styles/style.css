@@ -10550,6 +10550,11 @@ input:active+.custom-textarea__text {
   align-self: center;
 }
 
+.notifications-send {
+  margin-top: 40px;
+  max-width: 400px;
+}
+
 /* @mixin hover-focus {
     @media (hover: hover) {
       &:hover:not(.focus-visible) {

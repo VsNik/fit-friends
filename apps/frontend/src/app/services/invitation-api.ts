@@ -1,18 +1,19 @@
-import { AxiosResponse } from "axios"
-import api from "./api"
-import { IInvitation, InviteStatus } from "@fit-friends/shared"
+import { AxiosResponse } from 'axios';
+import api from './api';
+import { IInvitation, InviteStatus } from '@fit-friends/shared';
+import { generatePath } from 'react-router-dom';
+import { ApiInvite } from '../constants/route';
 
 export const invitationApi = {
+  createInvite: (id: string): Promise<AxiosResponse<IInvitation>> => {
+    return api.post<IInvitation>(generatePath(ApiInvite.Invite, {id}));
+  },
 
-    createInvite: (id: string): Promise<AxiosResponse<IInvitation>> => {
-        return api.post<IInvitation>(`/invitations/${id}`);
-    },
+  fetchFromInvites: (): Promise<AxiosResponse<IInvitation[]>> => {
+    return api.get<IInvitation[]>(generatePath(ApiInvite.Invites));
+  },
 
-    fetchFromInvites: (): Promise<AxiosResponse<IInvitation[]>> => {
-        return api.get<IInvitation[]>('/invitations');
-    },
-
-    changeInviteStatus: (inviteId: string, status: InviteStatus): Promise<AxiosResponse<IInvitation>> => {
-        return api.patch<IInvitation>(`/invitations/${inviteId}`, {status});
-    }
-}
+  changeInviteStatus: (inviteId: string, status: InviteStatus): Promise<AxiosResponse<IInvitation>> => {
+    return api.patch<IInvitation>(generatePath(ApiInvite.Invite, {id: inviteId}), { status });
+  },
+};
