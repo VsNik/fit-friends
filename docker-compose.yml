@@ -1,52 +1,53 @@
 version: '3.7'
 
 services:
-  # backend:
-  #   container_name: fit-friends_backend
-  #   build:
-  #     context: ./
-  #     cache_from:
-  #       - friends-base:1.0
-  #     dockerfile: ./apps/backend/Dockerfile
-  #     args:
-  #       NODE_ENV: "development"
-  #       BUILD_FLAG: ""
-  #   image: friends-backend:1.0
-  #   env_file:
-  #     - ./apps/backend/.env
-  #   ports:
-  #     - 5000:5000
-  #   environment:
-  #     NODE_ENV: "development"
-  #     PORT: 5000
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - corp
-  #   restart: on-failure
 
-  # frontend:
-  #   container_name: fit-friends_frontend
-  #   build:
-  #     context: ./
-  #     cache_from:
-  #       - nginx:1.19.2
-  #     dockerfile: ./apps/frontend/Dockerfile
-  #     args:
-  #       NODE_ENV: "development"
-  #       BUILD_FLAG: ""
-  #   image: friends-frontend:1.0
-  #   ports:
-  #     - 4200:80
-  #   environment:
-  #     NODE_ENV: "development"
-  #     PORT: 4200
-  #   depends_on:
-  #     - database
-  #     - backend
-  #   networks:
-  #     - corp
-  #   restart: on-failure
+  backend:
+    container_name: fit-friends_backend
+    build:
+      context: ./
+      cache_from:
+        - friends-base:1.0
+      dockerfile: ./apps/backend/Dockerfile
+      args:
+        NODE_ENV: "development"
+        BUILD_FLAG: ""
+    image: friends-backend:1.0
+    env_file:
+      - ./apps/backend/.env
+    ports:
+      - 5000:5000
+    environment:
+      NODE_ENV: "development"
+      PORT: 5000
+    depends_on:
+      - database
+    networks:
+      - corp
+    restart: on-failure
+
+  frontend:
+    container_name: fit-friends_frontend
+    build:
+      context: ./
+      cache_from:
+        - nginx:1.19.2
+      dockerfile: ./apps/frontend/Dockerfile
+      args:
+        NODE_ENV: "development"
+        BUILD_FLAG: ""
+    image: friends-frontend:1.0
+    ports:
+      - 4200:80
+    environment:
+      NODE_ENV: "development"
+      PORT: 4200
+    depends_on:
+      - database
+      - backend
+    networks:
+      - corp
+    restart: on-failure
 
   database:
     container_name: fit-friends.db
@@ -59,8 +60,8 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    # networks:
-    #   - corp
+    networks:
+      - corp
 
   mailhog:
     container_name: fit-friends.smtp
@@ -70,12 +71,12 @@ services:
     ports:
       - 1025:1025 
       - 8025:8025 
-    # networks:
-    #   - corp
+    networks:
+      - corp
 
-# networks:
-#   corp:
-#     driver: bridge
+networks:
+  corp:
+    driver: bridge
 
 volumes:
   db_data:

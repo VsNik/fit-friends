@@ -22,7 +22,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <ScrollTop />
-        <ToastContainer/>
+        <ToastContainer />
         <App />
       </BrowserRouter>
     </Provider>

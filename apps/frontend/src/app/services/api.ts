@@ -58,7 +58,7 @@ api.interceptors.response.use(
     }
 
     if (error.response.status >= ErrorCode.ServerError) {
-      toast.error(AppError.ServerError);
+      toast.error(AppError.ServerError, {toastId: error.response.data.message});
       return;
     }
 
