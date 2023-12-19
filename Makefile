@@ -8,10 +8,12 @@ lint: application-lint
 test: frontend-test
 test-cover: frontend-test-coverage
 
-start: frontend-backend-start
-
 build-base: docker-build-base
 build: docker-build
+
+db-migration: docker-db-migration
+db-seed: docker-db-seed
+db-drop: docker-db-drop
 
 docker-up:
 	docker compose up -d
@@ -37,8 +39,14 @@ docker-build-base:
 docker-build:
 	docker compose build
 
-frontend-backend-start:
-	nx run-many --target=serve --all --parallel=10
-
 application-lint:
 	nx run-many --target=lint --all --parallel=10
+
+docker-db-migration:
+	npm run migration:run
+
+docker-db-seed:
+	npm run db:seed
+
+docker-db-drop:
+	npm run db:drop
