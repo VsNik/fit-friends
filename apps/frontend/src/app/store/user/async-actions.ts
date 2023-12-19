@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IUser } from '@fit-friends/shared';
 import { userApi } from '../../services/user-api';
 import { authApi } from '../../services/auth-api';
+import { AxiosError } from 'axios';
 
 export const fetchAuthAction = createAsyncThunk<IUser>(
   'user/fetch-auth', 
@@ -24,7 +25,8 @@ export const updateUserAction = createAsyncThunk<IUser, FormData>(
       const { data } = await userApi.updateUser(formData);
       return data;
     } catch (err) {
-      return rejectWithValue(err);
+      const error = err as AxiosError;
+      return rejectWithValue(error.response?.data);
     }
 });
 

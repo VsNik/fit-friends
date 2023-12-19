@@ -6,11 +6,12 @@ import { TopMenu } from './top-menu';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { SliceName } from '../../../constants/common';
+import { RouteName } from '../../../constants/route';
 
 const topMenuOptions = [
-  { title: 'Home', url: '/' },
-  { title: 'Cabinet', url: '/account' },
-  { title: 'Friends', url: '/friends' },
+  { title: 'Home', url: RouteName.Home },
+  { title: 'Cabinet', url: RouteName.Account },
+  { title: 'Friends', url: RouteName.Friends },
 ];
 
 const history = createMemoryHistory();

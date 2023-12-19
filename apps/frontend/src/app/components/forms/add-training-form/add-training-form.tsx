@@ -140,7 +140,7 @@ export const AddTrainingForm: React.FC = () => {
 
             <div className="create-training__block">
               <h2 className="create-training__legend">Загрузите видео-тренировку</h2>
-              <InputFile name="video" accept=".mov, .avi, .mp4" dataTestId='input-video-element' />
+              <InputFile name="video" accept=".mov, .avi, .mp4" dataTestId='input-video-element' placeholder='Загрузите сюда файлы формата MOV, MP4' />
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationError } from 'class-validator';
+import { urlencoded, json } from 'express';
 
 const PREFIX = 'api';
 const DEFAULT_PORT = 5000;
@@ -12,6 +13,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || DEFAULT_PORT;
+  app.use(json({ limit: '300mb' }));
+  app.use(urlencoded({ extended: true, limit: '300mb' }));
   app.setGlobalPrefix(PREFIX);
 
   app.useGlobalPipes(

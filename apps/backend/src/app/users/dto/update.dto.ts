@@ -19,7 +19,21 @@ import {
 } from '@fit-friends/libs/validation';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsBoolean, IsEnum, IsInt, IsNumber, IsOptional, IsString, Length, Max, Min } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayNotEmpty,
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+  Max,
+  Min,
+  ValidateIf,
+} from 'class-validator';
 
 export class UpdateDto {
   @ApiProperty({ description: 'Имя пользователя', example: 'Ivanov Ivan', required: false })
@@ -43,6 +57,7 @@ export class UpdateDto {
   readonly birthDay?: string;
 
   @ApiProperty({ type: 'text', description: 'Описание пользователя', example: 'some text description', required: false })
+  @ValidateIf((customer) => customer.bio !== '')
   @IsString({ message: UserError.BioString })
   @Length(UserValidate.BioMinLength, UserValidate.BioMaxLength, { message: BIO_LENGTH })
   @IsOptional()

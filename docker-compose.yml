@@ -13,6 +13,9 @@ services:
         NODE_ENV: "development"
         BUILD_FLAG: ""
     image: friends-backend:1.0
+    volumes:
+      - ./apps/backend:/app/apps/backend
+      - ./uploads:/app/uploads
     env_file:
       - ./apps/backend/.env
     ports:
@@ -37,6 +40,8 @@ services:
         NODE_ENV: "development"
         BUILD_FLAG: ""
     image: friends-frontend:1.0
+    volumes:
+      - ./apps/frontend:/app/apps/frontend
     ports:
       - 4200:80
     environment:
@@ -50,7 +55,7 @@ services:
     restart: on-failure
 
   database:
-    container_name: fit-friends.db
+    container_name: fit-friends_db
     image: postgres:14-alpine
     environment:
       POSTGRES_USER: admin
@@ -64,7 +69,7 @@ services:
       - corp
 
   mailhog:
-    container_name: fit-friends.smtp
+    container_name: fit-friends_smtp
     image: mailhog/mailhog
     logging:
       driver: 'none'

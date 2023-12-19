@@ -14,6 +14,8 @@ import { updateUserAction } from '../../../store/user/async-actions';
 import { UserInfoType } from '../../../types/forms-type';
 import { SpecializationGroup } from '../../ui/specialization-group/specialization-group';
 import * as authSelector from '../../../store/auth/auth-select';
+import * as userSelector from '../../../store/user/user-select';
+import { useServerFormError } from '../../../hooks/use-server-form-error';
 
 interface UserInfoProps {
   user: IUser;
@@ -33,6 +35,7 @@ const getFieldUpdateUser = (user: IUser): UserInfoType => {
     gender: user.gender,
     trainingLevel: user.trainingLevel!,
   };
+
   if (user.role === Role.User) {
     return { ...fields, ready: user.ready };
   }
@@ -42,6 +45,7 @@ const getFieldUpdateUser = (user: IUser): UserInfoType => {
 export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEditable, avatar, setAvatarError }) => {
   const loadStatus = useAppSelector(authSelector.loadStatus);
   const dispatch = useAppDispatch();
+  const userError = useAppSelector(userSelector.error);
   const [location, setLocation] = useState('');
   const [gender, setGender] = useState('');
   const [level, setLevel] = useState('');
@@ -57,8 +61,11 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
     handleSubmit,
     reset,
     setValue,
+    setError,
     formState: { errors },
   } = methods;
+
+  const isFormError = Object.keys(errors).length !== 0
 
   useEffect(() => {
       setAvatarError(errors['avatar']?.message as string ?? '');
@@ -77,11 +84,17 @@ export const UserInfoForm: React.FC<UserInfoProps> = ({ user, isEditable, setEdi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  useServerFormError<UserInfoType>(setError, userError);
+
   const toggleEditMode = () => {
-    if (Object.keys(errors).length === 0) {
+    if (!isFormError) {
       setEditable(!isEditable);
     }
   };
+
+  if(isFormError) {
+    setEditable(true);
+  }
 
   const onSubmit = (data: UserInfoType) => {
     setEditable(false);

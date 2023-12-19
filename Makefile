@@ -4,14 +4,14 @@ clear: docker-clear
 restart: down up
 ps: docker-ps
 
+lint: application-lint
 test: frontend-test
 test-cover: frontend-test-coverage
 
 start: frontend-backend-start
 
-build-up: docker-build-base up
-# backend: backend-start
-# frontend: frontend-start
+build-base: docker-build-base
+build: docker-build
 
 docker-up:
 	docker compose up -d
@@ -25,21 +25,6 @@ docker-clear:
 docker-ps:
 	docker compose ps
 
-# backend-start:
-# 	nx run backend:serve
-
-# frontend-start:
-# 	nx run frontend:serve
-
-frontend-backend-start:
-	nx run-many --target=serve --all --parallel=10
-
-backend-lint:
-	nx run backend:lint
-
-frontend-lint:
-	nx run frontend:lint
-
 frontend-test:
 	nx run frontend:test
 
@@ -48,3 +33,12 @@ frontend-test-coverage:
 
 docker-build-base:
 	docker build . -t friends-base:1.0
+
+docker-build:
+	docker compose build
+
+frontend-backend-start:
+	nx run-many --target=serve --all --parallel=10
+
+application-lint:
+	nx run-many --target=lint --all --parallel=10

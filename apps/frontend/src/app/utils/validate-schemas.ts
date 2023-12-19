@@ -19,6 +19,7 @@ import {
   TRAINING_DESCRIPTION_LENGTH,
   ReviewValidate,
   REVIEW_IS_STRING,
+  BIO_LENGTH,
 } from '@fit-friends/libs/validation';
 import { Gender, Location, Role, TrainingDuration, TrainingLevel, TrainingType } from '@fit-friends/shared';
 import * as Yup from 'yup';
@@ -120,7 +121,11 @@ export const questionCoachSchema = Yup.object({
 
 export const userInfoSchema = Yup.object({
   name: userNameValidator,
-  bio: Yup.string(),
+  bio: Yup.string().when((val) => {
+    return (val && val[0])
+      ? Yup.string().min(10, BIO_LENGTH).max(140, BIO_LENGTH).required()
+      : Yup.string().notRequired();
+  }),
   personalTraining: Yup.boolean(),
   ready: Yup.boolean(),
   location: Yup.mixed<Location>().oneOf(Object.values(Location), UserError.LocationRequired).required(),
